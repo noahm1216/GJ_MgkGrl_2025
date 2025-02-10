@@ -86,7 +86,7 @@ public class AbilityHolder : MonoBehaviour
         }
     }
 
-    public void ActivateAbility(CustomAbilityOptions _abilityToActivate)
+    public void ActivateAbility(CustomAbilityOptions _abilityToActivate) // TODO: Add a charge option
     {
         _abilityToActivate.currentState = AbilityState.Active;
         _abilityToActivate.onActivateEvents.Invoke();

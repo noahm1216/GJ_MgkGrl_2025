@@ -3,7 +3,12 @@ guid: 0cdc64772fea680468a9ceca980bcf01
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_Monster_Kitty_LP
+    second: {fileID: 2100000, guid: 5869697989aeb6040b3485525c1897b1, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b8f63c100ab48a7479277c644d027afd, type: 3}
-  m_Name: SO_Dash_Right
+  m_Name: SO_Move_Right
   m_EditorClassIdentifier: 
-  abilityName: Dash Forward
-  cooldownTime: 0.5
-  activeTime: 0.5
-  tryToUseRigidbody: 1
+  abilityName: Move Right
+  cooldownTime: 0
+  activeTime: 0
+  tryToUseRigidbody: 0
   verticalDash: 0
-  dashPower: 500
+  dashPower: 1

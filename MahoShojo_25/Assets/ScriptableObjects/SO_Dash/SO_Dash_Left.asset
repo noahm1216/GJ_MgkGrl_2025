@@ -15,6 +15,6 @@ MonoBehaviour:
   abilityName: Dash Forward
   cooldownTime: 0.5
   activeTime: 0.5
-  rb3DPhysics: {fileID: 0}
+  tryToUseRigidbody: 1
   verticalDash: 0
   dashPower: -500

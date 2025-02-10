@@ -9,12 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8f63c100ab48a7479277c644d027afd, type: 3}
-  m_Name: SO_Dash_Right
+  m_Script: {fileID: 11500000, guid: 0d772d1379380e046a76f09d66b348c8, type: 3}
+  m_Name: SO_Fire_Pocki
   m_EditorClassIdentifier: 
-  abilityName: Dash Forward
-  cooldownTime: 0.5
-  activeTime: 0.5
-  tryToUseRigidbody: 1
-  verticalDash: 0
-  dashPower: 500
+  abilityName: Pocki Power
+  cooldownTime: 0
+  activeTime: 0
+  prefabToSpawn: {fileID: 6956081574552377881, guid: 30d10ff459684ae439ff39b0d9a75d31,
+    type: 3}
+  tryToPool: 1
+  destroyTimer: 0

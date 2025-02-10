@@ -15,6 +15,6 @@ MonoBehaviour:
   abilityName: Dash Jump Up
   cooldownTime: 0.5
   activeTime: 0.5
-  rb3DPhysics: {fileID: 0}
-  verticalDash: 0
-  dashPower: 500
+  tryToUseRigidbody: 1
+  verticalDash: 1
+  dashPower: 650

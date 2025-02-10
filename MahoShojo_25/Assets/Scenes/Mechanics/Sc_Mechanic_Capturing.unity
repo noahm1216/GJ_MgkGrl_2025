@@ -134,7 +134,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 0cdc64772fea680468a9ceca980bcf01,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.5
+      value: 3.75
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0cdc64772fea680468a9ceca980bcf01,
         type: 3}
@@ -144,7 +144,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 0cdc64772fea680468a9ceca980bcf01,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.00000031292433
+      value: -0.00000078231085
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0cdc64772fea680468a9ceca980bcf01,
         type: 3}
@@ -185,6 +185,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: G_Monster_Kitty_LP
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0cdc64772fea680468a9ceca980bcf01,
+        type: 3}
+      propertyPath: m_TagString
+      value: Monster
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -277,12 +282,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.75, z: -5.25}
+  m_LocalRotation: {x: -0, y: -0.7071065, z: 0, w: 0.7071072}
+  m_LocalPosition: {x: 8.983, y: 1.75, z: 1.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1082808155}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &330585547
 MonoBehaviour:
@@ -740,6 +745,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1778350945}
+  - {fileID: 330585546}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!114 &1082808156
@@ -755,20 +761,127 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   abilitiesList:
+  - abilityNickname: Move Forward
+    doubleTapTimeTolerance: 0
+    doubleTapTime: 0
+    keyPress: 0
+    keyRelease: 0
+    KeyHold: 100
+    cooldownTime: 0
+    activeTime: 0
+    currentState: 0
+    abilitiesPlayingOnPress:
+    - {fileID: 11400000, guid: 75f9b6caf46bc434da139d5f8249ea38, type: 2}
+    onActivateEvents:
+      m_PersistentCalls:
+        m_Calls: []
+    onCooldownEvents:
+      m_PersistentCalls:
+        m_Calls: []
+    onReadyEvents:
+      m_PersistentCalls:
+        m_Calls: []
+  - abilityNickname: Move Backwards
+    doubleTapTimeTolerance: 0
+    doubleTapTime: 0
+    keyPress: 0
+    keyRelease: 0
+    KeyHold: 97
+    cooldownTime: 0
+    activeTime: 0
+    currentState: 0
+    abilitiesPlayingOnPress:
+    - {fileID: 11400000, guid: f41df7940a6b5e64a86431f6baf7ff6a, type: 2}
+    onActivateEvents:
+      m_PersistentCalls:
+        m_Calls: []
+    onCooldownEvents:
+      m_PersistentCalls:
+        m_Calls: []
+    onReadyEvents:
+      m_PersistentCalls:
+        m_Calls: []
   - abilityNickname: Dash Forward
-    key: 100
+    doubleTapTimeTolerance: 0.25
+    doubleTapTime: 0
+    keyPress: 100
+    keyRelease: 0
+    KeyHold: 0
     cooldownTime: 0
     activeTime: 0
     currentState: 0
     abilitiesPlayingOnPress:
     - {fileID: 11400000, guid: 74585bf6e20c4d2499cdf9f05deb8de5, type: 2}
-  - abilityNickname: Dash BackWards
-    key: 97
+    onActivateEvents:
+      m_PersistentCalls:
+        m_Calls: []
+    onCooldownEvents:
+      m_PersistentCalls:
+        m_Calls: []
+    onReadyEvents:
+      m_PersistentCalls:
+        m_Calls: []
+  - abilityNickname: Dash Backwards
+    doubleTapTimeTolerance: 0.25
+    doubleTapTime: 0
+    keyPress: 97
+    keyRelease: 0
+    KeyHold: 0
     cooldownTime: 0
     activeTime: 0
     currentState: 0
     abilitiesPlayingOnPress:
     - {fileID: 11400000, guid: f74d03228bd0fe14895096ae63ad0b69, type: 2}
+    onActivateEvents:
+      m_PersistentCalls:
+        m_Calls: []
+    onCooldownEvents:
+      m_PersistentCalls:
+        m_Calls: []
+    onReadyEvents:
+      m_PersistentCalls:
+        m_Calls: []
+  - abilityNickname: Jump
+    doubleTapTimeTolerance: 0
+    doubleTapTime: 0
+    keyPress: 119
+    keyRelease: 0
+    KeyHold: 0
+    cooldownTime: 0
+    activeTime: 0
+    currentState: 0
+    abilitiesPlayingOnPress:
+    - {fileID: 11400000, guid: 1f84bb78435438648b53250c9a372f38, type: 2}
+    onActivateEvents:
+      m_PersistentCalls:
+        m_Calls: []
+    onCooldownEvents:
+      m_PersistentCalls:
+        m_Calls: []
+    onReadyEvents:
+      m_PersistentCalls:
+        m_Calls: []
+  - abilityNickname: Fire Pocki
+    doubleTapTimeTolerance: 0
+    doubleTapTime: 0
+    keyPress: 32
+    keyRelease: 0
+    KeyHold: 0
+    cooldownTime: 0
+    activeTime: 0
+    currentState: 0
+    abilitiesPlayingOnPress:
+    - {fileID: 11400000, guid: 3b6d0b5fadd78134a9bbefecfc9b2984, type: 2}
+    onActivateEvents:
+      m_PersistentCalls:
+        m_Calls: []
+    onCooldownEvents:
+      m_PersistentCalls:
+        m_Calls: []
+    onReadyEvents:
+      m_PersistentCalls:
+        m_Calls: []
+  lastKeyPressed: 0
 --- !u!136 &1082808157
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -819,6 +932,79 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!1001 &1166369903
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5556279333981561457, guid: 30d10ff459684ae439ff39b0d9a75d31,
+        type: 3}
+      propertyPath: m_Name
+      value: P_Pocki_Projectile
+      objectReference: {fileID: 0}
+    - target: {fileID: 5556279333981561457, guid: 30d10ff459684ae439ff39b0d9a75d31,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6956081574552377881, guid: 30d10ff459684ae439ff39b0d9a75d31,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6956081574552377881, guid: 30d10ff459684ae439ff39b0d9a75d31,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6956081574552377881, guid: 30d10ff459684ae439ff39b0d9a75d31,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6956081574552377881, guid: 30d10ff459684ae439ff39b0d9a75d31,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6956081574552377881, guid: 30d10ff459684ae439ff39b0d9a75d31,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6956081574552377881, guid: 30d10ff459684ae439ff39b0d9a75d31,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6956081574552377881, guid: 30d10ff459684ae439ff39b0d9a75d31,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6956081574552377881, guid: 30d10ff459684ae439ff39b0d9a75d31,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6956081574552377881, guid: 30d10ff459684ae439ff39b0d9a75d31,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6956081574552377881, guid: 30d10ff459684ae439ff39b0d9a75d31,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 30d10ff459684ae439ff39b0d9a75d31, type: 3}
 --- !u!1 &1421492391
 GameObject:
   m_ObjectHideFlags: 0
@@ -1109,7 +1295,6 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 330585546}
   - {fileID: 410087041}
   - {fileID: 832575519}
   - {fileID: 267545329}
@@ -1117,3 +1302,4 @@ SceneRoots:
   - {fileID: 384272682}
   - {fileID: 664738186}
   - {fileID: 1082808155}
+  - {fileID: 1166369903}

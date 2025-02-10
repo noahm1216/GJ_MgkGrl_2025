@@ -10,7 +10,7 @@ public class AbilityHolder : MonoBehaviour
 
     public List<CustomAbilityOptions> abilitiesList = new List<CustomAbilityOptions>();
     private Transform playerObj;
-   
+    public KeyCode lastKeyPressed;
 
     private void Update()
     {
@@ -47,16 +47,10 @@ public class AbilityHolder : MonoBehaviour
                     { abilitiesList[i].currentState = AbilityState.Ready; abilitiesList[i].onReadyEvents.Invoke(); }
                     break;
                 case AbilityState.Ready: // Ability is ready to be used
-                    if (Input.GetKeyDown(abilitiesList[i].key))
+                    if (Input.GetKeyDown(abilitiesList[i].keyPress) || Input.GetKeyUp(abilitiesList[i].keyRelease) || Input.GetKey(abilitiesList[i].KeyHold))
                     {
-                        //activate ability
-                        abilitiesList[i].currentState = AbilityState.Active;
-                        abilitiesList[i].onActivateEvents.Invoke();
-                        for (int j = 0; j < abilitiesList[i].abilitiesPlayingOnPress.Count; j++)
-                        {
-                            abilitiesList[i].abilitiesPlayingOnPress[j].Activate(playerObj);
-                            abilitiesList[i].activeTime = abilitiesList[i].abilitiesPlayingOnPress[j].activeTime;
-                        }
+                        if (!RequiresAnotherTap(abilitiesList[i])) // check if our ability requires doubleTap
+                            ActivateAbility(abilitiesList[i]); // activate ability
                     }
                     break;
                 case AbilityState.Locked:
@@ -69,6 +63,40 @@ public class AbilityHolder : MonoBehaviour
         }
     }
 
+    public bool RequiresAnotherTap(CustomAbilityOptions _abilityToActivate)
+    {
+        if (_abilityToActivate.doubleTapTimeTolerance == 0) // it does not require double tap
+            return false;
+        else // it does require double tap
+        {
+            // if our last key is the same as the key we need
+            if (lastKeyPressed == _abilityToActivate.keyPress || lastKeyPressed == _abilityToActivate.keyRelease || lastKeyPressed == _abilityToActivate.KeyHold)
+                if (Time.time < _abilityToActivate.doubleTapTime + _abilityToActivate.doubleTapTimeTolerance)// and the timer is close enough
+                { return false; } // we can use our ability               
+
+            if (_abilityToActivate.keyPress != KeyCode.None)
+                lastKeyPressed = _abilityToActivate.keyPress;
+            else if (_abilityToActivate.keyRelease != KeyCode.None)
+                lastKeyPressed = _abilityToActivate.keyRelease;
+            else if (_abilityToActivate.KeyHold != KeyCode.None)
+                lastKeyPressed = _abilityToActivate.KeyHold;
+
+            _abilityToActivate.doubleTapTime = Time.time;
+            return true;
+        }
+    }
+
+    public void ActivateAbility(CustomAbilityOptions _abilityToActivate)
+    {
+        _abilityToActivate.currentState = AbilityState.Active;
+        _abilityToActivate.onActivateEvents.Invoke();
+        for (int j = 0; j < _abilityToActivate.abilitiesPlayingOnPress.Count; j++)
+        {
+            _abilityToActivate.abilitiesPlayingOnPress[j].Activate(playerObj);
+            _abilityToActivate.activeTime = _abilityToActivate.abilitiesPlayingOnPress[j].activeTime;
+        }
+    }
+
 
 }
 
@@ -78,16 +106,23 @@ public class AbilityHolder : MonoBehaviour
 public class CustomAbilityOptions
 {
     public string abilityNickname;
-    public KeyCode key;
+
+    [Range(0, 10)]
+    public float doubleTapTimeTolerance; // if set to ZERO then we do NOT require double tap || 0.25f is a could roughh time
+    [HideInInspector] public float doubleTapTime;
+
+    public KeyCode keyPress, keyRelease, KeyHold;
     [HideInInspector] public float cooldownTime;
     [HideInInspector] public float activeTime;
     public AbilityState currentState = AbilityState.Ready;
+
     public List<Ability> abilitiesPlayingOnPress = new List<Ability>();
+
     public UnityEvent onActivateEvents, onCooldownEvents, onReadyEvents;
 
-    //public CustomAbilityOptions(int _newOrderNum,)
+    //public CustomAbilityOptions(string _newName,)
     //{
-    //    //orderNumber = _newOrderNum;
+    //    //abilityNickname = _newName;
     //}
 
 }//end of data for abilities

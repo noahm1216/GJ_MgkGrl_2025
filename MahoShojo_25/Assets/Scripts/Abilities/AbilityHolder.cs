@@ -33,11 +33,16 @@ public class AbilityHolder : MonoBehaviour
                     if (abilitiesList[i].activeTime > 0)
                         abilitiesList[i].activeTime -= Time.deltaTime;
                     else
-                    {
-                        abilitiesList[i].currentState = AbilityState.OnCooldown;
-                        abilitiesList[i].onCooldownEvents.Invoke();
-                        for (int j = 0; j < abilitiesList[i].abilitiesPlayingOnPress.Count; j++)
-                             abilitiesList[i].cooldownTime = abilitiesList[i].abilitiesPlayingOnPress[j].cooldownTime;
+                    { // if we dont want to charge something then when its past the cooldown we can continue || OR || if we do want to charge and arent pressing that key anymore then we can also continue
+                        if (abilitiesList[i].KeyHold == KeyCode.None || 
+                            abilitiesList[i].holdingKeyCombinesWithCooldown && abilitiesList[i].KeyHold != KeyCode.None && Input.GetKey(abilitiesList[i].KeyHold) == false ||
+                            !abilitiesList[i].holdingKeyCombinesWithCooldown) 
+                        {
+                            abilitiesList[i].currentState = AbilityState.OnCooldown;
+                            abilitiesList[i].onCooldownEvents.Invoke();
+                            for (int j = 0; j < abilitiesList[i].abilitiesPlayingOnPress.Count; j++)
+                                abilitiesList[i].cooldownTime = abilitiesList[i].abilitiesPlayingOnPress[j].cooldownTime;
+                        }
                     }
                     break;
                 case AbilityState.OnCooldown: // Ability is not currently usable
@@ -109,6 +114,7 @@ public class CustomAbilityOptions
 
     [Range(0, 10)]
     public float doubleTapTimeTolerance; // if set to ZERO then we do NOT require double tap || 0.25f is a could roughh time
+    public bool holdingKeyCombinesWithCooldown; // this is for charge events so we can differentiate between holding a move-key and holding a charge-key
     [HideInInspector] public float doubleTapTime;
 
     public KeyCode keyPress, keyRelease, KeyHold;

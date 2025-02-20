@@ -5,7 +5,10 @@ public class BehaviorPockiProjectile : MonoBehaviour
 {
     public string tag_ToHunt = "Monster";
     [Range(0, 100)]
-    public float speedMove = 1;
+    public float targetSpeedMove = 90;
+    public float acceleration = 1;
+    private float speedMove = 1;
+
     public float distanceTolerance = 0.1f; // can instead do a collision based encounter if desired
     public UnityEvent onEnableEvent, onDisableEvent;
 
@@ -15,9 +18,10 @@ public class BehaviorPockiProjectile : MonoBehaviour
     // Start is called before the first frame update
     void OnEnable()
     {
+        speedMove = 1;
         onEnableEvent.Invoke();
         allMonstersEnabled = GameObject.FindGameObjectsWithTag(tag_ToHunt);
-        targetToChase = FindClosestMonster();
+        targetToChase = FindClosestMonster();        
     }
 
     private Transform FindClosestMonster()
@@ -65,5 +69,9 @@ public class BehaviorPockiProjectile : MonoBehaviour
         var step = speedMove * Time.deltaTime; // calculate distance to move
         transform.position = Vector3.MoveTowards(transform.position, targetToChase.position, step);
 
+        if (speedMove < targetSpeedMove)
+            speedMove += acceleration * Time.deltaTime;
+        else
+            speedMove = targetSpeedMove;
     }
 }

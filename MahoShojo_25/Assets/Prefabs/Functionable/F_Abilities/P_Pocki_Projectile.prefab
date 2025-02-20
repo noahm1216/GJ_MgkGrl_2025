@@ -47,7 +47,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tag_ToHunt: Monster
-  speedMove: 1
+  targetSpeedMove: 90
+  acceleration: 3
   distanceTolerance: 0.1
   onEnableEvent:
     m_PersistentCalls:

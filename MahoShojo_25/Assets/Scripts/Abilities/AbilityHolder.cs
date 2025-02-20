@@ -12,6 +12,8 @@ public class AbilityHolder : MonoBehaviour
     private Transform playerObj;
     public KeyCode lastKeyPressed;
 
+    
+
     private void Update()
     {
         if (!playerObj)
@@ -68,6 +70,11 @@ public class AbilityHolder : MonoBehaviour
         }
     }
 
+    public void TrackingHoldingTime()
+    {
+
+    }
+
     public bool RequiresAnotherTap(CustomAbilityOptions _abilityToActivate)
     {
         if (_abilityToActivate.doubleTapTimeTolerance == 0) // it does not require double tap
@@ -97,6 +104,7 @@ public class AbilityHolder : MonoBehaviour
         _abilityToActivate.onActivateEvents.Invoke();
         for (int j = 0; j < _abilityToActivate.abilitiesPlayingOnPress.Count; j++)
         {
+            // if it is a charge ability
             _abilityToActivate.abilitiesPlayingOnPress[j].Activate(playerObj);
             _abilityToActivate.activeTime = _abilityToActivate.abilitiesPlayingOnPress[j].activeTime;
         }

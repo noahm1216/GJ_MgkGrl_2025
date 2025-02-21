@@ -57,11 +57,7 @@ public class ChargingPocki : MonoBehaviour
             { Debug.Log("WARNING: Unable to run charge code due to no key specified"); return; }
 
             if (pockiCollected == 0) // no pocki to fire
-                return;
-
-          
-
-            //print("Yoh"); // running regularly
+                return;          
 
             if (Input.GetKeyUp(keyToCharge)) // let go of key (no longer charging)
             {
@@ -108,5 +104,6 @@ public class ChargingPocki : MonoBehaviour
         if (chargeTimeEqualsPockiCollected)
             requiredChargeTime = pockiCollected;
     }
+
 
 }

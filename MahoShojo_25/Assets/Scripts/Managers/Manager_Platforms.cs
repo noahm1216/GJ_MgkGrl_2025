@@ -17,16 +17,20 @@ public class Manager_Platforms : MonoBehaviour
 
     [Space]
     [Header("Platform Objects\n______________")]
+    [Tooltip("The starting Variable for how our speed is calculated")]
+    [Range(0.1f, 1)]
+    public float speedBase = 10;
     [Tooltip("Change how fast / slow we can go at top speed")]
     [Range(0.1f, 1.0f)] public float speedLimiting = 0.25f;
     [Tooltip("Change how fast / slow we ramp up to full speed")]
     [Range(0.1f, 6f)] public float speedAcceleration = 1;
     [Tooltip("Change how fast / slow we ramp down when we let go of the controls")]
     [Range(0.1f, 6f)] public float speedDeceleration = 1;
+    [Tooltip("When changing direction, what percent of speed should we cut? (0.5 means we cut half of our speed)")]
+    [Range(0.1f, 1f)] public float speedChangeOnDirectionChange = 0.33f;
 
     private float inputXYTime;
     private int dir = 1;
-    private bool pressing_MovePlatformsLeft;
 
     [Space]
     [Header("Platform Objects\n______________")]   
@@ -89,14 +93,16 @@ public class Manager_Platforms : MonoBehaviour
     {
         if (Input.GetKey(key_MovePlatformsLeft)) // going right
         {
-            inputXYTime += 1 * Time.deltaTime * speedAcceleration;
-            dir = -1;
+            if (dir > 0)
+            { inputXYTime *= speedChangeOnDirectionChange; dir = -1; }
+            inputXYTime += 1 * Time.deltaTime * speedAcceleration;           
             if (inputXYTime > 1) { inputXYTime = 1; }
         }
         else if (Input.GetKey(key_MovePlatformsRight)) // going left
         {
+            if(dir < 0)
+            { inputXYTime *= speedChangeOnDirectionChange; dir = 1; }
             inputXYTime += 1 * Time.deltaTime * speedAcceleration;
-            dir = 1;
             if (inputXYTime > 1) { inputXYTime = 1; }
         }
         else // not pressing left or rights
@@ -112,7 +118,7 @@ public class Manager_Platforms : MonoBehaviour
         {
             for (int p = 0; p < parentOfMapModelsToMove.childCount; p++)
                 if (parentOfMapModelsToMove.GetChild(p).gameObject.activeSelf == true)
-                    parentOfMapModelsToMove.GetChild(p).position += new Vector3(dir * inputXYTime * speedLimiting, 0, 0);
+                    parentOfMapModelsToMove.GetChild(p).position += new Vector3((speedBase * dir * inputXYTime) * speedLimiting, 0, 0);
         }
     }
 

@@ -150,7 +150,7 @@ GameObject:
   - component: {fileID: 7064522762146662973}
   - component: {fileID: 7501294015648807675}
   m_Layer: 0
-  m_Name: PlayerActor - P1
+  m_Name: PlayerActor - P1 - Modular
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

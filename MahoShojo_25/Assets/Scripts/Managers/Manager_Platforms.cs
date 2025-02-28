@@ -14,6 +14,8 @@ public class Manager_Platforms : MonoBehaviour
     public KeyCode key_MovePlatformsLeft = KeyCode.D;
     [Tooltip("This keycode will move the maps to the Right (as if we are going left)")]
     public KeyCode key_MovePlatformsRight = KeyCode.A;
+    [Tooltip("When checked, the platforms will move on their own")]
+    public bool automaicallyMoveRight = true;
 
     [Space]
     [Header("Platform Objects\n______________")]
@@ -84,6 +86,13 @@ public class Manager_Platforms : MonoBehaviour
         MoveMaps();
     }
 
+    public float CurrentSpeed()
+    {
+        float speed = ((speedBase * dir * inputXYTime) *speedLimiting);        
+        speed = Mathf.Round(speed * 100f) / 100f; // rounding 2 Decimals so for other reliable calculations
+        return speed; // if we dont round we dont need to create a new variable
+    }
+
     public void SpawnNewPlatformFromEdge()
     {
         SpawnOrPoolPlatform(null, true);
@@ -91,7 +100,7 @@ public class Manager_Platforms : MonoBehaviour
 
     private void CheckForInputs()
     {
-        if (Input.GetKey(key_MovePlatformsLeft)) // going right
+        if (Input.GetKey(key_MovePlatformsLeft) || automaicallyMoveRight) // going right || TODO: unable to run left after adding this (need to add && conditions)
         {
             if (dir > 0)
             { inputXYTime *= speedChangeOnDirectionChange; dir = -1; }
@@ -118,7 +127,7 @@ public class Manager_Platforms : MonoBehaviour
         {
             for (int p = 0; p < parentOfMapModelsToMove.childCount; p++)
                 if (parentOfMapModelsToMove.GetChild(p).gameObject.activeSelf == true)
-                    parentOfMapModelsToMove.GetChild(p).position += new Vector3((speedBase * dir * inputXYTime) * speedLimiting, 0, 0);
+                    parentOfMapModelsToMove.GetChild(p).position += new Vector3(CurrentSpeed(), 0, 0);
         }
     }
 

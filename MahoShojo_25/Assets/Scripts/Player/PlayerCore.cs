@@ -9,7 +9,8 @@ public class PlayerCore : MonoBehaviour
     public KeyCode key_MoveUp = KeyCode.W;
     [Tooltip("Move our character down")]
     public KeyCode key_MoveDown = KeyCode.S;
-
+    [Tooltip("When true this makes sure our character's always in the 2.5D position we expect them to be")]
+    public bool lockYPositionAtZero = true;
 
     // jump ability
     public float maximumJumpPower = 500;
@@ -17,12 +18,12 @@ public class PlayerCore : MonoBehaviour
     // can add private variables to itterate jumping up as a translate if we dont have a rigidbody (but dont need to right now)
     [Range(0.1f, 10)]
     public float speedToMaxJumpPower = 3;
-    [Range(0,10)]
+    [Range(0, 10)]
     public int numberOfJumps = 2;
     public LayerMask layersThatResetJumps;
 
     private float inputXYTime; // the time we press down any of the keys
-    private int dir = 1;
+    public int dir { get; private set; } = 1;
     private int timesJumpedSinceLastGround;
 
     // slam down ability
@@ -31,6 +32,9 @@ public class PlayerCore : MonoBehaviour
     // dash right/ left ability
 
 
+    // animation
+    public PlayerAnimations ref_PlayerAnimations;
+
     public bool CanJump()
     {
         return timesJumpedSinceLastGround < numberOfJumps;
@@ -38,6 +42,9 @@ public class PlayerCore : MonoBehaviour
 
     private void Update()
     {
+        if (lockYPositionAtZero)
+            transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+
         if(Input.GetKey(key_MoveUp))
         {
             inputXYTime += Time.deltaTime * speedToMaxJumpPower;
@@ -52,14 +59,19 @@ public class PlayerCore : MonoBehaviour
                 rb3D.AddForce((Vector3.up * dir) * (maximumJumpPower * inputXYTime));
             inputXYTime = 0;
             timesJumpedSinceLastGround++;
-        }
+            if (ref_PlayerAnimations) // jump animation & // falling animation
+            { ref_PlayerAnimations.SetAnyTrigger("Jumped"); ref_PlayerAnimations.SetAnyBool("isFalling", true); }
+        }       
     }
+
 
     private void OnCollisionEnter(Collision col)
     {
         if ((layersThatResetJumps.value & (1 << col.transform.gameObject.layer)) > 0) // collide with object within our specified layers
         {
             timesJumpedSinceLastGround = 0;
+            if (ref_PlayerAnimations) // falling animation
+                ref_PlayerAnimations.SetAnyBool("isFalling", false);
         }
     }
 }

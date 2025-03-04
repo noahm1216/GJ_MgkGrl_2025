@@ -183,6 +183,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: BalconyMiddle (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0dafc5849a71d7f47bf36328dd1279e4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -271,6 +276,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BalconyMiddle (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0dafc5849a71d7f47bf36328dd1279e4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -409,8 +419,39 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 6312889851373765342}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 81fcff3d958d2fa41a2ffaa5a5c7e04f,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3596538520676045163}
   m_SourcePrefab: {fileID: 100100000, guid: 81fcff3d958d2fa41a2ffaa5a5c7e04f, type: 3}
+--- !u!1 &2690713837201335785 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 81fcff3d958d2fa41a2ffaa5a5c7e04f,
+    type: 3}
+  m_PrefabInstance: {fileID: 2996648759566276792}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &3596538520676045163
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2690713837201335785}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.06011323, y: 0.06011325, z: 0.12383742}
+  m_Center: {x: 0, y: -9.313228e-10, z: 0.06191871}
 --- !u!4 &3322677229509246803 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 81fcff3d958d2fa41a2ffaa5a5c7e04f,
@@ -494,6 +535,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BalconyMiddle (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0dafc5849a71d7f47bf36328dd1279e4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -583,6 +629,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BalconyMiddle (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0dafc5849a71d7f47bf36328dd1279e4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

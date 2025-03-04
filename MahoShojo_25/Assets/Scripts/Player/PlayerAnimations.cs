@@ -30,14 +30,13 @@ public class PlayerAnimations : MonoBehaviour
     {
         if (animPlayer && Manager_Platforms.Instance)
         {
-            if(Manager_Platforms.Instance.CurrentSpeed() > 0)
-                print("running: backwards");
-            if (Manager_Platforms.Instance.CurrentSpeed() < 0)
-                print("running: forward");
+            //if(Manager_Platforms.Instance.CurrentSpeed() > 0)
+            //    print("running: backwards");
+            //if (Manager_Platforms.Instance.CurrentSpeed() < 0)
+            //    print("running: forward");
 
             SetAnyBool("isRunningBackwards", Manager_Platforms.Instance.CurrentSpeed() > 0); // moving left
-
-            SetAnyBool("canMove", Manager_Platforms.Instance.CurrentSpeed() < 0); // moving right
+            SetAnyBool("canMove", Mathf.Abs(Manager_Platforms.Instance.CurrentSpeed()) > 0); // moving at all
         }
     }
 }

@@ -100,7 +100,7 @@ public class Manager_Platforms : MonoBehaviour
 
     private void CheckForInputs()
     {
-        if (Input.GetKey(key_MovePlatformsLeft) || automaicallyMoveRight) // going right || TODO: unable to run left after adding this (need to add && conditions)
+        if (Input.GetKey(key_MovePlatformsLeft) && Input.GetKey(key_MovePlatformsRight) == false || automaicallyMoveRight && Input.GetKey(key_MovePlatformsRight) == false) // going right
         {
             if (dir > 0)
             { inputXYTime *= speedChangeOnDirectionChange; dir = -1; }
@@ -156,8 +156,9 @@ public class Manager_Platforms : MonoBehaviour
         CustomPlatformData newPlatform = null;
         if (!returnPlatform) // if we still need to create a platform because we havent yet
         {
-            while (newPlatform == null)
-                newPlatform = PickOurNextPlatform(_forceByNickname);
+            int attempts = 0; // ensure we dont freeze the engine due to inspector errors
+            while (newPlatform == null || attempts < 100)
+            { newPlatform = PickOurNextPlatform(_forceByNickname); attempts++; }
             returnPlatform = Instantiate(newPlatform.prefabToSpawn, parentOfMapModelsToMove);
         }
         else

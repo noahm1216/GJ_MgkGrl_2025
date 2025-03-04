@@ -16,6 +16,8 @@ public class PlayerCore : MonoBehaviour
     public float maximumJumpPower = 500;
     public Rigidbody rb3D;
     // can add private variables to itterate jumping up as a translate if we dont have a rigidbody (but dont need to right now)
+    [Range(0.00f, 1)]
+    public float inputTimeForQuickJumps = 0.15f;
     [Range(0.1f, 10)]
     public float speedToMaxJumpPower = 3;
     [Range(0, 10)]
@@ -53,7 +55,10 @@ public class PlayerCore : MonoBehaviour
         }
 
         if (Input.GetKeyUp(key_MoveUp) && CanJump())
-        {
+        {            
+            if (inputXYTime <= inputTimeForQuickJumps) // jumpTime for tapping inputs
+                inputXYTime = 0.66f;
+
             dir = 1;
             if (rb3D)
                 rb3D.AddForce((Vector3.up * dir) * (maximumJumpPower * inputXYTime));

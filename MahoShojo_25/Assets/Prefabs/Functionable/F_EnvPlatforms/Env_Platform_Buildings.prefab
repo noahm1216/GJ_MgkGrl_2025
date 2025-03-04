@@ -2994,7 +2994,7 @@ GameObject:
   - component: {fileID: 1811982097820529281}
   - component: {fileID: 4499633239150024899}
   - component: {fileID: 8441102203895616548}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SpawnNewTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3010,8 +3010,8 @@ Transform:
   m_GameObject: {fileID: 7437304974995639478}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 33.16, y: 13.74, z: 0}
-  m_LocalScale: {x: 10.463, y: 29.3, z: 1}
+  m_LocalPosition: {x: 33.16, y: 8.6181, z: 0}
+  m_LocalScale: {x: 10.463, y: 39.543278, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4362509337005501213}

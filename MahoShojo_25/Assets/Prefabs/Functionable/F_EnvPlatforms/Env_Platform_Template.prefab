@@ -1410,7 +1410,7 @@ GameObject:
   - component: {fileID: 1811982097820529281}
   - component: {fileID: 4499633239150024899}
   - component: {fileID: 8441102203895616548}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SpawnNewTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}

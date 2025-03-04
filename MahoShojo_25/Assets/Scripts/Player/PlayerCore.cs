@@ -82,8 +82,8 @@ public class PlayerCore : MonoBehaviour
             if (Manager_Platforms.Instance.dir < 0) // forward or idle
                 raycastDirection = -transform.right;
 
-            float raycastDistance = 1.5f;
-            Vector3 offset = new Vector3(0, 0.5f, 0);
+            float raycastDistance = 1.05f;
+            Vector3 offset = new Vector3(0, 0.65f, 0);
             RaycastHit hit; // raycast to the nearest wall within X (raycastDistance) meters and if there is a wall our speed is zero
             Debug.DrawLine(transform.position + offset, transform.position + offset + (new Vector3(raycastDistance * -Manager_Platforms.Instance.dir, 0,0)), Color.red);
 

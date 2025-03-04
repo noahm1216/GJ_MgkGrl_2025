@@ -32,7 +32,8 @@ public class Manager_Platforms : MonoBehaviour
     [Range(0.1f, 1f)] public float speedChangeOnDirectionChange = 0.33f;
 
     private float inputXYTime;
-    private int dir = 1;
+    public int dir { get; private set; } = 1;
+    public bool isBlocked { get; private set; }
 
     [Space]
     [Header("Platform Objects\n______________")]   
@@ -86,8 +87,15 @@ public class Manager_Platforms : MonoBehaviour
         MoveMaps();
     }
 
+    public void ChangeIsBlocked(bool _isBlocked)
+    {
+        isBlocked = _isBlocked;
+    }
+
     public float CurrentSpeed()
     {
+        if (isBlocked)
+            return 0;
         float speed = ((speedBase * dir * inputXYTime) *speedLimiting);        
         speed = Mathf.Round(speed * 100f) / 100f; // rounding 2 Decimals so for other reliable calculations
         return speed; // if we dont round we dont need to create a new variable

@@ -206,7 +206,7 @@ GameObject:
   - component: {fileID: 7501294015648807675}
   m_Layer: 3
   m_Name: PlayerActor - P2 - Based
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -246,12 +246,13 @@ MonoBehaviour:
   lockYPositionAtZero: 0
   maximumJumpPower: 600
   rb3D: {fileID: 7064522762146662973}
+  quickJumpPercentOfMaxJump: 0.66
   inputTimeForQuickJumps: 0.3
   speedToMaxJumpPower: 3
   numberOfJumps: 2
   layersThatResetJumps:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 55
   ref_PlayerAnimations: {fileID: 2614725022921518546}
 --- !u!54 &7064522762146662973
 Rigidbody:
@@ -279,7 +280,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 120
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!136 &7501294015648807675
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1063,6 +1064,31 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2717736059054106366, guid: 3fb39c8ff9bfcc04daf022f6d3bb37b0,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2717736059054106366, guid: 3fb39c8ff9bfcc04daf022f6d3bb37b0,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2717736059054106366, guid: 3fb39c8ff9bfcc04daf022f6d3bb37b0,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2717736059054106366, guid: 3fb39c8ff9bfcc04daf022f6d3bb37b0,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2717736059054106366, guid: 3fb39c8ff9bfcc04daf022f6d3bb37b0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2832730872396213982, guid: 3fb39c8ff9bfcc04daf022f6d3bb37b0,
         type: 3}

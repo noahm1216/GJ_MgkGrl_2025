@@ -17,7 +17,9 @@ public class PlayerCore : MonoBehaviour
     public Rigidbody rb3D;
     // can add private variables to itterate jumping up as a translate if we dont have a rigidbody (but dont need to right now)
     [Range(0.00f, 1)]
-    public float inputTimeForQuickJumps = 0.15f;
+    public float quickJumpPercentOfMaxJump = 0.66f;
+    [Range(0.00f, 1)]
+    public float inputTimeForQuickJumps = 0.25f;
     [Range(0.1f, 10)]
     public float speedToMaxJumpPower = 3;
     [Range(0, 10)]
@@ -47,7 +49,9 @@ public class PlayerCore : MonoBehaviour
         if (lockYPositionAtZero)
             transform.position = new Vector3(transform.position.x, 0, transform.position.z);
 
-        if(Input.GetKey(key_MoveUp))
+        CheckIfBlocked();
+
+        if (Input.GetKey(key_MoveUp))
         {
             inputXYTime += Time.deltaTime * speedToMaxJumpPower;
             if (inputXYTime > 1)
@@ -55,9 +59,9 @@ public class PlayerCore : MonoBehaviour
         }
 
         if (Input.GetKeyUp(key_MoveUp) && CanJump())
-        {            
+        {
             if (inputXYTime <= inputTimeForQuickJumps) // jumpTime for tapping inputs
-                inputXYTime = 0.66f;
+                inputXYTime = quickJumpPercentOfMaxJump;
 
             dir = 1;
             if (rb3D)
@@ -67,6 +71,29 @@ public class PlayerCore : MonoBehaviour
             if (ref_PlayerAnimations) // jump animation & // falling animation
             { ref_PlayerAnimations.SetAnyTrigger("Jumped"); ref_PlayerAnimations.SetAnyBool("isFalling", true); }
         }       
+    }
+
+    private void CheckIfBlocked() // if moving in a direction but cant keep going
+    {
+        if (Manager_Platforms.Instance)
+        {
+            Vector3 raycastDirection = transform.right;
+
+            if (Manager_Platforms.Instance.dir < 0) // forward or idle
+                raycastDirection = -transform.right;
+
+            float raycastDistance = 1.5f;
+            Vector3 offset = new Vector3(0, 0.5f, 0);
+            RaycastHit hit; // raycast to the nearest wall within X (raycastDistance) meters and if there is a wall our speed is zero
+            Debug.DrawLine(transform.position + offset, transform.position + offset + (new Vector3(raycastDistance * -Manager_Platforms.Instance.dir, 0,0)), Color.red);
+
+            if(Physics.Raycast(transform.position + offset, transform.TransformDirection(raycastDirection), out hit, raycastDistance, layersThatResetJumps))
+                { print("something in front of our move dir"); }
+
+            Manager_Platforms.Instance.ChangeIsBlocked(Physics.Raycast(transform.position + offset, transform.TransformDirection(raycastDirection), out hit, raycastDistance, layersThatResetJumps));
+           
+        }
+
     }
 
 

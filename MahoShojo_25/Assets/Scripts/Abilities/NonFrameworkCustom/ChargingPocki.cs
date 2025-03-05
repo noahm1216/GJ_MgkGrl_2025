@@ -64,7 +64,7 @@ public class ChargingPocki : MonoBehaviour
 
             if (Input.GetKeyUp(keyToCharge)) // let go of key (no longer charging)
             {
-                if (Time.time > timeStampPressedKey + requiredChargeTime)  // finished charging ability            
+                if (Time.time > timeStampPressedKey + requiredChargeTime / chargeTimeMultiplier)  // finished charging ability            
                     onReleaseSuccessEvent.Invoke();
                 else
                     onReleaseFailEvent.Invoke();

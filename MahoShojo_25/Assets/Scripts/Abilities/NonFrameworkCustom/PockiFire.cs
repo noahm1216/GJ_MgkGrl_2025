@@ -69,7 +69,7 @@ public class PockiFire : MonoBehaviour
             // update box art
             for (int i = 0; i < pockiSticksInBoxParent.childCount; i++)
             {
-                if (i <= ref_ChargingPocki.pockiCollected)
+                if (i < ref_ChargingPocki.pockiCollected)
                     pockiSticksInBoxParent.GetChild(i).gameObject.SetActive(true);
                 else
                     pockiSticksInBoxParent.GetChild(i).gameObject.SetActive(false);

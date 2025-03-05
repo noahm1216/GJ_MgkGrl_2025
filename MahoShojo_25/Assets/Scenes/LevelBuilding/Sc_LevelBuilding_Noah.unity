@@ -713,6 +713,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6879388092846173571, guid: 2b4ca704d42518e4d9980ddc11acf186,
         type: 3}
+      propertyPath: listOfSpawnablePlatforms.Array.data[0].spawnChance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6879388092846173571, guid: 2b4ca704d42518e4d9980ddc11acf186,
+        type: 3}
       propertyPath: listOfSpawnablePlatforms.Array.data[2].spawnChance
       value: 1
       objectReference: {fileID: 0}

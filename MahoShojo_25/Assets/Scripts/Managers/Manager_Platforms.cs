@@ -139,7 +139,7 @@ public class Manager_Platforms : MonoBehaviour
 
     public void SpawnNewPlatformFromEdge()
     {
-        SpawnOrPoolPlatform(null, true);
+        SpawnOrPoolPlatform(null, false);
     }
 
     private void CheckDashing()
@@ -225,23 +225,21 @@ public class Manager_Platforms : MonoBehaviour
             }
         }
 
-        CustomPlatformData newPlatform = null;
+
         if (!returnPlatform) // if we still need to create a platform because we havent yet
         {
+            CustomPlatformData newPlatform = null;
             int attempts = 0; // ensure we dont freeze the engine due to inspector errors
             while (newPlatform == null || attempts < 100)
             { newPlatform = PickOurNextPlatform(_forceByNickname); attempts++; }
             returnPlatform = Instantiate(newPlatform.prefabToSpawn, parentOfMapModelsToMove);
         }
-        else
-        returnPlatform.TryGetComponent(out newPlatform);  
 
         // find where it goes & move it over
         BehaviorPlatform newPlatformBehavior = null;
         returnPlatform.TryGetComponent(out newPlatformBehavior);
         if (newPlatformBehavior == null)
         { Debug.Log("ERROR: Platform missing script resources"); return null; }
-
 
         if (spawnedPlatformsInPlay.Count > 0 && returnPlatform != null) // move it if we can
         returnPlatform.position = spawnedPlatformsInPlay[spawnedPlatformsInPlay.Count - 1].transform.transform.position + new Vector3((spawnedPlatformsInPlay[spawnedPlatformsInPlay.Count - 1].scale.x / 2) + (newPlatformBehavior.scale.x / 2), 0, 0); 

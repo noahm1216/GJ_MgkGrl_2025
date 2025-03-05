@@ -17,6 +17,28 @@ public class Manager_Platforms : MonoBehaviour
     [Tooltip("When checked, the platforms will move on their own")]
     public bool automaicallyMoveRight = true;
 
+    // dash right/ left ability
+    [Space]
+    [Header("Dash Rules\n______________")]
+    [Tooltip("The amount of time allowed until our double-input of a direction acts as a dash (higher number means more tolerance for slow dashers)")]
+    [Range(0.1f, 3)]
+    public float timeWindowForDashing = 0.75f;
+    [Tooltip("The multiplier for speed when we dash")]
+    [Range(0.1f, 10)]
+    public float dashingSpeedMultiplier = 2f;
+    [Tooltip("The amount of time we will continue to dash (or at least our speed will reflect it)")]
+    [Range(0.1f, 10)]
+    public float dashingLastingTime = 2f;
+    [Tooltip("The functions that will occur when we first dash")]
+    public UnityEvent onDashEvent;
+
+    private float dashInputStamp;
+    private KeyCode lastKeyPressed;
+    public bool isDashing { get; private set; }
+    public bool dashedForward { get; private set; }
+    private float dashStartTimeStamp;
+
+
     [Space]
     [Header("Platform Objects\n______________")]
     [Tooltip("The starting Variable for how our speed is calculated")]
@@ -30,10 +52,13 @@ public class Manager_Platforms : MonoBehaviour
     [Range(0.1f, 6f)] public float speedDeceleration = 1;
     [Tooltip("When changing direction, what percent of speed should we cut? (0.5 means we cut half of our speed)")]
     [Range(0.1f, 1f)] public float speedChangeOnDirectionChange = 0.33f;
+    [Tooltip("When not touching anything (in air). our speed will be adjusted by this amound (0.5 means we cut half of our speed)")]
+    [Range(0.00f, 2f)] public float speedChangeWhileInAir = 0.66f;
 
     private float inputXYTime;
     public int dir { get; private set; } = 1;
     public bool isBlocked { get; private set; }
+    public bool playerInAir { get; private set; }
 
     [Space]
     [Header("Platform Objects\n______________")]   
@@ -84,6 +109,7 @@ public class Manager_Platforms : MonoBehaviour
             return;
 
         CheckForInputs();
+        CheckDashing();
         MoveMaps();
     }
 
@@ -92,12 +118,23 @@ public class Manager_Platforms : MonoBehaviour
         isBlocked = _isBlocked;
     }
 
+    public void ChangePlayerInAir(bool _inAir)
+    {
+        playerInAir = _inAir;
+    }
+
     public float CurrentSpeed()
     {
         if (isBlocked)
             return 0;
         float speed = ((speedBase * dir * inputXYTime) *speedLimiting);        
         speed = Mathf.Round(speed * 100f) / 100f; // rounding 2 Decimals so for other reliable calculations
+        if (playerInAir)
+            speed *= speedChangeWhileInAir;
+        if (isDashing)
+            speed *= dashingSpeedMultiplier;
+        if (isDashing & !dashedForward)
+            speed *= -1;
         return speed; // if we dont round we dont need to create a new variable
     }
 
@@ -106,21 +143,45 @@ public class Manager_Platforms : MonoBehaviour
         SpawnOrPoolPlatform(null, true);
     }
 
+    private void CheckDashing()
+    {
+        if (!isDashing)
+            dashStartTimeStamp = Time.time;
+        if (isDashing && Time.time > dashStartTimeStamp + dashingLastingTime)
+            isDashing = false;
+    }
+
+    private void DashAction(bool _dashedForward)
+    {
+        print("dashed");
+        isDashing = true;
+        dashedForward = _dashedForward;
+        onDashEvent.Invoke();
+    }
+
     private void CheckForInputs()
     {
-        if (Input.GetKey(key_MovePlatformsLeft) && Input.GetKey(key_MovePlatformsRight) == false || automaicallyMoveRight && Input.GetKey(key_MovePlatformsRight) == false) // going right
+        if (Input.GetKey(key_MovePlatformsLeft) && Input.GetKey(key_MovePlatformsRight) == false && !isDashing || automaicallyMoveRight && Input.GetKey(key_MovePlatformsRight) ==  false && !isDashing) // going right
         {
+            if (Input.GetKeyDown(key_MovePlatformsLeft))
+            {
+                if (lastKeyPressed == key_MovePlatformsLeft && Time.time < dashInputStamp + timeWindowForDashing) // TODO : Check for if dashing so we have to time it, and animation / VFX spot
+                    DashAction(true);
+                else
+                { lastKeyPressed = key_MovePlatformsLeft; dashInputStamp = Time.time; } // reset
+            }
+
             if (dir > 0)
             { inputXYTime *= speedChangeOnDirectionChange; dir = -1; }
-            inputXYTime += 1 * Time.deltaTime * speedAcceleration;           
-            if (inputXYTime > 1) { inputXYTime = 1; }
-        }
-        else if (Input.GetKey(key_MovePlatformsRight)) // going left
-        {
-            if(dir < 0)
-            { inputXYTime *= speedChangeOnDirectionChange; dir = 1; }
             inputXYTime += 1 * Time.deltaTime * speedAcceleration;
             if (inputXYTime > 1) { inputXYTime = 1; }
+        }
+        else if (Input.GetKeyDown(key_MovePlatformsRight) && !isDashing) // going left 
+        {        
+            if (dir < 0)
+            { inputXYTime *= speedChangeOnDirectionChange; dir = 1; }
+            inputXYTime += 1 * Time.deltaTime * speedAcceleration;
+            if (inputXYTime > 1) { inputXYTime = 1; }          
         }
         else // not pressing left or rights
         {
@@ -128,6 +189,8 @@ public class Manager_Platforms : MonoBehaviour
             if (inputXYTime < 0) { inputXYTime = 0; }
         }
     }
+
+    
 
     private void MoveMaps()
     {

@@ -29,6 +29,7 @@ public class BehaviorOnCollision : MonoBehaviour
             return;
         if (spawnNewPlatform && Manager_Platforms.Instance)
             Manager_Platforms.Instance.SpawnNewPlatformFromEdge();
+        numberOfActivations++;
         onCollisionEnterEvents.Invoke();
     }
 

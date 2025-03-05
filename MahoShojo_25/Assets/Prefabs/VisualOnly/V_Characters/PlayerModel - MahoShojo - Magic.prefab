@@ -1,0 +1,214 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8858058888973750522
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6461882849785929246}
+  m_Layer: 0
+  m_Name: PlayerModel - MahoShojo - Magic
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6461882849785929246
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8858058888973750522}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 8291473588177091330}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &3785699151298164594
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6461882849785929246}
+    m_Modifications:
+    - target: {fileID: -5694092435888646316, guid: 9a5a8e252299ff94daaed2d9bd1ce1d7,
+        type: 3}
+      propertyPath: m_DirtyAABB
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5694092435888646316, guid: 9a5a8e252299ff94daaed2d9bd1ce1d7,
+        type: 3}
+      propertyPath: m_AABB.m_Center.y
+      value: 0.69423175
+      objectReference: {fileID: 0}
+    - target: {fileID: -5694092435888646316, guid: 9a5a8e252299ff94daaed2d9bd1ce1d7,
+        type: 3}
+      propertyPath: m_AABB.m_Center.z
+      value: 0.008610256
+      objectReference: {fileID: 0}
+    - target: {fileID: -5694092435888646316, guid: 9a5a8e252299ff94daaed2d9bd1ce1d7,
+        type: 3}
+      propertyPath: m_AABB.m_Extent.x
+      value: 0.5241244
+      objectReference: {fileID: 0}
+    - target: {fileID: -5694092435888646316, guid: 9a5a8e252299ff94daaed2d9bd1ce1d7,
+        type: 3}
+      propertyPath: m_AABB.m_Extent.y
+      value: 0.69926476
+      objectReference: {fileID: 0}
+    - target: {fileID: -5694092435888646316, guid: 9a5a8e252299ff94daaed2d9bd1ce1d7,
+        type: 3}
+      propertyPath: m_AABB.m_Extent.z
+      value: 0.23521242
+      objectReference: {fileID: 0}
+    - target: {fileID: -1728013695380148634, guid: 9a5a8e252299ff94daaed2d9bd1ce1d7,
+        type: 3}
+      propertyPath: m_Name
+      value: Maho Shojo - Magic
+      objectReference: {fileID: 0}
+    - target: {fileID: 2953604236389334553, guid: 9a5a8e252299ff94daaed2d9bd1ce1d7,
+        type: 3}
+      propertyPath: m_DirtyAABB
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2953604236389334553, guid: 9a5a8e252299ff94daaed2d9bd1ce1d7,
+        type: 3}
+      propertyPath: m_AABB.m_Center.x
+      value: -0.000025615096
+      objectReference: {fileID: 0}
+    - target: {fileID: 2953604236389334553, guid: 9a5a8e252299ff94daaed2d9bd1ce1d7,
+        type: 3}
+      propertyPath: m_AABB.m_Center.y
+      value: 1.2875342
+      objectReference: {fileID: 0}
+    - target: {fileID: 2953604236389334553, guid: 9a5a8e252299ff94daaed2d9bd1ce1d7,
+        type: 3}
+      propertyPath: m_AABB.m_Center.z
+      value: -0.02322096
+      objectReference: {fileID: 0}
+    - target: {fileID: 2953604236389334553, guid: 9a5a8e252299ff94daaed2d9bd1ce1d7,
+        type: 3}
+      propertyPath: m_AABB.m_Extent.x
+      value: 0.1467414
+      objectReference: {fileID: 0}
+    - target: {fileID: 2953604236389334553, guid: 9a5a8e252299ff94daaed2d9bd1ce1d7,
+        type: 3}
+      propertyPath: m_AABB.m_Extent.y
+      value: 0.14324206
+      objectReference: {fileID: 0}
+    - target: {fileID: 2953604236389334553, guid: 9a5a8e252299ff94daaed2d9bd1ce1d7,
+        type: 3}
+      propertyPath: m_AABB.m_Extent.z
+      value: 0.1084958
+      objectReference: {fileID: 0}
+    - target: {fileID: 4870552773557632513, guid: 9a5a8e252299ff94daaed2d9bd1ce1d7,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 54db6be56d8a3f84d88cb858a03caa6e, type: 2}
+    - target: {fileID: 5159078012444724336, guid: 9a5a8e252299ff94daaed2d9bd1ce1d7,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5159078012444724336, guid: 9a5a8e252299ff94daaed2d9bd1ce1d7,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5159078012444724336, guid: 9a5a8e252299ff94daaed2d9bd1ce1d7,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5159078012444724336, guid: 9a5a8e252299ff94daaed2d9bd1ce1d7,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5159078012444724336, guid: 9a5a8e252299ff94daaed2d9bd1ce1d7,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5159078012444724336, guid: 9a5a8e252299ff94daaed2d9bd1ce1d7,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5159078012444724336, guid: 9a5a8e252299ff94daaed2d9bd1ce1d7,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5159078012444724336, guid: 9a5a8e252299ff94daaed2d9bd1ce1d7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5159078012444724336, guid: 9a5a8e252299ff94daaed2d9bd1ce1d7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5159078012444724336, guid: 9a5a8e252299ff94daaed2d9bd1ce1d7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7140606858727328969, guid: 9a5a8e252299ff94daaed2d9bd1ce1d7,
+        type: 3}
+      propertyPath: m_DirtyAABB
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7140606858727328969, guid: 9a5a8e252299ff94daaed2d9bd1ce1d7,
+        type: 3}
+      propertyPath: m_AABB.m_Center.x
+      value: 0.000000052154064
+      objectReference: {fileID: 0}
+    - target: {fileID: 7140606858727328969, guid: 9a5a8e252299ff94daaed2d9bd1ce1d7,
+        type: 3}
+      propertyPath: m_AABB.m_Center.y
+      value: 1.2849586
+      objectReference: {fileID: 0}
+    - target: {fileID: 7140606858727328969, guid: 9a5a8e252299ff94daaed2d9bd1ce1d7,
+        type: 3}
+      propertyPath: m_AABB.m_Center.z
+      value: 0.015605092
+      objectReference: {fileID: 0}
+    - target: {fileID: 7140606858727328969, guid: 9a5a8e252299ff94daaed2d9bd1ce1d7,
+        type: 3}
+      propertyPath: m_AABB.m_Extent.x
+      value: 0.09255906
+      objectReference: {fileID: 0}
+    - target: {fileID: 7140606858727328969, guid: 9a5a8e252299ff94daaed2d9bd1ce1d7,
+        type: 3}
+      propertyPath: m_AABB.m_Extent.y
+      value: 0.096946
+      objectReference: {fileID: 0}
+    - target: {fileID: 7140606858727328969, guid: 9a5a8e252299ff94daaed2d9bd1ce1d7,
+        type: 3}
+      propertyPath: m_AABB.m_Extent.z
+      value: 0.058940873
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: -3956505258223990651, guid: 9a5a8e252299ff94daaed2d9bd1ce1d7,
+    type: 3}
+--- !u!4 &8291473588177091330 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5159078012444724336, guid: 9a5a8e252299ff94daaed2d9bd1ce1d7,
+    type: 3}
+  m_PrefabInstance: {fileID: 3785699151298164594}
+  m_PrefabAsset: {fileID: 0}

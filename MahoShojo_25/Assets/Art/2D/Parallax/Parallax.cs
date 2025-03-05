@@ -44,6 +44,7 @@ using UnityEngine;
 
 public class Parallax : MonoBehaviour
 {
+    [SerializeField] private Transform referenceObject;
     [SerializeField] private Transform[] backgroundLayers; // Assign the background layers in the inspector
     [SerializeField] private float parallaxMultiplier = 0.5f; // Adjust the speed of parallax effect
     [SerializeField] private float speed = 1f; // Speed at which the background moves
@@ -97,9 +98,11 @@ public class Parallax : MonoBehaviour
 
     private void CheckAndResetBackgrounds()
     {
+        float referenceX = referenceObject.position.x; // Get the reference object's X position
+
         foreach (Transform layer in backgroundLayers)
         {
-            if (layer.position.x <= -resetDistance)
+            if (layer.position.x <= referenceX - resetDistance)
             {
                 float newX = layer.position.x + resetDistance * 3; // Move to the rightmost position
                 layer.position = new Vector3(newX, layer.position.y, layer.position.z);

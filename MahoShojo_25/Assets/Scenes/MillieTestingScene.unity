@@ -822,6 +822,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8b1ab9c8375f2d4589529fef9903358, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  referenceObject: {fileID: 0}
   backgroundLayers: []
   parallaxMultiplier: 0.5
   speed: 1
@@ -1788,6 +1789,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8b1ab9c8375f2d4589529fef9903358, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  referenceObject: {fileID: 1571664134}
   backgroundLayers:
   - {fileID: 200779260}
   - {fileID: 202881970}
@@ -1843,6 +1845,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8b1ab9c8375f2d4589529fef9903358, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  referenceObject: {fileID: 0}
   backgroundLayers: []
   parallaxMultiplier: 0.5
   speed: 1
@@ -1947,6 +1950,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8b1ab9c8375f2d4589529fef9903358, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  referenceObject: {fileID: 0}
   backgroundLayers: []
   parallaxMultiplier: 0.5
   speed: 1
@@ -2270,11 +2274,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8b1ab9c8375f2d4589529fef9903358, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  referenceObject: {fileID: 1571664134}
   backgroundLayers:
   - {fileID: 2145467546}
   - {fileID: 901676824}
   - {fileID: 1984134068}
-  parallaxMultiplier: -500
+  parallaxMultiplier: -250
   speed: 50
   resetDistance: 0
 --- !u!1 &1316999585
@@ -2377,6 +2382,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8b1ab9c8375f2d4589529fef9903358, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  referenceObject: {fileID: 1571664134}
   backgroundLayers:
   - {fileID: 337799329}
   - {fileID: 1649509768}
@@ -2581,6 +2587,12 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!4 &1571664134 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3577818465315226709, guid: 4eacdee713605b041baafcb5c9209874,
+    type: 3}
+  m_PrefabInstance: {fileID: 1612329336}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1612329336
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2647,7 +2659,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4213984498647896106, guid: 4eacdee713605b041baafcb5c9209874,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 4eacdee713605b041baafcb5c9209874, type: 3}
 --- !u!1001 &1621351773
 PrefabInstance:
@@ -3159,6 +3175,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlatformManager
       objectReference: {fileID: 0}
+    - target: {fileID: 6879388092846173571, guid: 2b4ca704d42518e4d9980ddc11acf186,
+        type: 3}
+      propertyPath: listOfSpawnablePlatforms.Array.data[1].prefabToSpawn
+      value: 
+      objectReference: {fileID: 4362509337005501213, guid: a1672b60c43695b45a764e5882b159f2,
+        type: 3}
     - target: {fileID: 9057712506685900242, guid: 2b4ca704d42518e4d9980ddc11acf186,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3396,8 +3418,8 @@ Transform:
   m_GameObject: {fileID: 2051972479}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 30, z: 100.000015}
-  m_LocalScale: {x: 14.115718, y: 14.115715, z: 14.11572}
+  m_LocalPosition: {x: 0, y: 3.9, z: 100.000015}
+  m_LocalScale: {x: 1.2177342, y: 1.2177339, z: 1.2177343}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1001754622}

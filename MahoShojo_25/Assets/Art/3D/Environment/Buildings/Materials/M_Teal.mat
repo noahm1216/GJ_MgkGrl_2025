@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_SimpleBrick
+  m_Name: M_Teal
   m_Shader: {fileID: -6465566751694194690, guid: 7419c8411075d6648ae10acce5d04b39,
     type: 3}
   m_Parent: {fileID: 0}
@@ -55,7 +55,7 @@ Material:
     - _Tile: 0.3
     - _blend: 0.081
     m_Colors:
-    - _Color: {r: 0.43660802, g: 0.2707369, b: 0.49056602, a: 0}
+    - _Color: {r: 0.26666668, g: 0.69803923, b: 0.6862745, a: 0}
     - _HDRColor: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &6411499880764363912

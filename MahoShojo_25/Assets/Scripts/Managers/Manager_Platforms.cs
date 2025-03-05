@@ -35,7 +35,6 @@ public class Manager_Platforms : MonoBehaviour
     private float dashInputStamp;
     private KeyCode lastKeyPressed;
     public bool isDashing { get; private set; }
-    public bool dashedForward { get; private set; }
     private float dashStartTimeStamp;
 
 
@@ -133,8 +132,6 @@ public class Manager_Platforms : MonoBehaviour
             speed *= speedChangeWhileInAir;
         if (isDashing)
             speed *= dashingSpeedMultiplier;
-        if (isDashing & !dashedForward)
-            speed *= -1;
         return speed; // if we dont round we dont need to create a new variable
     }
 
@@ -151,22 +148,21 @@ public class Manager_Platforms : MonoBehaviour
             isDashing = false;
     }
 
-    private void DashAction(bool _dashedForward)
+    private void DashAction()
     {
         print("dashed");
         isDashing = true;
-        dashedForward = _dashedForward;
         onDashEvent.Invoke();
     }
 
     private void CheckForInputs()
     {
-        if (Input.GetKey(key_MovePlatformsLeft) && Input.GetKey(key_MovePlatformsRight) == false && !isDashing || automaicallyMoveRight && Input.GetKey(key_MovePlatformsRight) ==  false && !isDashing) // going right
+        if (Input.GetKey(key_MovePlatformsLeft) && Input.GetKey(key_MovePlatformsRight) == false || automaicallyMoveRight && Input.GetKey(key_MovePlatformsRight) == false) // going right
         {
             if (Input.GetKeyDown(key_MovePlatformsLeft))
             {
                 if (lastKeyPressed == key_MovePlatformsLeft && Time.time < dashInputStamp + timeWindowForDashing) // TODO : Check for if dashing so we have to time it, and animation / VFX spot
-                    DashAction(true);
+                    DashAction();
                 else
                 { lastKeyPressed = key_MovePlatformsLeft; dashInputStamp = Time.time; } // reset
             }
@@ -176,12 +172,12 @@ public class Manager_Platforms : MonoBehaviour
             inputXYTime += 1 * Time.deltaTime * speedAcceleration;
             if (inputXYTime > 1) { inputXYTime = 1; }
         }
-        else if (Input.GetKeyDown(key_MovePlatformsRight) && !isDashing) // going left 
-        {        
+        else if (Input.GetKeyDown(key_MovePlatformsRight)) // going left 
+        {
             if (dir < 0)
             { inputXYTime *= speedChangeOnDirectionChange; dir = 1; }
             inputXYTime += 1 * Time.deltaTime * speedAcceleration;
-            if (inputXYTime > 1) { inputXYTime = 1; }          
+            if (inputXYTime > 1) { inputXYTime = 1; }
         }
         else // not pressing left or rights
         {

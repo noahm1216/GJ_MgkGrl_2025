@@ -10,7 +10,10 @@ public class ChargingPocki : MonoBehaviour
     public KeyCode keyToCharge;
     public Transform pockiBoxObj, visualObjMeter;
     public float requiredChargeTime = 1;
-    public bool chargeTimeEqualsPockiCollected;
+    public bool chargeTimeEqualsPockiCollected; 
+    [Range(0.0f, 10)]
+    public float chargeTimeMultiplier = 2;
+    public bool followPlayer;
     public Vector3 pockiBoxOffset = new Vector3(-1, 1, 0);
     public float pockiCollected = 1;
 
@@ -47,7 +50,7 @@ public class ChargingPocki : MonoBehaviour
 #if UNITY_EDITOR
         if (!Application.isPlaying)
         {
-            if (pockiBoxObj)
+            if (pockiBoxObj && followPlayer)
                 pockiBoxObj.position = transform.position + pockiBoxOffset;
         }
         else
@@ -66,7 +69,7 @@ public class ChargingPocki : MonoBehaviour
                 else
                     onReleaseFailEvent.Invoke();
 
-                if (pockiBoxObj)
+                if (pockiBoxObj && followPlayer)
                     pockiBoxObj.SetParent(null);
             }
 
@@ -74,7 +77,7 @@ public class ChargingPocki : MonoBehaviour
             {
                 chargePercent = 0;
                 timeStampPressedKey = Time.time;
-                if (pockiBoxObj)
+                if (pockiBoxObj && followPlayer)
                 { pockiBoxObj.position = transform.position + pockiBoxOffset; pockiBoxObj.SetParent(transform); }
                 onChargeStartEvent.Invoke();
             }
@@ -82,7 +85,7 @@ public class ChargingPocki : MonoBehaviour
             if (Input.GetKey(keyToCharge)) // Holding key (sustain charging)
             {
                 if (chargePercent < 1)
-                    chargePercent = ((Time.time - timeStampPressedKey) / requiredChargeTime);
+                    chargePercent = ((Time.time - timeStampPressedKey) / requiredChargeTime) * chargeTimeMultiplier;
                 else
                     chargePercent = 1;
 

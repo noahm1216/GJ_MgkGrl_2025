@@ -48,11 +48,18 @@ MonoBehaviour:
   key_MovePlatformsLeft: 100
   key_MovePlatformsRight: 97
   automaicallyMoveRight: 1
+  timeWindowForDashing: 0.75
+  dashingSpeedMultiplier: 2
+  dashingLastingTime: 2
+  onDashEvent:
+    m_PersistentCalls:
+      m_Calls: []
   speedBase: 0.1
-  speedLimiting: 0.5
+  speedLimiting: 0.2
   speedAcceleration: 0.66
   speedDeceleration: 2
   speedChangeOnDirectionChange: 0.33
+  speedChangeWhileInAir: 0.66
   parentOfMapModelsToMove: {fileID: 1493583882141235265}
   platformsToSpawnOnStart: 3
   platformsToKeepOnScreen: 3

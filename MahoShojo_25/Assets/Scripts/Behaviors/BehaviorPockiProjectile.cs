@@ -14,6 +14,8 @@ public class BehaviorPockiProjectile : MonoBehaviour
 
     private Transform targetToChase;
     private GameObject[] allMonstersEnabled;
+    private float timeEnabled;
+    private float noTargetLifeSpan = 5;
 
     // Start is called before the first frame update
     void OnEnable()
@@ -21,7 +23,8 @@ public class BehaviorPockiProjectile : MonoBehaviour
         speedMove = 1;
         onEnableEvent.Invoke();
         allMonstersEnabled = GameObject.FindGameObjectsWithTag(tag_ToHunt);
-        targetToChase = FindClosestMonster();        
+        targetToChase = FindClosestMonster();
+        timeEnabled = Time.time;
     }
 
     private Transform FindClosestMonster()
@@ -55,8 +58,8 @@ public class BehaviorPockiProjectile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!targetToChase)
-        { gameObject.SetActive(false); return; }
+        if (targetToChase == null) // with no target we'll just shoot forward and turn off
+        { transform.Translate(Vector3.forward); if (Time.time > timeEnabled + noTargetLifeSpan) { gameObject.SetActive(false); return; } }
 
         if(DistanceToOther(targetToChase) <= distanceTolerance)
         {

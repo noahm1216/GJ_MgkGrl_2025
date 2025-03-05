@@ -15,6 +15,7 @@ public class PlayerCore : MonoBehaviour
 
     [Space]
     [Header("Jump Ability\n______________")]
+    public bool jumpBasedOnKeyPressTime;
     public float maximumJumpPower = 500;
     public Rigidbody rb3D;
     // can add private variables to itterate jumping up as a translate if we dont have a rigidbody (but dont need to right now)
@@ -81,6 +82,9 @@ public class PlayerCore : MonoBehaviour
         if (Input.GetKey(key_MoveUp))
         {
             inputXYTime += Time.deltaTime * speedToMaxJumpPower;
+            if (!jumpBasedOnKeyPressTime)
+                inputXYTime = 1;
+
             if (inputXYTime > 1)
                 inputXYTime = 1;
             onPress_MoveUp.Invoke();
@@ -96,7 +100,7 @@ public class PlayerCore : MonoBehaviour
 
                 dir = 1;
                 //if (rb3D)
-                //    rb3D.AddForce((Vector3.up * dir) * (maximumJumpPower * inputXYTime));
+                //    rb3D.AddForce((Vector3.up * dir) * (maximumJumpPower * inputXYTime)); // we want to do an arc (and have it in fixed update)
                 lagInputTime = inputXYTime;
                 inputXYTime = 0;
                 timesJumpedSinceLastGround++;
@@ -112,24 +116,14 @@ public class PlayerCore : MonoBehaviour
 
     private void FixedUpdate()
     {
-
-        if(jumpLeftToAchieve < maximumJumpPower)
+        if (jumpLeftToAchieve < maximumJumpPower)
         {
             if (rb3D)
-            {
-                rb3D.AddForce((Vector3.up * dir) * jumpLeftToAchieve * lagInputTime);      
-                //rb3D.velocity = rb3D.velocity.normalized * jumpLeftToAchieve;
-            }
-            //jumpLeftToAchieve = 0;
-            jumpLeftToAchieve+= 1 * jumpAcceleration;
+                rb3D.AddForce((Vector3.up * dir) * jumpLeftToAchieve * lagInputTime);           
+            jumpLeftToAchieve += 1 * jumpAcceleration;
         }
-
-        if(rb3D.velocity.y < 0) // going down
-        {
-            print("falling down");
+        if (rb3D.velocity.y < 0) // faling / moving down
             rb3D.AddForce(Vector3.down * (1 * fallAcceleration));
-        }
-        
     }
 
     private void CheckIfBlocked() // if moving in a direction but cant keep going
@@ -148,9 +142,7 @@ public class PlayerCore : MonoBehaviour
             Manager_Platforms.Instance.ChangeIsBlocked(true);
             else
                 Manager_Platforms.Instance.ChangeIsBlocked(false);
-
         }
-
     }
 
     private bool CheckBlockerRaycasts(Vector3 _raycastDirection, int _dir, Vector3 _offset, float _dist)

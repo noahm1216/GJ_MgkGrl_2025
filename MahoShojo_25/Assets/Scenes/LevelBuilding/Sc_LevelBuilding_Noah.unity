@@ -662,7 +662,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4213984498647896106, guid: 4eacdee713605b041baafcb5c9209874,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 4eacdee713605b041baafcb5c9209874, type: 3}
 --- !u!1001 &6127962715066920923
 PrefabInstance:
@@ -676,6 +680,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlatformManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 6879388092846173571, guid: 2b4ca704d42518e4d9980ddc11acf186,
+        type: 3}
+      propertyPath: speedLimiting
+      value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 6879388092846173571, guid: 2b4ca704d42518e4d9980ddc11acf186,
         type: 3}

@@ -16,11 +16,18 @@ public class BehaviorPockiProjectile : MonoBehaviour
     private GameObject[] allMonstersEnabled;
     private float timeEnabled;
     private float noTargetLifeSpan = 5;
+    private bool storedStartRotation;
+    private Quaternion startRot;
 
     // Start is called before the first frame update
     void OnEnable()
     {
+        if (!storedStartRotation)
+        { startRot = transform.rotation; storedStartRotation = true; }
+
         speedMove = 1;
+        transform.rotation = startRot;
+        transform.Rotate(-90, 0, 0); // sets it straight up
         onEnableEvent.Invoke();
         allMonstersEnabled = GameObject.FindGameObjectsWithTag(tag_ToHunt);
         targetToChase = FindClosestMonster();
@@ -59,18 +66,22 @@ public class BehaviorPockiProjectile : MonoBehaviour
     void Update()
     {
         if (targetToChase == null) // with no target we'll just shoot forward and turn off
-        { transform.Translate(Vector3.forward); if (Time.time > timeEnabled + noTargetLifeSpan) { gameObject.SetActive(false); return; } }
+        { transform.Translate(Vector3.forward * speedMove * Time.deltaTime); if (Time.time > timeEnabled + noTargetLifeSpan)  gameObject.SetActive(false); }
 
-        if(DistanceToOther(targetToChase) <= distanceTolerance)
+        if (targetToChase)
         {
-            // we got to it -> run code on the object we want (monster code)
-            targetToChase = null;
-            return;
-        }
 
-        transform.LookAt(targetToChase);
-        var step = speedMove * Time.deltaTime; // calculate distance to move
-        transform.position = Vector3.MoveTowards(transform.position, targetToChase.position, step);
+            if (DistanceToOther(targetToChase) <= distanceTolerance)
+            {
+                // we got to it -> run code on the object we want (monster code)
+                targetToChase = null;
+                return;
+            }
+
+            transform.LookAt(targetToChase);
+            var step = speedMove * Time.deltaTime; // calculate distance to move
+            transform.position = Vector3.MoveTowards(transform.position, targetToChase.position, step);
+        }
 
         if (speedMove < targetSpeedMove)
             speedMove += acceleration * Time.deltaTime;

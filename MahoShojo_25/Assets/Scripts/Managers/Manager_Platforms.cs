@@ -130,7 +130,7 @@ public class Manager_Platforms : MonoBehaviour
             return 0;
         float speed = ((speedBase * dir * inputXYTime) * speedLimiting);
         speed = Mathf.Round(speed * 100f) / 100f; // rounding 2 Decimals so for other reliable calculations
-        if (playerInAir)
+        if (playerInAir && !isDashing)
             speed *= speedChangeWhileInAir;
         if (isDashing)
             speed *= dashingSpeedMultiplier;

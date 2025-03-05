@@ -36,7 +36,8 @@ public class PlayerAnimations : MonoBehaviour
             //    print("running: forward");
 
             SetAnyBool("isRunningBackwards", Manager_Platforms.Instance.CurrentSpeed() > 0); // moving left
-            SetAnyBool("canMove", Mathf.Abs(Manager_Platforms.Instance.CurrentSpeed()) > 0 && !Manager_Platforms.Instance.isBlocked); // moving at all
+            SetAnyBool("isMoving", Mathf.Abs(Manager_Platforms.Instance.CurrentSpeed()) > 0 && !Manager_Platforms.Instance.isBlocked); // moving at all
+            SetAnyBool("isDashing",Manager_Platforms.Instance.isDashing); // dashing process
             //if (Manager_Platforms.Instance.isDashing) // setting it through events
             //    SetAnyTrigger("Dashed");
         }

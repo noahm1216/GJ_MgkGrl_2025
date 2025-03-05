@@ -22,7 +22,7 @@ public class Manager_Platforms : MonoBehaviour
     [Header("Dash Rules\n______________")]    
     [Tooltip("When true, dashing requires you to press forward twice within the blow variables")]
     public bool dashRequiresDoubleTap;
-    [Tooltip("The amount of time allowed until our double-input of a direction acts as a dash (higher number means more tolerance for slow dashers)")]
+    [Tooltip("The amount of time allowed until our double-input of a direction acts as a dash (higher number means more tolerance for slow key-presses)")]
     [Range(0.1f, 3)]
     public float timeWindowForDashing = 0.75f;
     [Tooltip("The multiplier for speed when we dash")]

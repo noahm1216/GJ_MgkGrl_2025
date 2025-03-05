@@ -10,12 +10,13 @@ public class BehaviorPockiProjectile : MonoBehaviour
     private float speedMove = 1;
 
     public float distanceTolerance = 0.1f; // can instead do a collision based encounter if desired
+    public float limpRotation = 0.5f; // when no target the pocki will fire and fall
     public UnityEvent onEnableEvent, onDisableEvent;
 
     private Transform targetToChase;
     private GameObject[] allMonstersEnabled;
     private float timeEnabled;
-    private float noTargetLifeSpan = 5;
+    private float noTargetLifeSpan = 3;
     private bool storedStartRotation;
     private Quaternion startRot;
 
@@ -27,7 +28,7 @@ public class BehaviorPockiProjectile : MonoBehaviour
 
         speedMove = 1;
         transform.rotation = startRot;
-        transform.Rotate(-90, 0, 0); // sets it straight up
+        transform.Rotate(-45, 90, 0); // sets it straight up
         onEnableEvent.Invoke();
         allMonstersEnabled = GameObject.FindGameObjectsWithTag(tag_ToHunt);
         targetToChase = FindClosestMonster();
@@ -63,14 +64,13 @@ public class BehaviorPockiProjectile : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (targetToChase == null) // with no target we'll just shoot forward and turn off
-        { transform.Translate(Vector3.forward * speedMove * Time.deltaTime); if (Time.time > timeEnabled + noTargetLifeSpan)  gameObject.SetActive(false); }
+        { transform.Translate(Vector3.forward * (speedMove /2) * Time.deltaTime); if (Time.time > timeEnabled + noTargetLifeSpan)  gameObject.SetActive(false); }
 
         if (targetToChase)
         {
-
             if (DistanceToOther(targetToChase) <= distanceTolerance)
             {
                 // we got to it -> run code on the object we want (monster code)
@@ -82,6 +82,8 @@ public class BehaviorPockiProjectile : MonoBehaviour
             var step = speedMove * Time.deltaTime; // calculate distance to move
             transform.position = Vector3.MoveTowards(transform.position, targetToChase.position, step);
         }
+        else
+            transform.Rotate(1 * limpRotation, 0, 0);
 
         if (speedMove < targetSpeedMove)
             speedMove += acceleration * Time.deltaTime;

@@ -105,7 +105,7 @@ public class PlayerCore : MonoBehaviour
                 inputXYTime = 0;
                 timesJumpedSinceLastGround++;
                 if (ref_PlayerAnimations) // jump animation & // falling animation
-                { ref_PlayerAnimations.SetAnyTrigger("Jumped"); ref_PlayerAnimations.SetAnyBool("isFalling", true); }
+                { ref_PlayerAnimations.SetAnyTrigger("Jumped"); } // ref_PlayerAnimations.SetAnyBool("isFalling", true);
                 if (Manager_Platforms.Instance)
                     Manager_Platforms.Instance.ChangePlayerInAir(true);
                 jumpLeftToAchieve = 0;// maximumJumpPower;

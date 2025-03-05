@@ -48,9 +48,10 @@ MonoBehaviour:
   key_MovePlatformsLeft: 100
   key_MovePlatformsRight: 97
   automaicallyMoveRight: 1
+  dashRequiresDoubleTap: 0
   timeWindowForDashing: 0.75
-  dashingSpeedMultiplier: 2
-  dashingLastingTime: 2
+  dashingSpeedMultiplier: 2.25
+  dashingLastingTime: 0.75
   onDashEvent:
     m_PersistentCalls:
       m_Calls: []

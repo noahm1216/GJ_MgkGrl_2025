@@ -50,6 +50,7 @@ MonoBehaviour:
   targetSpeedMove: 90
   acceleration: 3
   distanceTolerance: 0.1
+  limpRotation: 1
   onEnableEvent:
     m_PersistentCalls:
       m_Calls: []

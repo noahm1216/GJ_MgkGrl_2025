@@ -19,7 +19,9 @@ public class Manager_Platforms : MonoBehaviour
 
     // dash right/ left ability
     [Space]
-    [Header("Dash Rules\n______________")]
+    [Header("Dash Rules\n______________")]    
+    [Tooltip("When true, dashing requires you to press forward twice within the blow variables")]
+    public bool dashRequiresDoubleTap;
     [Tooltip("The amount of time allowed until our double-input of a direction acts as a dash (higher number means more tolerance for slow dashers)")]
     [Range(0.1f, 3)]
     public float timeWindowForDashing = 0.75f;
@@ -84,9 +86,8 @@ public class Manager_Platforms : MonoBehaviour
     }
 
     private void Awake()
-    {
-        // If there is an instance, and it's not me, delete myself.
-        if (Instance != null && Instance != this)
+    {        
+        if (Instance != null && Instance != this) // If there is an instance, and it's not me, delete myself.
             Destroy(this);
         else
             Instance = this;
@@ -114,6 +115,7 @@ public class Manager_Platforms : MonoBehaviour
 
     public void ChangeIsBlocked(bool _isBlocked)
     {
+        print($"Changin isBlocked to: {_isBlocked}");
         isBlocked = _isBlocked;
     }
 
@@ -126,7 +128,7 @@ public class Manager_Platforms : MonoBehaviour
     {
         if (isBlocked)
             return 0;
-        float speed = ((speedBase * dir * inputXYTime) *speedLimiting);        
+        float speed = ((speedBase * dir * inputXYTime) * speedLimiting);
         speed = Mathf.Round(speed * 100f) / 100f; // rounding 2 Decimals so for other reliable calculations
         if (playerInAir)
             speed *= speedChangeWhileInAir;
@@ -157,28 +159,31 @@ public class Manager_Platforms : MonoBehaviour
 
     private void CheckForInputs()
     {
-        if (Input.GetKey(key_MovePlatformsLeft) && Input.GetKey(key_MovePlatformsRight) == false || automaicallyMoveRight && Input.GetKey(key_MovePlatformsRight) == false) // going right
+        if (Input.GetKey(key_MovePlatformsRight)) // going left  
         {
-            if (Input.GetKeyDown(key_MovePlatformsLeft))
-            {
-                if (lastKeyPressed == key_MovePlatformsLeft && Time.time < dashInputStamp + timeWindowForDashing) // TODO : Check for if dashing so we have to time it, and animation / VFX spot
-                    DashAction();
-                else
-                { lastKeyPressed = key_MovePlatformsLeft; dashInputStamp = Time.time; } // reset
-            }
-
-            if (dir > 0)
-            { inputXYTime *= speedChangeOnDirectionChange; dir = -1; }
-            inputXYTime += 1 * Time.deltaTime * speedAcceleration;
-            if (inputXYTime > 1) { inputXYTime = 1; }
-        }
-        else if (Input.GetKeyDown(key_MovePlatformsRight)) // going left 
-        {
-            if (dir < 0)
+            if (dir < 0) // check and set directions to be LEFT (platforms going right)
             { inputXYTime *= speedChangeOnDirectionChange; dir = 1; }
             inputXYTime += 1 * Time.deltaTime * speedAcceleration;
             if (inputXYTime > 1) { inputXYTime = 1; }
         }
+        else if (Input.GetKey(key_MovePlatformsLeft) || automaicallyMoveRight ) // going right
+        {
+            if (Input.GetKeyDown(key_MovePlatformsLeft)) // pres forward to dash
+            {
+                if (dashRequiresDoubleTap && !isDashing) // if we must press it twice
+                    if (lastKeyPressed == key_MovePlatformsLeft && Time.time < dashInputStamp + timeWindowForDashing) // TODO : Check for if dashing so we have to time it, and animation / VFX spot
+                        DashAction();
+                    else
+                    { lastKeyPressed = key_MovePlatformsLeft; dashInputStamp = Time.time; } // reset
+                else if (!dashRequiresDoubleTap && !isDashing) // if we only have to press it once
+                    DashAction();
+            }
+
+            if (dir > 0) // check and set directions to be Right (platforms going left)
+            { inputXYTime *= speedChangeOnDirectionChange; dir = -1; }
+            inputXYTime += 1 * Time.deltaTime * speedAcceleration;
+            if (inputXYTime > 1) { inputXYTime = 1; }
+        }      
         else // not pressing left or rights
         {
             inputXYTime -= 1 * Time.deltaTime;

@@ -525,26 +525,6 @@ PrefabInstance:
       propertyPath: playerObj
       value: 
       objectReference: {fileID: 1563197473}
-    - target: {fileID: 1047716903862729591, guid: 0a29b4d5ff8143d49a8e0cfed4dd93e9,
-        type: 3}
-      propertyPath: currentState
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1047716903862729591, guid: 0a29b4d5ff8143d49a8e0cfed4dd93e9,
-        type: 3}
-      propertyPath: activatesOnWait
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1047716903862729591, guid: 0a29b4d5ff8143d49a8e0cfed4dd93e9,
-        type: 3}
-      propertyPath: distanceToActivate
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 1047716903862729591, guid: 0a29b4d5ff8143d49a8e0cfed4dd93e9,
-        type: 3}
-      propertyPath: activatesOnDistance
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3351900402880586524, guid: 0a29b4d5ff8143d49a8e0cfed4dd93e9,
         type: 3}
       propertyPath: m_LocalPosition.x

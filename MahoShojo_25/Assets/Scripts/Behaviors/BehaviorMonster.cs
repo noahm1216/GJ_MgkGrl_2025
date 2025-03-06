@@ -16,11 +16,12 @@ public class BehaviorMonster : MonoBehaviour
     public MONSTERSTATE currentState = MONSTERSTATE.Waiting; // { get; private set; } 
     public Transform playerObj;
     public Vector2 accetpablePlayerOffsetX = new Vector2(-4, 9); // offsets from where the player is
-    public Vector2 accetpablePlayerOffsetY = new Vector2(-2, 5); // these ranges are still within camera frames, but may need tweaking     
+    public Vector2 accetpablePlayerOffsetY = new Vector2(-2, 5); // these ranges are still within camera frames, but may need tweaking
+    public float forceZOffset = 0; // if we want the monster to be more forward or behind
 
     private float currentStateTimeStamp;
-
-    // HUNTING
+    
+    // WAITING
     [Header("Waiting Variables\n______________")]
     public bool activatesOnWait;
     public float waitTime = 10;
@@ -32,9 +33,12 @@ public class BehaviorMonster : MonoBehaviour
     [Header("Hunting Variables\n______________")]
     public float huntingTime = 10;
     public float blendSpeed = 1;
+
     private Vector3 lerpPosA, lerpPosB;
     private float blend;
     private int dir = 1;
+    private float getIntoPositionSpeed = 15;
+    private bool gettingIntoPosition;
 
 
     // TARGET LOCKED
@@ -49,11 +53,23 @@ public class BehaviorMonster : MonoBehaviour
 
     // ATTACKING
     [Header("Attacking Variables\n______________")]
-    public float attackingTime = 10;
+    public float attackSpeed = 5;
+    public float targetTolerance = 0.25f;
+    public Vector3 positionalTargetOffset = new Vector3(0, 0, 0);
+
+    private Vector3 storedAttackPos;
+    private bool didStoreAttack;
+
+
+    // RECOVERING
+    [Header("Recovering Variables\n______________")]
+    public float recoveringTime = 10;
+    
+
+
 
     private void Start()
-    {
-        // initialize
+    {   // initialize
         currentStateTimeStamp = Time.time;
     }
 
@@ -72,6 +88,8 @@ public class BehaviorMonster : MonoBehaviour
     private void ResetVariables()
     {
         startPos = Vector3.zero;
+        didStoreAttack = false;
+        gettingIntoPosition = true;
     }
 
     private Vector3 MoveWithBackground()
@@ -99,7 +117,7 @@ public class BehaviorMonster : MonoBehaviour
                 StateAttacking();
                 break;
             case MONSTERSTATE.Recovering:
-                // state
+                StateRecovering();                
                 break;
             case MONSTERSTATE.Captured:
                 // state
@@ -118,7 +136,7 @@ public class BehaviorMonster : MonoBehaviour
         {
             float dist = Vector3.Distance(transform.position, playerObj.position);
             if(dist <= distanceToActivate)
-                ChangeState(MONSTERSTATE.TargetLocked);
+                ChangeState(MONSTERSTATE.Hunting);
         }
 
         if (activatesOnWait && Time.time > currentStateTimeStamp + huntingTime)
@@ -127,24 +145,41 @@ public class BehaviorMonster : MonoBehaviour
 
     private void StateHunting()
     {
-        if (dir > 0 && blend < 1) // go forward
+        if (gettingIntoPosition)
         {
-            blend += (Time.deltaTime * blendSpeed) * dir;
-            transform.position = Vector3.Lerp(lerpPosA, lerpPosB, blend);
-        }
-        else if (dir < 0 && blend > 0) // go backwards
-        {
-            blend += (Time.deltaTime * blendSpeed) * dir;
-            transform.position = Vector3.Lerp(lerpPosA, lerpPosB, blend);
+            lerpPosA = playerObj.transform.position + new Vector3(accetpablePlayerOffsetX.x, accetpablePlayerOffsetY.y, forceZOffset); // update target position   
+            float distToHuntingSpot = Vector3.Distance(transform.position, lerpPosA);
+
+            if (distToHuntingSpot > targetTolerance * 2)
+            {
+                var step = getIntoPositionSpeed * Time.deltaTime; // calculate distance to move
+                transform.position = Vector3.MoveTowards(transform.position, lerpPosA, step);
+                currentStateTimeStamp = Time.time; // gives us extra time to get into position
+            }
+            else
+                gettingIntoPosition = false;
         }
         else
         {
-            dir *= -1;
-            lerpPosA = playerObj.transform.position + new Vector3(accetpablePlayerOffsetX.x, accetpablePlayerOffsetY.y, 0);
-            lerpPosB = playerObj.transform.position + new Vector3(accetpablePlayerOffsetX.y, accetpablePlayerOffsetY.y, 0);
+            if (dir > 0 && blend < 1) // go forward
+            {
+                blend += (Time.deltaTime * blendSpeed) * dir;
+                transform.position = Vector3.Lerp(lerpPosA, lerpPosB, blend);
+            }
+            else if (dir < 0 && blend > 0) // go backwards
+            {
+                blend += (Time.deltaTime * blendSpeed) * dir;
+                transform.position = Vector3.Lerp(lerpPosA, lerpPosB, blend);
+            }
+            else
+            {
+                dir *= -1;
+                lerpPosA = playerObj.transform.position + new Vector3(accetpablePlayerOffsetX.x, accetpablePlayerOffsetY.y, forceZOffset);
+                lerpPosB = playerObj.transform.position + new Vector3(accetpablePlayerOffsetX.y, accetpablePlayerOffsetY.y, forceZOffset);
+            }
+            if (Time.time > currentStateTimeStamp + huntingTime)
+                ChangeState(MONSTERSTATE.TargetLocked);
         }
-        if (Time.time > currentStateTimeStamp + huntingTime)
-            ChangeState(MONSTERSTATE.TargetLocked);
     }
 
 
@@ -155,21 +190,40 @@ public class BehaviorMonster : MonoBehaviour
 
         startPos += MoveWithBackground();
 
-        float randomX = startPos.x + (Time.time * shakeSpeed) * shakeAmount * Random.Range(0.9f, 1.1f);
-        float randomY = startPos.y + (Time.time * shakeSpeed) * shakeAmount * Random.Range(0.9f, 1.1f);
-        transform.position = new Vector3(randomX, randomY, startPos.z);
+        float randomX = startPos.x + shakeSpeed * shakeAmount * Random.Range(0.95f, 1.05f);
+        float randomY = startPos.y + shakeSpeed * shakeAmount * Random.Range(0.85f, 1.15f);
+        transform.position = new Vector3(randomX, randomY, startPos.z + forceZOffset);
+
+        // place a target obj where the player is to show this creatures intentions
 
         if (Time.time > currentStateTimeStamp + targetLockedTime)
-            ChangeState(MONSTERSTATE.Hunting); // attackings
+            ChangeState(MONSTERSTATE.Attacking); // attackings
     }
 
 
     private void StateAttacking()
     {
+        if (!didStoreAttack)
+        { storedAttackPos = (playerObj.transform.position + positionalTargetOffset); didStoreAttack = true; }
 
+        var step = attackSpeed * Time.deltaTime; // calculate distance to move
+        transform.position = Vector3.MoveTowards(transform.position, storedAttackPos , step);
 
-        if (Time.time > currentStateTimeStamp + attackingTime)
+        float dist = Vector3.Distance(transform.position, storedAttackPos);
+        transform.position += MoveWithBackground();
+        storedAttackPos += MoveWithBackground();
+
+        if (dist <= targetTolerance)
             ChangeState(MONSTERSTATE.Recovering);
+    }
+
+
+    private void StateRecovering()
+    {
+        transform.position += MoveWithBackground();
+
+        if (Time.time > currentStateTimeStamp + recoveringTime)
+            ChangeState(MONSTERSTATE.Hunting);
     }
 
 

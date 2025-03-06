@@ -81,17 +81,21 @@ MonoBehaviour:
   currentState: 0
   playerObj: {fileID: 0}
   accetpablePlayerOffsetX: {x: -4, y: 9}
-  accetpablePlayerOffsetY: {x: -2, y: 5}
-  activatesOnWait: 1
-  waitTime: 10
-  activatesOnDistance: 0
-  distanceToActivate: 4
-  huntingTime: 5
+  accetpablePlayerOffsetY: {x: -2, y: 4}
+  forceZOffset: 0
+  activatesOnWait: 0
+  waitTime: 5
+  activatesOnDistance: 1
+  distanceToActivate: 6
+  huntingTime: 4
   blendSpeed: 0.5
-  targetLockedTime: 10
+  targetLockedTime: 2
   shakeSpeed: 2
-  shakeAmount: 1
-  attackingTime: 10
+  shakeAmount: 0.1
+  attackSpeed: 30
+  targetTolerance: 0.5
+  positionalTargetOffset: {x: 0, y: 0, z: 0}
+  recoveringTime: 5
 --- !u!1001 &457020175053393546
 PrefabInstance:
   m_ObjectHideFlags: 0

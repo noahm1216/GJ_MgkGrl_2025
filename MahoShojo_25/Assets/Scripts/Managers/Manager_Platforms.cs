@@ -293,7 +293,7 @@ public class Manager_Platforms : MonoBehaviour
 
 
 
-// the custom data for abilities
+// the custom data for platforms
 [System.Serializable]
 public class CustomPlatformData
 {
@@ -311,4 +311,4 @@ public class CustomPlatformData
     //    //abilityNickname = _newName;
     //}
 
-}//end of data for abilities
+}//end of data for platforms

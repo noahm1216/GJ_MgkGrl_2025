@@ -396,6 +396,7 @@ MonoBehaviour:
   key_MoveUp: 119
   key_MoveDown: 115
   lockYPositionAtZero: 0
+  jumpBasedOnKeyPressTime: 0
   maximumJumpPower: 95
   rb3D: {fileID: 7064522762146662973}
   quickJumpPercentOfMaxJump: 0.75
@@ -575,7 +576,7 @@ Transform:
   m_GameObject: {fileID: 2823328257467419455}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071065, z: -0, w: 0.7071072}
-  m_LocalPosition: {x: 4.5700006, y: 1.31, z: 2.4}
+  m_LocalPosition: {x: 5.830001, y: 1.31, z: 2.3999999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -712,7 +713,7 @@ Transform:
   m_GameObject: {fileID: 5734163852350336958}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071065, z: -0, w: 0.7071072}
-  m_LocalPosition: {x: 2.19, y: 1.19, z: 1.17}
+  m_LocalPosition: {x: 3.4500003, y: 1.19, z: 1.1699997}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -849,7 +850,7 @@ Transform:
   m_GameObject: {fileID: 6137987981542153972}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071065, z: -0, w: 0.7071072}
-  m_LocalPosition: {x: 5.2400002, y: 1.42, z: 1.6600001}
+  m_LocalPosition: {x: 6.5, y: 1.42, z: 1.66}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -986,7 +987,7 @@ Transform:
   m_GameObject: {fileID: 6268631867428354057}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071065, z: -0, w: 0.7071072}
-  m_LocalPosition: {x: 4.57, y: 1.31, z: 0.37}
+  m_LocalPosition: {x: 5.8300004, y: 1.31, z: 0.36999977}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

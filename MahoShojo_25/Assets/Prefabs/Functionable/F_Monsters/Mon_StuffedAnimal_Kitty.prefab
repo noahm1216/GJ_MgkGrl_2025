@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 1047716903862729591}
   m_Layer: 0
   m_Name: Mon_StuffedAnimal_Kitty
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -78,6 +78,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3e6fe19a533cca4e92b576e5ad23516, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentState: 0
+  playerObj: {fileID: 0}
+  accetpablePlayerOffsetX: {x: -4, y: 9}
+  accetpablePlayerOffsetY: {x: -2, y: 5}
+  activatesOnWait: 1
+  waitTime: 10
+  activatesOnDistance: 0
+  distanceToActivate: 4
+  huntingTime: 5
+  blendSpeed: 0.5
+  targetLockedTime: 10
+  shakeSpeed: 2
+  shakeAmount: 1
+  attackingTime: 10
 --- !u!1001 &457020175053393546
 PrefabInstance:
   m_ObjectHideFlags: 0

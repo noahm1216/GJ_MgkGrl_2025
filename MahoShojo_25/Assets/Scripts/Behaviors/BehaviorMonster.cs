@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -15,12 +13,10 @@ public class BehaviorMonster : MonoBehaviour
     [Header("General Variables\n______________")]
     public MONSTERSTATE currentState = MONSTERSTATE.Waiting; // { get; private set; } 
     public Transform playerObj;
-    public int pointsUntilCaptured = 10;
 
     private string tag_ToHunt = "Player";
-    private int currentCapturePointsLeft;
     private float currentStateTimeStamp;
-    
+
     // WAITING
     [Header("Waiting Variables\n______________")]
     public bool activatesOnWait;
@@ -66,12 +62,37 @@ public class BehaviorMonster : MonoBehaviour
 
     // RECOVERING
     [Header("Recovering Variables\n______________")]
-    public float recoveringTime = 10;  
+    public float recoveringTime = 10;
+
+
+    // RECOVERING
+    [Header("Capturing Variables\n______________")]
+    public int pointsUntilCaptured = 10;
+    public Transform uiHolderOfHeartPoints;
+    public float sizeToShrinkTo = 0.15f;
+    public float sizePercentChangeEveryFrame = 0.999f;
+    public float capturedMoveSpeed = 1;
+    [Space]
+    [Space]
+    public bool flyTowardsPlayer;     
+    public float distanceToCollect = 0.5f;    
+    [Space]
+    [Space]
+    public float captureFlyAwayTime = 10;      
+
+   
+    private float percentHP;
+    private int currentCapturePointsLeft;
+    private Vector3 startScale;
 
     private void OnEnable()
     {   // initialize
         currentStateTimeStamp = Time.time;
         currentCapturePointsLeft = pointsUntilCaptured;
+        if (startScale == Vector3.zero)
+            startScale = transform.localScale;
+        transform.localScale = startScale;
+        UpdateUserInterface();
         if (!playerObj)
             playerObj = GameObject.FindGameObjectWithTag(tag_ToHunt).transform;
     }
@@ -86,27 +107,40 @@ public class BehaviorMonster : MonoBehaviour
 
     public void ChangeCapturePoints(int _changeAmount)
     {
+        print($"HP was: {currentCapturePointsLeft} - change is: {_changeAmount} - new hp should be: { currentCapturePointsLeft + _changeAmount} / {pointsUntilCaptured}");
         currentCapturePointsLeft += _changeAmount;
         if (currentCapturePointsLeft > pointsUntilCaptured)
             currentCapturePointsLeft = pointsUntilCaptured;
         if (currentCapturePointsLeft <= 0)
             ChangeState(MONSTERSTATE.Captured);
-               
+
         UpdateUserInterface();
     }
 
     private void UpdateUserInterface()
     {
-        // code for adjusting HP on canvas objects
-        // for (int) each hp
-        // turn on if we have enough
+        if (!uiHolderOfHeartPoints || uiHolderOfHeartPoints.childCount == 0)
+            return;
+        print($"Percent formula: {currentCapturePointsLeft} / {pointsUntilCaptured} * 10");
+        percentHP = ((float)currentCapturePointsLeft / (float)pointsUntilCaptured); // get the decimal
+        print($"Rounding {percentHP} to {Mathf.RoundToInt(percentHP * 10)}");
+        percentHP = (Mathf.RoundToInt(percentHP * 10)); // we have 10 hp bars to show or hide
+        print($"Percent is: {percentHP}");
+
+        for (int i = 0; i < uiHolderOfHeartPoints.childCount; i++)
+        {
+            if (i < percentHP)
+                uiHolderOfHeartPoints.GetChild(i).gameObject.SetActive(true);
+            else
+                uiHolderOfHeartPoints.GetChild(i).gameObject.SetActive(false);
+        }
     }
 
     public void ChangeState(MONSTERSTATE _newState)
     {
         currentStateTimeStamp = Time.time;
         ResetVariables();
-        currentState = _newState;        
+        currentState = _newState;
     }
 
     private void ResetVariables()
@@ -141,11 +175,11 @@ public class BehaviorMonster : MonoBehaviour
                 StateAttacking();
                 break;
             case MONSTERSTATE.Recovering:
-                StateRecovering();                
+                StateRecovering();
                 break;
             case MONSTERSTATE.Captured:
                 print("CAPTURED THIS MONSTER");
-                // state
+                StateCaptured();
                 break;
             default:
                 Debug.Log($"WARNING: Case for Monster state '{currentState}' - not found");
@@ -160,7 +194,7 @@ public class BehaviorMonster : MonoBehaviour
         if (activatesOnDistance)
         {
             float dist = Vector3.Distance(transform.position, playerObj.position);
-            if(dist <= distanceToActivate)
+            if (dist <= distanceToActivate)
                 ChangeState(MONSTERSTATE.Hunting);
         }
 
@@ -232,7 +266,7 @@ public class BehaviorMonster : MonoBehaviour
         { storedAttackPos = (playerObj.transform.position + positionalTargetOffset); didStoreAttack = true; }
 
         var step = attackSpeed * Time.deltaTime; // calculate distance to move
-        transform.position = Vector3.MoveTowards(transform.position, storedAttackPos , step);
+        transform.position = Vector3.MoveTowards(transform.position, storedAttackPos, step);
 
         float dist = Vector3.Distance(transform.position, storedAttackPos);
         transform.position += MoveWithBackground();
@@ -251,24 +285,32 @@ public class BehaviorMonster : MonoBehaviour
     }
 
     private void StateCaptured()
-    {
-        float sizeToShrinkTo = 0.15f;
-        float sizePercentChangeEveryFrame = 0.999f;
-        float capturedMoveSpeed = 1;
-        float distanceToCollect = 0.5f;
+    {      
 
         if (transform.localScale.x > sizeToShrinkTo)
         { transform.localScale *= sizePercentChangeEveryFrame; capturedMoveSpeed *= 1.1f; }
 
-        float dist = Vector3.Distance(transform.position, playerObj.position);
-        if (dist > distanceToCollect)
+
+        if (flyTowardsPlayer)
         {
-            var step = capturedMoveSpeed * Time.deltaTime; // calculate distance to move
-            transform.position = Vector3.MoveTowards(transform.position, playerObj.position, step);
+            float dist = Vector3.Distance(transform.position, playerObj.position);
+            if (dist > distanceToCollect)
+            {
+                var step = capturedMoveSpeed * Time.deltaTime; // calculate distance to move
+                transform.position = Vector3.MoveTowards(transform.position, playerObj.position, step);
+            }
+            else // DONE
+            {
+                ChangeState(MONSTERSTATE.Waiting);  //TODO : add points to our score
+                gameObject.SetActive(false);
+            }
         }
         else
         {
-            gameObject.SetActive(false);
+            transform.Translate(Vector3.up * Time.deltaTime * capturedMoveSpeed);
+            if (Time.time > captureFlyAwayTime + recoveringTime) // done //TODO : add points to our score
+            { ChangeState(MONSTERSTATE.Waiting); gameObject.SetActive(false); }
+
         }
     }
 

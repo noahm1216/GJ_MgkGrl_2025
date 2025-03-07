@@ -378,18 +378,6 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 1
---- !u!114 &815693404 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1088322589849281940, guid: 4eacdee713605b041baafcb5c9209874,
-    type: 3}
-  m_PrefabInstance: {fileID: 1737268287}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5fb678543d1eca40b330ecbb60f86a3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1162,6 +1150,18 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 4eacdee713605b041baafcb5c9209874, type: 3}
+--- !u!114 &1737268288 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1088322589849281940, guid: 4eacdee713605b041baafcb5c9209874,
+    type: 3}
+  m_PrefabInstance: {fileID: 1737268287}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5fb678543d1eca40b330ecbb60f86a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6127962715066920923
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1177,54 +1177,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6879388092846173571, guid: 2b4ca704d42518e4d9980ddc11acf186,
         type: 3}
-      propertyPath: speedLimiting
-      value: 0.15
-      objectReference: {fileID: 0}
-    - target: {fileID: 6879388092846173571, guid: 2b4ca704d42518e4d9980ddc11acf186,
-        type: 3}
-      propertyPath: dashingLastingTime
-      value: 0.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 6879388092846173571, guid: 2b4ca704d42518e4d9980ddc11acf186,
-        type: 3}
-      propertyPath: timeWindowForDashing
-      value: 0.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 6879388092846173571, guid: 2b4ca704d42518e4d9980ddc11acf186,
-        type: 3}
-      propertyPath: dashingSpeedMultiplier
-      value: 2.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 6879388092846173571, guid: 2b4ca704d42518e4d9980ddc11acf186,
-        type: 3}
-      propertyPath: listOfSpawnablePlatforms.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6879388092846173571, guid: 2b4ca704d42518e4d9980ddc11acf186,
-        type: 3}
       propertyPath: onDashEvent.m_PersistentCalls.m_Calls.Array.size
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6879388092846173571, guid: 2b4ca704d42518e4d9980ddc11acf186,
-        type: 3}
-      propertyPath: listOfSpawnablePlatforms.Array.data[0].spawnChance
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6879388092846173571, guid: 2b4ca704d42518e4d9980ddc11acf186,
-        type: 3}
-      propertyPath: listOfSpawnablePlatforms.Array.data[2].spawnChance
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6879388092846173571, guid: 2b4ca704d42518e4d9980ddc11acf186,
-        type: 3}
-      propertyPath: listOfSpawnablePlatforms.Array.data[2].prefabToSpawn
-      value: 
-      objectReference: {fileID: 4362509337005501213, guid: 90e153e5be5b98146aaeb0b10ae52f37,
-        type: 3}
-    - target: {fileID: 6879388092846173571, guid: 2b4ca704d42518e4d9980ddc11acf186,
-        type: 3}
-      propertyPath: listOfSpawnablePlatforms.Array.data[2].platformNickname
-      value: Mario's City Towers
       objectReference: {fileID: 0}
     - target: {fileID: 6879388092846173571, guid: 2b4ca704d42518e4d9980ddc11acf186,
         type: 3}
@@ -1235,7 +1189,7 @@ PrefabInstance:
         type: 3}
       propertyPath: onDashEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 815693404}
+      objectReference: {fileID: 1737268288}
     - target: {fileID: 6879388092846173571, guid: 2b4ca704d42518e4d9980ddc11acf186,
         type: 3}
       propertyPath: onDashEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState

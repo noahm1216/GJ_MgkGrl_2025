@@ -78,9 +78,48 @@ MonoBehaviour:
     onFinishedEvents:
       m_PersistentCalls:
         m_Calls: []
-  - platformNickname: Millies Buildings
+  - platformNickname: Env_Platform_BuildingsMarioMatch
+    spawnChance: 0.1
+    prefabToSpawn: {fileID: 4362509337005501213, guid: 90e153e5be5b98146aaeb0b10ae52f37,
+      type: 3}
+    onSpawnEvents:
+      m_PersistentCalls:
+        m_Calls: []
+    onMainPlatformEvents:
+      m_PersistentCalls:
+        m_Calls: []
+    onFinishedEvents:
+      m_PersistentCalls:
+        m_Calls: []
+  - platformNickname: Env_Platform_Buildings
     spawnChance: 1
     prefabToSpawn: {fileID: 4362509337005501213, guid: fe0354de5acd0d34abff8efd648ad8d8,
+      type: 3}
+    onSpawnEvents:
+      m_PersistentCalls:
+        m_Calls: []
+    onMainPlatformEvents:
+      m_PersistentCalls:
+        m_Calls: []
+    onFinishedEvents:
+      m_PersistentCalls:
+        m_Calls: []
+  - platformNickname: Env_Platform_Buildings 1
+    spawnChance: 1
+    prefabToSpawn: {fileID: 4362509337005501213, guid: 9c909152424449c4393fd2eea097b929,
+      type: 3}
+    onSpawnEvents:
+      m_PersistentCalls:
+        m_Calls: []
+    onMainPlatformEvents:
+      m_PersistentCalls:
+        m_Calls: []
+    onFinishedEvents:
+      m_PersistentCalls:
+        m_Calls: []
+  - platformNickname: Env_Platform_Buildings 2
+    spawnChance: 1
+    prefabToSpawn: {fileID: 4362509337005501213, guid: a1672b60c43695b45a764e5882b159f2,
       type: 3}
     onSpawnEvents:
       m_PersistentCalls:

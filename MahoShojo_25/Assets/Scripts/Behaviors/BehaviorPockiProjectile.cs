@@ -20,12 +20,15 @@ public class BehaviorPockiProjectile : MonoBehaviour
     private bool storedStartRotation;
     private Quaternion startRot;
 
+    private BehaviorMonster ref_BehaviorMonster; // TODO: Get reference to this during runtime... then if we have it CALL changeHP on the monster
+
     // Start is called before the first frame update
     void OnEnable()
     {
         if (!storedStartRotation)
         { startRot = transform.rotation; storedStartRotation = true; }
 
+        ref_BehaviorMonster = null;
         speedMove = 1;
         transform.rotation = startRot;
         transform.Rotate(-45, 90, 0); // sets it straight up
@@ -60,6 +63,7 @@ public class BehaviorPockiProjectile : MonoBehaviour
 
     private void OnDisable()
     {
+        
         onDisableEvent.Invoke();
     }
 

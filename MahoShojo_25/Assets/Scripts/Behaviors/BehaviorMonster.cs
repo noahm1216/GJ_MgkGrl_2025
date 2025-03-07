@@ -15,10 +15,9 @@ public class BehaviorMonster : MonoBehaviour
     [Header("General Variables\n______________")]
     public MONSTERSTATE currentState = MONSTERSTATE.Waiting; // { get; private set; } 
     public Transform playerObj;
-    public Vector2 accetpablePlayerOffsetX = new Vector2(-4, 9); // offsets from where the player is
-    public Vector2 accetpablePlayerOffsetY = new Vector2(-2, 5); // these ranges are still within camera frames, but may need tweaking
-    public float forceZOffset = 0; // if we want the monster to be more forward or behind
+    public int pointsUntilCaptured = 10;
 
+    private int currentCapturePointsLeft;
     private float currentStateTimeStamp;
     
     // WAITING
@@ -33,6 +32,9 @@ public class BehaviorMonster : MonoBehaviour
     [Header("Hunting Variables\n______________")]
     public float huntingTime = 10;
     public float blendSpeed = 1;
+    public Vector2 accetpablePlayerOffsetX = new Vector2(-4, 9); // offsets from where the player is
+    public Vector2 accetpablePlayerOffsetY = new Vector2(-2, 4); // these ranges are still within camera frames, but may need tweaking
+    public float forceZOffset = 0; // if we want the monster to be more forward or behind
 
     private Vector3 lerpPosA, lerpPosB;
     private float blend;
@@ -63,19 +65,26 @@ public class BehaviorMonster : MonoBehaviour
 
     // RECOVERING
     [Header("Recovering Variables\n______________")]
-    public float recoveringTime = 10;
-    
-
-
+    public float recoveringTime = 10;  
 
     private void Start()
     {   // initialize
         currentStateTimeStamp = Time.time;
+        currentCapturePointsLeft = pointsUntilCaptured;
     }
 
     private void Update()
     {
         StateChecker();
+    }
+
+    public void ChangeCapturePoints(int _changeAmount)
+    {
+        currentCapturePointsLeft += _changeAmount;
+        if (currentCapturePointsLeft > pointsUntilCaptured)
+            currentCapturePointsLeft = pointsUntilCaptured;
+        if (currentCapturePointsLeft <= 0)
+            ChangeState(MONSTERSTATE.Captured);
     }
 
     public void ChangeState(MONSTERSTATE _newState)
@@ -120,6 +129,7 @@ public class BehaviorMonster : MonoBehaviour
                 StateRecovering();                
                 break;
             case MONSTERSTATE.Captured:
+                print("CAPTURED THIS MONSTER");
                 // state
                 break;
             default:
@@ -217,7 +227,6 @@ public class BehaviorMonster : MonoBehaviour
             ChangeState(MONSTERSTATE.Recovering);
     }
 
-
     private void StateRecovering()
     {
         transform.position += MoveWithBackground();
@@ -225,7 +234,6 @@ public class BehaviorMonster : MonoBehaviour
         if (Time.time > currentStateTimeStamp + recoveringTime)
             ChangeState(MONSTERSTATE.Hunting);
     }
-
 
 }
 

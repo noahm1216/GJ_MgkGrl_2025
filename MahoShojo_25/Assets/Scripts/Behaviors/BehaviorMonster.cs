@@ -17,6 +17,7 @@ public class BehaviorMonster : MonoBehaviour
     public Transform playerObj;
     public int pointsUntilCaptured = 10;
 
+    private string tag_ToHunt = "Player";
     private int currentCapturePointsLeft;
     private float currentStateTimeStamp;
     
@@ -67,14 +68,19 @@ public class BehaviorMonster : MonoBehaviour
     [Header("Recovering Variables\n______________")]
     public float recoveringTime = 10;  
 
-    private void Start()
+    private void OnEnable()
     {   // initialize
         currentStateTimeStamp = Time.time;
         currentCapturePointsLeft = pointsUntilCaptured;
+        if (!playerObj)
+            playerObj = GameObject.FindGameObjectWithTag(tag_ToHunt).transform;
     }
 
     private void Update()
     {
+        if (!playerObj)
+        { Debug.Log($"ERROR: Cant find player obj for this monster ({transform.name}) to hunt"); playerObj = GameObject.FindGameObjectWithTag(tag_ToHunt).transform; return; }
+
         StateChecker();
     }
 
@@ -85,6 +91,15 @@ public class BehaviorMonster : MonoBehaviour
             currentCapturePointsLeft = pointsUntilCaptured;
         if (currentCapturePointsLeft <= 0)
             ChangeState(MONSTERSTATE.Captured);
+               
+        UpdateUserInterface();
+    }
+
+    private void UpdateUserInterface()
+    {
+        // code for adjusting HP on canvas objects
+        // for (int) each hp
+        // turn on if we have enough
     }
 
     public void ChangeState(MONSTERSTATE _newState)
@@ -235,25 +250,27 @@ public class BehaviorMonster : MonoBehaviour
             ChangeState(MONSTERSTATE.Hunting);
     }
 
+    private void StateCaptured()
+    {
+        float sizeToShrinkTo = 0.15f;
+        float sizePercentChangeEveryFrame = 0.999f;
+        float capturedMoveSpeed = 1;
+        float distanceToCollect = 0.5f;
+
+        if (transform.localScale.x > sizeToShrinkTo)
+        { transform.localScale *= sizePercentChangeEveryFrame; capturedMoveSpeed *= 1.1f; }
+
+        float dist = Vector3.Distance(transform.position, playerObj.position);
+        if (dist > distanceToCollect)
+        {
+            var step = capturedMoveSpeed * Time.deltaTime; // calculate distance to move
+            transform.position = Vector3.MoveTowards(transform.position, playerObj.position, step);
+        }
+        else
+        {
+            gameObject.SetActive(false);
+        }
+    }
+
 }
 
-
-// the custom data for monsters
-[System.Serializable]
-public class MonsterCustomData
-{
-    public string monsterNickname;
-
-    [Tooltip("The chance our monster can spawn. 1 (100%) means there is ALWAYS a chance it will spawn")]
-    [Range(0, 1)] public float spawnChance; // 100% means it will always have a chance to spawn
-    [Tooltip("The Model we will spawn when this is selected")]
-    public Transform prefabToSpawn;
-
-    public UnityEvent onSpawnEvents, onMainPlatformEvents, onFinishedEvents;
-
-    //public CustomAbilityOptions(string _newName,)
-    //{
-    //    //abilityNickname = _newName;
-    //}
-
-}//end of data for monsters

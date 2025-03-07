@@ -22,12 +22,12 @@ public class BehaviorPockiProjectile : MonoBehaviour
 
     private BehaviorMonster ref_BehaviorMonster; // TODO: Get reference to this during runtime... then if we have it CALL changeHP on the monster
 
-    // Start is called before the first frame update
     void OnEnable()
     {
         if (!storedStartRotation)
         { startRot = transform.rotation; storedStartRotation = true; }
 
+        //initialize
         ref_BehaviorMonster = null;
         speedMove = 1;
         transform.rotation = startRot;
@@ -35,6 +35,8 @@ public class BehaviorPockiProjectile : MonoBehaviour
         onEnableEvent.Invoke();
         allMonstersEnabled = GameObject.FindGameObjectsWithTag(tag_ToHunt);
         targetToChase = FindClosestMonster();
+        if (targetToChase)
+            targetToChase.TryGetComponent(out ref_BehaviorMonster);
         timeEnabled = Time.time;
     }
 
@@ -62,8 +64,7 @@ public class BehaviorPockiProjectile : MonoBehaviour
     }
 
     private void OnDisable()
-    {
-        
+    {        
         onDisableEvent.Invoke();
     }
 
@@ -78,7 +79,7 @@ public class BehaviorPockiProjectile : MonoBehaviour
             if (DistanceToOther(targetToChase) <= distanceTolerance)
             {
                 // we got to it -> run code on the object we want (monster code)
-                targetToChase = null;
+                InteractWithMonster();
                 return;
             }
 
@@ -93,5 +94,13 @@ public class BehaviorPockiProjectile : MonoBehaviour
             speedMove += acceleration * Time.deltaTime;
         else
             speedMove = targetSpeedMove;
+    }
+
+    private void InteractWithMonster()
+    {
+        if (ref_BehaviorMonster)
+            ref_BehaviorMonster.ChangeCapturePoints(-1);
+        targetToChase = null;
+        gameObject.SetActive(false);
     }
 }

@@ -28,6 +28,11 @@ public class Manager_GameState : MonoBehaviour
         
     }
 
+    public void StartGameButton()
+    {
+        ChangeState(GAMESTATE.Playing);
+    }
+
     public void ChangeState(GAMESTATE _newState)
     {     
         switch (_newState)

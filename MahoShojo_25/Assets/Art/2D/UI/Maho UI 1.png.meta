@@ -6,7 +6,7 @@ TextureImporter:
   serializedVersion: 13
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
@@ -37,13 +37,13 @@ TextureImporter:
     filterMode: 1
     aniso: 1
     mipBias: 0
-    wrapU: 0
-    wrapV: 0
+    wrapU: 1
+    wrapV: 1
     wrapW: 0
-  nPOTScale: 1
+  nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 0
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -52,9 +52,9 @@ TextureImporter:
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
-  alphaIsTransparency: 0
+  alphaIsTransparency: 1
   spriteTessellationDetail: -1
-  textureType: 0
+  textureType: 8
   textureShape: 1
   singleChannelComponent: 0
   flipbookRows: 1
@@ -121,18 +121,452 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Maho UI 1_0
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 1279
+        width: 410
+        height: 301
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2acaa211b1fa5a64ea759d718def769c
+      internalID: 88484351
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Maho UI 1_1
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 1269
+        width: 425
+        height: 311
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 518998732730d02408288957832f8efa
+      internalID: -525641629
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Maho UI 1_2
+      rect:
+        serializedVersion: 2
+        x: 979
+        y: 1269
+        width: 431
+        height: 315
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8ee64ebeef79f0446afc4ea2f8b499d6
+      internalID: 527703223
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Maho UI 1_3
+      rect:
+        serializedVersion: 2
+        x: 1496
+        y: 842
+        width: 1271
+        height: 735
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cf7cefaf15212224fa76c03d989f9c73
+      internalID: 169192791
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Maho UI 1_4
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 860
+        width: 410
+        height: 302
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c6a2d36bcc6a6b9459a860e420b5d607
+      internalID: 1701829283
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Maho UI 1_5
+      rect:
+        serializedVersion: 2
+        x: 518
+        y: 844
+        width: 387
+        height: 339
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c75571502522a2c42924ca9aacb9358c
+      internalID: 709943758
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Maho UI 1_6
+      rect:
+        serializedVersion: 2
+        x: 1002
+        y: 844
+        width: 387
+        height: 339
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 53780f036b995f54aa8f8961ceb64ff7
+      internalID: 491877713
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Maho UI 1_7
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 639
+        width: 956
+        height: 120
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5a07f8673a9a7c549aa6f9ded65a9845
+      internalID: 249043898
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Maho UI 1_8
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 628
+        width: 151
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 724715f52354a4f45ac02ff46971d254
+      internalID: -1974963514
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Maho UI 1_10
+      rect:
+        serializedVersion: 2
+        x: 2002
+        y: 268
+        width: 803
+        height: 520
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d4bd272451aa6c0419736e2ec4d4d3cd
+      internalID: 642734325
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Maho UI 1_11
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 428
+        width: 962
+        height: 172
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1c352528962d35d4d95a5e56d25037b2
+      internalID: -1666347496
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Maho UI 1_12
+      rect:
+        serializedVersion: 2
+        x: 1473
+        y: 418
+        width: 428
+        height: 345
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7cf82faa9ff24da44b84be6bd8c4cafc
+      internalID: 80306043
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Maho UI 1_15
+      rect:
+        serializedVersion: 2
+        x: 1120
+        y: 414
+        width: 166
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 255a04c34822c30419c35ea2686cd728
+      internalID: 1435913117
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Maho UI 1_21
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 49
+        width: 445
+        height: 288
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 69, y: 58, z: 75, w: 57}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1e5bf1dacb8b7c449ac274fe6c8add0b
+      internalID: 961725026
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Maho UI 1_22
+      rect:
+        serializedVersion: 2
+        x: 593
+        y: 95
+        width: 146
+        height: 176
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 20eadcd3f97503645a11c2976e33bf9e
+      internalID: -532168334
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Maho UI 1_23
+      rect:
+        serializedVersion: 2
+        x: 887
+        y: 96
+        width: 139
+        height: 154
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26a957d09b154d844adfdb4a945670ee
+      internalID: 205268142
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Maho UI 1_24
+      rect:
+        serializedVersion: 2
+        x: 1174
+        y: 95
+        width: 157
+        height: 156
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e3cdf92945df3c04fa807f126840b746
+      internalID: -1073497817
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Maho UI 1_25
+      rect:
+        serializedVersion: 2
+        x: 1497
+        y: 137
+        width: 379
+        height: 103
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b17471874d56e684a87d5a5075e3eeb9
+      internalID: -341369578
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Maho UI 1_31
+      rect:
+        serializedVersion: 2
+        x: 1978
+        y: 111
+        width: 855
+        height: 100
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 34, y: 27, z: 40, w: 22}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3dffdf8273e4b584390a40af6ac31670
+      internalID: 593881937
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Maho UI 1_0: 88484351
+      Maho UI 1_1: -525641629
+      Maho UI 1_10: 642734325
+      Maho UI 1_11: -1666347496
+      Maho UI 1_12: 80306043
+      Maho UI 1_13: 361675142
+      Maho UI 1_14: -330858854
+      Maho UI 1_15: 1435913117
+      Maho UI 1_16: 2008544531
+      Maho UI 1_17: -1561779525
+      Maho UI 1_18: 1404905684
+      Maho UI 1_19: -445181387
+      Maho UI 1_2: 527703223
+      Maho UI 1_20: -472798419
+      Maho UI 1_21: 961725026
+      Maho UI 1_22: -532168334
+      Maho UI 1_23: 205268142
+      Maho UI 1_24: -1073497817
+      Maho UI 1_25: -341369578
+      Maho UI 1_26: 1162402955
+      Maho UI 1_27: 92404619
+      Maho UI 1_28: -1218535324
+      Maho UI 1_29: 1465560369
+      Maho UI 1_3: 169192791
+      Maho UI 1_30: 1754997197
+      Maho UI 1_31: 593881937
+      Maho UI 1_32: -188689023
+      Maho UI 1_33: 724709995
+      Maho UI 1_34: 1749349288
+      Maho UI 1_4: 1701829283
+      Maho UI 1_5: 709943758
+      Maho UI 1_6: 491877713
+      Maho UI 1_7: 249043898
+      Maho UI 1_8: -1974963514
+      Maho UI 1_9: 1713473302
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -6,7 +6,7 @@ TextureImporter:
   serializedVersion: 13
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
@@ -37,13 +37,13 @@ TextureImporter:
     filterMode: 1
     aniso: 1
     mipBias: 0
-    wrapU: 0
-    wrapV: 0
+    wrapU: 1
+    wrapV: 1
     wrapW: 0
-  nPOTScale: 1
+  nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 0
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -52,9 +52,9 @@ TextureImporter:
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
-  alphaIsTransparency: 0
+  alphaIsTransparency: 1
   spriteTessellationDetail: -1
-  textureType: 0
+  textureType: 8
   textureShape: 1
   singleChannelComponent: 0
   flipbookRows: 1
@@ -121,18 +121,128 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Maho Text 1_0
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 555
+        width: 505
+        height: 498
+      alignment: 9
+      pivot: {x: 0.3964668, y: 0.018484583}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 15f53e87f63ea6b458f7708b7c3f2c0b
+      internalID: 1494420932
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Maho Text 1_1
+      rect:
+        serializedVersion: 2
+        x: 665
+        y: 567
+        width: 1242
+        height: 486
+      alignment: 9
+      pivot: {x: 0.99316674, y: 0.40055978}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 858e211838eb59b4db0890df88054061
+      internalID: -631572462
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Maho Text 1_2
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 39
+        width: 600
+        height: 476
+      alignment: 9
+      pivot: {x: 0.9857365, y: 0.87913185}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8eb255665fbb16149ad011f188bbc8f9
+      internalID: 2121816056
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Maho Text 1_3
+      rect:
+        serializedVersion: 2
+        x: 670
+        y: 39
+        width: 600
+        height: 476
+      alignment: 9
+      pivot: {x: 0.98957217, y: 0.89644784}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8cb7d8ae092af2c46a6684e458fd797e
+      internalID: -376651677
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Maho Text 1_4
+      rect:
+        serializedVersion: 2
+        x: 1308
+        y: 39
+        width: 600
+        height: 476
+      alignment: 9
+      pivot: {x: 0.9857363, y: 0.88194364}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0b165a38413568247b88b9ae8f8a200e
+      internalID: -2045754945
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Maho Text 1_0: 1494420932
+      Maho Text 1_1: -631572462
+      Maho Text 1_2: 2121816056
+      Maho Text 1_3: -376651677
+      Maho Text 1_4: -2045754945
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

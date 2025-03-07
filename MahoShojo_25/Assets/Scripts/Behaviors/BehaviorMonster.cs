@@ -106,8 +106,7 @@ public class BehaviorMonster : MonoBehaviour
     }
 
     public void ChangeCapturePoints(int _changeAmount)
-    {
-        print($"HP was: {currentCapturePointsLeft} - change is: {_changeAmount} - new hp should be: { currentCapturePointsLeft + _changeAmount} / {pointsUntilCaptured}");
+    {       
         currentCapturePointsLeft += _changeAmount;
         if (currentCapturePointsLeft > pointsUntilCaptured)
             currentCapturePointsLeft = pointsUntilCaptured;
@@ -121,11 +120,9 @@ public class BehaviorMonster : MonoBehaviour
     {
         if (!uiHolderOfHeartPoints || uiHolderOfHeartPoints.childCount == 0)
             return;
-        print($"Percent formula: {currentCapturePointsLeft} / {pointsUntilCaptured} * 10");
-        percentHP = ((float)currentCapturePointsLeft / (float)pointsUntilCaptured); // get the decimal
-        print($"Rounding {percentHP} to {Mathf.RoundToInt(percentHP * 10)}");
-        percentHP = (Mathf.RoundToInt(percentHP * 10)); // we have 10 hp bars to show or hide
-        print($"Percent is: {percentHP}");
+       
+        percentHP = ((float)currentCapturePointsLeft / (float)pointsUntilCaptured); // get the decimal      
+        percentHP = (Mathf.RoundToInt(percentHP * 10)); // we have 10 hp bars to show or hide     
 
         for (int i = 0; i < uiHolderOfHeartPoints.childCount; i++)
         {
@@ -177,8 +174,7 @@ public class BehaviorMonster : MonoBehaviour
             case MONSTERSTATE.Recovering:
                 StateRecovering();
                 break;
-            case MONSTERSTATE.Captured:
-                print("CAPTURED THIS MONSTER");
+            case MONSTERSTATE.Captured:               
                 StateCaptured();
                 break;
             default:
@@ -308,7 +304,7 @@ public class BehaviorMonster : MonoBehaviour
         else
         {
             transform.Translate(Vector3.up * Time.deltaTime * capturedMoveSpeed);
-            if (Time.time > captureFlyAwayTime + recoveringTime) // done //TODO : add points to our score
+            if (Time.time > currentStateTimeStamp + captureFlyAwayTime) // done //TODO : add points to our score
             { ChangeState(MONSTERSTATE.Waiting); gameObject.SetActive(false); }
 
         }

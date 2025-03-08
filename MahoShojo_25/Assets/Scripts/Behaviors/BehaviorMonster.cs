@@ -89,6 +89,7 @@ public class BehaviorMonster : MonoBehaviour
 
     private void OnEnable()
     {   // initialize
+        ChangeState(MONSTERSTATE.Waiting);
         currentStateTimeStamp = Time.time;
         currentCapturePointsLeft = pointsUntilCaptured;
         if (startScale == Vector3.zero)
@@ -108,7 +109,8 @@ public class BehaviorMonster : MonoBehaviour
     }
 
     public void ChangeCapturePoints(int _changeAmount)
-    {       
+    {
+        print($"My HP Is Changing from {currentCapturePointsLeft} to {currentCapturePointsLeft + _changeAmount}");
         currentCapturePointsLeft += _changeAmount;
         if (currentCapturePointsLeft > pointsUntilCaptured)
             currentCapturePointsLeft = pointsUntilCaptured;
@@ -287,9 +289,14 @@ public class BehaviorMonster : MonoBehaviour
 
     private void StateCaptured()
     {      
-
         if (transform.localScale.x > sizeToShrinkTo)
-        { transform.localScale *= sizePercentChangeEveryFrame; capturedMoveSpeed *= 1.1f; }
+        {
+            transform.localScale *= sizePercentChangeEveryFrame;
+            capturedMoveSpeed *= 1.1f;
+            if (transform.localScale.x < 0.01f)
+                transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
+
+        }
 
 
         if (flyTowardsPlayer)
@@ -302,17 +309,33 @@ public class BehaviorMonster : MonoBehaviour
             }
             else // DONE
             {
-                ChangeState(MONSTERSTATE.Waiting);  //TODO : add points to our score
+                CaptureEvents();                
                 gameObject.SetActive(false);
             }
         }
         else
         {
             transform.Translate(Vector3.up * Time.deltaTime * capturedMoveSpeed);
-            if (Time.time > currentStateTimeStamp + captureFlyAwayTime) // done //TODO : add points to our score
-            { ChangeState(MONSTERSTATE.Waiting); gameObject.SetActive(false); }
+
+            if (transform.position.y > 99) // to help with point floating errors
+                transform.position = new Vector3(0, 99, 0);
+
+            if (Time.time > currentStateTimeStamp + captureFlyAwayTime) // DONE
+            {
+                CaptureEvents();                
+                gameObject.SetActive(false);
+            }
 
         }
+    }
+
+    private void CaptureEvents()
+    {
+        if (Manager_GameState.Instance)
+        { Manager_GameState.Instance.CaptureChange(1 , pointsForCapturing); }   
+
+        if(Manager_Platforms.Instance)
+            Manager_Platforms.Instance.ChangeMonsterVariables(true, false);
     }
 
 }

@@ -19,6 +19,7 @@ public class Manager_Platforms : MonoBehaviour
 
     // dash right/ left ability
     [Space]
+    [Space]
     [Header("Dash Rules\n______________")]    
     [Tooltip("When true, dashing requires you to press forward twice within the blow variables")]
     public bool dashRequiresDoubleTap;
@@ -41,6 +42,7 @@ public class Manager_Platforms : MonoBehaviour
 
 
     [Space]
+    [Space]
     [Header("Platform Objects\n______________")]
     [Tooltip("The starting Variable for how our speed is calculated")]
     [Range(0.1f, 1)]
@@ -60,7 +62,9 @@ public class Manager_Platforms : MonoBehaviour
     public int dir { get; private set; } = 1;
     public bool isBlocked { get; private set; }
     public bool playerInAir { get; private set; }
+   
 
+    [Space]
     [Space]
     [Header("Platform Objects\n______________")]   
     [Tooltip("a transform of the object holding all of our children")]
@@ -72,6 +76,28 @@ public class Manager_Platforms : MonoBehaviour
     [Tooltip("A list of platforms we can spawn during runtime. Stats within each platform should allow for some customization")]
     public List<CustomPlatformData> listOfSpawnablePlatforms = new List<CustomPlatformData>();
     public List<BehaviorPlatform> spawnedPlatformsInPlay = new List<BehaviorPlatform>();
+
+    public bool stopSpawningPlatforms { get; private set; }
+
+
+    [Space]
+    [Space]
+    [Header("Monster Objects\n______________")]
+    [Tooltip("The prefabs of the monsters we want to spawn in the order we want to spawn them")]
+    public Transform[] monstersToSpawnInOrder;
+    [Tooltip("The acceptable distance of those monsters")]
+    public Vector3[] distanceOkayToSpawnFromPlayer;
+
+    public float waitTimeAfterCapture = 10;
+
+    public bool readyToSpawn { get; private set; } // decidor when we can spawn
+    public bool monsterIsInPlay { get; private set; } // so we dont over spawn
+    private int monstersSpawned; // tracking how manywe've spawned
+    private Transform spawnedMonster; // the monster we want to track
+    //private List<Transform> allSpawnedMonsters = new List<Transform>(); // to pool the monsters, but this should come in later versions
+    private float lastCaptureTimeStamp;
+
+
 
 
     private bool FoundErrors()
@@ -98,8 +124,11 @@ public class Manager_Platforms : MonoBehaviour
         if (FoundErrors())
             return;
 
-        for(int i = 0; i < platformsToKeepOnScreen-1; i++)
-           SpawnOrPoolPlatform(null, true);             
+        for (int i = 0; i < platformsToKeepOnScreen - 1; i++)
+            SpawnOrPoolPlatform(null, true);
+
+        lastCaptureTimeStamp = Time.time;
+        readyToSpawn = true;
     }
 
     // Update is called once per frame
@@ -118,12 +147,34 @@ public class Manager_Platforms : MonoBehaviour
         CheckForInputs();
         CheckDashing();
         MoveMaps();
+        CheckForMonsterSpawn();
+    }
+
+    public void ResetToBeginning()
+    {
+        for(int i = 0; i < spawnedPlatformsInPlay.Count; i++)
+        {
+            if (spawnedPlatformsInPlay[i] == null)
+                spawnedPlatformsInPlay.RemoveAt(i);
+            else
+                spawnedPlatformsInPlay[i].ResetToStart();
+        }
+
+        lastCaptureTimeStamp = Time.time;
+        ChangeSpawningPlatforms(true);
+        readyToSpawn = true;
+
     }
 
     private void ReactToGameManager()
     {
         // can put code for animations or other objects to enable / disable
         // also code for checking if we are done or finished with the game
+    }
+
+    public void ChangeSpawningPlatforms(bool _stop)
+    {
+        stopSpawningPlatforms = _stop;
     }
 
     public void ChangeIsBlocked(bool _isBlocked)
@@ -152,7 +203,13 @@ public class Manager_Platforms : MonoBehaviour
 
     public void SpawnNewPlatformFromEdge()
     {
-        SpawnOrPoolPlatform(null, false);
+        if (stopSpawningPlatforms)
+            return;
+
+        if (Manager_GameState.Instance)
+            Manager_GameState.Instance.objectsSpawnedDuringRuntime.Add(SpawnOrPoolPlatform(null, false));
+        else
+            SpawnOrPoolPlatform(null, false);
     }
 
     private void CheckDashing()
@@ -164,8 +221,7 @@ public class Manager_Platforms : MonoBehaviour
     }
 
     private void DashAction()
-    {
-        print("dashed");
+    {        
         isDashing = true;
         onDashEvent.Invoke();
     }
@@ -203,7 +259,6 @@ public class Manager_Platforms : MonoBehaviour
             if (inputXYTime < 0) { inputXYTime = 0; }
         }
     }
-
     
 
     private void MoveMaps()
@@ -227,18 +282,19 @@ public class Manager_Platforms : MonoBehaviour
             if (string.IsNullOrEmpty(_forceByNickname)) // just pool anything available
             {
                 for (int p = 0; p < parentOfMapModelsToMove.childCount; p++)
-                    if (parentOfMapModelsToMove.GetChild(p).gameObject.activeSelf == false)
+                    if (parentOfMapModelsToMove.GetChild(p).gameObject.activeSelf == false || parentOfMapModelsToMove.GetChild(p).GetComponent<BehaviorPlatform>().isVisible == false) // not optimized
                         returnPlatform = parentOfMapModelsToMove.GetChild(p);
             }
             else // try to pool something specific
             {
                 for (int p = 0; p < parentOfMapModelsToMove.childCount; p++)
-                    if (parentOfMapModelsToMove.GetChild(p).gameObject.activeSelf == false && parentOfMapModelsToMove.GetChild(p).GetComponent<CustomPlatformData>() != null && parentOfMapModelsToMove.GetChild(p).GetComponent<CustomPlatformData>().platformNickname == _forceByNickname)
+                    if (parentOfMapModelsToMove.GetChild(p).gameObject.activeSelf == false && parentOfMapModelsToMove.GetChild(p).GetComponent<BehaviorPlatform>().nickname == _forceByNickname ||
+                        parentOfMapModelsToMove.GetChild(p).GetComponent<BehaviorPlatform>().isVisible == false && parentOfMapModelsToMove.GetChild(p).GetComponent<BehaviorPlatform>().nickname == _forceByNickname)
                         returnPlatform = parentOfMapModelsToMove.GetChild(p);
             }
         }
 
-
+        string nicknameRef = "";
         if (!returnPlatform) // if we still need to create a platform because we havent yet
         {
             CustomPlatformData newPlatform = null;
@@ -246,6 +302,8 @@ public class Manager_Platforms : MonoBehaviour
             while (newPlatform == null || attempts < 100)
             { newPlatform = PickOurNextPlatform(_forceByNickname); attempts++; }
             returnPlatform = Instantiate(newPlatform.prefabToSpawn, parentOfMapModelsToMove);
+            if (newPlatform != null)
+                nicknameRef = newPlatform.platformNickname;
         }
 
         // find where it goes & move it over
@@ -259,24 +317,52 @@ public class Manager_Platforms : MonoBehaviour
 
         //add the platform to the list
         spawnedPlatformsInPlay.Add(newPlatformBehavior);
+        if(!string.IsNullOrEmpty(nicknameRef))
+        newPlatformBehavior.nickname = nicknameRef;
         // make sure it's visible
         returnPlatform.gameObject.SetActive(true);
+        newPlatformBehavior.ShowHideArt(true);
         if (spawnedPlatformsInPlay.Count > platformsToKeepOnScreen) // check if we need to remove any
-            RemovePlatform(0);
+            RemoveSpecificPlatform(0, false);
 
         return returnPlatform;
     }
 
-    public void RemovePlatform(int _removeId)
+    public void RemoveSpecificPlatform(int _removeId, bool _delete)
     {
         if (_removeId >= 0 && _removeId < spawnedPlatformsInPlay.Count)
-        {
-            spawnedPlatformsInPlay[_removeId].gameObject.SetActive(false);
-            spawnedPlatformsInPlay.RemoveAt(_removeId);
+        {          
+            if (!_delete)
+            {                
+                spawnedPlatformsInPlay[_removeId].ShowHideArt(false);
+                spawnedPlatformsInPlay.RemoveAt(_removeId);
+            }
+            else
+            {              
+                GameObject deleteObj = null;
+                if (spawnedPlatformsInPlay[_removeId] != null)
+                {
+                    deleteObj = spawnedPlatformsInPlay[_removeId].gameObject;
+                    Destroy(deleteObj);
+                }
+                spawnedPlatformsInPlay.RemoveAt(_removeId);
+            }
         }
         else
             Debug.Log("WARNING: Tried to remove a platform that wasnt in the list");
+
     }
+    public void RemoveAnyNullPlatforms()
+    {
+        for(int i = 0; i < spawnedPlatformsInPlay.Count; i++)
+        {
+            if (spawnedPlatformsInPlay[i] == null)
+                spawnedPlatformsInPlay.RemoveAt(i);
+            else
+                spawnedPlatformsInPlay[i].ResetToStart();
+        }
+    }
+
 
     private CustomPlatformData PickOurNextPlatform(string _forceByNickname) // only returns the appropraite platform data we can use to spawn
     {
@@ -302,7 +388,55 @@ public class Manager_Platforms : MonoBehaviour
         return null;
     } 
 
-}
+    public void ChangeMonsterVariables(bool _readyToSpawn, bool _monsterInPlay)
+    {
+        if (monsterIsInPlay && !monsterIsInPlay)
+            lastCaptureTimeStamp = Time.time;
+
+        readyToSpawn = _readyToSpawn;
+        monsterIsInPlay = _monsterInPlay;
+    }
+
+    private void CheckForMonsterSpawn()
+    {
+        if (Manager_GameState.Instance && Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing)
+            return;
+
+        if (readyToSpawn)
+        {
+            if (monsterIsInPlay)
+                return;
+
+            if (Time.time > lastCaptureTimeStamp + waitTimeAfterCapture)
+                SpawnMonster();
+            else
+                print("waiting to spawn a new monster");
+        }
+    }
+
+   public void SpawnMonster()
+    {
+        if (monstersSpawned < monstersToSpawnInOrder.Length)
+        {
+            // spawn monster
+            spawnedMonster = Instantiate(monstersToSpawnInOrder[monstersSpawned]);
+            spawnedMonster.transform.position = distanceOkayToSpawnFromPlayer[monstersSpawned];
+            if (Manager_GameState.Instance)
+                Manager_GameState.Instance.objectsSpawnedDuringRuntime.Add(spawnedMonster);
+            readyToSpawn = false;
+            monsterIsInPlay = true;
+        }
+        else // spawn a random one
+        {
+            ChangeSpawningPlatforms(true);
+            Debug.Log("WARNING: We should finished the demo game and dont want to spawn more");
+        }
+
+        //readyToSpawn = false;
+        //monsterIsInPlay = true;
+    }
+
+}// end of manager-platform class
 
 
 

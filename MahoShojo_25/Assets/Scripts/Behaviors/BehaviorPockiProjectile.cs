@@ -74,6 +74,9 @@ public class BehaviorPockiProjectile : MonoBehaviour
         if (targetToChase == null) // with no target we'll just shoot forward and turn off
         { transform.Translate(Vector3.forward * (speedMove /2) * Time.deltaTime); if (Time.time > timeEnabled + noTargetLifeSpan)  gameObject.SetActive(false); }
 
+        if (ref_BehaviorMonster && ref_BehaviorMonster.currentState == BehaviorMonster.MONSTERSTATE.Captured)
+        {transform.LookAt(null); targetToChase = null; } // if the monster is captured just turn this off
+
         if (targetToChase)
         {
             if (DistanceToOther(targetToChase) <= distanceTolerance)
@@ -100,6 +103,7 @@ public class BehaviorPockiProjectile : MonoBehaviour
     {
         if (ref_BehaviorMonster)
             ref_BehaviorMonster.ChangeCapturePoints(-1);
+        transform.LookAt(null);
         targetToChase = null;
         gameObject.SetActive(false);
     }

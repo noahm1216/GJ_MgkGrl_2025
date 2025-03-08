@@ -131,6 +131,21 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
   spawnedPlatformsInPlay: []
+  monstersToSpawnInOrder:
+  - {fileID: 3351900402880586524, guid: 0a29b4d5ff8143d49a8e0cfed4dd93e9, type: 3}
+  - {fileID: 3351900402880586524, guid: 0a29b4d5ff8143d49a8e0cfed4dd93e9, type: 3}
+  - {fileID: 3351900402880586524, guid: 0a29b4d5ff8143d49a8e0cfed4dd93e9, type: 3}
+  - {fileID: 3351900402880586524, guid: 0a29b4d5ff8143d49a8e0cfed4dd93e9, type: 3}
+  - {fileID: 3351900402880586524, guid: 0a29b4d5ff8143d49a8e0cfed4dd93e9, type: 3}
+  - {fileID: 3351900402880586524, guid: 0a29b4d5ff8143d49a8e0cfed4dd93e9, type: 3}
+  distanceOkayToSpawnFromPlayer:
+  - {x: 14, y: 4, z: 0}
+  - {x: 14, y: 4, z: 0}
+  - {x: 14, y: 4, z: 0}
+  - {x: 14, y: 4, z: 0}
+  - {x: 14, y: 4, z: 0}
+  - {x: 14, y: 4, z: 0}
+  randomiseDistance: 000000000000
 --- !u!1 &8961270979148288246
 GameObject:
   m_ObjectHideFlags: 0

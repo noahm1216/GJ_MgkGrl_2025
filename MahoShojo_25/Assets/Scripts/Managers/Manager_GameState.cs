@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -17,7 +19,11 @@ public class Manager_GameState : MonoBehaviour
     private Vector3[] startPositions, startScales;
     private Quaternion[] startRotations;
     private bool[] wasEnabled;
+   [HideInInspector] public List<Transform> objectsSpawnedDuringRuntime = new List<Transform>();
 
+
+    public int capturedCreatues_Unique { get; private set; }
+    public int capturedPoints { get; private set; }
 
     private void Awake()
     {
@@ -72,11 +78,18 @@ public class Manager_GameState : MonoBehaviour
 
     public void RestartGame(bool _totalRestart)
     {
+        PauseToggle();
+        ChangeState(GAMESTATE.Menu);
+        CaptureChange(-capturedCreatues_Unique, -capturedPoints);
+
         if (_totalRestart)
-        { Scene scene = SceneManager.GetActiveScene(); SceneManager.LoadScene(scene.name); }
+        {          
+            Scene scene = SceneManager.GetActiveScene();
+            SceneManager.LoadScene(scene.name);
+        }
         else
-        {
-            // loop through each script and set them back to start data
+        {           
+            LoadbjectDataForRestart();
         }
     }
 
@@ -137,6 +150,22 @@ public class Manager_GameState : MonoBehaviour
         }
     }
 
+    public void CaptureChange(int _amountChange, int _changePoints)
+    {
+        capturedCreatues_Unique += _amountChange;
+        capturedPoints += _changePoints;
+
+        if (Manager_TutorialUI.Instance)
+        { Manager_TutorialUI.Instance.SetCaptureShowcase(capturedCreatues_Unique); }
+    }
+
+
+
+
+
+
+
+
     public void SaveObjectDataForRestart()
     {
         if (objectsToResetPositions.Length > 0) // store references for fast restarts
@@ -158,6 +187,21 @@ public class Manager_GameState : MonoBehaviour
 
     public void LoadbjectDataForRestart()
     {
+        if (objectsSpawnedDuringRuntime.Count > 0)
+        {
+            Transform deleteRef = null;
+            for (int i = 0; i < objectsSpawnedDuringRuntime.Count; i++)
+            {
+                if (objectsSpawnedDuringRuntime[i] != null)
+                {
+                    deleteRef = objectsSpawnedDuringRuntime[i];
+                    objectsSpawnedDuringRuntime.RemoveAt(i);
+                    Destroy(deleteRef.gameObject);
+                }               
+            }
+
+        }     
+
         if (objectsToResetPositions.Length > 0) // retrieve references for fast restarts
         {           
             for (int i = 0; i < objectsToResetPositions.Length; i++)
@@ -168,5 +212,15 @@ public class Manager_GameState : MonoBehaviour
                 objectsToResetPositions[i].gameObject.SetActive(wasEnabled[i]);
             }
         }
+
+        StartCoroutine(ClearReferences());
+    }
+
+    private IEnumerator ClearReferences()
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        if (Manager_Platforms.Instance)
+            Manager_Platforms.Instance.RemoveAnyNullPlatforms();
     }
 }

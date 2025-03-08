@@ -52,7 +52,11 @@ public class PockiFire : MonoBehaviour
                 { cloneObj = child; break; } // we found a poolable object in our list
 
         if (!cloneObj)
+        {
             cloneObj = Instantiate(prefabToSpawn, prefabParent); // create a clone, either there wasnt a free one OR we are destroying them
+            if (Manager_GameState.Instance)
+                Manager_GameState.Instance.objectsSpawnedDuringRuntime.Add(cloneObj);
+        }
 
         cloneObj.position = pointToSpawnFrom.position;
         cloneObj.gameObject.SetActive(true);

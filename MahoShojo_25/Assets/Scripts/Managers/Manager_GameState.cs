@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Manager_GameState : MonoBehaviour
 {
@@ -8,10 +7,16 @@ public class Manager_GameState : MonoBehaviour
 
     public enum GAMESTATE {Menu, Playing, Paused, Lost, Won }
     public GAMESTATE currentState;// { get; private set; }
+    private GAMESTATE stateWhenPaused;
 
     public int scoreTotal; // the score we get from capturing
 
-    public KeyCode keyToPause1 = KeyCode.P, keyToPause2 = KeyCode.Escape;
+    public KeyCode key_Pause1 = KeyCode.P, key_Pause2 = KeyCode.Escape;
+
+    public Transform[] objectsToResetPositions;
+    private Vector3[] startPositions, startScales;
+    private Quaternion[] startRotations;
+    private bool[] wasEnabled;
 
 
     private void Awake()
@@ -25,13 +30,19 @@ public class Manager_GameState : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        
+        SaveObjectDataForRestart();
     }
 
     public void StartGameButton()
     {
         ChangeState(GAMESTATE.Playing);
     }
+
+    public void RestartGameButton()
+    {
+        RestartGame(false);
+    }
+
 
     public void ChangeState(GAMESTATE _newState)
     {     
@@ -59,10 +70,21 @@ public class Manager_GameState : MonoBehaviour
         currentState = _newState;
     }
 
+    public void RestartGame(bool _totalRestart)
+    {
+        if (_totalRestart)
+        { Scene scene = SceneManager.GetActiveScene(); SceneManager.LoadScene(scene.name); }
+        else
+        {
+            // loop through each script and set them back to start data
+        }
+    }
+
     // Update is called once per frame
     private void Update()
     {
         StateChecker();
+        CheckForInputs();
     }
 
 
@@ -83,6 +105,68 @@ public class Manager_GameState : MonoBehaviour
             default:
                 Debug.Log($"WARNING: Case for Gamestate '{currentState}' - not found");
                 break;
+        }
+    }
+
+    public void CheckForInputs()
+    {
+        if(Input.GetKeyDown(key_Pause1) || Input.GetKeyDown(key_Pause2)) // pause toggle
+        {
+            PauseToggle();
+        }
+    }
+
+    public void PauseToggle()
+    {
+        if (currentState != GAMESTATE.Paused)
+        {
+            stateWhenPaused = currentState;
+            currentState = GAMESTATE.Paused;
+            if (Manager_UI.Instance)
+                Manager_UI.Instance.PauseToggle();
+
+            Time.timeScale = 0;
+        }
+        else
+        {
+            currentState = stateWhenPaused;
+            if (Manager_UI.Instance)
+                Manager_UI.Instance.PauseToggle();
+
+            Time.timeScale = 1;
+        }
+    }
+
+    public void SaveObjectDataForRestart()
+    {
+        if (objectsToResetPositions.Length > 0) // store references for fast restarts
+        {
+            startPositions = new Vector3[objectsToResetPositions.Length];
+            startScales = new Vector3[objectsToResetPositions.Length];
+            startRotations = new Quaternion[objectsToResetPositions.Length];
+            wasEnabled = new bool[objectsToResetPositions.Length];
+
+            for (int i = 0; i < objectsToResetPositions.Length; i++)
+            {
+                startPositions[i] = objectsToResetPositions[i].position;
+                startScales[i] = objectsToResetPositions[i].localScale;
+                startRotations[i] = objectsToResetPositions[i].rotation;
+                wasEnabled[i] = objectsToResetPositions[i].gameObject.activeSelf;
+            }
+        }
+    }
+
+    public void LoadbjectDataForRestart()
+    {
+        if (objectsToResetPositions.Length > 0) // retrieve references for fast restarts
+        {           
+            for (int i = 0; i < objectsToResetPositions.Length; i++)
+            {
+                objectsToResetPositions[i].position = startPositions[i];
+                objectsToResetPositions[i].localScale = startScales[i];
+                objectsToResetPositions[i].rotation = startRotations[i];
+                objectsToResetPositions[i].gameObject.SetActive(wasEnabled[i]);
+            }
         }
     }
 }

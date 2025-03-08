@@ -131,7 +131,7 @@ TextureImporter:
         width: 1103
         height: 1080
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -152,7 +152,7 @@ TextureImporter:
         width: 620
         height: 511
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -168,12 +168,12 @@ TextureImporter:
       name: Maho UI 2_2
       rect:
         serializedVersion: 2
-        x: 1153
-        y: 81
+        x: 1156
+        y: 189
         width: 698
-        height: 393
+        height: 338
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -181,6 +181,48 @@ TextureImporter:
       bones: []
       spriteID: eeefbf5bc19b66740b2bed0b9eba8fcd
       internalID: -918957213
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Maho UI 2_4
+      rect:
+        serializedVersion: 2
+        x: 1150
+        y: 0
+        width: 247
+        height: 172
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d193c7e50c3c742428a78c9f36a3e1b3
+      internalID: -127286184
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Maho UI 2_5
+      rect:
+        serializedVersion: 2
+        x: 1456
+        y: 13
+        width: 243
+        height: 147
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e197f41385fe69a47aabeee972019ed2
+      internalID: -265768246
       vertices: []
       indices: 
       edges: []
@@ -199,6 +241,9 @@ TextureImporter:
       Maho UI 2_0: -1332730031
       Maho UI 2_1: -1139518386
       Maho UI 2_2: -918957213
+      Maho UI 2_3: -536125791
+      Maho UI 2_4: -127286184
+      Maho UI 2_5: -265768246
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

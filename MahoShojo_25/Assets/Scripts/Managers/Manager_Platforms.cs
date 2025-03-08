@@ -122,7 +122,8 @@ public class Manager_Platforms : MonoBehaviour
 
     private void ReactToGameManager()
     {
-        
+        // can put code for animations or other objects to enable / disable
+        // also code for checking if we are done or finished with the game
     }
 
     public void ChangeIsBlocked(bool _isBlocked)

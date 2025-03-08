@@ -3,7 +3,12 @@ guid: 16cf71ebb9d00a14f907b1068879ef60
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PokieStick
+    second: {fileID: 2100000, guid: 6b55ab2629a95594ca1f277818126e57, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

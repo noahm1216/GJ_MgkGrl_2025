@@ -3,7 +3,12 @@ guid: 171a8902153e60e418bf101b617856f1
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Pockie
+    second: {fileID: 2100000, guid: e3b8742c6ff07c74cb3b7a5b34f446d6, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

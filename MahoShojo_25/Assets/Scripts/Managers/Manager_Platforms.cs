@@ -108,9 +108,21 @@ public class Manager_Platforms : MonoBehaviour
         if (FoundErrors())
             return;
 
+        if(Manager_GameState.Instance) // if we have the game manager then we want things to look a specific way
+        {
+            ReactToGameManager();
+            if (Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing)
+                return;
+        }
+
         CheckForInputs();
         CheckDashing();
         MoveMaps();
+    }
+
+    private void ReactToGameManager()
+    {
+        
     }
 
     public void ChangeIsBlocked(bool _isBlocked)

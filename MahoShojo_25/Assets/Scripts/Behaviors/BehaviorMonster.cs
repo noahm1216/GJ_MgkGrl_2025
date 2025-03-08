@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Events;
 
 public class BehaviorMonster : MonoBehaviour
@@ -68,6 +69,7 @@ public class BehaviorMonster : MonoBehaviour
     // RECOVERING
     [Header("Capturing Variables\n______________")]
     public int pointsUntilCaptured = 10;
+    public int pointsForCapturing = 100;
     public Transform uiHolderOfHeartPoints;
     public float sizeToShrinkTo = 0.15f;
     public float sizePercentChangeEveryFrame = 0.999f;
@@ -126,10 +128,13 @@ public class BehaviorMonster : MonoBehaviour
 
         for (int i = 0; i < uiHolderOfHeartPoints.childCount; i++)
         {
-            if (i < percentHP)
-                uiHolderOfHeartPoints.GetChild(i).gameObject.SetActive(true);
-            else
-                uiHolderOfHeartPoints.GetChild(i).gameObject.SetActive(false);
+            Image heartPiece = null;
+            uiHolderOfHeartPoints.GetChild(i).TryGetComponent(out heartPiece);
+            if (heartPiece)
+                if (i < percentHP)
+                    heartPiece.enabled = true;
+                else
+                    heartPiece.enabled = true;
         }
     }
 

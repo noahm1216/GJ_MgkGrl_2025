@@ -48,6 +48,10 @@ public class PlayerCore : MonoBehaviour
     [Space]
     [Header("Animations\n______________")]
     public PlayerAnimations ref_PlayerAnimations;
+    public int activeModel = 0;
+    public Transform[] modelsToPickFrom;
+
+    private int activeModelReference;
 
 
     [Space]
@@ -74,6 +78,29 @@ public class PlayerCore : MonoBehaviour
 
     private void Update() // TODO: remove inputXY from affecting jump (always affect at full speed)
     {
+        if(activeModelReference != activeModel && modelsToPickFrom.Length > 0)
+        {
+            if (activeModel >= modelsToPickFrom.Length)
+                activeModel = 0;
+            if (activeModel < 0)
+                activeModel = modelsToPickFrom.Length - 1;
+
+                for (int i = 0; i < modelsToPickFrom.Length;i++)
+                if (i == activeModel)
+                    modelsToPickFrom[i].GetChild(0).gameObject.SetActive(true);
+                else
+                    modelsToPickFrom[i].GetChild(0).gameObject.SetActive(false);
+
+            activeModelReference = activeModel;
+        }
+
+        if (Manager_GameState.Instance) // if we have the game manager then we want things to look a specific way
+        {
+            ReactToGameManager();
+            if (Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing)
+                return;
+        }
+
         if (lockYPositionAtZero)
             transform.position = new Vector3(transform.position.x, 0, transform.position.z);
 
@@ -124,6 +151,11 @@ public class PlayerCore : MonoBehaviour
         }
         if (rb3D.velocity.y < 0) // faling / moving down
             rb3D.AddForce(Vector3.down * (1 * fallAcceleration));
+    }
+
+    private void ReactToGameManager()
+    {
+
     }
 
     private void CheckIfBlocked() // if moving in a direction but cant keep going

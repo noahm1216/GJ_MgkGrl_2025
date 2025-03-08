@@ -4,31 +4,45 @@ using UnityEngine;
 
 public class PlayerAnimations : MonoBehaviour
 {
-    
-    public Animator animPlayer;
+
+    public Animator[] animPlayer;
     public string[] triggersToReset;
 
     public void SetAnyBool(string _name, bool _canMove)
     {
-        animPlayer.SetBool(_name, _canMove);
+        for (int i = 0; i < animPlayer.Length; i++)
+            if (animPlayer[i] != null && animPlayer[i].gameObject.activeSelf == true)
+                animPlayer[i].SetBool(_name, _canMove);
     }
 
     public void SetAnyTrigger(string _name)
     {
         ResetAllTriggers();
-        animPlayer.SetTrigger(_name);
+        for (int i = 0; i < animPlayer.Length; i++)
+            if (animPlayer[i] != null && animPlayer[i].gameObject.activeSelf == true)
+                animPlayer[i].SetTrigger(_name);
     }
 
     private void ResetAllTriggers()
     {
-        foreach(string trigger in triggersToReset)
-            animPlayer.ResetTrigger(trigger);
+        foreach (string trigger in triggersToReset)
+            for (int i = 0; i < animPlayer.Length; i++)
+                if (animPlayer[i] != null && animPlayer[i].gameObject.activeSelf == true)
+                    animPlayer[i].ResetTrigger(trigger);
     }
 
 
     private void LateUpdate()
     {
-        if (animPlayer && Manager_Platforms.Instance)
+        if (Manager_GameState.Instance) // if we have the game manager then we want things to look a specific way
+        {
+            ReactToGameManager();
+            if (Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing)
+                return;
+        }
+
+
+        if (animPlayer.Length > 0 && Manager_Platforms.Instance)
         {
             //if(Manager_Platforms.Instance.CurrentSpeed() > 0)
             //    print("running: backwards");
@@ -42,5 +56,10 @@ public class PlayerAnimations : MonoBehaviour
             //if (Manager_Platforms.Instance.isDashing) // setting it through events
             //    SetAnyTrigger("Dashed");
         }
+    }
+
+    private void ReactToGameManager()
+    {
+
     }
 }

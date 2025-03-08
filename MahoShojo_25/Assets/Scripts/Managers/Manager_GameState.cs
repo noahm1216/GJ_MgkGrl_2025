@@ -7,7 +7,7 @@ public class Manager_GameState : MonoBehaviour
     public static Manager_GameState Instance { get; private set; }
 
     public enum GAMESTATE {Menu, Playing, Paused, Lost, Won }
-    public GAMESTATE currentState { get; private set; }
+    public GAMESTATE currentState;// { get; private set; }
 
     public int scoreTotal; // the score we get from capturing
 

@@ -1335,10 +1335,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: 0
   playerObj: {fileID: 0}
-  activatesOnWait: 0
-  waitTime: 5
+  activatesOnWait: 1
+  waitTime: 60
   activatesOnDistance: 1
-  distanceToActivate: 6
+  distanceToActivate: 10
   huntingTime: 4
   blendSpeed: 0.5
   accetpablePlayerOffsetX: {x: -4, y: 9}
@@ -1352,13 +1352,14 @@ MonoBehaviour:
   positionalTargetOffset: {x: 0, y: 0, z: 0}
   recoveringTime: 5
   pointsUntilCaptured: 10
+  pointsForCapturing: 100
   uiHolderOfHeartPoints: {fileID: 716657010637737737}
   sizeToShrinkTo: 0.15
   sizePercentChangeEveryFrame: 0.999
   capturedMoveSpeed: 1
   flyTowardsPlayer: 0
   distanceToCollect: 0.5
-  captureFlyAwayTime: 10
+  captureFlyAwayTime: 5
 --- !u!1 &4601285425645963958
 GameObject:
   m_ObjectHideFlags: 0

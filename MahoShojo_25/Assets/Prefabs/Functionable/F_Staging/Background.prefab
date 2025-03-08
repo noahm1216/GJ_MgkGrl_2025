@@ -557,7 +557,7 @@ MonoBehaviour:
   - {fileID: 5939278883353092780}
   - {fileID: 5969677056020575242}
   - {fileID: 2685602124257433628}
-  parallaxMultiplier: -250
+  parallaxMultiplier: -200
   speed: 50
   resetDistance: 0
 --- !u!212 &8028633753367408105

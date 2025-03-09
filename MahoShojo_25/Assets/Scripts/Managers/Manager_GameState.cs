@@ -102,6 +102,13 @@ public class Manager_GameState : MonoBehaviour
 
     private void CheckForInputs()
     {
+        //cheatcode
+        if(Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Space))
+        {
+            CaptureChange(6, 9999);
+            Debug.Log("Cheated your way to winning... now you just have to fall off the map");
+        }
+
         if(Input.GetKeyDown(key_Pause1) || Input.GetKeyDown(key_Pause2)) // pause toggle
         {
             PauseToggle();
@@ -153,6 +160,13 @@ public class Manager_GameState : MonoBehaviour
 
 
     #region GameOver And Restarts
+
+    public void WonTheGame()
+    {
+        ChangeState(GAMESTATE.Won);
+        if (Manager_TutorialUI.Instance)
+            Manager_TutorialUI.Instance.ShowWinGameScreen();
+    }
 
     public void StartGameButton()
     {

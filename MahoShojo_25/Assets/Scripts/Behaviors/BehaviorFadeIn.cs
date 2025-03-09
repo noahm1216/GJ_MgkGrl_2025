@@ -6,21 +6,34 @@ public class BehaviorFadeIn : MonoBehaviour
 {
 
     public Image imgToFade;
+    public RawImage rawImgToFade;
     private Color storedColor;
 
     private void OnEnable()
     {
-        print("Enabled");
-        storedColor = imgToFade.color;
+        if (imgToFade)
+            storedColor = imgToFade.color;
+        if (rawImgToFade)
+            storedColor = rawImgToFade.color;
+
         storedColor.a = 0;
-        imgToFade.color = storedColor;
+
+        if (imgToFade)
+            imgToFade.color = storedColor;
+        if (rawImgToFade)
+            rawImgToFade.color = storedColor;
+
         StartCoroutine(FadeIn());
     }
 
     private void OnDisable()
     {
         storedColor.a = 1.5f;
-        imgToFade.color = storedColor;
+
+        if (imgToFade)
+            imgToFade.color = storedColor;
+        if (rawImgToFade)
+            rawImgToFade.color = storedColor;
     }
 
     private IEnumerator FadeIn()
@@ -28,8 +41,13 @@ public class BehaviorFadeIn : MonoBehaviour
         for (float i = 0; i <= 1.5f; i+= 0.1f)
         {
             storedColor.a = i;
-            imgToFade.color = storedColor;
-            yield return new WaitForSeconds(0.05f);
+
+            if (imgToFade)
+                imgToFade.color = storedColor;
+            if (rawImgToFade)
+                rawImgToFade.color = storedColor;
+
+                yield return new WaitForSeconds(0.05f);
         }
     }
 }

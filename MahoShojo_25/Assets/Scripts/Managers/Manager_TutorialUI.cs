@@ -29,6 +29,7 @@ public class Manager_TutorialUI : MonoBehaviour
     [Space]
     [Space]
     public GameObject gameOverScreenObj;
+    public GameObject gameWinScreenObj;
 
     private void Awake()
     {
@@ -163,7 +164,14 @@ public class Manager_TutorialUI : MonoBehaviour
 
     public void ShowGameOverScreen()
     {
+        if(gameOverScreenObj)
         gameOverScreenObj.SetActive(true);
+    }
+
+    public void ShowWinGameScreen()
+    {
+        if(gameWinScreenObj)
+        gameWinScreenObj.SetActive(true);
     }
 
     public void SendRestartGame()

@@ -57,7 +57,7 @@ Material:
     m_Floats:
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _WiggleAmplitude: 0.001
+    - _WiggleAmplitude: 0.002
     - _WiggleFrequency: 60
     - _WiggleSpeed: 5
     m_Colors: []

@@ -3,7 +3,12 @@ guid: 5ed7fb5642eb8464d8e28a326f5a20dc
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Wolfie
+    second: {fileID: 2100000, guid: 3575a112052358b4a99b8d01a5c343a1, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

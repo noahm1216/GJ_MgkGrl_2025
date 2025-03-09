@@ -105,12 +105,17 @@ public class BehaviorMonster : MonoBehaviour
         if (!playerObj)
         { Debug.Log($"ERROR: Cant find player obj for this monster ({transform.name}) to hunt"); playerObj = GameObject.FindGameObjectWithTag(tag_ToHunt).transform; return; }
 
+        if (currentState != MONSTERSTATE.Waiting && Manager_GameState.Instance && Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing)
+        { currentState = MONSTERSTATE.Waiting; return; }
+
         StateChecker();
+
+      
     }
 
     public void ChangeCapturePoints(int _changeAmount)
     {
-        print($"My HP Is Changing from {currentCapturePointsLeft} to {currentCapturePointsLeft + _changeAmount}");
+        print($"My HP Is Changing by 1");
         currentCapturePointsLeft += _changeAmount;
         if (currentCapturePointsLeft > pointsUntilCaptured)
             currentCapturePointsLeft = pointsUntilCaptured;
@@ -332,10 +337,10 @@ public class BehaviorMonster : MonoBehaviour
     private void CaptureEvents()
     {
         if (Manager_GameState.Instance)
-        { Manager_GameState.Instance.CaptureChange(1 , pointsForCapturing); }   
+        { Manager_GameState.Instance.CaptureChange(1, pointsForCapturing); }
 
-        if(Manager_Platforms.Instance)
-            Manager_Platforms.Instance.ChangeMonsterVariables(true, false);
+        if (Manager_Platforms.Instance)
+        { Manager_Platforms.Instance.ChangeMonsterVariables(true, false); }
     }
 
 }

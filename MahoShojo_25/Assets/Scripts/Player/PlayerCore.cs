@@ -13,6 +13,7 @@ public class PlayerCore : MonoBehaviour
     [Tooltip("When true this makes sure our character's always in the 2.5D position we expect them to be")]
     public bool lockYPositionAtZero = true;
 
+
     [Space]
     [Header("Jump Ability\n______________")]
     public bool jumpBasedOnKeyPressTime;
@@ -66,6 +67,10 @@ public class PlayerCore : MonoBehaviour
     public UnityEvent onRelease_MoveDown;
     public UnityEvent onSuccess_MoveDown;
 
+    [Space]
+    [Header("Reaction Events\n______________")]
+    public UnityEvent onHit, onDeath;
+
     public bool CanJump()
     {
         return timesJumpedSinceLastGround < numberOfJumps;
@@ -73,7 +78,7 @@ public class PlayerCore : MonoBehaviour
 
     private void Start()
     {
-        jumpLeftToAchieve = maximumJumpPower;
+        jumpLeftToAchieve = maximumJumpPower;        
     }
 
     private void Update() // TODO: remove inputXY from affecting jump (always affect at full speed)
@@ -197,6 +202,20 @@ public class PlayerCore : MonoBehaviour
                 ref_PlayerAnimations.SetAnyBool("isFalling", false);
             if (Manager_Platforms.Instance)
                 Manager_Platforms.Instance.ChangePlayerInAir(false);
+        }
+    }
+
+    private void OnTriggerEnter(Collider trig)
+    {
+        print($"Hit by: {trig.name} - tagged: {trig.tag}");
+        if(trig.tag == "Monster") // we were hit
+        {
+            print("HIT BY A MONSTER!!!");
+            if (Manager_GameState.Instance)
+                if (Manager_GameState.Instance.ChangeHitPoints(-1))
+                    onDeath.Invoke();
+                else
+                    onHit.Invoke();
         }
     }
 }

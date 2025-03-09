@@ -82,6 +82,7 @@ public class BehaviorPockiProjectile : MonoBehaviour
             if (DistanceToOther(targetToChase) <= distanceTolerance)
             {
                 // we got to it -> run code on the object we want (monster code)
+                print("Subtract a health from the monster");
                 InteractWithMonster();
                 return;
             }

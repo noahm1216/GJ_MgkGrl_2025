@@ -407,10 +407,13 @@ public class Manager_Platforms : MonoBehaviour
             if (monsterIsInPlay)
                 return;
 
+            if (Manager_Platforms.Instance && Manager_Platforms.Instance.isBlocked)
+                lastCaptureTimeStamp += Time.time;
+
             if (Time.time > lastCaptureTimeStamp + waitTimeAfterCapture)
                 SpawnMonster();
-            else
-                print("waiting to spawn a new monster");
+            //else
+            //    print("waiting to spawn a new monster");
         }
     }
 
@@ -421,6 +424,7 @@ public class Manager_Platforms : MonoBehaviour
             // spawn monster
             spawnedMonster = Instantiate(monstersToSpawnInOrder[monstersSpawned]);
             spawnedMonster.transform.position = distanceOkayToSpawnFromPlayer[monstersSpawned];
+            monstersSpawned++;
             if (Manager_GameState.Instance)
                 Manager_GameState.Instance.objectsSpawnedDuringRuntime.Add(spawnedMonster);
             readyToSpawn = false;

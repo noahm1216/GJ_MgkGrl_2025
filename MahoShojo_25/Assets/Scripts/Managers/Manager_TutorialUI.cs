@@ -12,13 +12,16 @@ public class Manager_TutorialUI : MonoBehaviour
     public TextMeshProUGUI speechText;
     public Sprite imgBearyNormal, imgBearySmirky;
     public string[] textToSayInOrder;
-    private int textId = 0;
-    private float timeToKeepTextUp = 1;
+    private int textId;
+    private float timeToKeepTextUp;
 
     [Space]
     [Space]
     public Image[] capturedImages;
 
+    [Space]
+    [Space]
+    public GameObject gameOverScreenObj;
 
     private void Awake()
     {
@@ -31,9 +34,7 @@ public class Manager_TutorialUI : MonoBehaviour
 
     private void Start()
     {
-        textId = -1;
-        HideText();
-        SetCaptureShowcase(0);
+        ResetTutorial();
     }
 
     public void SetCaptureShowcase(int _howManyCaptured)
@@ -45,7 +46,12 @@ public class Manager_TutorialUI : MonoBehaviour
                 capturedImages[i].color = Color.black;
     }
 
-
+    public void ResetTutorial()
+    {
+        textId = -1;
+        HideText();
+        SetCaptureShowcase(0);
+    }
 
     public void ShowText(bool _nextOne, int _forcedTextLine, bool _showSmirkyBeary, float _timeToShowText)
     {
@@ -64,7 +70,10 @@ public class Manager_TutorialUI : MonoBehaviour
         else
             imgBearHolder.sprite = imgBearyNormal;
 
-        timeToKeepTextUp = _timeToShowText;
+        if (_timeToShowText != 0)
+            timeToKeepTextUp = _timeToShowText;
+        else
+            timeToKeepTextUp = 4;
         imgBearHolder.gameObject.SetActive(true);
         StartCoroutine(DelayTextDisable());
     }
@@ -82,5 +91,17 @@ public class Manager_TutorialUI : MonoBehaviour
             yield return new WaitForSeconds(1);
         }
         HideText();
+    }
+
+
+    public void ShowGameOverScreen()
+    {
+        gameOverScreenObj.SetActive(true);
+    }
+
+    public void SendRestartGame()
+    {
+        if (Manager_GameState.Instance)
+        { gameOverScreenObj.SetActive(false); Manager_GameState.Instance.RestartGame(false); }
     }
 }

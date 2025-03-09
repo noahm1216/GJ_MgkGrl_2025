@@ -25,6 +25,12 @@ public class Manager_GameState : MonoBehaviour
     public int capturedCreatues_Unique { get; private set; }
     public int capturedPoints { get; private set; }
 
+    [Space]
+    [Header("Hit Points \n______________")]
+    public int hitpoints = 1;
+
+    private int currentHitPoints;
+
     private void Awake()
     {
         if (Instance != null && Instance != this) // If there is an instance, and it's not me, delete myself.
@@ -37,16 +43,7 @@ public class Manager_GameState : MonoBehaviour
     private void Start()
     {
         SaveObjectDataForRestart();
-    }
-
-    public void StartGameButton()
-    {
-        ChangeState(GAMESTATE.Playing);
-    }
-
-    public void RestartGameButton()
-    {
-        RestartGame(false);
+        RestartVariables(true);      
     }
 
 
@@ -74,24 +71,7 @@ public class Manager_GameState : MonoBehaviour
                 break;
         }
         currentState = _newState;
-    }
-
-    public void RestartGame(bool _totalRestart)
-    {
-        PauseToggle();
-        ChangeState(GAMESTATE.Menu);
-        CaptureChange(-capturedCreatues_Unique, -capturedPoints);
-
-        if (_totalRestart)
-        {          
-            Scene scene = SceneManager.GetActiveScene();
-            SceneManager.LoadScene(scene.name);
-        }
-        else
-        {           
-            LoadbjectDataForRestart();
-        }
-    }
+    }        
 
     // Update is called once per frame
     private void Update()
@@ -99,7 +79,6 @@ public class Manager_GameState : MonoBehaviour
         StateChecker();
         CheckForInputs();
     }
-
 
     private void StateChecker()
     {
@@ -121,7 +100,7 @@ public class Manager_GameState : MonoBehaviour
         }
     }
 
-    public void CheckForInputs()
+    private void CheckForInputs()
     {
         if(Input.GetKeyDown(key_Pause1) || Input.GetKeyDown(key_Pause2)) // pause toggle
         {
@@ -159,14 +138,72 @@ public class Manager_GameState : MonoBehaviour
         { Manager_TutorialUI.Instance.SetCaptureShowcase(capturedCreatues_Unique); }
     }
 
+    public bool ChangeHitPoints(int _amountChange)
+    {
+        currentHitPoints += _amountChange;
+        if (currentHitPoints > hitpoints)
+            currentHitPoints = hitpoints;
+        if (currentHitPoints <= 0)
+        { GameOver(); return true; } // returns true to say we did die
+
+        return false; // returns false to say we didnt die
+    }
 
 
 
+    #region GameOver And Restarts
+
+    public void StartGameButton()
+    {
+        ChangeState(GAMESTATE.Playing);
+    }
+
+    public void RestartGameButton()
+    {
+        RestartGame(false);
+    }
+
+    public void GameOver()
+    {
+        ChangeState(GAMESTATE.Lost);
+        if (Manager_TutorialUI.Instance)
+            Manager_TutorialUI.Instance.ShowGameOverScreen();
+    }
+
+
+    public void RestartGame(bool _totalRestart)
+    {
+        PauseToggle();
+        ChangeState(GAMESTATE.Menu);
+        RestartVariables(false);
+
+        if (_totalRestart)
+        {
+            Scene scene = SceneManager.GetActiveScene();
+            SceneManager.LoadScene(scene.name);
+        }
+        else
+            LoadbjectDataForRestart();
+    }
+
+
+    private void RestartVariables(bool _callingFromStart)
+    {       
+        currentHitPoints = hitpoints;       
+        CaptureChange(-capturedCreatues_Unique, -capturedPoints);
+
+        if (!_callingFromStart)
+        {
+            ChangeState(GAMESTATE.Playing);
+            StartCoroutine(ClearReferences());
+            if (Manager_TutorialUI.Instance)
+                Manager_TutorialUI.Instance.ResetTutorial();
+        }
+    }
 
 
 
-
-    public void SaveObjectDataForRestart()
+    private void SaveObjectDataForRestart()
     {
         if (objectsToResetPositions.Length > 0) // store references for fast restarts
         {
@@ -185,7 +222,7 @@ public class Manager_GameState : MonoBehaviour
         }
     }
 
-    public void LoadbjectDataForRestart()
+    private void LoadbjectDataForRestart()
     {
         if (objectsSpawnedDuringRuntime.Count > 0)
         {
@@ -211,9 +248,7 @@ public class Manager_GameState : MonoBehaviour
                 objectsToResetPositions[i].rotation = startRotations[i];
                 objectsToResetPositions[i].gameObject.SetActive(wasEnabled[i]);
             }
-        }
-
-        StartCoroutine(ClearReferences());
+        }       
     }
 
     private IEnumerator ClearReferences()
@@ -223,4 +258,5 @@ public class Manager_GameState : MonoBehaviour
         if (Manager_Platforms.Instance)
             Manager_Platforms.Instance.RemoveAnyNullPlatforms();
     }
+    #endregion GameOver And Restarts
 }

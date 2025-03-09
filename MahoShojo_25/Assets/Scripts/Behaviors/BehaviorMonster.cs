@@ -327,20 +327,22 @@ public class BehaviorMonster : MonoBehaviour
 
             if (Time.time > currentStateTimeStamp + captureFlyAwayTime) // DONE
             {
-                CaptureEvents();                
-                gameObject.SetActive(false);
+                if (CaptureEvents())
+                    gameObject.SetActive(false);
             }
 
         }
     }
 
-    private void CaptureEvents()
+    private bool CaptureEvents() // turned this into a bool so we can ensure its done before turning the object off
     {
         if (Manager_GameState.Instance)
         { Manager_GameState.Instance.CaptureChange(1, pointsForCapturing); }
 
         if (Manager_Platforms.Instance)
         { Manager_Platforms.Instance.ChangeMonsterVariables(true, false); }
+
+        return true;
     }
 
 }

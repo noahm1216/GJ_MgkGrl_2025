@@ -409,8 +409,8 @@ public class Manager_Platforms : MonoBehaviour
             if (monsterIsInPlay)
                 return;
 
-            if (Manager_Platforms.Instance && Manager_Platforms.Instance.isBlocked)
-                lastCaptureTimeStamp += Time.time;
+            //if (isBlocked)
+            //    lastCaptureTimeStamp += Time.time;
 
             if (Time.time > lastCaptureTimeStamp + waitTimeAfterCapture)
                 SpawnMonster();
@@ -429,13 +429,12 @@ public class Manager_Platforms : MonoBehaviour
             monstersSpawned++;
             if (Manager_GameState.Instance)
                 Manager_GameState.Instance.objectsSpawnedDuringRuntime.Add(spawnedMonster);
-            readyToSpawn = false;
-            monsterIsInPlay = true;
+            ChangeMonsterVariables(false, true);
         }
         else // spawn a random one
         {
             ChangeSpawningPlatforms(true);
-            Debug.Log("WARNING: We should finished the demo game and dont want to spawn more");
+            Debug.Log("WARNING: We should be finished with the demo game and dont want to spawn more");
         }
 
         //readyToSpawn = false;

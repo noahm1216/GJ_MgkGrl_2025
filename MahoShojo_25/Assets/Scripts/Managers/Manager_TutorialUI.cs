@@ -102,6 +102,6 @@ public class Manager_TutorialUI : MonoBehaviour
     public void SendRestartGame()
     {
         if (Manager_GameState.Instance)
-        { gameOverScreenObj.SetActive(false); Manager_GameState.Instance.RestartGame(false); }
+        { gameOverScreenObj.SetActive(false); Manager_GameState.Instance.RestartGame(true); }
     }
 }

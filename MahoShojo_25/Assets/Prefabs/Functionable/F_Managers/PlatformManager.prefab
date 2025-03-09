@@ -145,7 +145,7 @@ MonoBehaviour:
   - {x: 14, y: 4, z: 0}
   - {x: 14, y: 4, z: 0}
   - {x: 14, y: 4, z: 0}
-  waitTimeAfterCapture: 10
+  waitTimeAfterCapture: 5
 --- !u!1 &8961270979148288246
 GameObject:
   m_ObjectHideFlags: 0

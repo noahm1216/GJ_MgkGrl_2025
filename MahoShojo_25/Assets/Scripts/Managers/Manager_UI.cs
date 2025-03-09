@@ -9,6 +9,12 @@ public class Manager_UI : MonoBehaviour
     public GameObject[] objectsToHideOnStart, objectsToShowOnPlay;
     public GameObject pauseMenu;
 
+    public KeyInputData[] keybindings;
+    public PlayerCore ref_PlayerCore;
+    public ChargingPocki ref_ChargingPocki;
+    private bool detectingKeyInput;
+
+
     private void Awake()
     {
         if (Instance != null && Instance != this) // If there is an instance, and it's not me, delete myself.
@@ -23,6 +29,70 @@ public class Manager_UI : MonoBehaviour
         if (objectsToHideOnStart.Length > 0)
             for (int i = 0; i < objectsToHideOnStart.Length; i++)
                 objectsToHideOnStart[i].SetActive(false);
+
+        detectingKeyInput = false;
+    }
+
+    private void LateUpdate()
+    {
+        if (detectingKeyInput)
+        {
+            print("waiting for input");
+            var newKey = DetectInput();
+            if (newKey != KeyCode.None)
+            {                
+                for (int i = 0; i < keybindings.Length; i++)
+                {                   
+                    if (keybindings[i].changingNow)
+                    {
+                        print($"Found key that needs changing: {keybindings[i].keycodeActionText.text} - changing key from: {keybindings[i].theKeycode} - to: {newKey}");
+                        keybindings[i].FillOutTheData(newKey, keybindings[i].keycodeActionText.text);
+                        keybindings[i].TryingToChange(false);
+                        UpdateGameControls(newKey, keybindings[i].keycodeActionText.text.ToLower());
+                        detectingKeyInput = false;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    private void UpdateGameControls(KeyCode _newKey, string _keyDescription)
+    {
+        if (string.IsNullOrEmpty(_keyDescription))
+            return;
+
+        switch (_keyDescription)
+        {
+            case "jump":
+                if (ref_PlayerCore)
+                    ref_PlayerCore.key_MoveUp = _newKey;
+                break;
+            case "pause 1":
+                if (Manager_GameState.Instance)
+                    Manager_GameState.Instance.key_Pause1 = _newKey;
+                break;
+            case "pause 2":
+                if (Manager_GameState.Instance)
+                    Manager_GameState.Instance.key_Pause2 = _newKey;
+                break;
+            case "dash":
+                if (Manager_Platforms.Instance)
+                    Manager_Platforms.Instance.key_MovePlatformsLeft = _newKey;
+                break;
+            case "retract":
+                if (Manager_Platforms.Instance)
+                    Manager_Platforms.Instance.key_MovePlatformsRight = _newKey;
+                break;
+            case "shoot":
+                if (ref_ChargingPocki)
+                    ref_ChargingPocki.keyToCharge = _newKey;
+                break;
+            default:
+                Debug.Log($"ERROR: Missing keybinding text for: {_keyDescription}");
+                break;
+
+        }        
     }
 
     public void EnableStartObjects()
@@ -34,7 +104,7 @@ public class Manager_UI : MonoBehaviour
 
     public void ClickedHomeButton()
     {
-        print("didnt set up the code for this yet"); // need to account for if game mode is Main Menu or if it is paused
+        //print("didnt set up the code for this yet"); // need to account for if game mode is Main Menu or if it is paused
         if (Manager_GameState.Instance && Manager_GameState.Instance.currentState == Manager_GameState.GAMESTATE.Paused)
         {
             Manager_GameState.Instance.RestartGame(true);
@@ -51,5 +121,24 @@ public class Manager_UI : MonoBehaviour
     {
         if (pauseMenu)
             pauseMenu.SetActive(!pauseMenu.activeSelf);
+    }
+
+    public void TryingToChangeKeyInput()
+    {
+        if (!detectingKeyInput)
+            detectingKeyInput = true;
+    }
+
+    public KeyCode DetectInput()
+    {
+        foreach (KeyCode vkey in System.Enum.GetValues(typeof(KeyCode)))
+        {
+            if (Input.GetKey(vkey))
+            {
+                //print($"Changed Key To: {vkey}");
+                return vkey;
+            }
+        }
+        return KeyCode.None;
     }
 }

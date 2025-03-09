@@ -110,6 +110,7 @@ public class Manager_GameState : MonoBehaviour
 
     public void PauseToggle()
     {
+        print("calling game pause");
         if (currentState != GAMESTATE.Paused)
         {
             stateWhenPaused = currentState;
@@ -173,9 +174,12 @@ public class Manager_GameState : MonoBehaviour
 
     public void RestartGame(bool _totalRestart)
     {
-        PauseToggle();
+        if (currentState == GAMESTATE.Paused)
+            PauseToggle();
         ChangeState(GAMESTATE.Menu);
         RestartVariables(false);
+        if (Manager_Platforms.Instance)
+            Manager_Platforms.Instance.ChangeMonsterVariables(true, false);
 
         if (_totalRestart)
         {

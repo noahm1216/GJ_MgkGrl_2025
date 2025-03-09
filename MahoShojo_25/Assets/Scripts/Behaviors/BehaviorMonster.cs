@@ -14,6 +14,7 @@ public class BehaviorMonster : MonoBehaviour
     [Header("General Variables\n______________")]
     public MONSTERSTATE currentState = MONSTERSTATE.Waiting; // { get; private set; } 
     public Transform playerObj;
+    public SphereCollider collider;
 
     private string tag_ToHunt = "Player";
     private float currentStateTimeStamp;
@@ -92,6 +93,7 @@ public class BehaviorMonster : MonoBehaviour
         ChangeState(MONSTERSTATE.Waiting);
         currentStateTimeStamp = Time.time;
         currentCapturePointsLeft = pointsUntilCaptured;
+        collider.enabled = false;
         if (startScale == Vector3.zero)
             startScale = transform.localScale;
         transform.localScale = startScale;
@@ -108,9 +110,7 @@ public class BehaviorMonster : MonoBehaviour
         if (currentState != MONSTERSTATE.Waiting && Manager_GameState.Instance && Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing)
         { currentState = MONSTERSTATE.Waiting; return; }
 
-        StateChecker();
-
-      
+        StateChecker();      
     }
 
     public void ChangeCapturePoints(int _changeAmount)
@@ -271,7 +271,7 @@ public class BehaviorMonster : MonoBehaviour
     private void StateAttacking()
     {
         if (!didStoreAttack)
-        { storedAttackPos = (playerObj.transform.position + positionalTargetOffset); didStoreAttack = true; }
+        { storedAttackPos = (playerObj.transform.position + positionalTargetOffset); didStoreAttack = true; collider.enabled = true; }
 
         var step = attackSpeed * Time.deltaTime; // calculate distance to move
         transform.position = Vector3.MoveTowards(transform.position, storedAttackPos, step);
@@ -281,7 +281,7 @@ public class BehaviorMonster : MonoBehaviour
         storedAttackPos += MoveWithBackground();
 
         if (dist <= targetTolerance)
-            ChangeState(MONSTERSTATE.Recovering);
+        { ChangeState(MONSTERSTATE.Recovering); collider.enabled = false; }
     }
 
     private void StateRecovering()

@@ -128,7 +128,7 @@ public class Manager_Platforms : MonoBehaviour
             SpawnOrPoolPlatform(null, true);
 
         lastCaptureTimeStamp = Time.time;
-        readyToSpawn = true;
+        ChangeMonsterVariables(true, false);
     }
 
     // Update is called once per frame
@@ -352,9 +352,11 @@ public class Manager_Platforms : MonoBehaviour
             Debug.Log("WARNING: Tried to remove a platform that wasnt in the list");
 
     }
-    public void RemoveAnyNullPlatforms()
+    public void RemoveAnyNullPlatforms() // this is called when we RESET ... so TODO: make a reset function that calls these things instead
     {
-        for(int i = 0; i < spawnedPlatformsInPlay.Count; i++)
+        ChangeMonsterVariables(true, false);
+
+        for (int i = 0; i < spawnedPlatformsInPlay.Count; i++)
         {
             if (spawnedPlatformsInPlay[i] == null)
                 spawnedPlatformsInPlay.RemoveAt(i);
@@ -390,7 +392,7 @@ public class Manager_Platforms : MonoBehaviour
 
     public void ChangeMonsterVariables(bool _readyToSpawn, bool _monsterInPlay)
     {
-        if (monsterIsInPlay && !monsterIsInPlay)
+        if (monsterIsInPlay && !_monsterInPlay)
             lastCaptureTimeStamp = Time.time;
 
         readyToSpawn = _readyToSpawn;
@@ -400,7 +402,7 @@ public class Manager_Platforms : MonoBehaviour
     private void CheckForMonsterSpawn()
     {
         if (Manager_GameState.Instance && Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing)
-            return;
+        { print($"no spawning monsters during { Manager_GameState.Instance.currentState} mode");  return; }
 
         if (readyToSpawn)
         {

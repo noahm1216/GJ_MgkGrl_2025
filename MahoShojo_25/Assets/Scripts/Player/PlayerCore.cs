@@ -207,10 +207,8 @@ public class PlayerCore : MonoBehaviour
 
     private void OnTriggerEnter(Collider trig)
     {
-        print($"Hit by: {trig.name} - tagged: {trig.tag}");
         if(trig.tag == "Monster") // we were hit
         {
-            print("HIT BY A MONSTER!!!");
             if (Manager_GameState.Instance)
                 if (Manager_GameState.Instance.ChangeHitPoints(-1))
                     onDeath.Invoke();

@@ -1336,6 +1336,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: 0
   playerObj: {fileID: 0}
+  collider: {fileID: -6051332401741847870}
   activatesOnWait: 1
   waitTime: 60
   activatesOnDistance: 1

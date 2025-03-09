@@ -7,6 +7,7 @@ using UnityEditor;
 public class ChargingPocki : MonoBehaviour
 {
     public KeyCode keyToCharge;
+    public bool alwaysShowPockiOnceUnlocked = true;
     public Transform pockiBoxObj, visualObjMeter;
     public float requiredChargeTime = 1;
     public bool chargeTimeEqualsPockiCollected; 
@@ -28,7 +29,7 @@ public class ChargingPocki : MonoBehaviour
     {
 
         if (pockiBoxObj)
-            pockiBoxObj.gameObject.SetActive(false);
+            pockiBoxObj.gameObject.SetActive(false);      
 
     }
 
@@ -39,8 +40,20 @@ public class ChargingPocki : MonoBehaviour
         if (keyToCharge == KeyCode.None)
         { Debug.Log("WARNING: Unable to run charge code due to no key specified"); return; }
 
+        if (alwaysShowPockiOnceUnlocked && Manager_Platforms.Instance)
+        {
+            pockiCollected = Manager_Platforms.Instance.pockiBoxSticks;
+            if (Manager_Platforms.Instance.playerUnlockedPockiBox)
+                pockiBoxObj.gameObject.SetActive(true);
+            else {
+                pockiBoxObj.gameObject.SetActive(false);
+                return;
+            }
+        }
+
         if (pockiCollected == 0) // no pocki to fire
             return;
+
 
         if (Input.GetKeyUp(keyToCharge)) // let go of key (no longer charging)
         {
@@ -51,6 +64,9 @@ public class ChargingPocki : MonoBehaviour
 
             if (pockiBoxObj && followPlayer)
                 pockiBoxObj.SetParent(null);
+
+            if (pockiBoxObj && visualObjMeter)
+                visualObjMeter.localScale = new Vector3(visualObjMeter.localScale.x, 0.1f, visualObjMeter.localScale.z);
         }
 
         if (Input.GetKeyDown(keyToCharge)) // Pressing key (start charging)
@@ -82,6 +98,10 @@ public class ChargingPocki : MonoBehaviour
 
         if (chargeTimeEqualsPockiCollected)
             requiredChargeTime = pockiCollected;
+
+        if (Manager_Platforms.Instance)
+            pockiCollected += 1;
+
     }
 
 

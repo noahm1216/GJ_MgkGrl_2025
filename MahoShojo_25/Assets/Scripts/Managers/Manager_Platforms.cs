@@ -92,12 +92,17 @@ public class Manager_Platforms : MonoBehaviour
 
     public bool readyToSpawn { get; private set; } // decidor when we can spawn
     public bool monsterIsInPlay { get; private set; } // so we dont over spawn
-    private int monstersSpawned; // tracking how manywe've spawned
-    private Transform spawnedMonster; // the monster we want to track
+    public int monstersSpawned { get; private set; } // tracking how manywe've spawned
+    public Transform spawnedMonster { get; private set; } // the monster we want to track
     //private List<Transform> allSpawnedMonsters = new List<Transform>(); // to pool the monsters, but this should come in later versions
     private float lastCaptureTimeStamp;
 
 
+    [Space]
+    [Space]
+    [Header("Pocki Objects\n______________")]
+    public bool playerUnlockedPockiBox;
+    public int pockiBoxSticks = 1;
 
 
     private bool FoundErrors()
@@ -127,7 +132,7 @@ public class Manager_Platforms : MonoBehaviour
         for (int i = 0; i < platformsToKeepOnScreen - 1; i++)
             SpawnOrPoolPlatform(null, true);
 
-        lastCaptureTimeStamp = Time.time;
+        lastCaptureTimeStamp = Time.time + (waitTimeAfterCapture * 4); // the first monster shouldnt spawn right away, but the normal pacing is good for most
         ChangeMonsterVariables(true, false);
     }
 
@@ -143,7 +148,6 @@ public class Manager_Platforms : MonoBehaviour
             if (Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing)
                 return;
         }
-
         CheckForInputs();
         CheckDashing();
         MoveMaps();
@@ -163,7 +167,6 @@ public class Manager_Platforms : MonoBehaviour
         lastCaptureTimeStamp = Time.time;
         ChangeSpawningPlatforms(true);
         readyToSpawn = true;
-
     }
 
     private void ReactToGameManager()
@@ -192,6 +195,7 @@ public class Manager_Platforms : MonoBehaviour
     {
         if (isBlocked)
             return 0;
+
         float speed = ((speedBase * dir * inputXYTime) * speedLimiting);
         speed = Mathf.Round(speed * 100f) / 100f; // rounding 2 Decimals so for other reliable calculations
         if (playerInAir && !isDashing)
@@ -204,7 +208,15 @@ public class Manager_Platforms : MonoBehaviour
     public void SpawnNewPlatformFromEdge()
     {
         if (stopSpawningPlatforms)
+        {            
+            if(spawnedPlatformsInPlay.Count > 1)
+            {
+                for (int i = 1; i < spawnedPlatformsInPlay.Count; i++)
+                    RemoveSpecificPlatform(i, false);
+            }
             return;
+        }
+            
 
         if (Manager_GameState.Instance)
             Manager_GameState.Instance.objectsSpawnedDuringRuntime.Add(SpawnOrPoolPlatform(null, false));

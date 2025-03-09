@@ -43,7 +43,7 @@ public class PlayerCore : MonoBehaviour
     private float lagInputTime;
 
     // slam down ability (optional if time)
-   
+
 
 
     [Space]
@@ -78,19 +78,19 @@ public class PlayerCore : MonoBehaviour
 
     private void Start()
     {
-        jumpLeftToAchieve = maximumJumpPower;        
+        jumpLeftToAchieve = maximumJumpPower;
     }
 
     private void Update() // TODO: remove inputXY from affecting jump (always affect at full speed)
     {
-        if(activeModelReference != activeModel && modelsToPickFrom.Length > 0)
+        if (activeModelReference != activeModel && modelsToPickFrom.Length > 0)
         {
             if (activeModel >= modelsToPickFrom.Length)
                 activeModel = 0;
             if (activeModel < 0)
                 activeModel = modelsToPickFrom.Length - 1;
 
-                for (int i = 0; i < modelsToPickFrom.Length;i++)
+            for (int i = 0; i < modelsToPickFrom.Length; i++)
                 if (i == activeModel)
                     modelsToPickFrom[i].GetChild(0).gameObject.SetActive(true);
                 else
@@ -143,7 +143,7 @@ public class PlayerCore : MonoBehaviour
                 jumpLeftToAchieve = 0;// maximumJumpPower;
                 onSuccess_MoveUp.Invoke();
             }
-        }       
+        }
     }
 
     private void FixedUpdate()
@@ -151,7 +151,7 @@ public class PlayerCore : MonoBehaviour
         if (jumpLeftToAchieve < maximumJumpPower)
         {
             if (rb3D)
-                rb3D.AddForce((Vector3.up * dir) * jumpLeftToAchieve * lagInputTime);           
+                rb3D.AddForce((Vector3.up * dir) * jumpLeftToAchieve * lagInputTime);
             jumpLeftToAchieve += 1 * jumpAcceleration;
         }
         if (rb3D.velocity.y < 0) // faling / moving down
@@ -170,20 +170,20 @@ public class PlayerCore : MonoBehaviour
             Vector3 raycastDirection = transform.right;
 
             if (Manager_Platforms.Instance.dir < 0) // forward or idle
-                raycastDirection = -transform.right;          
+                raycastDirection = -transform.right;
 
             //Manager_Platforms.Instance.ChangeIsBlocked(Physics.Raycast(transform.position + offset, transform.TransformDirection(raycastDirection), out hit, raycastDistance, layersThatResetJumps));
-            if(CheckBlockerRaycasts((transform.right), Manager_Platforms.Instance.dir, new Vector3(0, 0.25f, 0), 0.15f) ||
+            if (CheckBlockerRaycasts((transform.right), Manager_Platforms.Instance.dir, new Vector3(0, 0.25f, 0), 0.15f) ||
                 CheckBlockerRaycasts(transform.right, Manager_Platforms.Instance.dir, new Vector3(0, 0.65f, 0), 0.5f) ||
                 CheckBlockerRaycasts(transform.right, Manager_Platforms.Instance.dir, new Vector3(0, 1f, 0), 1.05f))
-            Manager_Platforms.Instance.ChangeIsBlocked(true);
+                Manager_Platforms.Instance.ChangeIsBlocked(true);
             else
                 Manager_Platforms.Instance.ChangeIsBlocked(false);
         }
     }
 
     private bool CheckBlockerRaycasts(Vector3 _raycastDirection, int _dir, Vector3 _offset, float _dist)
-    {       
+    {
         if (_dir < 0) // forward or idle
             _raycastDirection = -_raycastDirection;
 
@@ -207,13 +207,31 @@ public class PlayerCore : MonoBehaviour
 
     private void OnTriggerEnter(Collider trig)
     {
-        if(trig.tag == "Monster") // we were hit
+        print($"trig: with: {trig.tag}");
+        if (trig.tag == "Monster") // we were hit
         {
             if (Manager_GameState.Instance)
                 if (Manager_GameState.Instance.ChangeHitPoints(-1))
                     onDeath.Invoke();
                 else
                     onHit.Invoke();
+        }
+
+        if (trig.tag == "PockiBox") // we were hit
+        {
+            if (Manager_Platforms.Instance)
+                if (!Manager_Platforms.Instance.playerUnlockedPockiBox)
+                    Manager_Platforms.Instance.playerUnlockedPockiBox = true;
+            if (trig.GetComponent<Collectible>())
+                trig.GetComponent<Collectible>().Interacted();
+        }
+
+        if (trig.tag == "PockiStick") // we were hit
+        {
+            if (Manager_Platforms.Instance)
+                Manager_Platforms.Instance.pockiBoxSticks += 1;
+            if (trig.GetComponent<Collectible>())
+                trig.GetComponent<Collectible>().Interacted();
         }
     }
 }

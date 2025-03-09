@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Monster
   - SpawnParent
+  - PockiBox
+  - PockiStick
   layers:
   - Default
   - TransparentFX

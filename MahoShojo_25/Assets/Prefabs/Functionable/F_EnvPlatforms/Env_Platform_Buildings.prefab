@@ -1835,6 +1835,43 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &5686737676552636854
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2362797956263950275}
+  m_Layer: 0
+  m_Name: Pocki Collectibles
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2362797956263950275
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5686737676552636854}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 7932438974747513761}
+  - {fileID: 3881724050476710328}
+  - {fileID: 8395891908616825808}
+  - {fileID: 124463378937251376}
+  - {fileID: 1785847466152417776}
+  - {fileID: 5352056564953429187}
+  m_Father: {fileID: 419097871866241297}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5791375808066189417
 GameObject:
   m_ObjectHideFlags: 0
@@ -2019,6 +2056,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 2362797956263950275}
   - {fileID: 934755333053415434}
   - {fileID: 399262020763238892}
   - {fileID: 7360285638949404071}
@@ -3900,6 +3938,154 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 691949088475469653}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &975391540671674928
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2362797956263950275}
+    m_Modifications:
+    - target: {fileID: 1412711325848995237, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_Name
+      value: PockiStick - Collect (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 25.91
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.99
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b7b2ce5e34289b64d8992099eb6237b0, type: 3}
+--- !u!4 &1785847466152417776 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 975391540671674928}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1512080790017910256
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2362797956263950275}
+    m_Modifications:
+    - target: {fileID: 1412711325848995237, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_Name
+      value: PockiStick - Collect (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 10.34
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.27
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b7b2ce5e34289b64d8992099eb6237b0, type: 3}
+--- !u!4 &124463378937251376 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 1512080790017910256}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1834840917600096582
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4072,6 +4258,80 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8823676262028262844, guid: 101b56801f552e943adb1c7b9316de98,
     type: 3}
   m_PrefabInstance: {fileID: 2277415248220624983}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2350725941735266936
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2362797956263950275}
+    m_Modifications:
+    - target: {fileID: 1412711325848995237, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_Name
+      value: PockiStick - Collect (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2.41
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 4.87
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b7b2ce5e34289b64d8992099eb6237b0, type: 3}
+--- !u!4 &3881724050476710328 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 2350725941735266936}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2480984745654240338
 PrefabInstance:
@@ -4987,6 +5247,154 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 6622839691559116560}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &6847583225443030787
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2362797956263950275}
+    m_Modifications:
+    - target: {fileID: 1412711325848995237, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_Name
+      value: PockiStick - Collect (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 37.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 6.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b7b2ce5e34289b64d8992099eb6237b0, type: 3}
+--- !u!4 &5352056564953429187 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 6847583225443030787}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &7045284075803936784
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2362797956263950275}
+    m_Modifications:
+    - target: {fileID: 1412711325848995237, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_Name
+      value: PockiStick - Collect (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -11.66
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.86
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b7b2ce5e34289b64d8992099eb6237b0, type: 3}
+--- !u!4 &8395891908616825808 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 7045284075803936784}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7090918959808368643
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5159,6 +5567,80 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3322677229509246803, guid: efb44215e6f1b934f9a9dbdcf983691f,
     type: 3}
   m_PrefabInstance: {fileID: 7769048334757958980}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &8886864884070232161
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2362797956263950275}
+    m_Modifications:
+    - target: {fileID: 1412711325848995237, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_Name
+      value: PockiStick - Collect
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -27.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.91
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b7b2ce5e34289b64d8992099eb6237b0, type: 3}
+--- !u!4 &7932438974747513761 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1531738166542476224, guid: b7b2ce5e34289b64d8992099eb6237b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 8886864884070232161}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &9206910480989671742
 PrefabInstance:

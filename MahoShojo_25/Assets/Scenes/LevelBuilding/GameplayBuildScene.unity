@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.035338014, g: 0.025184821, b: 0.097033896, a: 1}
+  m_IndirectSpecularColor: {r: 0.03524626, g: 0.025093067, b: 0.096942164, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2480,6 +2480,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4608699419059001904, guid: 2233f553fe2318642aa3a791cd349c69,
+        type: 3}
+      propertyPath: pockiBoxSticks
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4885975240584786480, guid: 2233f553fe2318642aa3a791cd349c69,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -2673,11 +2678,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3457541926653645771, guid: 2233f553fe2318642aa3a791cd349c69,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2233f553fe2318642aa3a791cd349c69, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

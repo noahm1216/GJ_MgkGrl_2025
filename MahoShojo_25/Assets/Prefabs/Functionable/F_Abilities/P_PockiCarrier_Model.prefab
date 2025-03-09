@@ -891,7 +891,7 @@ MonoBehaviour:
   tryToPool: 1
   destroyTimer: 0
   pockiSticksInBoxParent: {fileID: 83776077899478154}
-  radiusForMultiplePocki: 8
+  radiusForMultiplePocki: 2
 --- !u!1001 &1090700238032332125
 PrefabInstance:
   m_ObjectHideFlags: 0

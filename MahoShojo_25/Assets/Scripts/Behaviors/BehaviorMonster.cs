@@ -135,13 +135,11 @@ public class BehaviorMonster : MonoBehaviour
 
         for (int i = 0; i < uiHolderOfHeartPoints.childCount; i++)
         {
-            Image heartPiece = null;
-            uiHolderOfHeartPoints.GetChild(i).TryGetComponent(out heartPiece);
-            if (heartPiece)
+            if(uiHolderOfHeartPoints.GetChild(i))
                 if (i < percentHP)
-                    heartPiece.enabled = true;
+                    uiHolderOfHeartPoints.GetChild(i).gameObject.SetActive(true);
                 else
-                    heartPiece.enabled = true;
+                    uiHolderOfHeartPoints.GetChild(i).gameObject.SetActive(false);
         }
     }
 

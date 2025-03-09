@@ -14,8 +14,14 @@ public class KeyInputData : MonoBehaviour
     {
         theKeycode = _newKeycode;
 
-        if (keycodeText)
-            keycodeText.text = _newKeycode.ToString();
+        //if (keycodeText)
+        //    keycodeText.text = _newKeycode.ToString(); // this isnt working for some reason
+
+        if (keycodeText != null)
+        {
+            string keycodeToString = _newKeycode.ToString();
+            keycodeText.text = keycodeToString;
+        }
 
         if (keycodeActionText)
             keycodeActionText.text = _keyPurpose;

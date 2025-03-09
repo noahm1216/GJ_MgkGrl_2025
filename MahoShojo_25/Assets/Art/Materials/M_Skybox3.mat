@@ -61,7 +61,7 @@ Material:
     m_Floats:
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _StarDensity: 21.55
+    - _StarDensity: 0
     - _exp: 2
     m_Colors:
     - _NoiseColor1: {r: 0.15521538, g: 0.15982443, b: 0.3018868, a: 1}

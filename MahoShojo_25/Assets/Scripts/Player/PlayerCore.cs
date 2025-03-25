@@ -122,9 +122,9 @@ public class PlayerCore : MonoBehaviour
             onPress_MoveUp.Invoke();
         }
 
-        if (Input.GetKeyUp(key_MoveUp))
+        if (Input.GetKeyDown(key_MoveUp))
         {
-            onRelease_MoveUp.Invoke();
+            onRelease_MoveUp.Invoke(); // changed to pres down instead of press up
             if (CanJump())
             {
                 if (inputXYTime <= inputTimeForQuickJumps) // jumpTime for tapping inputs

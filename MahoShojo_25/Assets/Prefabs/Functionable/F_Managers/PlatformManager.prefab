@@ -49,14 +49,14 @@ MonoBehaviour:
   key_MovePlatformsRight: 97
   automaicallyMoveRight: 1
   dashRequiresDoubleTap: 0
-  timeWindowForDashing: 0.75
-  dashingSpeedMultiplier: 2.25
+  timeWindowForDashing: 0.25
+  dashingSpeedMultiplier: 1.25
   dashingLastingTime: 0.75
   onDashEvent:
     m_PersistentCalls:
       m_Calls: []
   speedBase: 0.1
-  speedLimiting: 0.2
+  speedLimiting: 0.8
   speedAcceleration: 0.66
   speedDeceleration: 2
   speedChangeOnDirectionChange: 0.33

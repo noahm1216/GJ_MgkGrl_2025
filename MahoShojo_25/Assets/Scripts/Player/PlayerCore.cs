@@ -160,7 +160,10 @@ public class PlayerCore : MonoBehaviour
         if (Manager_GameState.Instance)
         {
             if (Manager_GameState.Instance.capturedCreatues_Unique >= 6 && transform.position.y < 25) // falling off the buildings
-            { print($"transform.position = {transform.position}"); Manager_GameState.Instance.WonTheGame(); }
+            {
+                //print($"transform.position = {transform.position}");
+                Manager_GameState.Instance.WonTheGame();
+            }
         }
     }
 

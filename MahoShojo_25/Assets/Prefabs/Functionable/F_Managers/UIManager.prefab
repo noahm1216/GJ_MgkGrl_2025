@@ -1842,6 +1842,41 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8277803311226223437, guid: abe4612d5e438e441b6d5031343f5b5f,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8277803311226223437, guid: abe4612d5e438e441b6d5031343f5b5f,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8277803311226223437, guid: abe4612d5e438e441b6d5031343f5b5f,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 413078283430909878}
+    - target: {fileID: 8277803311226223437, guid: abe4612d5e438e441b6d5031343f5b5f,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8277803311226223437, guid: abe4612d5e438e441b6d5031343f5b5f,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SendRestartGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 8277803311226223437, guid: abe4612d5e438e441b6d5031343f5b5f,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Manager_TutorialUI, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8277803311226223437, guid: abe4612d5e438e441b6d5031343f5b5f,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 8542135811409498601, guid: abe4612d5e438e441b6d5031343f5b5f,
         type: 3}
       propertyPath: m_AnchorMax.y

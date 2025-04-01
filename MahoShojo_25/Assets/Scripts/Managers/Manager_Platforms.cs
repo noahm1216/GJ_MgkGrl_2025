@@ -60,6 +60,7 @@ public class Manager_Platforms : MonoBehaviour
     [Range(0.00f, 2f)] public float speedChangeWhileInAir = 0.66f;
 
     private float startSpeedAccel;
+    private float startSpeedAccelStamp, startSpeedAceelWaitTime = 10;
     private float inputXYTime;
     public int dir { get; private set; } = 1;
     public bool isBlocked { get; private set; }
@@ -222,11 +223,18 @@ public class Manager_Platforms : MonoBehaviour
     }
 
     public bool StartSpeedIsRampedUp() // lets us know if we are at full speed and makes adjustments if needed
-    {
-        if (startSpeedAccel < 1)
-        { startSpeedAccel += 0.05f * Time.deltaTime; return false; }
+    {      
+        if(Time.time > startSpeedAccelStamp + startSpeedAceelWaitTime && startSpeedAccel < 1)
+        {
+            startSpeedAccelStamp = Time.time;
+            startSpeedAccel += 0.05f * Time.deltaTime;
+            return false;
+        }
+
+        if (startSpeedAccel >= 1)
+        { print("DONE SPEEDING UP"); startSpeedAccel = 1; return true; }
         else
-        { print("DONE SPEEDING UP");  startSpeedAccel = 1; return true; }                 
+            return false;              
     }
 
     public void SpawnNewPlatformFromEdge()

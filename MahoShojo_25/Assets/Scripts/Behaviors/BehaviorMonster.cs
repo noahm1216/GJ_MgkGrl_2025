@@ -81,8 +81,9 @@ public class BehaviorMonster : MonoBehaviour
     public float distanceToCollect = 0.5f;    
     [Space]
     [Space]
-    public float captureFlyAwayTime = 10;      
-
+    public float captureFlyAwayTime = 10;
+    [Space]
+    public UnityEvent onHit, onCapture;
    
     private float percentHP;
     private int currentCapturePointsLeft;
@@ -123,6 +124,7 @@ public class BehaviorMonster : MonoBehaviour
             ChangeState(MONSTERSTATE.Captured);
 
         UpdateUserInterface();
+        onHit.Invoke();
     }
 
     private void UpdateUserInterface()
@@ -148,6 +150,9 @@ public class BehaviorMonster : MonoBehaviour
         currentStateTimeStamp = Time.time;
         ResetVariables();
         currentState = _newState;
+
+        if (currentState != MONSTERSTATE.Captured && _newState == MONSTERSTATE.Captured)
+            onCapture.Invoke();
     }
 
     private void ResetVariables()

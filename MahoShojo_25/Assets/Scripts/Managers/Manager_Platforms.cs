@@ -46,9 +46,10 @@ public class Manager_Platforms : MonoBehaviour
     [Header("Platform Objects\n______________")]
     [Tooltip("The starting Variable for how our speed is calculated")]
     [Range(0.1f, 1)]
-    public float speedBase = 10;
+    public float speedBase = 0.1f;   
     [Tooltip("Change how fast / slow we can go at top speed")]
     [Range(0.1f, 1.0f)] public float speedLimiting = 0.25f;
+    public bool startPlayerSlowly = true;
     [Tooltip("Change how fast / slow we ramp up to full speed")]
     [Range(0.1f, 6f)] public float speedAcceleration = 1;
     [Tooltip("Change how fast / slow we ramp down when we let go of the controls")]
@@ -58,6 +59,7 @@ public class Manager_Platforms : MonoBehaviour
     [Tooltip("When not touching anything (in air). our speed will be adjusted by this amound (0.5 means we cut half of our speed)")]
     [Range(0.00f, 2f)] public float speedChangeWhileInAir = 0.66f;
 
+    private float startSpeedAccel;
     private float inputXYTime;
     public int dir { get; private set; } = 1;
     public bool isBlocked { get; private set; }
@@ -105,6 +107,11 @@ public class Manager_Platforms : MonoBehaviour
     public int pockiBoxSticks = 1;
 
 
+    [Space]
+    [Header("Camera\n______________")]
+    public BehaviorCameraFollower ref_BehaviorCameraFollower;
+
+
     private bool FoundErrors()
     {
         if (listOfSpawnablePlatforms.Count == 0)
@@ -132,8 +139,16 @@ public class Manager_Platforms : MonoBehaviour
         for (int i = 0; i < platformsToKeepOnScreen - 1; i++)
             SpawnOrPoolPlatform(null, true);
 
-        lastCaptureTimeStamp = Time.time + (waitTimeAfterCapture * 4); // the first monster shouldnt spawn right away, but the normal pacing is good for most
+        lastCaptureTimeStamp = Time.time + (waitTimeAfterCapture * 2); // the first monster shouldnt spawn right away, but the normal pacing is good for most
         ChangeMonsterVariables(true, false);
+
+        if (startPlayerSlowly)
+            startSpeedAccel = 0;
+        else
+            startSpeedAccel = 1;
+
+        if (!ref_BehaviorCameraFollower && Camera.main)
+            Camera.main.TryGetComponent(out ref_BehaviorCameraFollower);
     }
 
     // Update is called once per frame
@@ -152,6 +167,7 @@ public class Manager_Platforms : MonoBehaviour
         CheckDashing();
         MoveMaps();
         CheckForMonsterSpawn();
+        StartSpeedIsRampedUp();
     }
 
     public void ResetToBeginning()
@@ -191,18 +207,26 @@ public class Manager_Platforms : MonoBehaviour
         playerInAir = _inAir;
     }
 
-    public float CurrentSpeed()
+    public float CurrentSpeed() // calculatedSpeed
     {
         if (isBlocked)
             return 0;
 
-        float speed = ((speedBase * dir * inputXYTime) * speedLimiting);
+        float speed = ((speedBase * dir * inputXYTime) * speedLimiting) * startSpeedAccel;
         speed = Mathf.Round(speed * 100f) / 100f; // rounding 2 Decimals so for other reliable calculations
         if (playerInAir && !isDashing)
             speed *= speedChangeWhileInAir;
         if (isDashing)
             speed *= dashingSpeedMultiplier;
         return speed; // if we dont round we dont need to create a new variable
+    }
+
+    public bool StartSpeedIsRampedUp() // lets us know if we are at full speed and makes adjustments if needed
+    {
+        if (startSpeedAccel < 1)
+        { startSpeedAccel += 0.05f * Time.deltaTime; return false; }
+        else
+        { print("DONE SPEEDING UP");  startSpeedAccel = 1; return true; }                 
     }
 
     public void SpawnNewPlatformFromEdge()
@@ -246,6 +270,9 @@ public class Manager_Platforms : MonoBehaviour
             { inputXYTime *= speedChangeOnDirectionChange; dir = 1; }
             inputXYTime += 1 * Time.deltaTime * speedAcceleration;
             if (inputXYTime > 1) { inputXYTime = 1; }
+
+            if (ref_BehaviorCameraFollower)
+                ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.MovingBackwards, false);
         }
         else if (Input.GetKey(key_MovePlatformsLeft) || automaicallyMoveRight ) // going right
         {
@@ -264,6 +291,9 @@ public class Manager_Platforms : MonoBehaviour
             { inputXYTime *= speedChangeOnDirectionChange; dir = -1; }
             inputXYTime += 1 * Time.deltaTime * speedAcceleration;
             if (inputXYTime > 1) { inputXYTime = 1; }
+
+            if (ref_BehaviorCameraFollower)
+                ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.MovingForward, false);
         }      
         else // not pressing left or rights
         {
@@ -409,6 +439,9 @@ public class Manager_Platforms : MonoBehaviour
 
         readyToSpawn = _readyToSpawn;
         monsterIsInPlay = _monsterInPlay;
+
+        if (!_monsterInPlay && ref_BehaviorCameraFollower)
+            ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.MovingForward, true);
     }
 
     private void CheckForMonsterSpawn()
@@ -442,6 +475,9 @@ public class Manager_Platforms : MonoBehaviour
             if (Manager_GameState.Instance)
                 Manager_GameState.Instance.objectsSpawnedDuringRuntime.Add(spawnedMonster);
             ChangeMonsterVariables(false, true);
+
+            if (ref_BehaviorCameraFollower)
+                ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.FightingMonster, true);
         }
         else // spawn a random one
         {

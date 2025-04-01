@@ -42,6 +42,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4343959358806171630, guid: 6a495c029490799478e2e7cafe415446,
         type: 3}
+      propertyPath: m_Time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4343959358806171630, guid: 6a495c029490799478e2e7cafe415446,
+        type: 3}
       propertyPath: m_Parameters.colorGradient.key0.a
       value: 0.15686275
       objectReference: {fileID: 0}
@@ -140,6 +145,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: VFX_Trail_Hand_L
+      objectReference: {fileID: 0}
+    - target: {fileID: 6991189359669183619, guid: 6a495c029490799478e2e7cafe415446,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -362,6 +372,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4343959358806171630, guid: 6a495c029490799478e2e7cafe415446,
         type: 3}
+      propertyPath: m_Time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4343959358806171630, guid: 6a495c029490799478e2e7cafe415446,
+        type: 3}
       propertyPath: m_Parameters.colorGradient.key0.a
       value: 0.15686275
       objectReference: {fileID: 0}
@@ -460,6 +475,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: VFX_Trail_Hand_R
+      objectReference: {fileID: 0}
+    - target: {fileID: 6991189359669183619, guid: 6a495c029490799478e2e7cafe415446,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

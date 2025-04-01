@@ -44,6 +44,9 @@ public class PlayerCore : MonoBehaviour
 
     // slam down ability (optional if time)
 
+    [Space]
+    [Header("Camera\n______________")]
+    public BehaviorCameraFollower ref_BehaviorCameraFollower;
 
 
     [Space]
@@ -69,7 +72,7 @@ public class PlayerCore : MonoBehaviour
 
     [Space]
     [Header("Reaction Events\n______________")]
-    public UnityEvent onHit, onDeath;
+    public UnityEvent onHit, onDeath, onModelChange;
 
     public bool CanJump()
     {
@@ -79,6 +82,9 @@ public class PlayerCore : MonoBehaviour
     private void Start()
     {
         jumpLeftToAchieve = maximumJumpPower;
+
+        if (!ref_BehaviorCameraFollower && Camera.main)
+            Camera.main.TryGetComponent(out ref_BehaviorCameraFollower);
     }
 
     private void Update() // TODO: remove inputXY from affecting jump (always affect at full speed)
@@ -97,6 +103,7 @@ public class PlayerCore : MonoBehaviour
                     modelsToPickFrom[i].GetChild(0).gameObject.SetActive(false);
 
             activeModelReference = activeModel;
+            // onModelChange.Invoke();
         }
 
         if (Manager_GameState.Instance) // if we have the game manager then we want things to look a specific way
@@ -118,7 +125,8 @@ public class PlayerCore : MonoBehaviour
                 inputXYTime = 1;
 
             if (inputXYTime > 1)
-                inputXYTime = 1;
+                inputXYTime = 1;           
+
             onPress_MoveUp.Invoke();
         }
 
@@ -141,6 +149,10 @@ public class PlayerCore : MonoBehaviour
                 if (Manager_Platforms.Instance)
                     Manager_Platforms.Instance.ChangePlayerInAir(true);
                 jumpLeftToAchieve = 0;// maximumJumpPower;
+
+                if (ref_BehaviorCameraFollower)
+                    ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.InTheAir, false);
+
                 onSuccess_MoveUp.Invoke();
             }
         }
@@ -170,6 +182,22 @@ public class PlayerCore : MonoBehaviour
     private void ReactToGameManager()
     {
 
+    }
+
+    public void ChangeModel_TransformMaho()
+    {
+        StartCoroutine(AnimateModelChange());
+    }
+
+    private IEnumerator AnimateModelChange()
+    {
+        if (ref_PlayerAnimations)
+            ref_PlayerAnimations.SetAnyTrigger("Transform");
+
+        yield return new WaitForSeconds(0.5f);
+        onModelChange.Invoke();
+        yield return new WaitForSeconds(0.5f);
+        activeModel = 0;
     }
 
     private void CheckIfBlocked() // if moving in a direction but cant keep going

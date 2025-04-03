@@ -1362,6 +1362,48 @@ MonoBehaviour:
   flyTowardsPlayer: 0
   distanceToCollect: 0.5
   captureFlyAwayTime: 5
+  onHit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1330690146674237591}
+        m_TargetAssemblyTypeName: UnityEngine.ParticleSystem, UnityEngine
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onCapture:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5103069502350922399}
+        m_TargetAssemblyTypeName: UnityEngine.ParticleSystem, UnityEngine
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1438555413420375982}
+        m_TargetAssemblyTypeName: UnityEngine.ParticleSystem, UnityEngine
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!135 &2550854653731436409
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2236,9 +2278,27 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f07583c384d8b1249bdbac32c3c5589e, type: 3}
+--- !u!198 &1330690146674237591 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 6434149226708625548, guid: f07583c384d8b1249bdbac32c3c5589e,
+    type: 3}
+  m_PrefabInstance: {fileID: 5421558806586001435}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1367360588324813042 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6468550289502449897, guid: f07583c384d8b1249bdbac32c3c5589e,
+    type: 3}
+  m_PrefabInstance: {fileID: 5421558806586001435}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &1438555413420375982 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 6398482042514962357, guid: f07583c384d8b1249bdbac32c3c5589e,
+    type: 3}
+  m_PrefabInstance: {fileID: 5421558806586001435}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &5103069502350922399 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 1003319402876279428, guid: f07583c384d8b1249bdbac32c3c5589e,
     type: 3}
   m_PrefabInstance: {fileID: 5421558806586001435}
   m_PrefabAsset: {fileID: 0}

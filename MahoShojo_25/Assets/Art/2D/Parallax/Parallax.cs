@@ -56,7 +56,8 @@ public class Parallax : MonoBehaviour
 
     private void Start()
     {
-        managerInstance = Manager_Platforms.Instance;
+        if (Manager_Platforms.Instance)
+            managerInstance = Manager_Platforms.Instance;
         
         if (backgroundLayers.Length == 0)
         {

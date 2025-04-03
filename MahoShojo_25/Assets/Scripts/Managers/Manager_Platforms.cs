@@ -60,7 +60,7 @@ public class Manager_Platforms : MonoBehaviour
     [Range(0.00f, 2f)] public float speedChangeWhileInAir = 0.66f;
 
     private float startSpeedAccel;
-    private float startSpeedAccelStamp, startSpeedAceelWaitTime = 10;
+    private float startSpeedAccelStamp, startSpeedAceelWaitTime = 1;
     private float inputXYTime;
     public int dir { get; private set; } = 1;
     public bool isBlocked { get; private set; }
@@ -190,6 +190,9 @@ public class Manager_Platforms : MonoBehaviour
     {
         // can put code for animations or other objects to enable / disable
         // also code for checking if we are done or finished with the game
+
+        if (Manager_GameState.Instance.currentState == Manager_GameState.GAMESTATE.Menu)
+            startSpeedAccelStamp = Time.time;
     }
 
     public void ChangeSpawningPlatforms(bool _stop)
@@ -224,10 +227,12 @@ public class Manager_Platforms : MonoBehaviour
 
     public bool StartSpeedIsRampedUp() // lets us know if we are at full speed and makes adjustments if needed
     {      
-        if(Time.time > startSpeedAccelStamp + startSpeedAceelWaitTime && startSpeedAccel < 1)
+        if(Time.time > startSpeedAccelStamp + startSpeedAceelWaitTime && startSpeedAccel < 2)
         {
+            if (startSpeedAceelWaitTime < 20)
+                startSpeedAceelWaitTime++;
             startSpeedAccelStamp = Time.time;
-            startSpeedAccel += 0.05f * Time.deltaTime;
+            startSpeedAccel += 6f * Time.deltaTime;
             return false;
         }
 

@@ -87,7 +87,7 @@ MonoBehaviour:
   - {fileID: 5073632650331670369}
   - {fileID: 8892255686977878762}
   - {fileID: 1445434343904532112}
-  parallaxMultiplier: -100
+  parallaxMultiplier: -10
   speed: 100
   resetDistance: 0
 --- !u!212 &8288109496474744337
@@ -279,7 +279,7 @@ MonoBehaviour:
   - {fileID: 8764904105531584409}
   - {fileID: 6319583752778640332}
   - {fileID: 1068864112309342479}
-  parallaxMultiplier: -150
+  parallaxMultiplier: -40
   speed: 75
   resetDistance: 0
 --- !u!212 &8843124630447353304
@@ -557,7 +557,7 @@ MonoBehaviour:
   - {fileID: 5939278883353092780}
   - {fileID: 5969677056020575242}
   - {fileID: 2685602124257433628}
-  parallaxMultiplier: -200
+  parallaxMultiplier: -120
   speed: 50
   resetDistance: 0
 --- !u!212 &8028633753367408105

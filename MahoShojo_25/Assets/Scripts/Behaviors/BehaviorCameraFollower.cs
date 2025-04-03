@@ -84,23 +84,35 @@ public class BehaviorCameraFollower : MonoBehaviour
         // then make the offset to be inbetween us and our enemy (and zoom out)
         // if we are running backwards long enough, then we can also offset in the opposite direction
 
+        
+        Vector3 cameraOffset = new Vector3(0, 0, 0);  // X, Y, Z global space
+
         switch (currentState)
         {
             case CameraFocusState.Idle:
                 targetZoom = 4;
-                targetLookAtPoint = ref_PlayerCore.transform.position + new Vector3(0, 2.5f, -5); // X, Y, Z
+                cameraOffset = new Vector3(0, 2.5f, -5);
+                targetLookAtPoint = ref_PlayerCore.transform.position + cameraOffset;
                 break;
             case CameraFocusState.MovingForward:
-                targetZoom = 7;
-                targetLookAtPoint = ref_PlayerCore.transform.position + new Vector3(10, 4, -5);
+                targetZoom = 6;
+                cameraOffset = new Vector3(8, 4.5f - Mathf.Abs(ref_PlayerCore.transform.position.y), -5);
+                //cameraOffset = new Vector3(8, 4, -5); // if camera is too full of motion we can tweek this || if( Mathf.Abs(player.y) > Mathf.Abs(cam.y) + 3) ... then move based on Y ... else ... hard set 
+                //if (ref_PlayerCore.transform.position.y > transform.position.y + 3)
+                //    cameraOffset.y = 6;
+                //if (ref_PlayerCore.transform.position.y < transform.position.y - 3)
+                //    cameraOffset.y = 2;          
+                targetLookAtPoint = ref_PlayerCore.transform.position + cameraOffset;
                 break;
             case CameraFocusState.MovingBackwards:
-                targetZoom = 7;
-                targetLookAtPoint = ref_PlayerCore.transform.position + new Vector3(-10, 4, -5);
+                targetZoom = 6;
+                cameraOffset = new Vector3(-5, 5 - Mathf.Abs(ref_PlayerCore.transform.position.y), -5);
+                targetLookAtPoint = ref_PlayerCore.transform.position + cameraOffset;
                 break;
             case CameraFocusState.InTheAir:
                 targetZoom = 8;
-                targetLookAtPoint = ref_PlayerCore.transform.position + new Vector3(10, 0, -5);
+                cameraOffset = new Vector3(9, 0, -5);
+                targetLookAtPoint = ref_PlayerCore.transform.position + cameraOffset;
                 break;
             case CameraFocusState.FightingMonster:
                 if (Manager_Platforms.Instance)
@@ -111,7 +123,9 @@ public class BehaviorCameraFollower : MonoBehaviour
                     {
                         float dist = Vector3.Distance(transform.position, Manager_Platforms.Instance.spawnedMonster.position);
                         targetZoom = dist;  // calculate by the distance between our player and the enemy monster
-                        targetLookAtPoint = (ref_PlayerCore.transform.position + Manager_Platforms.Instance.spawnedMonster.position) / 2 + new Vector3(0, 0, -5);
+                        //print("dist: " + (int)dist);
+                        if (dist <= 15)
+                            targetLookAtPoint = (ref_PlayerCore.transform.position + Manager_Platforms.Instance.spawnedMonster.position) / 2 + new Vector3(0, 0, -5);
                         stateChangeTimeStamp = Time.time; // makes sure we dont change the camera until the monster is gone
                     }
                 }

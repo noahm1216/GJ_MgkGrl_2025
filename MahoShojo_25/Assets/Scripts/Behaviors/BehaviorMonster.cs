@@ -83,7 +83,7 @@ public class BehaviorMonster : MonoBehaviour
     [Space]
     public float captureFlyAwayTime = 10;
     [Space]
-    public UnityEvent onHit, onCapture;
+    public UnityEvent onHit, onCapture, onRushAttacking;
    
     private float percentHP;
     private int currentCapturePointsLeft;
@@ -274,7 +274,7 @@ public class BehaviorMonster : MonoBehaviour
     private void StateAttacking()
     {
         if (!didStoreAttack)
-        { storedAttackPos = (playerObj.transform.position + positionalTargetOffset); didStoreAttack = true; collider.enabled = true; }
+        { storedAttackPos = (playerObj.transform.position + positionalTargetOffset); didStoreAttack = true; collider.enabled = true; onRushAttacking.Invoke(); }
 
         var step = attackSpeed * Time.deltaTime; // calculate distance to move
         transform.position = Vector3.MoveTowards(transform.position, storedAttackPos, step);

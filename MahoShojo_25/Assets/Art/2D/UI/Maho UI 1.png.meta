@@ -294,8 +294,8 @@ TextureImporter:
       name: Maho UI 1_8
       rect:
         serializedVersion: 2
-        x: 1124
-        y: 628
+        x: 1034
+        y: 629
         width: 151
         height: 160
       alignment: 0
@@ -378,7 +378,7 @@ TextureImporter:
       name: Maho UI 1_15
       rect:
         serializedVersion: 2
-        x: 1120
+        x: 1031
         y: 414
         width: 166
         height: 160
@@ -517,6 +517,48 @@ TextureImporter:
       bones: []
       spriteID: 3dffdf8273e4b584390a40af6ac31670
       internalID: 593881937
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Maho UI 1_9
+      rect:
+        serializedVersion: 2
+        x: 1251
+        y: 611
+        width: 186
+        height: 186
+      alignment: 9
+      pivot: {x: 0.5572188, y: 0.51682866}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 59c96fbce55e6f3448cf22ae867e434f
+      internalID: 1713473302
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Maho UI 1_13
+      rect:
+        serializedVersion: 2
+        x: 1260
+        y: 401
+        width: 168
+        height: 168
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5757ec6379bbaed48b3449bab0cff956
+      internalID: 361675142
       vertices: []
       indices: 
       edges: []

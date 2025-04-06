@@ -959,11 +959,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas PauseMenu
       objectReference: {fileID: 0}
-    - target: {fileID: 3512441827722828747, guid: 164fbd1e381862646af7d8378c8fca59,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5375241581401626109, guid: 164fbd1e381862646af7d8378c8fca59,
         type: 3}
       propertyPath: m_AnchorMax.y

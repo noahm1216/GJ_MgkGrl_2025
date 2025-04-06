@@ -105,7 +105,7 @@ public class Manager_Platforms : MonoBehaviour
     [Space]
     [Header("Pocki Objects\n______________")]
     public bool playerUnlockedPockiBox;
-    public int pockiBoxSticks = 1;
+    public int pockiBoxSticks = 1;    
 
 
     [Space]

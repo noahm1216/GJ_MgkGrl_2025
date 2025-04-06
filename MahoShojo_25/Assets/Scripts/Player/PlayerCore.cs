@@ -72,7 +72,7 @@ public class PlayerCore : MonoBehaviour
 
     [Space]
     [Header("Reaction Events\n______________")]
-    public UnityEvent onHit, onDeath, onModelChange;
+    public UnityEvent onHit, onDeath, onModelChange, onPockiBoxCollect, onPockiStickCollect;
 
     public bool CanJump()
     {
@@ -261,6 +261,8 @@ public class PlayerCore : MonoBehaviour
                     Manager_Platforms.Instance.playerUnlockedPockiBox = true;
             if (trig.GetComponent<Collectible>())
                 trig.GetComponent<Collectible>().Interacted();
+
+            onPockiBoxCollect.Invoke();
         }
 
         if (trig.tag == "PockiStick") // we were hit
@@ -269,6 +271,8 @@ public class PlayerCore : MonoBehaviour
                 Manager_Platforms.Instance.pockiBoxSticks += 1;
             if (trig.GetComponent<Collectible>())
                 trig.GetComponent<Collectible>().Interacted();
+
+            onPockiStickCollect.Invoke();
         }
     }
 }

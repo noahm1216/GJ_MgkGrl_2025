@@ -27,7 +27,8 @@ public class BehaviorCameraFollower : MonoBehaviour
     private Vector3 targetLookAtPoint;
     private float stateChangeTimeStamp;
     private CameraFocusState storedStateToChange;
-    
+
+    public Transform starrySkyObj;
 
     // Start is called before the first frame update
     void Start()
@@ -66,6 +67,10 @@ public class BehaviorCameraFollower : MonoBehaviour
     {
         if (storedStateToChange != currentState && Time.time > stateChangeTimeStamp + stateChangeTime)
             ChangeState(storedStateToChange);
+
+        if (starrySkyObj && camMain)
+            starrySkyObj.localScale = new Vector3(camMain.orthographicSize*0.2f, camMain.orthographicSize * 0.2f, camMain.orthographicSize * 0.2f);
+
 
         if (Manager_Platforms.Instance && camMain)
         {

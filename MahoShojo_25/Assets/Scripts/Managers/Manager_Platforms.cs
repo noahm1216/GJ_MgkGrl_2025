@@ -104,8 +104,15 @@ public class Manager_Platforms : MonoBehaviour
     [Space]
     [Space]
     [Header("Pocki Objects\n______________")]
+    public Transform pockiBoxObjPrefab;
     public bool playerUnlockedPockiBox;
-    public int pockiBoxSticks = 1;    
+    public int pockiBoxSticks = 1;
+    public float spawnXOffset = 5;
+    public LayerMask pockiBoxInteractionLayers;
+    public bool spawnPockiBoxOnTimer;
+    public float timeUntilPockiBoxSpawn = 10;
+    private Transform spawnedPockiBoxObj;
+    private float pockiBoxSpawnStamp;
 
 
     [Space]
@@ -169,6 +176,8 @@ public class Manager_Platforms : MonoBehaviour
         MoveMaps();
         CheckForMonsterSpawn();
         StartSpeedIsRampedUp();
+        if (spawnPockiBoxOnTimer && Time.time > pockiBoxSpawnStamp + timeUntilPockiBoxSpawn && !playerUnlockedPockiBox)
+            SpawnOrMovePockiBox();
     }
 
     public void ResetToBeginning()
@@ -495,11 +504,37 @@ public class Manager_Platforms : MonoBehaviour
         else // spawn a random one
         {
             ChangeSpawningPlatforms(true);
-            Debug.Log("WARNING: We should be finished with the demo game and dont want to spawn more");
+            Debug.Log("WARNING: We should be finished with the demo game and dont want to spawn more monsters");
         }
 
         //readyToSpawn = false;
         //monsterIsInPlay = true;
+    }
+
+
+    public void SpawnOrMovePockiBox()
+    {
+        pockiBoxSpawnStamp = Time.time;
+        spawnPockiBoxOnTimer = true;
+
+        if(!pockiBoxObjPrefab)
+        { Debug.Log("WARNING: PlatformManager.cs missing reference to pocki prefab and cannot spawn or move it."); return; }
+
+        // check if we dont have a spawned one
+        if (!spawnedPockiBoxObj)
+        { spawnedPockiBoxObj = Instantiate(pockiBoxObjPrefab, Camera.main.transform); spawnedPockiBoxObj.gameObject.SetActive(false); }
+        // move it
+        spawnedPockiBoxObj.SetParent(transform);
+        spawnedPockiBoxObj.position = Vector3.zero +  new Vector3(spawnXOffset, 20, 0);
+        // raycast from the pocki box down onto a platform and place it there
+        RaycastHit hit;
+        if (Physics.Raycast(spawnedPockiBoxObj.position, -spawnedPockiBoxObj.up, out hit, Mathf.Infinity, pockiBoxInteractionLayers))
+        {
+            //Debug.DrawRay(spawnedPockiBoxObj.position, -spawnedPockiBoxObj.up * hit.distance, Color.yellow);
+            //Debug.Log($"Pocki Box Did Hit: {hit.transform.name} @ {hit.point}");
+            spawnedPockiBoxObj.position = hit.point + new Vector3(0,1,0);
+            spawnedPockiBoxObj.gameObject.SetActive(true);
+        }      
     }
 
 }// end of manager-platform class

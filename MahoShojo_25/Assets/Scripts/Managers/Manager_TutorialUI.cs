@@ -64,11 +64,16 @@ public class Manager_TutorialUI : MonoBehaviour
             if (trackingSpawnedCreatures != Manager_Platforms.Instance.monstersSpawned)
             { timeSinceCreatureSpawn = Time.time; trackingSpawnedCreatures = Manager_Platforms.Instance.monstersSpawned; }
 
-            if(Time.time > timeSinceCreatureSpawn + stuckCombatTime && imgBearHolder.gameObject.activeSelf == false)  // in combat for a long time
+            if(Time.time > timeSinceCreatureSpawn + stuckCombatTime && imgBearHolder.gameObject.activeSelf == false && Manager_Platforms.Instance)  // in combat for a long time
             {
-                ShowText(false, 8, false, 4);
-                StartCoroutine(DelayMessage(false, 9, false, 4));
-                timeSinceCreatureSpawn = Time.time;
+                if (Manager_Platforms.Instance.spawnedMonster == null)
+                    timeSinceCreatureSpawn = Time.time;
+                else
+                {
+                    ShowText(false, 8, false, 4);
+                    StartCoroutine(DelayMessage(false, 9, false, 4));
+                    timeSinceCreatureSpawn = Time.time;
+                }
             }
 
 
@@ -77,13 +82,16 @@ public class Manager_TutorialUI : MonoBehaviour
         {
             if (Manager_GameState.Instance.capturedCreatues_Unique == 0 && Manager_Platforms.Instance && Manager_Platforms.Instance.monstersSpawned == 1 && !playedJellyMonologue && imgBearHolder.gameObject.activeSelf == false) // fighting mushroom lines
             {
+                //TODO: EVENT On First Creature Spawned
                 ShowText(false, 6, false, 8);
                 StartCoroutine(DelayMessage(false, 7, false, 8));
                 playedJellyMonologue = true;
+                Manager_Platforms.Instance.SpawnOrMovePockiBox();
             }
 
             if (Manager_GameState.Instance.capturedCreatues_Unique == 5 && !playedBearMonologue && imgBearHolder.gameObject.activeSelf == false) // fighting bear lines
             {
+                //TODO: EVENT On Last Unique Creature Spawned
                 ShowText(false, 10, true, 8);
                 StartCoroutine(DelayMessage(false, 11, true, 8));
                 playedBearMonologue = true;

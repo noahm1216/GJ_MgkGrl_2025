@@ -161,6 +161,7 @@ MonoBehaviour:
   camObj_MedLeft: {fileID: 384659213171184230}
   camObj_Max: {fileID: 1332558840851780758}
   speedOfCameraTranslate: 3
+  starrySkyObj: {fileID: 7887841638871065469}
 --- !u!1 &931727486677946597
 GameObject:
   m_ObjectHideFlags: 0

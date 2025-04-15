@@ -161,8 +161,16 @@ MonoBehaviour:
   - {x: 14, y: 4, z: 0}
   - {x: 14, y: 4, z: 0}
   waitTimeAfterCapture: 30
+  pockiBoxObjPrefab: {fileID: 6433395996423652930, guid: f3dcd76d850cb9a4caddf9d4d4b6d73f,
+    type: 3}
   playerUnlockedPockiBox: 0
   pockiBoxSticks: 1
+  spawnXOffset: 20
+  pockiBoxInteractionLayers:
+    serializedVersion: 2
+    m_Bits: 17
+  spawnOnTimer: 1
+  timeUntilPockiBoxSpawn: 10
   ref_BehaviorCameraFollower: {fileID: 0}
 --- !u!1 &8961270979148288246
 GameObject:

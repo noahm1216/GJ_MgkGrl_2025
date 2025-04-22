@@ -193,7 +193,7 @@ public class Manager_GameState : MonoBehaviour
         ChangeState(GAMESTATE.Menu);
         RestartVariables(false);
         if (Manager_Platforms.Instance)
-            Manager_Platforms.Instance.ChangeMonsterVariables(true, false);
+            Manager_Platforms.Instance.ChangeMonsterVariables(true, false, false);
 
         if (_totalRestart)
         {

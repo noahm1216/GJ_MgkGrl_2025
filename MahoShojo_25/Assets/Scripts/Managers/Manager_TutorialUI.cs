@@ -11,16 +11,12 @@ public class Manager_TutorialUI : MonoBehaviour
     public Image imgBearHolder;
     public TextMeshProUGUI speechText;
     public Sprite imgBearyNormal, imgBearySmirky;
-    public string[] textToSayInOrder;
+    public List<CustomMessageData> messageLibrary = new List<CustomMessageData>();
 
-    private int textId;
-    private float timeToKeepTextUp;
-    private float timeSinceNotStuck;
-    private float stuckWaitTime = 7;
-    private bool playedJellyMonologue, playedBearMonologue;
-    private float timeSinceCreatureSpawn;
-    private float stuckCombatTime = 25;
-    private int trackingSpawnedCreatures = 0;
+    private float textDisplayTime = 8; // show time
+    private float waitUntilNewTextTime = 2; // time until next one can show next one
+    private float textDisplayTimeStamp;
+    private List<CustomMessageData> queuedMessages = new List<CustomMessageData>();
 
     [Space]
     [Space]
@@ -47,58 +43,66 @@ public class Manager_TutorialUI : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (Manager_Platforms.Instance)
-        {
-            if (Manager_Platforms.Instance.isBlocked == false)
-                timeSinceNotStuck = Time.time;
+        // our condition to be able to play a message 
+        if(queuedMessages.Count > 0 && imgBearHolder && imgBearHolder.gameObject.activeSelf == false && Time.time > textDisplayTimeStamp + waitUntilNewTextTime)
+            PlayFromQueue();
+    }
 
-            if (Time.time > timeSinceNotStuck + stuckWaitTime && imgBearHolder.gameObject.activeSelf == false) // stuck on movement
-            {
-                ShowText(false, 2, false, 4);
-                StartCoroutine(DelayMessage(false, 3, false, 4));
-                StartCoroutine(DelayMessage(false, 3, false, 8));
-                timeSinceNotStuck = Time.time;
-            }
+    public void QueueMessage(string _lookUpName)
+    {
+        CustomMessageData messageToAdd = null;
 
+        messageToAdd = MessageLookup(_lookUpName);
 
-            if (trackingSpawnedCreatures != Manager_Platforms.Instance.monstersSpawned)
-            { timeSinceCreatureSpawn = Time.time; trackingSpawnedCreatures = Manager_Platforms.Instance.monstersSpawned; }
+        if (messageToAdd == null)
+            return;
+        else // add the message to the queue
+            queuedMessages.Add(messageToAdd);
+    }
 
-            if(Time.time > timeSinceCreatureSpawn + stuckCombatTime && imgBearHolder.gameObject.activeSelf == false && Manager_Platforms.Instance)  // in combat for a long time
-            {
-                if (Manager_Platforms.Instance.spawnedMonster == null)
-                    timeSinceCreatureSpawn = Time.time;
+    private void PlayFromQueue()
+    {
+        if (queuedMessages[0] != null)
+            StartCoroutine(PlayQueueMessage(queuedMessages[0]));
+        else
+            Debug.Log("WARNING: Unable to play message from queue due to being null");
+    }
+
+    private void RemoveQueuedMessage(int _removeAtId)
+    {
+        if (queuedMessages.Count > _removeAtId)
+            queuedMessages.RemoveAt(_removeAtId);
+    }
+    
+    private CustomMessageData MessageLookup(string _lookUpName)
+    {
+        if (string.IsNullOrEmpty(_lookUpName) || messageLibrary.Count == 0)
+        { Debug.Log($"WARNING: Empty/Null LookUp - {_lookUpName}"); return null; }
+
+        for (int i = 0; i < messageLibrary.Count; i++) { // check our libray for the lookup code and additional data
+            if (messageLibrary[i].lookUpName.ToLower() == _lookUpName.ToLower()) {
+                if (messageLibrary[i].messageType == CustomMessageData.MessageType.OneTime)
+                {
+                    if (messageLibrary[i].timesPlayed < 1)
+                    {
+                        messageLibrary[i].timesPlayed++;
+                        return messageLibrary[i];
+                    }
+                    else
+                        return null;
+                }
                 else
                 {
-                    ShowText(false, 8, false, 4);
-                    StartCoroutine(DelayMessage(false, 9, false, 4));
-                    timeSinceCreatureSpawn = Time.time;
+                    messageLibrary[i].timesPlayed++;
+                    return messageLibrary[i];
                 }
             }
-
-
         }
-        if (Manager_GameState.Instance)
-        {
-            if (Manager_GameState.Instance.capturedCreatues_Unique == 0 && Manager_Platforms.Instance && Manager_Platforms.Instance.monstersSpawned == 1 && !playedJellyMonologue && imgBearHolder.gameObject.activeSelf == false) // fighting mushroom lines
-            {
-                //TODO: EVENT On First Creature Spawned
-                ShowText(false, 6, false, 8);
-                StartCoroutine(DelayMessage(false, 7, false, 8));
-                playedJellyMonologue = true;
-                Manager_Platforms.Instance.SpawnOrMovePockiBox();
-            }
 
-            if (Manager_GameState.Instance.capturedCreatues_Unique == 5 && !playedBearMonologue && imgBearHolder.gameObject.activeSelf == false) // fighting bear lines
-            {
-                //TODO: EVENT On Last Unique Creature Spawned
-                ShowText(false, 10, true, 8);
-                StartCoroutine(DelayMessage(false, 11, true, 8));
-                playedBearMonologue = true;
-            }
 
-            
-        }
+        Debug.Log($"WARNING: Unable To Lookup - {_lookUpName}");
+        return null;
+
     }
 
     public void SetCaptureShowcase(int _howManyCaptured)
@@ -112,63 +116,51 @@ public class Manager_TutorialUI : MonoBehaviour
 
     public void ResetTutorial()
     {
-        textId = -1;
+        queuedMessages.Clear();
         HideText();
         SetCaptureShowcase(0);
     }
 
     public void HitStartTutorial()
     {
-        StartCoroutine(DelayMessage(true, 0, false, 4));
-        StartCoroutine(DelayMessage(true, 0, false, 8));        
+        QueueMessage("Story_1");
+        QueueMessage("Story_2");  
     }
 
-    public void ShowText(bool _nextOne, int _forcedTextLine, bool _showSmirkyBeary, float _timeToShowText)
+    public void ShowText(CustomMessageData _queuedMessage)
     {
-        if (_nextOne)
-            textId++;
-        else
-            textId = _forcedTextLine;
 
-        if (textToSayInOrder.Length == 0 || textId < 0 || textId > textToSayInOrder.Length) // error
+        if (string.IsNullOrEmpty(_queuedMessage.messageContent)) // error
             speechText.text = "Whoops ... I was just about to say something but I forgot... Sorry Maho somethings wrong with me lately.";
         else
-            speechText.text = textToSayInOrder[textId];
-
-        if (_showSmirkyBeary)
+            speechText.text = _queuedMessage.messageContent;
+        
+        if (_queuedMessage.useSneakyBearIcon)
             imgBearHolder.sprite = imgBearySmirky;
         else
             imgBearHolder.sprite = imgBearyNormal;
 
-        if (_timeToShowText != 0)
-            timeToKeepTextUp = _timeToShowText;
-        else
-            timeToKeepTextUp = 4;
+        if (Manager_GameState.Instance && Manager_GameState.Instance.capturedCreatues_Unique == 5) // NOTE: right now changing the bear to smirky once we are about to fight him or are fighting him
+            imgBearHolder.sprite = imgBearySmirky;
+
         imgBearHolder.gameObject.SetActive(true);
-        StartCoroutine(DelayTextDisable());
     }
+
 
     public void HideText()
     {
+        textDisplayTimeStamp = Time.time;
         imgBearHolder.gameObject.SetActive(false);
         speechText.text = "";
+        RemoveQueuedMessage(0);
     }
 
-    private IEnumerator DelayTextDisable()
+    private IEnumerator PlayQueueMessage(CustomMessageData _queuedMessage)
     {
-        for(float i = timeToKeepTextUp; i >0; i--)
-        {
-            yield return new WaitForSeconds(1);
-        }
+        ShowText(_queuedMessage);
+        yield return new WaitForSeconds(textDisplayTime);
         HideText();
     }
-
-    private IEnumerator DelayMessage(bool _nextOne, int _forcedTextLine, bool _showSmirkyBeary, float _timeToShowText)
-    {
-        yield return new WaitForSeconds(_timeToShowText);
-        ShowText(_nextOne, _forcedTextLine, _showSmirkyBeary, _timeToShowText);
-    }
-
 
     public void ShowGameOverScreen()
     {
@@ -188,3 +180,28 @@ public class Manager_TutorialUI : MonoBehaviour
         { gameOverScreenObj.SetActive(false); Manager_GameState.Instance.RestartGame(true); }
     }
 }
+
+
+
+
+// the custom data for platforms
+[System.Serializable]
+public class CustomMessageData
+{
+    public enum MessageType { OneTime, Repeatable, DebugText, }
+
+
+    public string lookUpName = "";    
+    public MessageType messageType;
+    public int timesPlayed;
+    public bool useSneakyBearIcon;
+    [TextArea]
+    public string messageContent;
+
+
+    //public CustomMessageData(string _newName,)
+    //{
+    //    //abilityNickname = _newName;
+    //}
+
+}//end of data for platforms

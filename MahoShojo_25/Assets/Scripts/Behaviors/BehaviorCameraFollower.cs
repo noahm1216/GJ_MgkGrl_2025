@@ -137,6 +137,7 @@ public class BehaviorCameraFollower : MonoBehaviour
                 break;
             default:
                 Debug.Log($"Camera Has No Behavior For: {currentState}");
+                ChangeState(CameraFocusState.Idle);
                 break;
         }
 

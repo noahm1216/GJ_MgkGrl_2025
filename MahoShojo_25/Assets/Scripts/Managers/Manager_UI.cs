@@ -12,7 +12,7 @@ public class Manager_UI : MonoBehaviour
     public KeyInputData[] keybindings;
     public PlayerCore ref_PlayerCore;
     public ChargingPocki ref_ChargingPocki;
-    private bool detectingKeyInput;
+    private bool detectingKeyInput; 
 
 
     private void Awake()

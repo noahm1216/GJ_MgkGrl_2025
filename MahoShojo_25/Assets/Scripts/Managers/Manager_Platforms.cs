@@ -17,6 +17,10 @@ public class Manager_Platforms : MonoBehaviour
     [Tooltip("When checked, the platforms will move on their own")]
     public bool automaicallyMoveRight = true;
 
+    private bool pressedMove;
+    private float timePressedJumpOrMove;
+    private float timeUntilShowTutorial = 14;
+
     // dash right/ left ability
     [Space]
     [Space]
@@ -65,6 +69,8 @@ public class Manager_Platforms : MonoBehaviour
     public int dir { get; private set; } = 1;
     public bool isBlocked { get; private set; }
     public bool playerInAir { get; private set; }
+    private float blockedTimeStamp;
+    private float blockedTimeUntilControlsPopUp = 7;
    
 
     [Space]
@@ -90,15 +96,16 @@ public class Manager_Platforms : MonoBehaviour
     public Transform[] monstersToSpawnInOrder;
     [Tooltip("The acceptable distance of those monsters")]
     public Vector3[] distanceOkayToSpawnFromPlayer;
-
+    public float waitTimeUntilDespawn = 20;
     public float waitTimeAfterCapture = 10;
 
     public bool readyToSpawn { get; private set; } // decidor when we can spawn
     public bool monsterIsInPlay { get; private set; } // so we dont over spawn
-    public int monstersSpawned { get; private set; } // tracking how manywe've spawned
+    public int monstersSpawned;//{ get; private set; } // tracking how manywe've spawned
     public Transform spawnedMonster { get; private set; } // the monster we want to track
     //private List<Transform> allSpawnedMonsters = new List<Transform>(); // to pool the monsters, but this should come in later versions
     private float lastCaptureTimeStamp;
+    private float timeMonsterSpawned;
 
 
     [Space]
@@ -148,7 +155,7 @@ public class Manager_Platforms : MonoBehaviour
             SpawnOrPoolPlatform(null, true);
 
         lastCaptureTimeStamp = Time.time + (waitTimeAfterCapture * 2); // the first monster shouldnt spawn right away, but the normal pacing is good for most
-        ChangeMonsterVariables(true, false);
+        ChangeMonsterVariables(true, false, false);
 
         if (startPlayerSlowly)
             startSpeedAccel = 0;
@@ -171,6 +178,8 @@ public class Manager_Platforms : MonoBehaviour
             if (Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing)
                 return;
         }
+        CheckForTutorial();
+        CheckTimeStamps();
         CheckForInputs();
         CheckDashing();
         MoveMaps();
@@ -178,6 +187,30 @@ public class Manager_Platforms : MonoBehaviour
         StartSpeedIsRampedUp();
         if (spawnPockiBoxOnTimer && Time.time > pockiBoxSpawnStamp + timeUntilPockiBoxSpawn && !playerUnlockedPockiBox)
             SpawnOrMovePockiBox();
+
+
+    }
+
+    private void CheckTimeStamps()
+    {
+        if (!isBlocked)
+            blockedTimeStamp = Time.time;
+        if (Time.time > blockedTimeStamp + blockedTimeUntilControlsPopUp && Manager_TutorialUI.Instance)
+        { Manager_TutorialUI.Instance.QueueMessage("Controls_Jump"); blockedTimeStamp = Time.time; }
+    
+    }
+
+    private void CheckForTutorial()
+    {
+        if (Time.time > timePressedJumpOrMove + timeUntilShowTutorial && !pressedMove)
+        {
+            if (Manager_TutorialUI.Instance)
+            {
+                Manager_TutorialUI.Instance.QueueMessage("Controls_Move");
+                Manager_TutorialUI.Instance.QueueMessage("Controls_Dash");
+                timePressedJumpOrMove = Time.time;
+            }
+        }
     }
 
     public void ResetToBeginning()
@@ -201,7 +234,10 @@ public class Manager_Platforms : MonoBehaviour
         // also code for checking if we are done or finished with the game
 
         if (Manager_GameState.Instance.currentState == Manager_GameState.GAMESTATE.Menu)
+        {
             startSpeedAccelStamp = Time.time;
+            timePressedJumpOrMove = Time.time;
+        }
     }
 
     public void ChangeSpawningPlatforms(bool _stop)
@@ -288,6 +324,8 @@ public class Manager_Platforms : MonoBehaviour
     {
         if (Input.GetKey(key_MovePlatformsRight)) // going left  
         {
+            pressedMove = true;
+
             if (dir < 0) // check and set directions to be LEFT (platforms going right)
             { inputXYTime *= speedChangeOnDirectionChange; dir = 1; }
             inputXYTime += 1 * Time.deltaTime * speedAcceleration;
@@ -298,8 +336,10 @@ public class Manager_Platforms : MonoBehaviour
         }
         else if (Input.GetKey(key_MovePlatformsLeft) || automaicallyMoveRight ) // going right
         {
-            if (Input.GetKeyDown(key_MovePlatformsLeft)) // pres forward to dash
+            if (Input.GetKeyDown(key_MovePlatformsLeft)) // pressed forward to dash
             {
+                pressedMove = true;
+
                 if (dashRequiresDoubleTap && !isDashing) // if we must press it twice
                     if (lastKeyPressed == key_MovePlatformsLeft && Time.time < dashInputStamp + timeWindowForDashing) // TODO : Check for if dashing so we have to time it, and animation / VFX spot
                         DashAction();
@@ -418,7 +458,7 @@ public class Manager_Platforms : MonoBehaviour
     }
     public void RemoveAnyNullPlatforms() // this is called when we RESET ... so TODO: make a reset function that calls these things instead
     {
-        ChangeMonsterVariables(true, false);
+        ChangeMonsterVariables(true, false, false);
 
         for (int i = 0; i < spawnedPlatformsInPlay.Count; i++)
         {
@@ -454,61 +494,113 @@ public class Manager_Platforms : MonoBehaviour
         return null;
     } 
 
-    public void ChangeMonsterVariables(bool _readyToSpawn, bool _monsterInPlay)
+    public void ChangeMonsterVariables(bool _readyToSpawn, bool _monsterInPlay, bool _successfulCapture)
     {
         if (monsterIsInPlay && !_monsterInPlay)
-            lastCaptureTimeStamp = Time.time;
+            lastCaptureTimeStamp = Time.time;        
 
         readyToSpawn = _readyToSpawn;
         monsterIsInPlay = _monsterInPlay;
+
+        if (_successfulCapture && Manager_TutorialUI.Instance && Manager_GameState.Instance)
+        {
+            print("successful capture");
+            if (Manager_GameState.Instance.capturedCreatues_Unique == 4)
+                Manager_TutorialUI.Instance.QueueMessage("Story_6");
+            else
+                Manager_TutorialUI.Instance.QueueMessage("Story_5");
+        }
 
         if (!_monsterInPlay && ref_BehaviorCameraFollower)
             ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.MovingForward, true);
     }
 
-    private void CheckForMonsterSpawn()
+    private void CheckForMonsterSpawn() // TODO: this needs refactoring... this functions purpose is to spawn monster if ready... COMBINED with "ChangeMonsterVariables" (above) we can have a singular checker
     {
         if (Manager_GameState.Instance && Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing)
         { print($"no spawning monsters during { Manager_GameState.Instance.currentState} mode");  return; }
 
+        if (Time.time > timeMonsterSpawned + waitTimeUntilDespawn && spawnedMonster != null && monsterIsInPlay)
+            DespawnMonster();
+
         if (readyToSpawn)
         {
-            if (monsterIsInPlay)
-                return;
+            if (!monsterIsInPlay)
+            {
+                if (isBlocked)
+                    lastCaptureTimeStamp += Time.deltaTime; // delays the monster spawning if we are standing still
 
-            //if (isBlocked)
-            //    lastCaptureTimeStamp += Time.time;
-
-            if (Time.time > lastCaptureTimeStamp + waitTimeAfterCapture)
-                SpawnMonster();
-            //else
-            //    print("waiting to spawn a new monster");
+                if (Time.time > lastCaptureTimeStamp + waitTimeAfterCapture)
+                    SpawnMonster();
+                //else
+                //    print("waiting to spawn a new monster");
+            }
         }
     }
 
-   public void SpawnMonster()
+    public void SpawnMonster()
     {
         if (monstersSpawned < monstersToSpawnInOrder.Length)
         {
-            // spawn monster
-            spawnedMonster = Instantiate(monstersToSpawnInOrder[monstersSpawned]);
-            spawnedMonster.transform.position = distanceOkayToSpawnFromPlayer[monstersSpawned];
-            monstersSpawned++;
+           
             if (Manager_GameState.Instance)
+            {
+                // spawn monster
+                spawnedMonster = Instantiate(monstersToSpawnInOrder[Manager_GameState.Instance.capturedCreatues_Unique]);
+                spawnedMonster.transform.position = distanceOkayToSpawnFromPlayer[Manager_GameState.Instance.capturedCreatues_Unique];
                 Manager_GameState.Instance.objectsSpawnedDuringRuntime.Add(spawnedMonster);
-            ChangeMonsterVariables(false, true);
+
+                if (Manager_TutorialUI.Instance)
+                {
+                    if (Manager_GameState.Instance.capturedCreatues_Unique == 0)
+                    { Manager_TutorialUI.Instance.QueueMessage("Story_3");  Manager_TutorialUI.Instance.QueueMessage("Story_4"); }
+                    if (Manager_GameState.Instance.capturedCreatues_Unique == 5)
+                    { Manager_TutorialUI.Instance.QueueMessage("Story_7"); Manager_TutorialUI.Instance.QueueMessage("Story_8"); Manager_TutorialUI.Instance.QueueMessage("Story_9"); }
+                }
+            }
+            else
+            {
+                // spawn monster
+                spawnedMonster = Instantiate(monstersToSpawnInOrder[monstersSpawned]);
+                spawnedMonster.transform.position = distanceOkayToSpawnFromPlayer[monstersSpawned];             
+            }
+            timeMonsterSpawned = Time.time;
+            ChangeMonsterVariables(false, true, false);
+            monstersSpawned++;
+
+            // spawn pocki if we havent collected it yet
+            if (!playerUnlockedPockiBox)
+                SpawnOrMovePockiBox();
 
             if (ref_BehaviorCameraFollower)
                 ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.FightingMonster, true);
         }
-        else // spawn a random one
+        else // we've captured each unique monster
         {
+            // spawn a random monster we've already captured one in endless mode
             ChangeSpawningPlatforms(true);
             Debug.Log("WARNING: We should be finished with the demo game and dont want to spawn more monsters");
         }
 
         //readyToSpawn = false;
         //monsterIsInPlay = true;
+    }
+
+    public void DespawnMonster()
+    {
+        print("Despawning MONSTER");
+
+        if(monstersSpawned > 0 && spawnedMonster != null) // if we have more than 1 spawned monster and its active now
+        {
+            Destroy(spawnedMonster.gameObject, 1);
+            spawnedMonster = null;
+            monstersSpawned--;
+            timeMonsterSpawned = Time.time;
+            ChangeMonsterVariables(true, false, false);
+            if (Manager_GameState.Instance)
+                Manager_GameState.Instance.objectsSpawnedDuringRuntime.Remove(spawnedMonster);            
+                
+        }
     }
 
 
@@ -523,6 +615,7 @@ public class Manager_Platforms : MonoBehaviour
         // check if we dont have a spawned one
         if (!spawnedPockiBoxObj)
         { spawnedPockiBoxObj = Instantiate(pockiBoxObjPrefab, Camera.main.transform); spawnedPockiBoxObj.gameObject.SetActive(false); }
+        
         // move it
         spawnedPockiBoxObj.SetParent(transform);
         spawnedPockiBoxObj.position = Vector3.zero +  new Vector3(spawnXOffset, 20, 0);
@@ -532,9 +625,15 @@ public class Manager_Platforms : MonoBehaviour
         {
             //Debug.DrawRay(spawnedPockiBoxObj.position, -spawnedPockiBoxObj.up * hit.distance, Color.yellow);
             //Debug.Log($"Pocki Box Did Hit: {hit.transform.name} @ {hit.point}");
-            spawnedPockiBoxObj.position = hit.point + new Vector3(0,1,0);
+            spawnedPockiBoxObj.position = hit.point + new Vector3(0, 1, 0);
             spawnedPockiBoxObj.gameObject.SetActive(true);
-        }      
+
+            // read tutorial line
+            Manager_TutorialUI.Instance.QueueMessage("Controls_Pokie");
+        }
+        else
+            Debug.Log("WARNING: Pocki box wasnt able to find surface to land on");
+              
     }
 
 }// end of manager-platform class

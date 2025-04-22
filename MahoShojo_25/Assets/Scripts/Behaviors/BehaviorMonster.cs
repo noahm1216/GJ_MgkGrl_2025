@@ -343,7 +343,7 @@ public class BehaviorMonster : MonoBehaviour
         { Manager_GameState.Instance.CaptureChange(1, pointsForCapturing); }
 
         if (Manager_Platforms.Instance)
-        { Manager_Platforms.Instance.ChangeMonsterVariables(true, false); }
+        { Manager_Platforms.Instance.ChangeMonsterVariables(true, false, true); }
 
         return true;
     }

@@ -115,17 +115,43 @@ public class PlayerCore : MonoBehaviour
 
         if (lockYPositionAtZero)
             transform.position = new Vector3(transform.position.x, 0, transform.position.z);
-
+        
         CheckIfBlocked();
+        CheckForInputs();
+    }
 
+    private void FixedUpdate()
+    {
+        if (jumpLeftToAchieve < maximumJumpPower)
+        {
+            if (rb3D)
+                rb3D.AddForce((Vector3.up * dir) * jumpLeftToAchieve * lagInputTime);
+            jumpLeftToAchieve += 1 * jumpAcceleration;
+        }
+        if (rb3D.velocity.y < 0) // faling / moving down
+            rb3D.AddForce(Vector3.down * (1 * fallAcceleration));
+
+        if (Manager_GameState.Instance)
+        {
+            if (Manager_GameState.Instance.capturedCreatues_Unique >= 6 && transform.position.y < 25) // falling off the buildings
+            {
+                //print($"transform.position = {transform.position}");
+                Manager_GameState.Instance.WonTheGame();
+            }
+        }
+    }
+
+    private void CheckForInputs()
+    {
         if (Input.GetKey(key_MoveUp))
         {
+
             inputXYTime += Time.deltaTime * speedToMaxJumpPower;
             if (!jumpBasedOnKeyPressTime)
                 inputXYTime = 1;
 
             if (inputXYTime > 1)
-                inputXYTime = 1;           
+                inputXYTime = 1;
 
             onPress_MoveUp.Invoke();
         }
@@ -158,26 +184,6 @@ public class PlayerCore : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
-    {
-        if (jumpLeftToAchieve < maximumJumpPower)
-        {
-            if (rb3D)
-                rb3D.AddForce((Vector3.up * dir) * jumpLeftToAchieve * lagInputTime);
-            jumpLeftToAchieve += 1 * jumpAcceleration;
-        }
-        if (rb3D.velocity.y < 0) // faling / moving down
-            rb3D.AddForce(Vector3.down * (1 * fallAcceleration));
-
-        if (Manager_GameState.Instance)
-        {
-            if (Manager_GameState.Instance.capturedCreatues_Unique >= 6 && transform.position.y < 25) // falling off the buildings
-            {
-                //print($"transform.position = {transform.position}");
-                Manager_GameState.Instance.WonTheGame();
-            }
-        }
-    }
 
     private void ReactToGameManager()
     {

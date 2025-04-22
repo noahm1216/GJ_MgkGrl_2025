@@ -371,23 +371,77 @@ MonoBehaviour:
   speechText: {fileID: 3951494218234034636}
   imgBearyNormal: {fileID: 709943758, guid: 2179568ae6f951b40b656e2611e1d6af, type: 3}
   imgBearySmirky: {fileID: 491877713, guid: 2179568ae6f951b40b656e2611e1d6af, type: 3}
-  textToSayInOrder:
-  - "Don\u2019t be scared, Miho. I\u2019m Bear, your best friend, remember? "
-  - 'With magic, I will help you get home safely. Follow me! '
-  - Try jumping by pressing [W] or [Up Arrow]
-  - 'Try dashing forward by pressing [D] or [Right Arrow] '
-  - 'Try retract backward by pressing [A] or [Left Arrow] '
-  - "Oh, don\u2019t worry, it\u2019s just a slow Jelly. Try to dodge it using your
-    movement.   "
-  - "It\u2019s Pokie, your favorite! You can collect it by running directly into
-    it. Now you can shoot Pokie by pressing [Space Bar]"
-  - 'Try to shoot Jelly with Pokie, it will scare her away!  '
-  - "Good job Maho, you\u2019re doing great !  "
-  - 'Oh no! The monsters are taking me Maho! Please help me!  '
-  - "Nice try Maho, but it\u2019s over, I have the high ground! "
-  - "These foolish animals, they just love you and think that\u2019s enough. But
-    not for me, Maho, I need you, ever since I was given to you on your 3rd birthday.  "
-  - 'Love me forever!    '
+  messageLibrary:
+  - lookUpName: Story_1
+    messageType: 0
+    timesPlayed: 0
+    useSneakyBearIcon: 0
+    messageContent: "Don\u2019t be scared, Maho. I\u2019m Bear, your best friend,
+      remember? "
+  - lookUpName: Story_2
+    messageType: 0
+    timesPlayed: 0
+    useSneakyBearIcon: 0
+    messageContent: 'With magic, I will help you get home safely. Follow me! '
+  - lookUpName: Controls_Jump
+    messageType: 1
+    timesPlayed: 0
+    useSneakyBearIcon: 0
+    messageContent: Try jumping by pressing [W] or [Up Arrow]
+  - lookUpName: Controls_Dash
+    messageType: 1
+    timesPlayed: 0
+    useSneakyBearIcon: 0
+    messageContent: 'Try dashing forward by pressing [D] or [Right Arrow] '
+  - lookUpName: Controls_Move
+    messageType: 1
+    timesPlayed: 0
+    useSneakyBearIcon: 0
+    messageContent: 'Try retract backward by pressing [A] or [Left Arrow] '
+  - lookUpName: Story_3
+    messageType: 0
+    timesPlayed: 0
+    useSneakyBearIcon: 0
+    messageContent: "Oh, don\u2019t worry, it\u2019s just a slow Jelly. Try to dodge
+      it using your movement. "
+  - lookUpName: Controls_Pokie
+    messageType: 1
+    timesPlayed: 0
+    useSneakyBearIcon: 0
+    messageContent: "It\u2019s Pokie, your favorite! You can collect it by running
+      directly into it. Now you can shoot Pokie by pressing [Space Bar]"
+  - lookUpName: Story_4
+    messageType: 0
+    timesPlayed: 0
+    useSneakyBearIcon: 0
+    messageContent: 'Try to shoot Jelly with Pokie, it will scare her away!  '
+  - lookUpName: Story_5
+    messageType: 0
+    timesPlayed: 0
+    useSneakyBearIcon: 0
+    messageContent: "Good job Maho, you\u2019re doing great !  "
+  - lookUpName: Story_6
+    messageType: 0
+    timesPlayed: 0
+    useSneakyBearIcon: 0
+    messageContent: Oh no! The monsters are taking me Maho! Please help me!
+  - lookUpName: Story_7
+    messageType: 0
+    timesPlayed: 0
+    useSneakyBearIcon: 1
+    messageContent: "Nice try Maho, but it\u2019s over, I have the high ground!"
+  - lookUpName: Story_8
+    messageType: 0
+    timesPlayed: 0
+    useSneakyBearIcon: 1
+    messageContent: "These foolish animals, they just love you and think that\u2019s
+      enough. But not for me, Maho, I need you, ever since I was given to you on
+      your 3rd birthday.  "
+  - lookUpName: Story_9
+    messageType: 0
+    timesPlayed: 0
+    useSneakyBearIcon: 1
+    messageContent: Love me forever!
   capturedImages:
   - {fileID: 3881527486609935295}
   - {fileID: 9154612546162082054}

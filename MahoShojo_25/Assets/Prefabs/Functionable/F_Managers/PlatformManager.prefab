@@ -169,8 +169,8 @@ MonoBehaviour:
   pockiBoxInteractionLayers:
     serializedVersion: 2
     m_Bits: 17
-  spawnOnTimer: 1
-  timeUntilPockiBoxSpawn: 10
+  spawnPockiBoxOnTimer: 0
+  timeUntilPockiBoxSpawn: 20
   ref_BehaviorCameraFollower: {fileID: 0}
 --- !u!1 &8961270979148288246
 GameObject:

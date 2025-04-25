@@ -1395,7 +1395,7 @@ MonoBehaviour:
         m_MethodName: PlayOneShot
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 8300000, guid: cbd991fa7303d6c4ebe6c73c1e6d2bb3,
+          m_ObjectArgument: {fileID: 8300000, guid: e464bf1ab31ad964f9f8b54cfe1e6d93,
             type: 3}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
           m_IntArgument: 0
@@ -1816,8 +1816,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objToScale: {fileID: 0}
-  sizePercentChange: 1.2
-  timeUntilScaleReturns: 1
 --- !u!1 &6169759575539910867
 GameObject:
   m_ObjectHideFlags: 0

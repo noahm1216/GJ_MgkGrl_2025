@@ -19,7 +19,7 @@ public class Manager_Platforms : MonoBehaviour
 
     private bool pressedMove;
     private float timePressedJumpOrMove;
-    private float timeUntilShowTutorial = 14;
+    private float timeUntilShowTutorial = 20;
 
     // dash right/ left ability
     [Space]
@@ -103,9 +103,11 @@ public class Manager_Platforms : MonoBehaviour
     public bool monsterIsInPlay { get; private set; } // so we dont over spawn
     public int monstersSpawned;//{ get; private set; } // tracking how manywe've spawned
     public Transform spawnedMonster { get; private set; } // the monster we want to track
+    [HideInInspector] public bool monsterSignaledCapture; // the monster can signal its capture so it does not despawn by accident while being captured
     //private List<Transform> allSpawnedMonsters = new List<Transform>(); // to pool the monsters, but this should come in later versions
     private float lastCaptureTimeStamp;
     private float timeMonsterSpawned;
+    private float waitTimeUntilDespawnDynamic;
 
 
     [Space]
@@ -164,6 +166,8 @@ public class Manager_Platforms : MonoBehaviour
 
         if (!ref_BehaviorCameraFollower && Camera.main)
             Camera.main.TryGetComponent(out ref_BehaviorCameraFollower);
+
+        waitTimeUntilDespawnDynamic = waitTimeUntilDespawn;
     }
 
     // Update is called once per frame
@@ -509,10 +513,14 @@ public class Manager_Platforms : MonoBehaviour
                 Manager_TutorialUI.Instance.QueueMessage("Story_6");
             else
                 Manager_TutorialUI.Instance.QueueMessage("Story_5");
+
+            waitTimeUntilDespawnDynamic = waitTimeUntilDespawn * Manager_GameState.Instance.capturedCreatues_Unique; // Adds time to fight each monster            
         }
 
         if (!_monsterInPlay && ref_BehaviorCameraFollower)
             ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.MovingForward, true);
+
+        monsterSignaledCapture = false; // reset our capture situation so we can despawn if needed
     }
 
     private void CheckForMonsterSpawn() // TODO: this needs refactoring... this functions purpose is to spawn monster if ready... COMBINED with "ChangeMonsterVariables" (above) we can have a singular checker
@@ -520,7 +528,7 @@ public class Manager_Platforms : MonoBehaviour
         if (Manager_GameState.Instance && Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing)
         { print($"no spawning monsters during { Manager_GameState.Instance.currentState} mode");  return; }
 
-        if (Time.time > timeMonsterSpawned + waitTimeUntilDespawn && spawnedMonster != null && monsterIsInPlay)
+        if (Time.time > timeMonsterSpawned + waitTimeUntilDespawnDynamic && spawnedMonster != null && monsterIsInPlay)
             DespawnMonster();
 
         if (readyToSpawn)
@@ -566,11 +574,7 @@ public class Manager_Platforms : MonoBehaviour
             }
             timeMonsterSpawned = Time.time;
             ChangeMonsterVariables(false, true, false);
-            monstersSpawned++;
-
-            // spawn pocki if we havent collected it yet
-            if (!playerUnlockedPockiBox)
-                SpawnOrMovePockiBox();
+            monstersSpawned++;                      
 
             if (ref_BehaviorCameraFollower)
                 ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.FightingMonster, true);
@@ -588,18 +592,23 @@ public class Manager_Platforms : MonoBehaviour
 
     public void DespawnMonster()
     {
-        print("Despawning MONSTER");
+        //print("Checking if we need to despawn monster");
 
-        if(monstersSpawned > 0 && spawnedMonster != null) // if we have more than 1 spawned monster and its active now
+        if(monstersSpawned > 0 && spawnedMonster != null && !monsterSignaledCapture) // if we have more than 1 spawned monster and its active now and we havent captured it yet
         {
+            //print("Despawning MONSTER");       
             Destroy(spawnedMonster.gameObject, 1);
             spawnedMonster = null;
             monstersSpawned--;
             timeMonsterSpawned = Time.time;
             ChangeMonsterVariables(true, false, false);
             if (Manager_GameState.Instance)
-                Manager_GameState.Instance.objectsSpawnedDuringRuntime.Remove(spawnedMonster);            
-                
+                Manager_GameState.Instance.objectsSpawnedDuringRuntime.Remove(spawnedMonster);
+
+            // spawn pocki if we havent collected it yet
+            if (!playerUnlockedPockiBox)
+                SpawnOrMovePockiBox();
+
         }
     }
 

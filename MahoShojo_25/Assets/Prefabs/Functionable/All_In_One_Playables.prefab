@@ -1470,47 +1470,46 @@ PrefabInstance:
     - target: {fileID: 6879388092846173571, guid: 2b4ca704d42518e4d9980ddc11acf186,
         type: 3}
       propertyPath: onDashEvent.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6879388092846173571, guid: 2b4ca704d42518e4d9980ddc11acf186,
-        type: 3}
-      propertyPath: listOfSpawnablePlatforms.Array.data[1].prefabToSpawn
-      value: 
-      objectReference: {fileID: 4362509337005501213, guid: a1672b60c43695b45a764e5882b159f2,
-        type: 3}
-    - target: {fileID: 6879388092846173571, guid: 2b4ca704d42518e4d9980ddc11acf186,
-        type: 3}
-      propertyPath: onDashEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6879388092846173571, guid: 2b4ca704d42518e4d9980ddc11acf186,
-        type: 3}
-      propertyPath: onDashEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1917059142399501941}
-    - target: {fileID: 6879388092846173571, guid: 2b4ca704d42518e4d9980ddc11acf186,
-        type: 3}
-      propertyPath: onDashEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6879388092846173571, guid: 2b4ca704d42518e4d9980ddc11acf186,
         type: 3}
-      propertyPath: onDashEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      propertyPath: onDashEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6879388092846173571, guid: 2b4ca704d42518e4d9980ddc11acf186,
+        type: 3}
+      propertyPath: onDashEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1917059142399501941}
+    - target: {fileID: 6879388092846173571, guid: 2b4ca704d42518e4d9980ddc11acf186,
+        type: 3}
+      propertyPath: onDashEvent.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6879388092846173571, guid: 2b4ca704d42518e4d9980ddc11acf186,
+        type: 3}
+      propertyPath: onDashEvent.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: SetAnyTrigger
       objectReference: {fileID: 0}
     - target: {fileID: 6879388092846173571, guid: 2b4ca704d42518e4d9980ddc11acf186,
         type: 3}
-      propertyPath: onDashEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      propertyPath: onDashEvent.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
       value: PlayerAnimations, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 6879388092846173571, guid: 2b4ca704d42518e4d9980ddc11acf186,
         type: 3}
-      propertyPath: onDashEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      propertyPath: onDashEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6879388092846173571, guid: 2b4ca704d42518e4d9980ddc11acf186,
+        type: 3}
+      propertyPath: onDashEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_StringArgument
       value: Dashed
       objectReference: {fileID: 0}
     - target: {fileID: 6879388092846173571, guid: 2b4ca704d42518e4d9980ddc11acf186,
         type: 3}
-      propertyPath: onDashEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      propertyPath: onDashEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 9057712506685900242, guid: 2b4ca704d42518e4d9980ddc11acf186,

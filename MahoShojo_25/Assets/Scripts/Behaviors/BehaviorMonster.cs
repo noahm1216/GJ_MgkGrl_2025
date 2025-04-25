@@ -296,7 +296,10 @@ public class BehaviorMonster : MonoBehaviour
     }
 
     private void StateCaptured()
-    {      
+    {
+        if (Manager_Platforms.Instance)
+            Manager_Platforms.Instance.monsterSignaledCapture = true;
+
         if (transform.localScale.x > sizeToShrinkTo)
         {
             transform.localScale *= sizePercentChangeEveryFrame;
@@ -304,8 +307,7 @@ public class BehaviorMonster : MonoBehaviour
             if (transform.localScale.x < 0.01f)
                 transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
 
-        }
-
+        }        
 
         if (flyTowardsPlayer)
         {

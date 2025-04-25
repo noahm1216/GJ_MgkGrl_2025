@@ -54,7 +54,7 @@ public class Manager_TutorialUI : MonoBehaviour
 
         messageToAdd = MessageLookup(_lookUpName);
 
-        if (messageToAdd == null)
+        if (messageToAdd == null || queuedMessages.Contains(messageToAdd))
             return;
         else // add the message to the queue
             queuedMessages.Add(messageToAdd);
@@ -123,8 +123,9 @@ public class Manager_TutorialUI : MonoBehaviour
 
     public void HitStartTutorial()
     {
-        QueueMessage("Story_1");
-        QueueMessage("Story_2");  
+        //QueueMessage("Story_1");
+        //QueueMessage("Story_2");
+        StartCoroutine(GameIntroForcedDelayOnStart());
     }
 
     public void ShowText(CustomMessageData _queuedMessage)
@@ -160,6 +161,13 @@ public class Manager_TutorialUI : MonoBehaviour
         ShowText(_queuedMessage);
         yield return new WaitForSeconds(textDisplayTime);
         HideText();
+    }
+
+    private IEnumerator GameIntroForcedDelayOnStart()
+    {        
+        yield return new WaitForSeconds(10);
+        QueueMessage("Story_1");
+        QueueMessage("Story_2");
     }
 
     public void ShowGameOverScreen()

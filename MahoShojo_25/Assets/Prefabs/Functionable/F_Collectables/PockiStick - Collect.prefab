@@ -101,6 +101,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reactivateOnTimer: 1
   tryMoveWithPlatforms: 0
+  startDisabled: 1
+  cannotEnableIfPockiBoxNotCollected: 1
   colliderToToggle: {fileID: 3980265813120803616}
   artObjToToggle: {fileID: 446384345496500706}
   timeUntilReactivate: 30

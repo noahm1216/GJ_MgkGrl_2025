@@ -17,7 +17,8 @@ public class BehaviorCameraFollower : MonoBehaviour
     public Transform camObj_Min, camObj_MedRight, camObj_MedLeft, camObj_Max;
 
     public float speedOfCameraTranslate = 2;
-   
+    public float speedOfCameraZoom = 1.25f;
+
 
     private Transform currentTarget;
     private float currentPlatformSpeed, platformSpeedMax;
@@ -90,18 +91,18 @@ public class BehaviorCameraFollower : MonoBehaviour
         // if we are running backwards long enough, then we can also offset in the opposite direction
 
         
-        Vector3 cameraOffset = new Vector3(0, 0, 0);  // X, Y, Z global space
+        Vector3 cameraOffset = new Vector3(0, 0, 0);  // X, Y, Z global space (i mention this because locally it feels different/off in inspector)
 
         switch (currentState)
         {
             case CameraFocusState.Idle:
-                targetZoom = 4;
-                cameraOffset = new Vector3(0, 2.5f, -5);
+                targetZoom = 2.75f;
+                cameraOffset = new Vector3(2, 1f, -5);
                 targetLookAtPoint = ref_PlayerCore.transform.position + cameraOffset;
                 break;
             case CameraFocusState.MovingForward:
                 targetZoom = 6;
-                cameraOffset = new Vector3(8, 4.5f - Mathf.Abs(ref_PlayerCore.transform.position.y), -5);
+                cameraOffset = new Vector3(8, 5f - Mathf.Abs(ref_PlayerCore.transform.position.y), -5);
                 //cameraOffset = new Vector3(8, 4, -5); // if camera is too full of motion we can tweek this || if( Mathf.Abs(player.y) > Mathf.Abs(cam.y) + 3) ... then move based on Y ... else ... hard set 
                 //if (ref_PlayerCore.transform.position.y > transform.position.y + 3)
                 //    cameraOffset.y = 6;
@@ -116,7 +117,7 @@ public class BehaviorCameraFollower : MonoBehaviour
                 break;
             case CameraFocusState.InTheAir:
                 targetZoom = 8;
-                cameraOffset = new Vector3(9, 0, -5);
+                //cameraOffset = new Vector3(9, 0, -5);
                 targetLookAtPoint = ref_PlayerCore.transform.position + cameraOffset;
                 break;
             case CameraFocusState.FightingMonster:
@@ -148,13 +149,13 @@ public class BehaviorCameraFollower : MonoBehaviour
         {
             if (camMain.orthographicSize < targetZoom)
             {
-                camMain.orthographicSize += Time.deltaTime;
+                camMain.orthographicSize += Time.deltaTime * speedOfCameraZoom;
                 if (camMain.orthographicSize >= targetZoom)
                     camMain.orthographicSize = targetZoom;
             }
             else
             {
-                camMain.orthographicSize -= Time.deltaTime;
+                camMain.orthographicSize -= Time.deltaTime * speedOfCameraZoom;
                 if (camMain.orthographicSize <= targetZoom)
                     camMain.orthographicSize = targetZoom;
             }

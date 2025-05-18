@@ -68,6 +68,7 @@ public class Manager_Platforms : MonoBehaviour
     private float inputXYTime;
     public int dir { get; private set; } = 1;
     public bool isBlocked { get; private set; }
+    public Transform blockerObj { get; private set; }
     public bool playerInAir { get; private set; }
     private float blockedTimeStamp;
     private float blockedTimeUntilControlsPopUp = 7;
@@ -182,17 +183,18 @@ public class Manager_Platforms : MonoBehaviour
             if (Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing)
                 return;
         }
-        CheckForTutorial();
+        CheckForTutorial(); // TODO: Maybe we can delay how frequently we check for some of these (instead of every frame)
         CheckTimeStamps();
         CheckForInputs();
         CheckDashing();
         MoveMaps();
         CheckForMonsterSpawn();
         StartSpeedIsRampedUp();
+        CheckForObstacles();
         if (spawnPockiBoxOnTimer && Time.time > pockiBoxSpawnStamp + timeUntilPockiBoxSpawn && !playerUnlockedPockiBox)
             SpawnOrMovePockiBox();
 
-
+        
     }
 
     private void CheckTimeStamps()
@@ -249,10 +251,11 @@ public class Manager_Platforms : MonoBehaviour
         stopSpawningPlatforms = _stop;
     }
 
-    public void ChangeIsBlocked(bool _isBlocked)
+    public void ChangeIsBlocked(bool _isBlocked, Transform _blockerObj)
     {
         print($"Changin isBlocked to: {_isBlocked}");
         isBlocked = _isBlocked;
+        blockerObj = _blockerObj;
     }
 
     public void ChangePlayerInAir(bool _inAir)
@@ -289,25 +292,6 @@ public class Manager_Platforms : MonoBehaviour
         { print("DONE SPEEDING UP"); startSpeedAccel = 1; return true; }
         else
             return false;              
-    }
-
-    public void SpawnNewPlatformFromEdge()
-    {
-        if (stopSpawningPlatforms)
-        {            
-            if(spawnedPlatformsInPlay.Count > 1)
-            {
-                for (int i = 1; i < spawnedPlatformsInPlay.Count; i++)
-                    RemoveSpecificPlatform(i, false);
-            }
-            return;
-        }
-            
-
-        if (Manager_GameState.Instance)
-            Manager_GameState.Instance.objectsSpawnedDuringRuntime.Add(SpawnOrPoolPlatform(null, false));
-        else
-            SpawnOrPoolPlatform(null, false);
     }
 
     private void CheckDashing()
@@ -367,7 +351,35 @@ public class Manager_Platforms : MonoBehaviour
             if (inputXYTime < 0) { inputXYTime = 0; }
         }
     }
-    
+
+    private void CheckForObstacles()
+    {
+        if (blockerObj && isDashing)  // check if we're blocked by an obstacle
+            print("TODO: Get blocker obj's script references and apply information");
+
+    }
+
+
+
+
+    public void SpawnNewPlatformFromEdge()
+    {
+        if (stopSpawningPlatforms)
+        {
+            if (spawnedPlatformsInPlay.Count > 1)
+            {
+                for (int i = 1; i < spawnedPlatformsInPlay.Count; i++)
+                    RemoveSpecificPlatform(i, false);
+            }
+            return;
+        }
+
+
+        if (Manager_GameState.Instance)
+            Manager_GameState.Instance.objectsSpawnedDuringRuntime.Add(SpawnOrPoolPlatform(null, false));
+        else
+            SpawnOrPoolPlatform(null, false);
+    }
 
     private void MoveMaps()
     {
@@ -460,6 +472,7 @@ public class Manager_Platforms : MonoBehaviour
             Debug.Log("WARNING: Tried to remove a platform that wasnt in the list");
 
     }
+
     public void RemoveAnyNullPlatforms() // this is called when we RESET ... so TODO: make a reset function that calls these things instead
     {
         ChangeMonsterVariables(true, false, false);
@@ -472,7 +485,6 @@ public class Manager_Platforms : MonoBehaviour
                 spawnedPlatformsInPlay[i].ResetToStart();
         }
     }
-
 
     private CustomPlatformData PickOurNextPlatform(string _forceByNickname) // only returns the appropraite platform data we can use to spawn
     {
@@ -611,7 +623,6 @@ public class Manager_Platforms : MonoBehaviour
 
         }
     }
-
 
     public void SpawnOrMovePockiBox()
     {

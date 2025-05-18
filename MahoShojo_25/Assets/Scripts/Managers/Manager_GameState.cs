@@ -9,26 +9,26 @@ public class Manager_GameState : MonoBehaviour
 
     public enum GAMESTATE {Menu, Playing, Paused, Lost, Won }
     public GAMESTATE currentState;// { get; private set; }
-    private GAMESTATE stateWhenPaused;
-
-    public int scoreTotal; // the score we get from capturing
+    private GAMESTATE stateWhenPaused; // store whatever game state we were in
 
     public KeyCode key_Pause1 = KeyCode.P, key_Pause2 = KeyCode.Escape;
+
+    public int scoreTotal { get; private set; } // the score we get from capturing & other things
+    public int obstaclePoints { get; private set; } // TODO: Break this out into the different obstacles points and amounts so we can track all of the points and amounts as stats?
+    public int capturedCreatues_Unique { get; private set; }
+    public int capturedPoints { get; private set; }
+
 
     public Transform[] objectsToResetPositions;
     private Vector3[] startPositions, startScales;
     private Quaternion[] startRotations;
     private bool[] wasEnabled;
    [HideInInspector] public List<Transform> objectsSpawnedDuringRuntime = new List<Transform>();
-
-
-    public int capturedCreatues_Unique { get; private set; }
-    public int capturedPoints { get; private set; }
+   
 
     [Space]
     [Header("Hit Points \n______________")]
     public int hitpoints = 1;
-
     private int currentHitPoints;
 
     private void Awake()
@@ -144,6 +144,16 @@ public class Manager_GameState : MonoBehaviour
 
         if (Manager_TutorialUI.Instance)
         { Manager_TutorialUI.Instance.SetCaptureShowcase(capturedCreatues_Unique); }
+    }
+
+    public void ObstaclePointChange(int _changePoints)
+    {
+        obstaclePoints += _changePoints;
+    }
+
+    public void TallyPoints()
+    {
+        scoreTotal = capturedPoints + obstaclePoints;
     }
 
     public bool ChangeHitPoints(int _amountChange)

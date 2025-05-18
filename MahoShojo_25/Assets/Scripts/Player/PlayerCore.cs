@@ -116,7 +116,7 @@ public class PlayerCore : MonoBehaviour
         if (lockYPositionAtZero)
             transform.position = new Vector3(transform.position.x, 0, transform.position.z);
         
-        CheckIfBlocked();
+        CheckIfBlocked(); // TODO: we can check this less than every frame (because we are raycasting multiple rays and it becomes expensive
         CheckForInputs();
     }
 
@@ -217,12 +217,30 @@ public class PlayerCore : MonoBehaviour
 
             //Manager_Platforms.Instance.ChangeIsBlocked(Physics.Raycast(transform.position + offset, transform.TransformDirection(raycastDirection), out hit, raycastDistance, layersThatResetJumps));
             if (CheckBlockerRaycasts((transform.right), Manager_Platforms.Instance.dir, new Vector3(0, 0.25f, 0), 0.15f) || // our feet
-                CheckBlockerRaycasts(transform.right, Manager_Platforms.Instance.dir, new Vector3(0, 0.65f, 0), 0.3f) || // out hips
+                CheckBlockerRaycasts(transform.right, Manager_Platforms.Instance.dir, new Vector3(0, 0.65f, 0), 0.3f) || // our hips
                 CheckBlockerRaycasts(transform.right, Manager_Platforms.Instance.dir, new Vector3(0, 1f, 0), 0.5f)) // our chest
-                Manager_Platforms.Instance.ChangeIsBlocked(true);
+                Manager_Platforms.Instance.ChangeIsBlocked(true, RaycastHitObj());
             else
-                Manager_Platforms.Instance.ChangeIsBlocked(false);
+                Manager_Platforms.Instance.ChangeIsBlocked(false, null);
         }
+    }
+
+    private Transform RaycastHitObj()
+    {
+        int _dir = Manager_Platforms.Instance.dir;
+        Vector3 _raycastDirection = transform.right;
+
+        if (_dir < 0) // forward or idle
+            _raycastDirection = -_raycastDirection;
+
+        float _dist = 0.3f;
+        Vector3 _offset = new Vector3(0, 0.65f, 0);  // our hips
+
+         RaycastHit hit; // raycast to the nearest wall within X (raycastDistance) meters and if there is a wall our speed is zero
+        Debug.DrawLine(transform.position + _offset, transform.position + _offset + (new Vector3(_dist * -_dir, 0, 0)), Color.red);
+        if (Physics.Raycast(transform.position + _offset, transform.TransformDirection(_raycastDirection), out hit, _dist, layersThatResetJumps))
+            return hit.transform;
+        return null;
     }
 
     private bool CheckBlockerRaycasts(Vector3 _raycastDirection, int _dir, Vector3 _offset, float _dist)
@@ -246,6 +264,20 @@ public class PlayerCore : MonoBehaviour
             if (Manager_Platforms.Instance)
                 Manager_Platforms.Instance.ChangePlayerInAir(false);
         }
+
+        if (col.transform.tag == "Obstacle")
+        {
+            BehaviorObstacles ref_BehObs = null;
+            col.transform.TryGetComponent(out ref_BehObs);
+
+            if (ref_BehObs && Manager_Platforms.Instance && Manager_Platforms.Instance.isDashing)
+                ref_BehObs.Interacted(transform, this, BehaviorObstacles.signalType.Dash);
+            else if (ref_BehObs)
+                ref_BehObs.Interacted(transform, this, BehaviorObstacles.signalType.Bump);
+            else
+                print("Unable To Handle Interaction with this Obstacle");
+        }
+
     }
 
     private void OnTriggerEnter(Collider trig)
@@ -279,6 +311,19 @@ public class PlayerCore : MonoBehaviour
                 trig.GetComponent<Collectible>().Interacted();
 
             onPockiStickCollect.Invoke();
+        }
+
+        if (trig.tag == "Obstacle")
+        {
+            BehaviorObstacles ref_BehObs = null;
+            trig.TryGetComponent(out ref_BehObs);
+
+            if (ref_BehObs && Manager_Platforms.Instance && Manager_Platforms.Instance.isDashing)
+                ref_BehObs.Interacted(transform, this, BehaviorObstacles.signalType.Dash);
+            else if (ref_BehObs)
+                ref_BehObs.Interacted(transform, this, BehaviorObstacles.signalType.Bump);
+            else
+                print("Unable To Handle Interaction with this Obstacle");
         }
     }
 }

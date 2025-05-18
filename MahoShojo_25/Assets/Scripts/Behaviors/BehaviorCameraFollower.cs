@@ -91,13 +91,13 @@ public class BehaviorCameraFollower : MonoBehaviour
         // if we are running backwards long enough, then we can also offset in the opposite direction
 
         
-        Vector3 cameraOffset = new Vector3(0, 0, 0);  // X, Y, Z global space (i mention this because locally it feels different/off in inspector)
+        Vector3 cameraOffset = new Vector3(0, 0, 0);  // Z, Y, X global space (i mention this because locally it feels different/off in inspector)
 
         switch (currentState)
         {
             case CameraFocusState.Idle:
                 targetZoom = 2.75f;
-                cameraOffset = new Vector3(2, 1f, -5);
+                cameraOffset = new Vector3(2, 1f, -10); // TODO: Move this back a little (was (2,1,-5) )
                 targetLookAtPoint = ref_PlayerCore.transform.position + cameraOffset;
                 break;
             case CameraFocusState.MovingForward:

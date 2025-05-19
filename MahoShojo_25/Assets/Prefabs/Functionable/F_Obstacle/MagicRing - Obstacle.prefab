@@ -48,10 +48,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thisObsType: 1
-  scoreAddon: 0
+  assignTagAtStart: 0
+  scoreAddon: 3
   tryMoveWithPlatforms: 1
-  physicsPower: 1000
+  physicsPower: 10
   onInteractionEvents:
+    m_PersistentCalls:
+      m_Calls: []
+  onBumpEvents:
+    m_PersistentCalls:
+      m_Calls: []
+  onDashEvent:
     m_PersistentCalls:
       m_Calls: []
 --- !u!135 &6895640293107188055

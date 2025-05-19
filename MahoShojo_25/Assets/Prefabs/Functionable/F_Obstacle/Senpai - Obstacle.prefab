@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5208675758044988182}
   - component: {fileID: 3931773002510566347}
   - component: {fileID: 8333439867397407411}
+  - component: {fileID: 2715403650451103280}
   m_Layer: 6
   m_Name: Senpai - Obstacle
   m_TagString: Obstacle
@@ -48,12 +49,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thisObsType: 2
-  scoreAddon: 0
+  assignTagAtStart: 0
+  scoreAddon: 100
   tryMoveWithPlatforms: 1
-  physicsPower: 1000
+  physicsPower: 0
   onInteractionEvents:
     m_PersistentCalls:
       m_Calls: []
+  onBumpEvents:
+    m_PersistentCalls:
+      m_Calls: []
+  onDashEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1275074283235824666}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!135 &3931773002510566347
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -71,7 +91,7 @@ SphereCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Radius: 0.75
   m_Center: {x: 0, y: 1.75, z: 0}
@@ -92,10 +112,33 @@ SphereCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Radius: 0.75
   m_Center: {x: 0, y: 0.25, z: 0}
+--- !u!136 &2715403650451103280
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1275074283235824666}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.65
+  m_Height: 3
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.1, z: 0}
 --- !u!1001 &6089042969288098454
 PrefabInstance:
   m_ObjectHideFlags: 0

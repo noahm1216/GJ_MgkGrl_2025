@@ -90,8 +90,9 @@ public class BehaviorCameraFollower : MonoBehaviour
         // then make the offset to be inbetween us and our enemy (and zoom out)
         // if we are running backwards long enough, then we can also offset in the opposite direction
 
-        
+        // X sets the Z (but is still left and right) || Y sets the Y (up and down) || Z sets the X (which is depth)
         Vector3 cameraOffset = new Vector3(0, 0, 0);  // Z, Y, X global space (i mention this because locally it feels different/off in inspector)
+        
 
         switch (currentState)
         {
@@ -117,7 +118,7 @@ public class BehaviorCameraFollower : MonoBehaviour
                 break;
             case CameraFocusState.InTheAir:
                 targetZoom = 8;
-                //cameraOffset = new Vector3(9, 0, -5);
+                cameraOffset = new Vector3(4, 0, -5);
                 targetLookAtPoint = ref_PlayerCore.transform.position + cameraOffset;
                 break;
             case CameraFocusState.FightingMonster:

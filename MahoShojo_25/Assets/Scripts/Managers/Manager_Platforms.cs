@@ -69,6 +69,7 @@ public class Manager_Platforms : MonoBehaviour
     public int dir { get; private set; } = 1;
     public bool isBlocked { get; private set; }
     public Transform blockerObj { get; private set; }
+    private bool checkingBlockerData;
     public bool playerInAir { get; private set; }
     private float blockedTimeStamp;
     private float blockedTimeUntilControlsPopUp = 7;
@@ -253,7 +254,7 @@ public class Manager_Platforms : MonoBehaviour
 
     public void ChangeIsBlocked(bool _isBlocked, Transform _blockerObj)
     {
-        print($"Changin isBlocked to: {_isBlocked}");
+        //print($"Changin isBlocked to: {_isBlocked}");
         isBlocked = _isBlocked;
         blockerObj = _blockerObj;
     }
@@ -354,8 +355,16 @@ public class Manager_Platforms : MonoBehaviour
 
     private void CheckForObstacles()
     {
-        if (blockerObj && isDashing)  // check if we're blocked by an obstacle
+        if (blockerObj && isDashing && !checkingBlockerData)  // check if we're blocked by an obstacle while dashing
+        {
             print("TODO: Get blocker obj's script references and apply information");
+            checkingBlockerData = true;
+            BehaviorObstacles obstacleScript = null;
+            blockerObj.TryGetComponent(out obstacleScript);
+            if (obstacleScript && obstacleScript.thisObsType == BehaviorObstacles.obstacleType.Senpai)
+                obstacleScript.Interacted(transform, null, BehaviorObstacles.signalType.Dash);
+            checkingBlockerData = false;
+        }
 
     }
 

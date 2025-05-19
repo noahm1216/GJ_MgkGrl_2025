@@ -7,37 +7,40 @@ using UnityEngine.Events;
 /// Obstacles script is inteded to take interactions from outside objects or player and put out a result
 /// </summary>
 public class BehaviorObstacles : MonoBehaviour
-{   
-
+{
+    public enum signalType { None, Dash, Bump, Jump }
     public enum obstacleType { None, MagicRing, Senpai, LoveBox, Endgame }
     [Space]
     [Header("Obstacle Tag \n __________")]
     [Space]
     public obstacleType thisObsType;
 
-    public enum signalType { None, Dash, Bump, Jump }
+    public bool assignTagAtStart;
     public int scoreAddon;
     public bool tryMoveWithPlatforms = true;
+
+    private bool waitingToApplyPhysics;
+    private Transform interactor;
+    private PlayerCore refPlayerCore;
 
     [Space]
     [Header("Physics Values\n __________")]
     [Space]
     //a variable for bouncing
-    [Tooltip("When something sends a 'Touch' signal to the magic ring, it will add force forward to the object by this amount")]
-    public int physicsPower = 1000;
-
+    [Tooltip("When something sends a 'Touch' signal to the magic ring or box, it will add force forward to the object by this amount")]
+    public int physicsPower = 15;
 
     [Space]
     [Header("Feedback \n __________")]
     [Space]
     //a variable for bouncing
     [Tooltip("When Maho dashes into this obstacle it will play the VFX gameobject below")]
-    public UnityEvent onInteractionEvents;
+    public UnityEvent onInteractionEvents, onBumpEvents, onDashEvent;
 
 
     void Start()
-    { 
-        transform.tag = "Obstacle";
+    {
+        if (assignTagAtStart) transform.tag = "Obstacle";
     }// end of Start()
 
     private void LateUpdate()
@@ -46,9 +49,34 @@ public class BehaviorObstacles : MonoBehaviour
             transform.position += new Vector3(Manager_Platforms.Instance.CurrentSpeed(), 0, 0);
     }
 
+    private void FixedUpdate()
+    {
+        if (waitingToApplyPhysics)
+        {
+            switch (thisObsType)
+            {
+                case obstacleType.MagicRing:
+                    if (refPlayerCore) refPlayerCore.rb3D.AddForce((Vector3.right * physicsPower) - refPlayerCore.rb3D.velocity, ForceMode.VelocityChange);
+                    break;
+                case obstacleType.LoveBox:
+                    Vector3 directionHit = interactor.position - transform.position;
+                    if (refPlayerCore) refPlayerCore.rb3D.AddForce((directionHit * physicsPower) - refPlayerCore.rb3D.velocity, ForceMode.VelocityChange);
+                    break;
+                default:
+                    break;
+            }
+            waitingToApplyPhysics = false;
+        }
+    }
+
     public void Interacted(Transform _interactor, PlayerCore _refPlayerCore, signalType _sentSignal)
     {
-       switch (_sentSignal)
+        onInteractionEvents?.Invoke();
+
+        interactor = _interactor;
+        refPlayerCore = _refPlayerCore;
+
+        switch (_sentSignal)
         {
             case signalType.Dash:
                 Dashed(_interactor, _refPlayerCore);
@@ -59,9 +87,7 @@ public class BehaviorObstacles : MonoBehaviour
             default:
                 print($"{_sentSignal} not accounted for yet");
                 break;
-        }
-
-        onInteractionEvents?.Invoke();
+        }       
 
         if (Manager_GameState.Instance)
             Manager_GameState.Instance.ObstaclePointChange(scoreAddon);
@@ -72,20 +98,24 @@ public class BehaviorObstacles : MonoBehaviour
     //if it has an interaction with an obstacle it will be here
     private void Dashed(Transform _interactor, PlayerCore _refPlayerCore)
     {
-        print($"{thisObsType} | {_interactor.name}: was smashed");
-
+        //print($"{thisObsType} | {_interactor.name}: was smashed");
+        onDashEvent?.Invoke();        
 
         switch (thisObsType)
         {
             case obstacleType.MagicRing:
                 print("Dashed() - MagicRing");
+                //if (_refPlayerCore) _refPlayerCore.rb3D.AddForce(Vector3.right * physicsPower);
+                waitingToApplyPhysics = true;
                 break;
             case obstacleType.Senpai:
-                print("Dashed() - Senpai");               
+                print("Dashed() - Senpai");
                 break;
             case obstacleType.LoveBox:
-                print("Dashed() - LoveBox");
-                //bounce the _interactor                
+                print("Dashed() - LoveBox"); //bounce the _interactor       
+                //Vector3 directionHit = _interactor.position - transform.position;
+                //if (_refPlayerCore) _refPlayerCore.rb3D.AddForce(directionHit * physicsPower);
+                waitingToApplyPhysics = true;
                 break;
             case obstacleType.Endgame:
                 print("Dashed() - Endgame");
@@ -101,19 +131,24 @@ public class BehaviorObstacles : MonoBehaviour
     //if it has an interaction with an obstacle it will be here
     private void Touched(Transform _interactor, PlayerCore _refPlayerCore)
     {
-        print($"{thisObsType} - was touched by - {_interactor.name}");
+        //print($"{thisObsType} - was touched by - {_interactor.name}");
+        onBumpEvents?.Invoke();
 
         switch (thisObsType)
         {
             case obstacleType.MagicRing:
                 print("Touched() - MagicRing");
+                //if (_refPlayerCore) _refPlayerCore.rb3D.AddForce(Vector3.right * physicsPower);
+                waitingToApplyPhysics = true;
                 break;
             case obstacleType.Senpai:
                 print("Touched() - Senpai");
                 break;
             case obstacleType.LoveBox:
-                print("Touched() - LoveBox");
-                //bounce the _interactor            
+                print("Touched() - LoveBox"); //bounce the _interactor  
+                //Vector3 directionHit = _interactor.position - transform.position;
+                //if (_refPlayerCore) _refPlayerCore.rb3D.AddForce(directionHit * physicsPower * 2);
+                waitingToApplyPhysics = true;
                 break;
             case obstacleType.Endgame:
                 print("Touched() - Endgame");

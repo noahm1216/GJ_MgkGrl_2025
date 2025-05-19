@@ -234,7 +234,7 @@ public class PlayerCore : MonoBehaviour
         if (_dir < 0) // forward or idle
             _raycastDirection = -_raycastDirection;
 
-        float _dist = 0.3f;
+        float _dist = 0.51f; // furthest distance we can
         Vector3 _offset = new Vector3(0, 0.65f, 0);  // our hips
 
          RaycastHit hit; // raycast to the nearest wall within X (raycastDistance) meters and if there is a wall our speed is zero
@@ -278,8 +278,8 @@ public class PlayerCore : MonoBehaviour
             else
                 print("Unable To Handle Interaction with this Obstacle");
         }
+    }  
 
-    }
 
     private void OnTriggerEnter(Collider trig)
     {
@@ -325,6 +325,19 @@ public class PlayerCore : MonoBehaviour
                 ref_BehObs.Interacted(transform, this, BehaviorObstacles.signalType.Bump);
             else
                 print("Unable To Handle Interaction with this Obstacle");
+        }
+    }
+
+
+    private void OnTriggerStay(Collider trig)
+    {     
+        if (trig.tag == "Obstacle" && Manager_Platforms.Instance && Manager_Platforms.Instance.isDashing) // dashing check for while we're sitting in front of senpai
+        {
+            BehaviorObstacles ref_BehObs = null;
+            trig.TryGetComponent(out ref_BehObs);
+
+            if (ref_BehObs)
+                ref_BehObs.Interacted(transform, this, BehaviorObstacles.signalType.Dash);          
         }
     }
 }

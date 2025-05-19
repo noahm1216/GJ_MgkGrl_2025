@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7108297769490013130}
   - component: {fileID: 684402837049151205}
   - component: {fileID: 3638312478666783416}
+  - component: {fileID: 5833091443690085144}
   m_Layer: 6
   m_Name: LoveBox - Obstacle
   m_TagString: Obstacle
@@ -47,10 +48,41 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thisObsType: 3
-  scoreAddon: 0
+  assignTagAtStart: 0
+  scoreAddon: 1
   tryMoveWithPlatforms: 1
-  physicsPower: 1000
+  physicsPower: 10
   onInteractionEvents:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5343785942952794170}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: ResetTrigger
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Interacted
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 5343785942952794170}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: SetTrigger
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Interacted
+          m_BoolArgument: 0
+        m_CallState: 2
+  onBumpEvents:
+    m_PersistentCalls:
+      m_Calls: []
+  onDashEvent:
     m_PersistentCalls:
       m_Calls: []
 --- !u!135 &3638312478666783416
@@ -74,6 +106,27 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.7
   m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!65 &5833091443690085144
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1750911797227273793}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.88, y: 1.34, z: 1}
+  m_Center: {x: 0, y: 0.51, z: 0}
 --- !u!1001 &8328765343011312378
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -155,6 +208,12 @@ PrefabInstance:
 --- !u!4 &1649552685202424111 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7309857448625329109, guid: 864b55a1b46e41e48a640795a0caba8e,
+    type: 3}
+  m_PrefabInstance: {fileID: 8328765343011312378}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &5343785942952794170 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 4160559640295983808, guid: 864b55a1b46e41e48a640795a0caba8e,
     type: 3}
   m_PrefabInstance: {fileID: 8328765343011312378}
   m_PrefabAsset: {fileID: 0}

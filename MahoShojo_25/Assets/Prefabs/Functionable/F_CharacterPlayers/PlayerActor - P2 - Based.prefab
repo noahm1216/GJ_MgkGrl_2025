@@ -441,7 +441,7 @@ MonoBehaviour:
   numberOfJumps: 2
   layersThatResetJumps:
     serializedVersion: 2
-    m_Bits: 17
+    m_Bits: 81
   jumpAcceleration: 10
   fallAcceleration: 8
   ref_BehaviorCameraFollower: {fileID: 0}

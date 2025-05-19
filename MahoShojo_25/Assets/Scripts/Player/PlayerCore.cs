@@ -17,7 +17,7 @@ public class PlayerCore : MonoBehaviour
     [Space]
     [Header("Jump Ability\n______________")]
     public bool jumpBasedOnKeyPressTime;
-    public float maximumJumpPower = 500;
+    public float maximumJumpPower = 20; // 20 if standardized || 95 if not
     public Rigidbody rb3D;
     // can add private variables to itterate jumping up as a translate if we dont have a rigidbody (but dont need to right now)
     [Range(0.00f, 1)]
@@ -125,7 +125,8 @@ public class PlayerCore : MonoBehaviour
         if (jumpLeftToAchieve < maximumJumpPower)
         {
             if (rb3D)
-                rb3D.AddForce((Vector3.up * dir) * jumpLeftToAchieve * lagInputTime);
+                rb3D.AddForce(((Vector3.up * dir) * jumpLeftToAchieve * lagInputTime - rb3D.velocity), ForceMode.VelocityChange); // this produces standardized results || 20 jump power tested and works
+                                                                                                                                  //    rb3D.AddForce((Vector3.up * dir) * jumpLeftToAchieve * lagInputTime); // This may produce unique results each jump || 95 jump power tested and works
             jumpLeftToAchieve += 1 * jumpAcceleration;
         }
         if (rb3D.velocity.y < 0) // faling / moving down

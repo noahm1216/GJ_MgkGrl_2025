@@ -433,7 +433,7 @@ MonoBehaviour:
   key_MoveDown: 115
   lockYPositionAtZero: 0
   jumpBasedOnKeyPressTime: 0
-  maximumJumpPower: 95
+  maximumJumpPower: 20
   rb3D: {fileID: 7064522762146662973}
   quickJumpPercentOfMaxJump: 0.75
   inputTimeForQuickJumps: 0.3

@@ -17,6 +17,8 @@ public class Manager_GameState : MonoBehaviour
     public int obstaclePoints { get; private set; } // TODO: Break this out into the different obstacles points and amounts so we can track all of the points and amounts as stats?
     public int capturedCreatues_Unique { get; private set; }
     public int capturedPoints { get; private set; }
+    public float timeOfCurrentGameRun { get; private set; }// how long we have been in play-mode of our current run
+    public float distanceOfCurrentGameRun { get; private set; } // how long we have been traveling in our current run
 
 
     public Transform[] objectsToResetPositions;
@@ -87,6 +89,7 @@ public class Manager_GameState : MonoBehaviour
             case GAMESTATE.Menu:
                 break;
             case GAMESTATE.Playing:
+                timeOfCurrentGameRun += Time.deltaTime;
                 break;
             case GAMESTATE.Paused:
                 break;
@@ -141,6 +144,7 @@ public class Manager_GameState : MonoBehaviour
     {
         capturedCreatues_Unique += _amountChange;
         capturedPoints += _changePoints;
+        TallyPoints();
 
         if (Manager_TutorialUI.Instance)
         { Manager_TutorialUI.Instance.SetCaptureShowcase(capturedCreatues_Unique); }
@@ -149,6 +153,7 @@ public class Manager_GameState : MonoBehaviour
     public void ObstaclePointChange(int _changePoints)
     {
         obstaclePoints += _changePoints;
+        TallyPoints();
     }
 
     public void TallyPoints()
@@ -167,6 +172,11 @@ public class Manager_GameState : MonoBehaviour
         return false; // returns false to say we didnt die
     }
 
+    public void ChangeDistanceTraveled(float _amountChange)
+    {
+        distanceOfCurrentGameRun += _amountChange;
+    }
+
 
 
     #region GameOver And Restarts
@@ -180,6 +190,8 @@ public class Manager_GameState : MonoBehaviour
 
     public void StartGameButton()
     {
+        timeOfCurrentGameRun = 0; // Reset Timer
+        distanceOfCurrentGameRun = 0; // Reset distance traveled
         ChangeState(GAMESTATE.Playing);
     }
 

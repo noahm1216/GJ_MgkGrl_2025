@@ -398,6 +398,9 @@ public class Manager_Platforms : MonoBehaviour
                 if (parentOfMapModelsToMove.GetChild(p).gameObject.activeSelf == true)
                     parentOfMapModelsToMove.GetChild(p).position += new Vector3(CurrentSpeed(), 0, 0);
         }
+
+        if (Manager_GameState.Instance)
+            Manager_GameState.Instance.ChangeDistanceTraveled(-CurrentSpeed());
     }
 
     public Transform SpawnOrPoolPlatform(string _forceByNickname, bool _forceNewPlatformInstance) // can try to get a platform by name and/or force the code to spawn a new instance
@@ -570,8 +573,7 @@ public class Manager_Platforms : MonoBehaviour
     public void SpawnMonster()
     {
         if (monstersSpawned < monstersToSpawnInOrder.Length)
-        {
-           
+        {           
             if (Manager_GameState.Instance)
             {
                 // spawn monster

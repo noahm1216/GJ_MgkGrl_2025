@@ -218,7 +218,7 @@ public class PlayerCore : MonoBehaviour
 
             //Manager_Platforms.Instance.ChangeIsBlocked(Physics.Raycast(transform.position + offset, transform.TransformDirection(raycastDirection), out hit, raycastDistance, layersThatResetJumps));
             if (CheckBlockerRaycasts((transform.right), Manager_Platforms.Instance.dir, new Vector3(0, 0.25f, 0), 0.15f) || // our feet
-                CheckBlockerRaycasts(transform.right, Manager_Platforms.Instance.dir, new Vector3(0, 0.65f, 0), 0.3f) || // our hips
+                CheckBlockerRaycasts(transform.right, Manager_Platforms.Instance.dir, new Vector3(0, 0.65f, 0), 0.375f) || // our hips
                 CheckBlockerRaycasts(transform.right, Manager_Platforms.Instance.dir, new Vector3(0, 1f, 0), 0.5f)) // our chest
                 Manager_Platforms.Instance.ChangeIsBlocked(true, RaycastHitObj());
             else
@@ -229,11 +229,8 @@ public class PlayerCore : MonoBehaviour
     private Transform RaycastHitObj()
     {
         int _dir = Manager_Platforms.Instance.dir;
-        Vector3 _raycastDirection = transform.right;
-
-        if (_dir < 0) // forward or idle
-            _raycastDirection = -_raycastDirection;
-
+        Vector3 _raycastDirection = transform.right;        
+        if (_dir < 0)_raycastDirection = -_raycastDirection; // forward or idle
         float _dist = 0.51f; // furthest distance we can
         Vector3 _offset = new Vector3(0, 0.65f, 0);  // our hips
 

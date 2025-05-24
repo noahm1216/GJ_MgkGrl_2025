@@ -290,28 +290,28 @@ public class PlayerCore : MonoBehaviour
                     onHit.Invoke();
         }
 
-        if (trig.tag == "PockiBox") // we were hit
+        if (trig.tag == "PockiBox") // collecting
         {
             if (Manager_Platforms.Instance)
                 if (!Manager_Platforms.Instance.playerUnlockedPockiBox)
-                    Manager_Platforms.Instance.playerUnlockedPockiBox = true;
+                { Manager_Platforms.Instance.playerUnlockedPockiBox = true; if (Manager_TutorialUI.Instance) Manager_TutorialUI.Instance.DisplayPockiCollection(true); }
             if (trig.GetComponent<Collectible>())
                 trig.GetComponent<Collectible>().Interacted();
 
             onPockiBoxCollect.Invoke();
         }
 
-        if (trig.tag == "PockiStick") // we were hit
+        if (trig.tag == "PockiStick") // collecting
         {
             if (Manager_Platforms.Instance)
-                Manager_Platforms.Instance.pockiBoxSticks += 1;
+            { Manager_Platforms.Instance.pockiBoxSticks += 1; if (Manager_TutorialUI.Instance) Manager_TutorialUI.Instance.DisplayPockiCollection(true); }
             if (trig.GetComponent<Collectible>())
                 trig.GetComponent<Collectible>().Interacted();
 
             onPockiStickCollect.Invoke();
         }
 
-        if (trig.tag == "Obstacle")
+        if (trig.tag == "Obstacle") // we interact
         {
             BehaviorObstacles ref_BehObs = null;
             trig.TryGetComponent(out ref_BehObs);

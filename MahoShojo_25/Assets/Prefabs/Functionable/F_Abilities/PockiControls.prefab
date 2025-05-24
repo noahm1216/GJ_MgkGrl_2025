@@ -1,0 +1,286 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &531413441452582163
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4162593920917163279}
+  - component: {fileID: 3677554920395334283}
+  m_Layer: 3
+  m_Name: PockiControls
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4162593920917163279
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 531413441452582163}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.70710677, z: -0, w: 0.7071069}
+  m_LocalPosition: {x: 0.496, y: 0.074207, z: -0.448}
+  m_LocalScale: {x: 0.84974, y: 0.84974, z: 0.84974}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 6316116400819321510}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &3677554920395334283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 531413441452582163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 387cb18528fbff842944935e0a12f575, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keyToCharge: 32
+  showPockiWhileCharging: 0
+  pockiPrefabArtOnly: {fileID: 4950125750730109834, guid: 025533097a4ebc04ebe9419506b3d9c3,
+    type: 3}
+  pointToSpawnFrom: {fileID: 0}
+  alwaysShowPockiOnceUnlocked: 1
+  pockiBoxObj: {fileID: 6316116400819321510}
+  visualObjMeter: {fileID: 6977521841621277173}
+  requiredChargeTime: 1
+  chargeTimeEqualsPockiCollected: 1
+  chargeTimeMultiplier: 2
+  followPlayer: 0
+  pockiBoxOffset: {x: -0.56, y: 0.88, z: 0}
+  pockiCollected: 1
+  onChargeStartEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8922540168977071925}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 7762572298486663145}
+        m_TargetAssemblyTypeName: PockiFire, Assembly-CSharp
+        m_MethodName: UpdatePockiBox
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onChargeCompleteEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onReleaseSuccessEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8922540168977071925}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 7762572298486663145}
+        m_TargetAssemblyTypeName: PockiFire, Assembly-CSharp
+        m_MethodName: RingOfPocki
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: PlayOneShot
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: b9a4d8a7d8ba52d4d95686de576f6fa2,
+            type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onReleaseFailEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8922540168977071925}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 7762572298486663145}
+        m_TargetAssemblyTypeName: PockiFire, Assembly-CSharp
+        m_MethodName: FirePocki
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: PlayOneShot
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: b9a4d8a7d8ba52d4d95686de576f6fa2,
+            type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!1001 &41184789439055415
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 4162593920917163279}
+    m_Modifications:
+    - target: {fileID: 6283941224410823825, guid: 0a158220fd5ea30409daa5e39ca5616b,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.000000059604645
+      objectReference: {fileID: 0}
+    - target: {fileID: 6283941224410823825, guid: 0a158220fd5ea30409daa5e39ca5616b,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.88
+      objectReference: {fileID: 0}
+    - target: {fileID: 6283941224410823825, guid: 0a158220fd5ea30409daa5e39ca5616b,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.56000006
+      objectReference: {fileID: 0}
+    - target: {fileID: 6283941224410823825, guid: 0a158220fd5ea30409daa5e39ca5616b,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071069
+      objectReference: {fileID: 0}
+    - target: {fileID: 6283941224410823825, guid: 0a158220fd5ea30409daa5e39ca5616b,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6283941224410823825, guid: 0a158220fd5ea30409daa5e39ca5616b,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.70710677
+      objectReference: {fileID: 0}
+    - target: {fileID: 6283941224410823825, guid: 0a158220fd5ea30409daa5e39ca5616b,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6283941224410823825, guid: 0a158220fd5ea30409daa5e39ca5616b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6283941224410823825, guid: 0a158220fd5ea30409daa5e39ca5616b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 6283941224410823825, guid: 0a158220fd5ea30409daa5e39ca5616b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7721530660313088478, guid: 0a158220fd5ea30409daa5e39ca5616b,
+        type: 3}
+      propertyPath: ref_ChargingPocki
+      value: 
+      objectReference: {fileID: 3677554920395334283}
+    - target: {fileID: 8881496881820219650, guid: 0a158220fd5ea30409daa5e39ca5616b,
+        type: 3}
+      propertyPath: m_Name
+      value: P_PockiCarrier_Model
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 0a158220fd5ea30409daa5e39ca5616b, type: 3}
+--- !u!4 &6316116400819321510 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6283941224410823825, guid: 0a158220fd5ea30409daa5e39ca5616b,
+    type: 3}
+  m_PrefabInstance: {fileID: 41184789439055415}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6977521841621277173 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6937639629884989378, guid: 0a158220fd5ea30409daa5e39ca5616b,
+    type: 3}
+  m_PrefabInstance: {fileID: 41184789439055415}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7762572298486663145 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7721530660313088478, guid: 0a158220fd5ea30409daa5e39ca5616b,
+    type: 3}
+  m_PrefabInstance: {fileID: 41184789439055415}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8922540168977071925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03a4c6877d6730345968dfdf8e8693dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &8922540168977071925 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8881496881820219650, guid: 0a158220fd5ea30409daa5e39ca5616b,
+    type: 3}
+  m_PrefabInstance: {fileID: 41184789439055415}
+  m_PrefabAsset: {fileID: 0}

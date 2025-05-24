@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class PockiFire : MonoBehaviour
 {
-
     public ChargingPocki ref_ChargingPocki;
 
     public Transform prefabToSpawn;

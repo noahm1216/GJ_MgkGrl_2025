@@ -22,6 +22,9 @@ public class Manager_TutorialUI : MonoBehaviour
     [Space]
     public Image[] capturedImages;
 
+    public Image imgPockiBox, imgPockiStick;
+    public TextMeshProUGUI textPockiCountText;
+
     [Space]
     [Space]
     public GameObject gameOverScreenObj;
@@ -99,10 +102,8 @@ public class Manager_TutorialUI : MonoBehaviour
             }
         }
 
-
         Debug.Log($"WARNING: Unable To Lookup - {_lookUpName}");
         return null;
-
     }
 
     public void SetCaptureShowcase(int _howManyCaptured)
@@ -114,11 +115,22 @@ public class Manager_TutorialUI : MonoBehaviour
                 capturedImages[i].color = Color.black;
     }
 
+    public void DisplayPockiCollection(bool _show)
+    {
+        if (imgPockiBox)
+        { if (_show) imgPockiBox.color = Color.white; else imgPockiBox.color = Color.black; }
+        if (imgPockiStick)
+        { if (_show) imgPockiStick.color = Color.white; else imgPockiStick.color = Color.black; }
+        if (textPockiCountText && Manager_Platforms.Instance)
+        { textPockiCountText.text = $"x{Manager_Platforms.Instance.pockiBoxSticks}"; textPockiCountText.gameObject.SetActive(_show); }
+    }
+
     public void ResetTutorial()
     {
         queuedMessages.Clear();
         HideText();
         SetCaptureShowcase(0);
+        DisplayPockiCollection(false);
     }
 
     public void HitStartTutorial()

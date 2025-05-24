@@ -12,7 +12,7 @@ public class Manager_UI : MonoBehaviour
     public KeyInputData[] keybindings;
     public PlayerCore ref_PlayerCore;
     public ChargingPocki ref_ChargingPocki;
-    private bool detectingKeyInput; 
+    private bool detectingKeyInput;
 
 
     private void Awake()
@@ -21,6 +21,25 @@ public class Manager_UI : MonoBehaviour
             Destroy(this);
         else
             Instance = this;
+    }
+
+    private void Start()
+    {
+        // set references to start data || TODO: Eventually we want to pull this data from a list or save file
+        if (ref_PlayerCore)
+            EstablishInitialKeys(ref_PlayerCore.key_MoveUp, "jump");
+        if (Manager_GameState.Instance)
+        {
+            EstablishInitialKeys(Manager_GameState.Instance.key_Pause1, "pause 1");
+            EstablishInitialKeys(Manager_GameState.Instance.key_Pause2, "pause 2");
+            EstablishInitialKeys(Manager_Platforms.Instance.key_MovePlatformsLeft, "dash");
+            EstablishInitialKeys(Manager_Platforms.Instance.key_MovePlatformsRight, "retract");
+        }
+
+        if (ref_ChargingPocki)
+            EstablishInitialKeys(ref_ChargingPocki.keyToCharge, "shoot");
+
+        detectingKeyInput = false;
     }
 
     // Start is called before the first frame update
@@ -37,16 +56,16 @@ public class Manager_UI : MonoBehaviour
     {
         if (detectingKeyInput)
         {
-            print("waiting for input");
+            //print("waiting for new key input");
             var newKey = DetectInput();
             if (newKey != KeyCode.None)
-            {                
+            {
                 for (int i = 0; i < keybindings.Length; i++)
-                {                   
+                {
                     if (keybindings[i].changingNow)
                     {
-                        print($"Found key that needs changing: {keybindings[i].keycodeActionText.text} - changing key from: {keybindings[i].theKeycode} - to: {newKey}");
-                        keybindings[i].FillOutTheData(newKey, keybindings[i].keycodeActionText.text);
+                        //print($"Found key that needs changing: {keybindings[i].keycodeActionText.text} - changing key from: {keybindings[i].theKeycode} (previously {keybindings[i].lastKeycode}) - to: {newKey}");
+                        keybindings[i].FillOutTheData(newKey, keybindings[i].keycodeActionText.text, false);
                         keybindings[i].TryingToChange(false);
                         UpdateGameControls(newKey, keybindings[i].keycodeActionText.text.ToLower());
                         detectingKeyInput = false;
@@ -57,7 +76,22 @@ public class Manager_UI : MonoBehaviour
         }
     }
 
-    private void UpdateGameControls(KeyCode _newKey, string _keyDescription)
+    private void EstablishInitialKeys(KeyCode _newKey, string _keyDescription)
+    {
+        for (int i = 0; i < keybindings.Length; i++)
+        {
+            if (keybindings[i].keycodeActionText.text.ToLower() == _keyDescription.ToLower())
+            {
+                //print($"Found key that needs establishing: {_newKey} - {_keyDescription}");
+                keybindings[i].FillOutTheData(_newKey, _keyDescription, false);
+                keybindings[i].TryingToChange(false);
+                UpdateGameControls(_newKey, keybindings[i].keycodeActionText.text.ToLower());             
+                break;
+            }
+        }
+    }
+
+    private void UpdateGameControls(KeyCode _newKey, string _keyDescription) // updates unique objects to use the new controls
     {
         if (string.IsNullOrEmpty(_keyDescription))
             return;
@@ -70,11 +104,21 @@ public class Manager_UI : MonoBehaviour
                 break;
             case "pause 1":
                 if (Manager_GameState.Instance)
-                    Manager_GameState.Instance.key_Pause1 = _newKey;
+                {
+                    if (_newKey == KeyCode.Mouse0)
+                    { Debug.Log("Please Dont Set Pause Key To: 'Mouse0'"); EstablishInitialKeys(Manager_GameState.Instance.key_Pause1, "pause 1"); }
+                    else
+                        Manager_GameState.Instance.key_Pause1 = _newKey;
+                }
                 break;
             case "pause 2":
                 if (Manager_GameState.Instance)
-                    Manager_GameState.Instance.key_Pause2 = _newKey;
+                {
+                    if (_newKey == KeyCode.Mouse0)
+                    { Debug.Log("Please Dont Set Pause Key To: 'Mouse0'"); EstablishInitialKeys(Manager_GameState.Instance.key_Pause2, "pause 2"); }
+                    else
+                        Manager_GameState.Instance.key_Pause2 = _newKey;
+                }
                 break;
             case "dash":
                 if (Manager_Platforms.Instance)
@@ -91,9 +135,9 @@ public class Manager_UI : MonoBehaviour
             default:
                 Debug.Log($"ERROR: Missing keybinding text for: {_keyDescription}");
                 break;
-
-        }        
+        }
     }
+
 
     public void EnableStartObjects()
     {
@@ -134,10 +178,7 @@ public class Manager_UI : MonoBehaviour
         foreach (KeyCode vkey in System.Enum.GetValues(typeof(KeyCode)))
         {
             if (Input.GetKey(vkey))
-            {
-                //print($"Changed Key To: {vkey}");
-                return vkey;
-            }
+                return vkey; //print($"Changed Key To: {vkey}");
         }
         return KeyCode.None;
     }

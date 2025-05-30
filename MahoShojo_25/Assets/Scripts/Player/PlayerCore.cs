@@ -74,6 +74,8 @@ public class PlayerCore : MonoBehaviour
     [Header("Reaction Events\n______________")]
     public UnityEvent onHit, onDeath, onModelChange, onPockiBoxCollect, onPockiStickCollect;
 
+    private bool triggeredWin;
+
     public bool CanJump()
     {
         return timesJumpedSinceLastGround < numberOfJumps;
@@ -137,7 +139,8 @@ public class PlayerCore : MonoBehaviour
             if (Manager_GameState.Instance.capturedCreatues_Unique >= 6 && transform.position.y < 25) // falling off the buildings
             {
                 //print($"transform.position = {transform.position}");
-                Manager_GameState.Instance.WonTheGame();
+                if (!triggeredWin)
+                { Manager_GameState.Instance.WonTheGame(); triggeredWin = true; }
             }
         }
     }

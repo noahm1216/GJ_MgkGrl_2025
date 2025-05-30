@@ -186,6 +186,8 @@ public class Manager_GameState : MonoBehaviour
         ChangeState(GAMESTATE.Won);
         if (Manager_TutorialUI.Instance)
             Manager_TutorialUI.Instance.ShowWinGameScreen();
+        if (Manager_Audio.Instance)
+            Manager_Audio.Instance.SwitchClip(Manager_Audio.Instance.aSourceMusic, Manager_Audio.Instance.clipMusic_Win);
     }
 
     public void StartGameButton()

@@ -6139,6 +6139,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3677554920395334283, guid: dc9ed2de74145a24883a85cd28a99584,
         type: 3}
+      propertyPath: pointToSpawnFrom
+      value: 
+      objectReference: {fileID: 3577818465315226709}
+    - target: {fileID: 3677554920395334283, guid: dc9ed2de74145a24883a85cd28a99584,
+        type: 3}
       propertyPath: onReleaseFailEvent.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
       objectReference: {fileID: 7120160822938105339}

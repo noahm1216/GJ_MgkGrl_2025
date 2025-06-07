@@ -124,7 +124,7 @@ public class BehaviorMonster : MonoBehaviour
             ChangeState(MONSTERSTATE.Captured);
 
         UpdateUserInterface();
-        onHit.Invoke();
+        onHit?.Invoke();
     }
 
     private void UpdateUserInterface()
@@ -149,10 +149,11 @@ public class BehaviorMonster : MonoBehaviour
     {
         currentStateTimeStamp = Time.time;
         ResetVariables();
-        currentState = _newState;
 
         if (currentState != MONSTERSTATE.Captured && _newState == MONSTERSTATE.Captured)
-            onCapture.Invoke();
+            onCapture?.Invoke();
+
+        currentState = _newState;       
     }
 
     private void ResetVariables()

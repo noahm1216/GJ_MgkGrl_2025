@@ -1395,7 +1395,7 @@ MonoBehaviour:
         m_MethodName: PlayOneShot
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 8300000, guid: e464bf1ab31ad964f9f8b54cfe1e6d93,
+          m_ObjectArgument: {fileID: 8300000, guid: 6fe73b618177a7c45800ec660930170a,
             type: 3}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
           m_IntArgument: 0
@@ -1445,7 +1445,20 @@ MonoBehaviour:
         m_CallState: 2
   onRushAttacking:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1889067455161724294}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: PlayOneShot
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: a17a1a5800a43b146ae1de1b6444a873,
+            type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!135 &5491539329710582480
 SphereCollider:
   m_ObjectHideFlags: 0

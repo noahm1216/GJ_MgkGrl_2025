@@ -158,7 +158,7 @@ public class Manager_Platforms : MonoBehaviour
         for (int i = 0; i < platformsToKeepOnScreen - 1; i++)
             SpawnOrPoolPlatform(null, true);
 
-        lastCaptureTimeStamp = Time.time + (waitTimeAfterCapture * 2); // the first monster shouldnt spawn right away, but the normal pacing is good for most
+        lastCaptureTimeStamp = Time.time + (waitTimeAfterCapture * 1.5f); // the first monster shouldnt spawn right away, but the normal pacing is good for most
         ChangeMonsterVariables(true, false, false);
 
         if (startPlayerSlowly)

@@ -47,7 +47,8 @@ public class Manager_UI : MonoBehaviour
     {
         if (objectsToHideOnStart.Length > 0)
             for (int i = 0; i < objectsToHideOnStart.Length; i++)
-                objectsToHideOnStart[i].SetActive(false);
+                if (objectsToHideOnStart[i] != null)
+                    objectsToHideOnStart[i].SetActive(false);
 
         detectingKeyInput = false;
     }

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: ce528b03a09989d46b6af9929e834220
+guid: a6d69858023d7e74c823650f8d19aea2
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -43,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -121,18 +121,84 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: MahoShojo_Sketches_0
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 1366
+        width: 1138
+        height: 640
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3b2407a73b6a5154c8a691c6263b7ff0
+      internalID: -359668454
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MahoShojo_Sketches_1
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 690
+        width: 1138
+        height: 644
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a0f561a04eff99e4c8be53cd8c5615c3
+      internalID: 963486450
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MahoShojo_Sketches_2
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 26
+        width: 1142
+        height: 642
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fd583b4a5a2b3b84cb70f0f294e28308
+      internalID: -156801773
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 0fe9c80e648251b4a9327b0e969ca686
     internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      MahoShojo_Sketches_0: -359668454
+      MahoShojo_Sketches_1: 963486450
+      MahoShojo_Sketches_2: -156801773
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

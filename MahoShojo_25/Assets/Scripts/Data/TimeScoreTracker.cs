@@ -4,7 +4,20 @@ using TMPro;
 
 public class TimeScoreTracker : MonoBehaviour
 {
+    public Camera worldSpaceCameraForPostProcessing;
+    public Canvas progressCanvas;
+
     public TextMeshProUGUI scoreText, timeText, distanceText;
+
+    private void OnEnable()
+    {
+        if (!progressCanvas)
+            TryGetComponent(out progressCanvas);
+        if (!worldSpaceCameraForPostProcessing)
+            worldSpaceCameraForPostProcessing = Camera.main;
+        if (worldSpaceCameraForPostProcessing && progressCanvas && progressCanvas.renderMode != RenderMode.ScreenSpaceCamera && !progressCanvas.worldCamera)
+            progressCanvas.worldCamera = worldSpaceCameraForPostProcessing; // if found references, renderMode is good, and no camera already assigned to it
+    }
 
     // Update is called once per frame
     void Update()

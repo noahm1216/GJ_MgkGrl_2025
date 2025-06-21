@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class UIAnimationPlayer : MonoBehaviour
 {
@@ -15,6 +16,13 @@ public class UIAnimationPlayer : MonoBehaviour
     private float lastframeTimeStamp;
     private float animationTime;
 
+    public UnityEvent onEnableEvents;
+
+
+    public void OnEnable()
+    {
+        onEnableEvents?.Invoke();
+    }
 
     void LateUpdate()
     {

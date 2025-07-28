@@ -6589,9 +6589,9 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4848005764176212867}
   m_PrefabAsset: {fileID: 0}
---- !u!95 &3772256365694237424 stripped
+--- !u!95 &2437623497065058117 stripped
 Animator:
-  m_CorrespondingSourceObject: {fileID: 8583347019013015923, guid: a0646004e82d3db4a8872a626c25a4b8,
+  m_CorrespondingSourceObject: {fileID: 7103230121878863046, guid: a0646004e82d3db4a8872a626c25a4b8,
     type: 3}
   m_PrefabInstance: {fileID: 4848005764176212867}
   m_PrefabAsset: {fileID: 0}
@@ -6614,7 +6614,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animPlayer:
-  - {fileID: 3772256365694237424}
+  - {fileID: 2437623497065058117}
   - {fileID: 8035195390672312086}
   - {fileID: 6459853122560648151}
   triggersToReset:

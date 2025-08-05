@@ -272,6 +272,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reactivateOnTimer: 0
   tryMoveWithPlatforms: 1
+  startDisabled: 0
+  cannotEnableIfPockiBoxNotCollected: 0
   colliderToToggle: {fileID: 5228014687250798920}
   artObjToToggle: {fileID: 3391737029986932073}
   timeUntilReactivate: 30
@@ -606,7 +608,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5811993018646981865
 Transform:
   m_ObjectHideFlags: 0

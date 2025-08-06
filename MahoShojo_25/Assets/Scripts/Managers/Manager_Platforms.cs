@@ -533,8 +533,8 @@ public class Manager_Platforms : MonoBehaviour
         if (_successfulCapture && Manager_TutorialUI.Instance && Manager_GameState.Instance)
         {
             print("successful capture");
-            if (Manager_GameState.Instance.capturedCreatues_Unique == 4)
-                Manager_TutorialUI.Instance.QueueMessage("Story_6");
+            if (Manager_GameState.Instance.capturedCreatues_Unique >= 4)
+            { }// do nothing
             else
                 Manager_TutorialUI.Instance.QueueMessage("Story_5");
 
@@ -573,7 +573,7 @@ public class Manager_Platforms : MonoBehaviour
     public void SpawnMonster()
     {
         if (monstersSpawned < monstersToSpawnInOrder.Length)
-        {           
+        {
             if (Manager_GameState.Instance)
             {
                 // spawn monster
@@ -584,7 +584,9 @@ public class Manager_Platforms : MonoBehaviour
                 if (Manager_TutorialUI.Instance)
                 {
                     if (Manager_GameState.Instance.capturedCreatues_Unique == 0)
-                    { Manager_TutorialUI.Instance.QueueMessage("Story_3");  Manager_TutorialUI.Instance.QueueMessage("Story_4"); }
+                    { Manager_TutorialUI.Instance.QueueMessage("Story_3"); Manager_TutorialUI.Instance.QueueMessage("Story_4"); }
+                    if (Manager_GameState.Instance.capturedCreatues_Unique == 4)
+                    { Manager_TutorialUI.Instance.QueueMessage("Story_6"); }
                     if (Manager_GameState.Instance.capturedCreatues_Unique == 5)
                     { Manager_TutorialUI.Instance.QueueMessage("Story_7"); Manager_TutorialUI.Instance.QueueMessage("Story_8"); Manager_TutorialUI.Instance.QueueMessage("Story_9"); }
                 }
@@ -593,7 +595,7 @@ public class Manager_Platforms : MonoBehaviour
             {
                 // spawn monster
                 spawnedMonster = Instantiate(monstersToSpawnInOrder[monstersSpawned]);
-                spawnedMonster.transform.position = distanceOkayToSpawnFromPlayer[monstersSpawned];             
+                spawnedMonster.transform.position = distanceOkayToSpawnFromPlayer[monstersSpawned];
             }
             timeMonsterSpawned = Time.time;
             ChangeMonsterVariables(false, true, false);

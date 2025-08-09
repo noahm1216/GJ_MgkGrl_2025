@@ -13,6 +13,11 @@ public class PlayerCore : MonoBehaviour
     [Tooltip("When true this makes sure our character's always in the 2.5D position we expect them to be")]
     public bool lockYPositionAtZero = true;
 
+    [Tooltip("Move our character up")]
+    private KeyCode key_MoveUp2 = KeyCode.UpArrow;
+    [Tooltip("Move our character down")]
+    private KeyCode key_MoveDown2 = KeyCode.DownArrow;
+
 
     [Space]
     [Header("Jump Ability\n______________")]
@@ -147,7 +152,7 @@ public class PlayerCore : MonoBehaviour
 
     private void CheckForInputs()
     {
-        if (Input.GetKey(key_MoveUp))
+        if (Input.GetKey(key_MoveUp) || Input.GetKey(key_MoveUp2))
         {
 
             inputXYTime += Time.deltaTime * speedToMaxJumpPower;
@@ -160,7 +165,7 @@ public class PlayerCore : MonoBehaviour
             onPress_MoveUp.Invoke();
         }
 
-        if (Input.GetKeyDown(key_MoveUp))
+        if (Input.GetKeyDown(key_MoveUp) || Input.GetKeyDown(key_MoveUp2))
         {
             onRelease_MoveUp.Invoke(); // changed to pres down instead of press up
             if (CanJump())

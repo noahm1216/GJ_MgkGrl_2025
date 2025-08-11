@@ -162,7 +162,7 @@ public class Manager_Platforms : MonoBehaviour
         for (int i = 0; i < platformsToKeepOnScreen - 1; i++)
             SpawnOrPoolPlatform(null, true);
 
-        lastCaptureTimeStamp = Time.time + (waitTimeAfterCapture * 1.5f); // the first monster shouldnt spawn right away, but the normal pacing is good for most
+        lastCaptureTimeStamp = Time.time + (waitTimeAfterCapture * 1.2f); // the first monster shouldnt spawn right away, but the normal pacing is good for most
         ChangeMonsterVariables(true, false, false);
 
         if (startPlayerSlowly)
@@ -554,7 +554,7 @@ public class Manager_Platforms : MonoBehaviour
     private void CheckForMonsterSpawn() // TODO: this needs refactoring... this functions purpose is to spawn monster if ready... COMBINED with "ChangeMonsterVariables" (above) we can have a singular checker
     {
         if (Manager_GameState.Instance && Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing)
-        { print($"no spawning monsters during { Manager_GameState.Instance.currentState} mode");  return; }
+        { print($"no spawning monsters during { Manager_GameState.Instance.currentState} mode"); timeMonsterSpawned += Time.time;  return; }
 
         if (Time.time > timeMonsterSpawned + waitTimeUntilDespawnDynamic && spawnedMonster != null && monsterIsInPlay)
             DespawnMonster();

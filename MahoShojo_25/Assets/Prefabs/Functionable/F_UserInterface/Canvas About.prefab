@@ -424,7 +424,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 1
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -1302,16 +1302,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7566624662871788389}
-  m_LocalRotation: {x: -0, y: -0, z: 1, w: 0.0000029504295}
+  m_LocalRotation: {x: -0, y: -0, z: 0.0000029653306, w: -1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 780057738286170509}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 360}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -196.6, y: 112.8}
+  m_AnchoredPosition: {x: 267, y: 113}
   m_SizeDelta: {x: 93.37456, y: 32.3778}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6721180594821898933
@@ -1342,7 +1342,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 205268142, guid: 2179568ae6f951b40b656e2611e1d6af, type: 3}
+  m_Sprite: {fileID: -1073497817, guid: 2179568ae6f951b40b656e2611e1d6af, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1

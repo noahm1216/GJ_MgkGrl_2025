@@ -49,6 +49,9 @@ public class Manager_TutorialUI : MonoBehaviour
         // our condition to be able to play a message 
         if(queuedMessages.Count > 0 && imgBearHolder && imgBearHolder.gameObject.activeSelf == false && Time.time > textDisplayTimeStamp + waitUntilNewTextTime)
             PlayFromQueue();
+
+        //if(Manager_GameState.Instance && Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing)
+        //    textDisplayTimeStamp += Time.time; // make sure our tutorial time doesnt show messages too early
     }
 
     public void QueueMessage(string _lookUpName)

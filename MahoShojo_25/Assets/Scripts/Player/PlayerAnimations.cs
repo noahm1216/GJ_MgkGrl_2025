@@ -8,6 +8,8 @@ public class PlayerAnimations : MonoBehaviour
     public Animator[] animPlayer;
     public string[] triggersToReset;
 
+    
+
     public void SetAnyBool(string _name, bool _canMove)
     {
         for (int i = 0; i < animPlayer.Length; i++)
@@ -29,6 +31,27 @@ public class PlayerAnimations : MonoBehaviour
             for (int i = 0; i < animPlayer.Length; i++)
                 if (animPlayer[i] != null && animPlayer[i].gameObject.activeSelf == true)
                     animPlayer[i].ResetTrigger(trigger);
+    }
+
+    public void EventTriggerCastLayer(float _layerWeight)
+    {
+        ChangeAnimLayerMask("TopHalf", _layerWeight);
+    }
+
+    public void EventTriggerCastBool(bool _isAttacking)
+    {
+        SetAnyBool("ChargingAttack", _isAttacking);
+    }
+
+    public void ChangeAnimLayerMask(string _layerName, float _layerWeight) // "TopHalf" = maho upper body
+    {
+        foreach (string trigger in triggersToReset)
+            for (int i = 0; i < animPlayer.Length; i++)
+                if (animPlayer[i] != null && animPlayer[i].gameObject.activeSelf == true)
+                {
+                    int layerIndex = animPlayer[i].GetLayerIndex(_layerName);
+                    animPlayer[i].SetLayerWeight(layerIndex, _layerWeight);
+                }
     }
 
 

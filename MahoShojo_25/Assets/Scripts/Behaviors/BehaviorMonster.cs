@@ -83,11 +83,13 @@ public class BehaviorMonster : MonoBehaviour
     [Space]
     public float captureFlyAwayTime = 10;
     [Space]
-    public UnityEvent onHit, onCapture, onRushAttacking;
+    public UnityEvent onHit, onHitAudio, onCapture, onRushAttacking;
    
     private float percentHP;
     private int currentCapturePointsLeft;
     private Vector3 startScale;
+    private float audioPlayedTimeWait = 0.3f;
+    private float[] audioPlayedTimeStamps = new float[6];
 
     private void OnEnable()
     {   // initialize
@@ -124,7 +126,21 @@ public class BehaviorMonster : MonoBehaviour
             ChangeState(MONSTERSTATE.Captured);
 
         UpdateUserInterface();
+        CheckOnHitAudio();
         onHit?.Invoke();
+    }
+
+    private void CheckOnHitAudio() // this is done to avoid audio glitches when we fire a LOT of attacks at our enemy
+    {
+        for(int i =0; i < audioPlayedTimeStamps.Length; i++)
+        {
+            if(audioPlayedTimeStamps[i] > Time.time + audioPlayedTimeWait)
+            {
+                audioPlayedTimeStamps[i] = Time.time;
+                onHitAudio?.Invoke();
+                break;
+            }
+        }
     }
 
     private void UpdateUserInterface()

@@ -5,7 +5,7 @@ using UnityEngine.Events;
 using UnityEditor;
 using System;
 
-public class ChargingPocki : MonoBehaviour
+public class ChargingPocki : MonoBehaviour // TODO: Add a reference to player animations that accounts for holding this button ... then set the bool until we release it
 {
     public KeyCode keyToCharge;
     // -C

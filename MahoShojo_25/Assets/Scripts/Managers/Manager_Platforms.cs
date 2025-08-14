@@ -249,6 +249,8 @@ public class Manager_Platforms : MonoBehaviour
             startSpeedAccelStamp = Time.time;
             timePressedJumpOrMove = Time.time;
         }
+        if(Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing)
+            lastCaptureTimeStamp += Time.deltaTime;
     }
 
     public void ChangeSpawningPlatforms(bool _stop)

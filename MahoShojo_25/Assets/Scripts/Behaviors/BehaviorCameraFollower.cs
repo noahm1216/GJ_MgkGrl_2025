@@ -102,22 +102,17 @@ public class BehaviorCameraFollower : MonoBehaviour
                 targetLookAtPoint = ref_PlayerCore.transform.position + cameraOffset;
                 break;
             case CameraFocusState.MovingForward:
-                targetZoom = 6;
-                cameraOffset = new Vector3(8, 5f - Mathf.Abs(ref_PlayerCore.transform.position.y), -5);
-                //cameraOffset = new Vector3(8, 4, -5); // if camera is too full of motion we can tweek this || if( Mathf.Abs(player.y) > Mathf.Abs(cam.y) + 3) ... then move based on Y ... else ... hard set 
-                //if (ref_PlayerCore.transform.position.y > transform.position.y + 3)
-                //    cameraOffset.y = 6;
-                //if (ref_PlayerCore.transform.position.y < transform.position.y - 3)
-                //    cameraOffset.y = 2;          
+                targetZoom = 6 + (ref_PlayerCore.transform.position.y * 0.55f);
+                cameraOffset = new Vector3(8, 3, -5);   
                 targetLookAtPoint = ref_PlayerCore.transform.position + cameraOffset;
                 break;
             case CameraFocusState.MovingBackwards:
-                targetZoom = 6;
-                cameraOffset = new Vector3(-5, 5 - Mathf.Abs(ref_PlayerCore.transform.position.y), -5);
+                targetZoom = 6 + (ref_PlayerCore.transform.position.y * 0.55f);
+                cameraOffset = new Vector3(-5, 3, -5);
                 targetLookAtPoint = ref_PlayerCore.transform.position + cameraOffset;
                 break;
             case CameraFocusState.InTheAir:
-                targetZoom = 8;
+                targetZoom = 8 + (ref_PlayerCore.transform.position.y * 0.85f);
                 cameraOffset = new Vector3(4, 0, -5);
                 targetLookAtPoint = ref_PlayerCore.transform.position + cameraOffset;
                 break;

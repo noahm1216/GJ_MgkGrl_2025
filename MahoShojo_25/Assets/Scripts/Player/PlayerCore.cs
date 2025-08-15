@@ -154,7 +154,6 @@ public class PlayerCore : MonoBehaviour
     {
         if (Input.GetKey(key_MoveUp) || Input.GetKey(key_MoveUp2))
         {
-
             inputXYTime += Time.deltaTime * speedToMaxJumpPower;
             if (!jumpBasedOnKeyPressTime)
                 inputXYTime = 1;
@@ -170,6 +169,9 @@ public class PlayerCore : MonoBehaviour
             onRelease_MoveUp.Invoke(); // changed to pres down instead of press up
             if (CanJump())
             {
+                if (Manager_Platforms.Instance && Manager_Platforms.Instance.isDashing)
+                    return;
+
                 if (inputXYTime <= inputTimeForQuickJumps) // jumpTime for tapping inputs
                     inputXYTime = quickJumpPercentOfMaxJump;
 

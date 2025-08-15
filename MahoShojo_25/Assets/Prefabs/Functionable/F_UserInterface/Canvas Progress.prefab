@@ -2149,8 +2149,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "Distance: \u2665"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a9548c381aef14f40a1d5f5b1be9e485, type: 2}
-  m_sharedMaterial: {fileID: -8301446876496123151, guid: a9548c381aef14f40a1d5f5b1be9e485,
+  m_fontAsset: {fileID: 11400000, guid: 3521a225ab2971d44be61a331ae7d834, type: 2}
+  m_sharedMaterial: {fileID: -3619605252056693099, guid: 3521a225ab2971d44be61a331ae7d834,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -2284,8 +2284,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "Score: \u2665"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a9548c381aef14f40a1d5f5b1be9e485, type: 2}
-  m_sharedMaterial: {fileID: -8301446876496123151, guid: a9548c381aef14f40a1d5f5b1be9e485,
+  m_fontAsset: {fileID: 11400000, guid: 3521a225ab2971d44be61a331ae7d834, type: 2}
+  m_sharedMaterial: {fileID: -3619605252056693099, guid: 3521a225ab2971d44be61a331ae7d834,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -2713,8 +2713,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "Time: \u2665"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a9548c381aef14f40a1d5f5b1be9e485, type: 2}
-  m_sharedMaterial: {fileID: -8301446876496123151, guid: a9548c381aef14f40a1d5f5b1be9e485,
+  m_fontAsset: {fileID: 11400000, guid: 3521a225ab2971d44be61a331ae7d834, type: 2}
+  m_sharedMaterial: {fileID: -3619605252056693099, guid: 3521a225ab2971d44be61a331ae7d834,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -3288,8 +3288,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Insert Text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 760e975c7d9c58e44bcab7aef8c33a1a, type: 2}
-  m_sharedMaterial: {fileID: -2976115282926273848, guid: 760e975c7d9c58e44bcab7aef8c33a1a,
+  m_fontAsset: {fileID: 11400000, guid: a9548c381aef14f40a1d5f5b1be9e485, type: 2}
+  m_sharedMaterial: {fileID: -8301446876496123151, guid: a9548c381aef14f40a1d5f5b1be9e485,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -3314,13 +3314,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 62.25
+  m_fontSize: 72
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535

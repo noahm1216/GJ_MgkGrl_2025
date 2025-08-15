@@ -106,7 +106,7 @@ Material:
     - _MorphScale: 0.05
     - _MorphSpeed: 0.14
     - _NoiseIntensity: -2.92
-    - _NoiseScale: -0.09
+    - _NoiseScale: 0.69
     - _NoiseSpeed: 0.5
     - _OcclusionStrength: 1
     - _Parallax: 0.005
@@ -125,10 +125,10 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _DarkColor: {r: 0.052215543, g: 0.040939838, b: 0.0754717, a: 1}
+    - _DarkColor: {r: 0.13249083, g: 0.094962634, b: 0.20754719, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FogColor: {r: 0.2956892, g: 0.22347811, b: 0.509434, a: 1}
-    - _LightColor: {r: 1, g: 0.7957734, b: 0, a: 1}
+    - _LightColor: {r: 0.7075472, g: 0.7075472, b: 0.7075472, a: 1}
     - _MidColor: {r: 0.2834046, g: 0.23171058, b: 0.38679248, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []

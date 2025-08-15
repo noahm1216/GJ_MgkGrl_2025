@@ -195,6 +195,7 @@ public class Manager_GameState : MonoBehaviour
         timeOfCurrentGameRun = 0; // Reset Timer
         distanceOfCurrentGameRun = 0; // Reset distance traveled
         ChangeState(GAMESTATE.Playing);
+        if (Manager_Platforms.Instance) Manager_Platforms.Instance.ResetMonsterTimers();
     }
 
     public void RestartGameButton()

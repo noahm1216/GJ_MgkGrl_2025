@@ -7,11 +7,15 @@ public class PlayerAnimations : MonoBehaviour
 
     public Animator[] animPlayer;
     public string[] triggersToReset;
+    public bool updateAnimSpeed = true;
 
+    private bool delayMaskDisable;
+    private float maskDisableTimeStamp, maskDisableTime = 1.5f;
     
 
     public void SetAnyBool(string _name, bool _canMove)
     {
+
         for (int i = 0; i < animPlayer.Length; i++)
             if (animPlayer[i] != null && animPlayer[i].gameObject.activeSelf == true)
                 animPlayer[i].SetBool(_name, _canMove);
@@ -35,7 +39,10 @@ public class PlayerAnimations : MonoBehaviour
 
     public void EventTriggerCastLayer(float _layerWeight)
     {
-        ChangeAnimLayerMask("TopHalf", _layerWeight);
+        if (_layerWeight == 0)
+        { maskDisableTimeStamp = Time.time; delayMaskDisable = true; }
+        else
+        { delayMaskDisable = false;  ChangeAnimLayerMask("TopHalf", _layerWeight); }
     }
 
     public void EventTriggerCastBool(bool _isAttacking)
@@ -64,6 +71,9 @@ public class PlayerAnimations : MonoBehaviour
                 return;
         }
 
+        if (delayMaskDisable && Time.time > maskDisableTimeStamp + maskDisableTime)
+            ChangeAnimLayerMask("TopHalf", 0);
+
 
         if (animPlayer.Length > 0 && Manager_Platforms.Instance)
         {
@@ -76,8 +86,13 @@ public class PlayerAnimations : MonoBehaviour
             SetAnyBool("isMoving", Mathf.Abs(Manager_Platforms.Instance.CurrentSpeed()) > 0 && !Manager_Platforms.Instance.isBlocked); // moving at all
             SetAnyBool("isDashing", Manager_Platforms.Instance.isDashing); // dashing process
             SetAnyBool("isFalling", Manager_Platforms.Instance.playerInAir && !Manager_Platforms.Instance.isDashing); // in air
-            //if (Manager_Platforms.Instance.isDashing) // setting it through events
-            //    SetAnyTrigger("Dashed");
+                                                                                                                      //if (Manager_Platforms.Instance.isDashing) // setting it through events
+                                                                                                                      //    SetAnyTrigger("Dashed");
+
+            if (updateAnimSpeed)
+                for (int i = 0; i < animPlayer.Length; i++)
+                    if (animPlayer[i] != null && animPlayer[i].gameObject.activeSelf == true)
+                        animPlayer[i].speed = 0.5f + Mathf.Abs(Manager_Platforms.Instance.CurrentSpeed() * 8.0f);
         }
     }
 

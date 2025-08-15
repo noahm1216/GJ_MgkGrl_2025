@@ -1342,19 +1342,19 @@ MonoBehaviour:
   waitTime: 60
   activatesOnDistance: 1
   distanceToActivate: 10
-  huntingTime: 8
+  huntingTime: 4
   blendSpeed: 0.5
   accetpablePlayerOffsetX: {x: -4, y: 9}
   accetpablePlayerOffsetY: {x: -2, y: 4}
   forceZOffset: 0
   targetLockedTime: 3
-  shakeSpeed: 2
-  shakeAmount: 0.1
-  attackSpeed: 30
+  shakeSpeed: 4
+  shakeAmount: 0.15
+  attackSpeed: 35
   targetTolerance: 0.5
   positionalTargetOffset: {x: 0, y: 0, z: 0}
-  recoveringTime: 5
-  pointsUntilCaptured: 100
+  recoveringTime: 6
+  pointsUntilCaptured: 500
   pointsForCapturing: 500
   uiHolderOfHeartPoints: {fileID: 716657010637737737}
   sizeToShrinkTo: 0.15
@@ -1390,6 +1390,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onHitAudio:
+    m_PersistentCalls:
+      m_Calls:
       - m_Target: {fileID: 260615668945668774}
         m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
         m_MethodName: PlayOneShot

@@ -249,8 +249,17 @@ public class Manager_Platforms : MonoBehaviour
             startSpeedAccelStamp = Time.time;
             timePressedJumpOrMove = Time.time;
         }
-        if(Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing)
-            lastCaptureTimeStamp += Time.deltaTime;
+        if (Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing) // make sure that if we are not playing, it doesnt change our spawn timers
+        {
+           
+        }
+    }
+
+    public void ResetMonsterTimers()
+    {
+        lastCaptureTimeStamp += Time.deltaTime;
+        timeMonsterSpawned += Time.time;
+        waitTimeUntilDespawnDynamic += Time.time;
     }
 
     public void ChangeSpawningPlatforms(bool _stop)
@@ -374,9 +383,6 @@ public class Manager_Platforms : MonoBehaviour
 
     }
 
-
-
-
     public void SpawnNewPlatformFromEdge()
     {
         if (stopSpawningPlatforms)
@@ -386,9 +392,8 @@ public class Manager_Platforms : MonoBehaviour
                 for (int i = 1; i < spawnedPlatformsInPlay.Count; i++)
                     RemoveSpecificPlatform(i, false);
             }
-            return;
+            return; // stop here if we dont want to spawn anymore
         }
-
 
         if (Manager_GameState.Instance)
             Manager_GameState.Instance.objectsSpawnedDuringRuntime.Add(SpawnOrPoolPlatform(null, false));
@@ -411,37 +416,36 @@ public class Manager_Platforms : MonoBehaviour
 
     public Transform SpawnOrPoolPlatform(string _forceByNickname, bool _forceNewPlatformInstance) // can try to get a platform by name and/or force the code to spawn a new instance
     {
-        if (FoundErrors())
-            return null;
+        if (FoundErrors() || listOfSpawnablePlatforms.Count == 0)
+        { Debug.LogError("NO PLATFORMS AVAILABLE ||OR|| FoundErros()"); return null; }
 
-        Transform returnPlatform = null;
-        if (listOfSpawnablePlatforms.Count > 0 && !_forceNewPlatformInstance) // for pooling when possible
+        float diceRoller = Random.Range(0.01f, 1); // the odds of a platform being selected
+        Transform returnPlatform = null; // the platform we are storing to spawn or enable
+        string nicknameRef = ""; // the name the platform will be titled if spawned
+
+        if (!string.IsNullOrEmpty(_forceByNickname)) // for when we have a specific platform we want
         {
-            if (string.IsNullOrEmpty(_forceByNickname)) // just pool anything available
+            if (!_forceNewPlatformInstance) // pool from list if possible 
             {
-                for (int p = 0; p < parentOfMapModelsToMove.childCount; p++)
-                    if (parentOfMapModelsToMove.GetChild(p).gameObject.activeSelf == false || parentOfMapModelsToMove.GetChild(p).GetComponent<BehaviorPlatform>().isVisible == false) // not optimized
-                        returnPlatform = parentOfMapModelsToMove.GetChild(p);
-            }
-            else // try to pool something specific
-            {
-                for (int p = 0; p < parentOfMapModelsToMove.childCount; p++)
-                    if (parentOfMapModelsToMove.GetChild(p).gameObject.activeSelf == false && parentOfMapModelsToMove.GetChild(p).GetComponent<BehaviorPlatform>().nickname == _forceByNickname ||
-                        parentOfMapModelsToMove.GetChild(p).GetComponent<BehaviorPlatform>().isVisible == false && parentOfMapModelsToMove.GetChild(p).GetComponent<BehaviorPlatform>().nickname == _forceByNickname)
-                        returnPlatform = parentOfMapModelsToMove.GetChild(p);
+                for (int p = 0; p < parentOfMapModelsToMove.childCount; p++) // check the platforms we have
+                {
+                    BehaviorPlatform pooledPlatformBehavior = null;
+                    if (parentOfMapModelsToMove.GetChild(p).gameObject.activeSelf == false)
+                    {
+                        parentOfMapModelsToMove.GetChild(p).TryGetComponent(out pooledPlatformBehavior); // if we get a reference that matches and disabled
+                        if (pooledPlatformBehavior && pooledPlatformBehavior.nickname == _forceByNickname || pooledPlatformBehavior.isVisible == false && pooledPlatformBehavior.nickname == _forceByNickname)
+                            returnPlatform = parentOfMapModelsToMove.GetChild(p); // use it
+                    }                        
+                }
             }
         }
-
-        string nicknameRef = "";
-        if (!returnPlatform) // if we still need to create a platform because we havent yet
+               
+        if (!returnPlatform)  // if we dont have a plafform yet we will try spawning one or choose a default
         {
             CustomPlatformData newPlatform = null;
-            int attempts = 0; // ensure we dont freeze the engine due to inspector errors
-            while (newPlatform == null || attempts < 100)
-            { newPlatform = PickOurNextPlatform(_forceByNickname); attempts++; }
-            returnPlatform = Instantiate(newPlatform.prefabToSpawn, parentOfMapModelsToMove);
-            if (newPlatform != null)
-                nicknameRef = newPlatform.platformNickname;
+            newPlatform = PickOurNextPlatform(_forceByNickname); // try to get a platform, if no nickname then just roll the dice
+            if (newPlatform != null) returnPlatform = Instantiate(newPlatform.prefabToSpawn, parentOfMapModelsToMove);           
+            nicknameRef = newPlatform.platformNickname;
         }
 
         // find where it goes & move it over
@@ -513,7 +517,7 @@ public class Manager_Platforms : MonoBehaviour
                     return listOfSpawnablePlatforms[cpd];
         }
 
-        float diceRoller = Random.Range(0.1f, 100);
+        float diceRoller = Random.Range(0.01f, 1);
 
         List<CustomPlatformData> listPlatformsInRange = new List<CustomPlatformData>();
         for (int cpd = 0; cpd < listOfSpawnablePlatforms.Count; cpd++)
@@ -522,10 +526,9 @@ public class Manager_Platforms : MonoBehaviour
                
 
         if (listPlatformsInRange.Count > 0) // pick a random one from the options allowed
-            return listPlatformsInRange[Random.Range(0, listPlatformsInRange.Count - 1)];
-
-
-        return null;
+            return listPlatformsInRange[Random.Range(0, listPlatformsInRange.Count)];
+        else
+            return listOfSpawnablePlatforms[0]; // if we didnt find any in range then return the default       
     } 
 
     public void ChangeMonsterVariables(bool _readyToSpawn, bool _monsterInPlay, bool _successfulCapture)
@@ -544,7 +547,10 @@ public class Manager_Platforms : MonoBehaviour
             else
                 Manager_TutorialUI.Instance.QueueMessage("Story_5");
 
-            waitTimeUntilDespawnDynamic = waitTimeUntilDespawn * Manager_GameState.Instance.capturedCreatues_Unique; // Adds time to fight each monster            
+            if (Manager_GameState.Instance.capturedCreatues_Unique > 0)
+                waitTimeUntilDespawnDynamic = waitTimeUntilDespawn * (Manager_GameState.Instance.capturedCreatues_Unique * 1.1f); // Adds time to fight each monster  
+            else
+                waitTimeUntilDespawnDynamic = waitTimeUntilDespawn * (Manager_GameState.Instance.capturedCreatues_Unique * 1f); // Adds time to fight each monster  
         }
 
         if (!_monsterInPlay && ref_BehaviorCameraFollower)
@@ -555,8 +561,8 @@ public class Manager_Platforms : MonoBehaviour
 
     private void CheckForMonsterSpawn() // TODO: this needs refactoring... this functions purpose is to spawn monster if ready... COMBINED with "ChangeMonsterVariables" (above) we can have a singular checker
     {
-        if (Manager_GameState.Instance && Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing)
-        { print($"no spawning monsters during { Manager_GameState.Instance.currentState} mode"); timeMonsterSpawned += Time.time;  return; }
+        //if (Manager_GameState.Instance && Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing)
+        //{ print($"no spawning monsters during { Manager_GameState.Instance.currentState} mode");  return; }
 
         if (Time.time > timeMonsterSpawned + waitTimeUntilDespawnDynamic && spawnedMonster != null && monsterIsInPlay)
             DespawnMonster();

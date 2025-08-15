@@ -94,7 +94,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
   - platformNickname: Env_Platform_BuildingsMarioMatch
-    spawnChance: 0.1
+    spawnChance: 0.05
     prefabToSpawn: {fileID: 4362509337005501213, guid: 90e153e5be5b98146aaeb0b10ae52f37,
       type: 3}
     onSpawnEvents:
@@ -106,7 +106,7 @@ MonoBehaviour:
     onFinishedEvents:
       m_PersistentCalls:
         m_Calls: []
-  - platformNickname: Env_Platform_Buildings
+  - platformNickname: Env_Platform_Buildings 0
     spawnChance: 1
     prefabToSpawn: {fileID: 4362509337005501213, guid: fe0354de5acd0d34abff8efd648ad8d8,
       type: 3}
@@ -120,7 +120,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
   - platformNickname: Env_Platform_Buildings 1
-    spawnChance: 1
+    spawnChance: 0.75
     prefabToSpawn: {fileID: 4362509337005501213, guid: 9c909152424449c4393fd2eea097b929,
       type: 3}
     onSpawnEvents:
@@ -133,8 +133,47 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
   - platformNickname: Env_Platform_Buildings 2
-    spawnChance: 1
+    spawnChance: 0.75
     prefabToSpawn: {fileID: 4362509337005501213, guid: a1672b60c43695b45a764e5882b159f2,
+      type: 3}
+    onSpawnEvents:
+      m_PersistentCalls:
+        m_Calls: []
+    onMainPlatformEvents:
+      m_PersistentCalls:
+        m_Calls: []
+    onFinishedEvents:
+      m_PersistentCalls:
+        m_Calls: []
+  - platformNickname: Env_Platform_Buildings 3
+    spawnChance: 1
+    prefabToSpawn: {fileID: 4362509337005501213, guid: e4f2be94471d27d4898990e0d6adf1a4,
+      type: 3}
+    onSpawnEvents:
+      m_PersistentCalls:
+        m_Calls: []
+    onMainPlatformEvents:
+      m_PersistentCalls:
+        m_Calls: []
+    onFinishedEvents:
+      m_PersistentCalls:
+        m_Calls: []
+  - platformNickname: Env_Platform_Buildings 4
+    spawnChance: 0.75
+    prefabToSpawn: {fileID: 4362509337005501213, guid: 385ff721951aef345b6dd9c8c014db69,
+      type: 3}
+    onSpawnEvents:
+      m_PersistentCalls:
+        m_Calls: []
+    onMainPlatformEvents:
+      m_PersistentCalls:
+        m_Calls: []
+    onFinishedEvents:
+      m_PersistentCalls:
+        m_Calls: []
+  - platformNickname: Env_Platform_Buildings 5
+    spawnChance: 0.75
+    prefabToSpawn: {fileID: 4362509337005501213, guid: 2e92360f700d2de4c893ac434dc4dfc6,
       type: 3}
     onSpawnEvents:
       m_PersistentCalls:

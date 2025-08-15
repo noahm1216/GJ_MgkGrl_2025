@@ -342,7 +342,8 @@ public class BehaviorMonster : MonoBehaviour
         }
         else
         {
-            transform.Translate(Vector3.up * Time.deltaTime * capturedMoveSpeed);
+            if (capturedMoveSpeed == 0 || capturedMoveSpeed > -0.01f && capturedMoveSpeed < 0.01f) // was getting NaN error
+                transform.Translate(Vector3.up * Time.deltaTime * capturedMoveSpeed);
 
             if (transform.position.y > 99) // to help with point floating errors
                 transform.position = new Vector3(0, 99, 0);

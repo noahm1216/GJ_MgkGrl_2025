@@ -102,12 +102,12 @@ public class BehaviorCameraFollower : MonoBehaviour
                 targetLookAtPoint = ref_PlayerCore.transform.position + cameraOffset;
                 break;
             case CameraFocusState.MovingForward:
-                targetZoom = 6 + (ref_PlayerCore.transform.position.y * 0.55f);
+                targetZoom = 6 + (Mathf.Abs(ref_PlayerCore.transform.position.y) * 0.55f);
                 cameraOffset = new Vector3(8, 3, -5);   
                 targetLookAtPoint = ref_PlayerCore.transform.position + cameraOffset;
                 break;
             case CameraFocusState.MovingBackwards:
-                targetZoom = 6 + (ref_PlayerCore.transform.position.y * 0.55f);
+                targetZoom = 6 + (Mathf.Abs(ref_PlayerCore.transform.position.y) * 0.55f);
                 cameraOffset = new Vector3(-5, 3, -5);
                 targetLookAtPoint = ref_PlayerCore.transform.position + cameraOffset;
                 break;

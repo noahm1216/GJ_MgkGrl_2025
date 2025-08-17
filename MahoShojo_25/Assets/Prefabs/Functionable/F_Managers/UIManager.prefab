@@ -443,18 +443,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2273794913461736145, guid: 164fbd1e381862646af7d8378c8fca59,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 413078283430909878}
+    - target: {fileID: 2273794913461736145, guid: 164fbd1e381862646af7d8378c8fca59,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2273794913461736145, guid: 164fbd1e381862646af7d8378c8fca59,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: RestartGameButton
+      value: UnstuckPlayerAttempt
       objectReference: {fileID: 0}
     - target: {fileID: 2273794913461736145, guid: 164fbd1e381862646af7d8378c8fca59,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Manager_GameState, Assembly-CSharp
+      value: Manager_TutorialUI, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 2273794913461736145, guid: 164fbd1e381862646af7d8378c8fca59,
         type: 3}
@@ -580,36 +585,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5375241581401626109, guid: 164fbd1e381862646af7d8378c8fca59,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5375241581401626109, guid: 164fbd1e381862646af7d8378c8fca59,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5375241581401626109, guid: 164fbd1e381862646af7d8378c8fca59,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 82.89391
-      objectReference: {fileID: 0}
-    - target: {fileID: 5375241581401626109, guid: 164fbd1e381862646af7d8378c8fca59,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 32.377808
-      objectReference: {fileID: 0}
-    - target: {fileID: 5375241581401626109, guid: 164fbd1e381862646af7d8378c8fca59,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 41.446957
-      objectReference: {fileID: 0}
-    - target: {fileID: 5375241581401626109, guid: 164fbd1e381862646af7d8378c8fca59,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -16.188904
       objectReference: {fileID: 0}
     - target: {fileID: 5452931127642137818, guid: 164fbd1e381862646af7d8378c8fca59,
         type: 3}

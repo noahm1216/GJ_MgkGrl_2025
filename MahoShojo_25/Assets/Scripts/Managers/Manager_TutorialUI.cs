@@ -30,6 +30,9 @@ public class Manager_TutorialUI : MonoBehaviour
     public GameObject gameOverScreenObj;
     public GameObject gameWinScreenObj;
 
+    private float stuckTimeStamp, stuckTime = 6f;
+    private int stuckAttempts = 1;
+
     private void Awake()
     {
         if (Instance != null && Instance != this) // If there is an instance, and it's not me, delete myself.
@@ -176,6 +179,25 @@ public class Manager_TutorialUI : MonoBehaviour
         ShowText(_queuedMessage);
         yield return new WaitForSeconds(textDisplayTime);
         HideText();
+    }
+
+    public void UnstuckPlayerAttempt()
+    { // we can only unstuck if we are paused or playing
+        if (Manager_GameState.Instance && Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Paused &&
+            Manager_GameState.Instance && Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing)
+            return;             
+
+        if(Time.time > stuckTimeStamp + stuckTime)
+        {
+            Manager_GameState.Instance.PauseToggle(); // have to unpause to make this work       
+            stuckAttempts++;
+            stuckTimeStamp = Time.time;
+            if (Manager_Platforms.Instance) // we move the player position up
+                if (Manager_Platforms.Instance.ref_BehaviorCameraFollower)
+                    if (Manager_Platforms.Instance.ref_BehaviorCameraFollower.ref_PlayerCore)
+                        Manager_Platforms.Instance.ref_BehaviorCameraFollower.ref_PlayerCore.transform.position += new Vector3(0, 3*stuckAttempts, 0);
+            if (stuckAttempts >= 3) stuckAttempts = 1;
+        }
     }
 
     private IEnumerator GameIntroForcedDelayOnStart()

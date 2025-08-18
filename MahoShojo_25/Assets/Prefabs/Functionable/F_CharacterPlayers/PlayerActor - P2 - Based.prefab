@@ -6850,12 +6850,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4848005764176212867}
   m_PrefabAsset: {fileID: 0}
---- !u!95 &2199405780185791459 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 6756042010948192352, guid: a0646004e82d3db4a8872a626c25a4b8,
-    type: 3}
-  m_PrefabInstance: {fileID: 4848005764176212867}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &4155052440548369273 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8858058888973750522, guid: a0646004e82d3db4a8872a626c25a4b8,
@@ -6875,7 +6869,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animPlayer:
-  - {fileID: 2199405780185791459}
+  - {fileID: 6832922294377890181}
   - {fileID: 8035195390672312086}
   - {fileID: 6459853122560648151}
   triggersToReset:
@@ -6885,6 +6879,12 @@ MonoBehaviour:
 --- !u!4 &4173199426592115721 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8839929769461546890, guid: a0646004e82d3db4a8872a626c25a4b8,
+    type: 3}
+  m_PrefabInstance: {fileID: 4848005764176212867}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &6832922294377890181 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 2131602376488464902, guid: a0646004e82d3db4a8872a626c25a4b8,
     type: 3}
   m_PrefabInstance: {fileID: 4848005764176212867}
   m_PrefabAsset: {fileID: 0}

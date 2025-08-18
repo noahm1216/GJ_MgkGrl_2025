@@ -172,7 +172,7 @@ RectTransform:
   m_GameObject: {fileID: 1033015362306885263}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.7059, y: 2.7059, z: 2.7059}
+  m_LocalScale: {x: 3.370023, y: 3.370023, z: 3.370023}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5072988802101161023}
@@ -382,34 +382,11 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 7e484aaff5630f348a2f4359524d97ab, type: 3}
   - {fileID: 21300000, guid: ba8615b6fe05e934ea494a64526a22a4, type: 3}
   - {fileID: 21300000, guid: 59d27d107e966b7458a989208498a2fd, type: 3}
+  - {fileID: 21300000, guid: 59d27d107e966b7458a989208498a2fd, type: 3}
   - {fileID: 21300000, guid: ae9bb73bf2ae18140ad52a5fd627235b, type: 3}
   - {fileID: 21300000, guid: 7936569da3ab26343848cdcfa05a25fb, type: 3}
   - {fileID: 21300000, guid: 82d9fe7e8cd273145bdf8444d94a694c, type: 3}
   - {fileID: 21300000, guid: 678fd80c2bcfcc846aad223ad85a2414, type: 3}
-  - {fileID: 21300000, guid: c59e2bc85b9cc804ab59a61012f60a12, type: 3}
-  - {fileID: 21300000, guid: d017c8bfb44e0ba4295c94b26970303f, type: 3}
-  - {fileID: 21300000, guid: 0bd13b98fe7e49e49852d3ab3e447c4c, type: 3}
-  - {fileID: 21300000, guid: 529c3cee6b06c6547b1a8812012edc92, type: 3}
-  - {fileID: 21300000, guid: f16b47921eb387e49a2b2358436996e6, type: 3}
-  - {fileID: 21300000, guid: cdcdfaea9cb2b3d4fbeda9ad596dc791, type: 3}
-  - {fileID: 21300000, guid: 1706c40538ffa4548b9a49fc6a3d256d, type: 3}
-  - {fileID: 21300000, guid: 1e89806b281996e46a33e3ecafe20578, type: 3}
-  - {fileID: 21300000, guid: 4ceb21a19074af044bbbc55130bdf563, type: 3}
-  - {fileID: 21300000, guid: b9fd81c9fbe01de448e8d0d4984fea2d, type: 3}
-  - {fileID: 21300000, guid: 7e437fceec4534845aa89dfcb7c463b4, type: 3}
-  - {fileID: 21300000, guid: 2a69b66115925274994cc76ad48e95e8, type: 3}
-  - {fileID: 21300000, guid: acdcecaaa2518f54687f4ce7dd027472, type: 3}
-  - {fileID: 21300000, guid: 2cffc787c7d466144af03925f6489d2c, type: 3}
-  - {fileID: 21300000, guid: 5235dc1b4dbff1345a4247dbc3bbb4c0, type: 3}
-  - {fileID: 21300000, guid: ea446cc92741b77419a2f3cb3fba148a, type: 3}
-  - {fileID: 21300000, guid: 967ef5d0341794d4381d483feb05a9ab, type: 3}
-  - {fileID: 21300000, guid: bacdb044ac566ba4ab9e610f99e16de2, type: 3}
-  - {fileID: 21300000, guid: 8780ddf444f51c7458ddec774aa2e2ed, type: 3}
-  - {fileID: 21300000, guid: bfe905102b45c0c488b3cdde29523e9d, type: 3}
-  - {fileID: 21300000, guid: 68ec0e1b0368f3648800183273e3e6cd, type: 3}
-  - {fileID: 21300000, guid: f4d809d2e251812489f771ca580e7c2e, type: 3}
-  - {fileID: 21300000, guid: a6071024fd6055247b45a0860b7b2dbf, type: 3}
-  - {fileID: 21300000, guid: 8360578be6bd12642b065d1b485ef3c4, type: 3}
   - {fileID: 21300000, guid: 679ce5e8c0e6e5f428e89eb2e830525b, type: 3}
   - {fileID: 21300000, guid: 25774255fa6c35a43a3b140c379e74c6, type: 3}
   - {fileID: 21300000, guid: 28f04fa41c0a99b45911bb9771f5493f, type: 3}
@@ -536,7 +513,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 48da6602da10cc74881308b7ea611859, type: 3}
   - {fileID: 21300000, guid: 5c17cd2bd5e13b24f9826caf5743050a, type: 3}
   frameID: 0
-  framerate: 24
+  framerate: 22
   loop: 1
   loopFromFrame: 24
   onEnableEvents:
@@ -966,7 +943,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &9109852444949038628
 RectTransform:
   m_ObjectHideFlags: 0

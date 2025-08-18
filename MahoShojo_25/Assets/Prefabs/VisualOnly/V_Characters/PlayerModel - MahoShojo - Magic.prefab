@@ -1494,6 +1494,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 2131602376488464902}
+    - targetCorrespondingSourceObject: {fileID: 827075974287967996, guid: 03a2a1d6b3cfb7e4dbfe3e108601d5ee,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5496229161633422855}
     - targetCorrespondingSourceObject: {fileID: 6057286732890248245, guid: 03a2a1d6b3cfb7e4dbfe3e108601d5ee,
         type: 3}
       insertIndex: -1
@@ -1597,7 +1601,7 @@ CapsuleCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 251
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -1626,7 +1630,7 @@ CapsuleCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 251
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -1648,6 +1652,33 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4839923383161638113}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &5210807275761240605 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 827075974287967996, guid: 03a2a1d6b3cfb7e4dbfe3e108601d5ee,
+    type: 3}
+  m_PrefabInstance: {fileID: 4839923383161638113}
+  m_PrefabAsset: {fileID: 0}
+--- !u!135 &5496229161633422855
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5210807275761240605}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 251
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.015
+  m_Center: {x: 0, y: -0.02, z: 0}
 --- !u!1 &5758896098835558832 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 03a2a1d6b3cfb7e4dbfe3e108601d5ee,
@@ -1966,7 +1997,7 @@ MonoBehaviour:
   - {fileID: 7581187671407171921}
   m_EndBones: []
   m_Material: {fileID: 11400000, guid: 0f385e66946e5e74b81410bb0775c7e7, type: 2}
-  m_StartDepth: 4
+  m_StartDepth: 7
   m_SiblingConstraints: 0
   m_ClosedSiblings: 0
   m_SiblingRotationConstraints: 1
@@ -1978,7 +2009,8 @@ MonoBehaviour:
   - {fileID: 1730526872056997690}
   - {fileID: 4514201154580815938}
   - {fileID: 6715089697852058712}
-  m_Radius: 0.1
+  - {fileID: 5496229161633422855}
+  m_Radius: 0.39
   m_RadiusCurve:
     serializedVersion: 2
     m_Curve:
@@ -2445,7 +2477,7 @@ SphereCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 251
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -2472,7 +2504,7 @@ SphereCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 251
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -2499,7 +2531,7 @@ SphereCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 251
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -2532,7 +2564,7 @@ SphereCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 251
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -2559,7 +2591,7 @@ SphereCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 251
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -2586,7 +2618,7 @@ SphereCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 251
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -2662,10 +2694,10 @@ MonoBehaviour:
   m_ConstantDeltaTime: 0.03
   m_Iterations: 1
   m_SleepThreshold: 0.005
-  m_GravityAligner: {fileID: 0}
+  m_GravityAligner: {fileID: 6798874836238864236}
   m_Gravity: {x: 0, y: 0, z: 0}
   m_ForceModule: {fileID: 0}
-  m_ForceScale: 1
+  m_ForceScale: 0.23
   m_SimulateSpace: {fileID: 0}
 --- !u!1 &6304812663228963421 stripped
 GameObject:
@@ -2686,7 +2718,7 @@ SphereCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 251
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -2719,7 +2751,7 @@ SphereCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 251
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0

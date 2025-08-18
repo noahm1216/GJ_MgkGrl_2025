@@ -369,6 +369,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1325915295}
+    - targetCorrespondingSourceObject: {fileID: 1509687184928686570, guid: 8061c497911c7564a8f11e555f08b185,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1604875342}
     - targetCorrespondingSourceObject: {fileID: 5087944573527328737, guid: 8061c497911c7564a8f11e555f08b185,
         type: 3}
       insertIndex: -1
@@ -723,7 +727,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: dddb9d7e4a9504d47bec498967625809, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -1131,7 +1135,7 @@ MonoBehaviour:
   - {fileID: 1101852374}
   m_EndBones: []
   m_Material: {fileID: 11400000, guid: 0f385e66946e5e74b81410bb0775c7e7, type: 2}
-  m_StartDepth: 4
+  m_StartDepth: 7
   m_SiblingConstraints: 0
   m_ClosedSiblings: 0
   m_SiblingRotationConstraints: 1
@@ -1143,7 +1147,7 @@ MonoBehaviour:
   - {fileID: 780676184}
   - {fileID: 872994735}
   - {fileID: 113494927}
-  m_Radius: 0.1
+  m_Radius: 0.39
   m_RadiusCurve:
     serializedVersion: 2
     m_Curve:
@@ -1312,6 +1316,7 @@ MonoBehaviour:
   m_ExtraColliders:
   - {fileID: 1333406571}
   - {fileID: 1785147171}
+  - {fileID: 1604875342}
   m_Radius: 0.25
   m_RadiusCurve:
     serializedVersion: 2
@@ -1344,7 +1349,7 @@ MonoBehaviour:
   m_GravityAligner: {fileID: 0}
   m_Gravity: {x: 0, y: 0, z: 0}
   m_ForceModule: {fileID: 0}
-  m_ForceScale: 1
+  m_ForceScale: 0.23
   m_SimulateSpace: {fileID: 0}
 --- !u!1 &1333406569 stripped
 GameObject:
@@ -1614,6 +1619,33 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.003
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &1604875339 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1509687184928686570, guid: 8061c497911c7564a8f11e555f08b185,
+    type: 3}
+  m_PrefabInstance: {fileID: 199334173}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &1604875342
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1604875339}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 251
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Size: {x: 2.4375775, y: 1.06, z: 1.7662234}
+  m_Center: {x: -0.030700723, y: 4.1679897, z: -0.14}
 --- !u!1001 &1615101319
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2209,6 +2241,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 437834783}
+    - targetCorrespondingSourceObject: {fileID: 827075974287967996, guid: 03a2a1d6b3cfb7e4dbfe3e108601d5ee,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2022242115}
     - targetCorrespondingSourceObject: {fileID: 6057286732890248245, guid: 03a2a1d6b3cfb7e4dbfe3e108601d5ee,
         type: 3}
       insertIndex: -1
@@ -2228,6 +2264,33 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1992110735}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2022242114 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 827075974287967996, guid: 03a2a1d6b3cfb7e4dbfe3e108601d5ee,
+    type: 3}
+  m_PrefabInstance: {fileID: 1992110735}
+  m_PrefabAsset: {fileID: 0}
+--- !u!135 &2022242115
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2022242114}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 251
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.015
+  m_Center: {x: 0, y: -0.02, z: 0}
 --- !u!4 &2044505674 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7568599384665887293, guid: 8061c497911c7564a8f11e555f08b185,

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d9d9656f4da33d48a28beaf0dfd13df, type: 3}
   m_Name: SBMat_Skirt
   m_EditorClassIdentifier: 
-  m_Damping: 0.2
+  m_Damping: 0.691
   m_DampingCurve:
     serializedVersion: 2
     m_Curve:
@@ -37,7 +37,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  m_Stiffness: 0.1
+  m_Stiffness: 0.573
   m_StiffnessCurve:
     serializedVersion: 2
     m_Curve:
@@ -62,7 +62,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  m_Resistance: 0.563
+  m_Resistance: 0.503
   m_ResistanceCurve:
     serializedVersion: 2
     m_Curve:
@@ -87,7 +87,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  m_Slackness: 0.375
+  m_Slackness: 0.461
   m_SlacknessCurve:
     serializedVersion: 2
     m_Curve:

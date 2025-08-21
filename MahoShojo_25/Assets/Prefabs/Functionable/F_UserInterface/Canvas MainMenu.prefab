@@ -629,7 +629,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 165.8, y: 72.2}
+  m_AnchoredPosition: {x: 165.6, y: 74.6}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6991631175642626222
@@ -660,7 +660,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: bd846ae4cd8dd584db5111db8b4fb660, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ec2cc9c1cf2a996418fc0298581cc475, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -757,9 +757,9 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3802476537270120089}
-  - {fileID: 3881058358558739562}
   - {fileID: 4524259985401260596}
   - {fileID: 1406418856567103944}
+  - {fileID: 3881058358558739562}
   - {fileID: 9109852444949038628}
   m_Father: {fileID: 293446454964606550}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1217,7 +1217,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 164.3, y: 51.5}
+  m_AnchoredPosition: {x: 164.3, y: 46.7}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1039825637952885031
@@ -1250,9 +1250,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: NiNo Studios
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 2ce0f397884293e4da5502c9dcc56b63, type: 2}
-  m_sharedMaterial: {fileID: -3615169078879098026, guid: 2ce0f397884293e4da5502c9dcc56b63,
-    type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
+  m_sharedMaterial: {fileID: 2164040, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1276,7 +1275,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40.25
+  m_fontSize: 33.8
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1

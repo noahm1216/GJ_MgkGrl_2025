@@ -248,6 +248,7 @@ public class Manager_Platforms : MonoBehaviour
         {
             startSpeedAccelStamp = Time.time;
             timePressedJumpOrMove = Time.time;
+            lastCaptureTimeStamp = Time.time;
         }
         if (Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing) // make sure that if we are not playing, it doesnt change our spawn timers
         {
@@ -324,6 +325,8 @@ public class Manager_Platforms : MonoBehaviour
         onDashEvent.Invoke();
     }
 
+    #region INPUTS
+
     private void CheckForInputs()
     {
         if (Input.GetKey(key_MovePlatformsRight) || Input.GetKey(key_MovePlatformsRight2)) // going left  
@@ -380,8 +383,12 @@ public class Manager_Platforms : MonoBehaviour
                 obstacleScript.Interacted(transform, null, BehaviorObstacles.signalType.Dash);
             checkingBlockerData = false;
         }
-
     }
+
+    #endregion INPUTS
+
+
+    #region PLATFORMS
 
     public void SpawnNewPlatformFromEdge()
     {
@@ -529,7 +536,12 @@ public class Manager_Platforms : MonoBehaviour
             return listPlatformsInRange[Random.Range(0, listPlatformsInRange.Count)];
         else
             return listOfSpawnablePlatforms[0]; // if we didnt find any in range then return the default       
-    } 
+    }
+
+    #endregion PLATFORMS
+
+
+    #region MONSTERS
 
     public void ChangeMonsterVariables(bool _readyToSpawn, bool _monsterInPlay, bool _successfulCapture)
     {
@@ -584,6 +596,7 @@ public class Manager_Platforms : MonoBehaviour
 
     public void SpawnMonster()
     {
+        //print("CALLING SPAWN MONSTER");
         if (monstersSpawned < monstersToSpawnInOrder.Length)
         {
             if (Manager_GameState.Instance)
@@ -615,12 +628,14 @@ public class Manager_Platforms : MonoBehaviour
 
             if (ref_BehaviorCameraFollower)
                 ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.FightingMonster, true);
+
+            //print("SPAWNED MONSTER");
         }
         else // we've captured each unique monster
         {
             // spawn a random monster we've already captured one in endless mode
             ChangeSpawningPlatforms(true);
-            Debug.Log("WARNING: We should be finished with the demo game and dont want to spawn more monsters");
+            Debug.LogWarning("WARNING: We should be finished with the demo game and dont want to spawn more monsters");
         }
 
         //readyToSpawn = false;
@@ -677,9 +692,10 @@ public class Manager_Platforms : MonoBehaviour
             Manager_TutorialUI.Instance.QueueMessage("Controls_Pokie");
         }
         else
-            Debug.Log("WARNING: Pocki box wasnt able to find surface to land on");
-              
+            Debug.Log("WARNING: Pocki box wasnt able to find surface to land on");              
     }
+
+    #endregion MONSTERS
 
 }// end of manager-platform class
 

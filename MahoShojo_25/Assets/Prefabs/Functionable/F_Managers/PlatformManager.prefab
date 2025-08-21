@@ -78,7 +78,7 @@ MonoBehaviour:
   speedChangeWhileInAir: 0.66
   parentOfMapModelsToMove: {fileID: 1493583882141235265}
   platformsToSpawnOnStart: 3
-  platformsToKeepOnScreen: 3
+  platformsToKeepOnScreen: 4
   listOfSpawnablePlatforms:
   - platformNickname: Test Platform
     spawnChance: 0

@@ -50,8 +50,11 @@ MonoBehaviour:
   aSourceMusic: {fileID: 1114482289250070357}
   aSourceSFX: {fileID: 0}
   aSourceAtmosphere: {fileID: 0}
-  clipMusic_Gameplay: {fileID: 8300000, guid: 48cc00348d5d5d64f94f6080ee98569a, type: 3}
-  clipMusic_Win: {fileID: 8300000, guid: 2dd75b3713c896c4db03df246598da85, type: 3}
+  clipMusic_Gameplay: {fileID: 8300000, guid: dbfc2f6256a65cf4ea1a36d04142066a, type: 3}
+  clipMusic_Win: {fileID: 8300000, guid: 8e544f6bb86b7a54e87d32c84a410c85, type: 3}
+  clipMusic_GameplayList:
+  - {fileID: 8300000, guid: dbfc2f6256a65cf4ea1a36d04142066a, type: 3}
+  - {fileID: 8300000, guid: b7c1c33b30f07494f976e4e017ec6f4b, type: 3}
 --- !u!114 &1381389679963200836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81,6 +84,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MusicPlayer
+      objectReference: {fileID: 0}
+    - target: {fileID: 3809769675102335618, guid: 295fc3f044c12944f86414f5020f8909,
+        type: 3}
+      propertyPath: Loop
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3809769675102335618, guid: 295fc3f044c12944f86414f5020f8909,
         type: 3}

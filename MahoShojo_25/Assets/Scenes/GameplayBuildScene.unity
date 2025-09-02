@@ -3687,16 +3687,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4608699419059001904, guid: 2233f553fe2318642aa3a791cd349c69,
-        type: 3}
-      propertyPath: platformsToKeepOnScreen
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 4608699419059001904, guid: 2233f553fe2318642aa3a791cd349c69,
-        type: 3}
-      propertyPath: platformsToSpawnOnStart
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 4885975240584786480, guid: 2233f553fe2318642aa3a791cd349c69,
         type: 3}
       propertyPath: m_AnchorMax.x

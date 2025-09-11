@@ -224,7 +224,7 @@ public class Manager_Steam : MonoBehaviour
     #endregion achievements
 
 
-    #region LEADERBOARDS
+    #region LEADERBOARDS // https://wiki.facepunch.com/steamworks/Leaderboards
 
     public static async Task<Steamworks.Data.Leaderboard?> CreateOrFindLeaderboard(string _boardName, LeaderboardSort _sortType, LeaderboardDisplay _displayType)
     {
@@ -333,7 +333,20 @@ public static class SteamImageExtensions
         avatar.Apply();
         return avatar;
     }
+}
 
 
+public struct LeaderboardScore // Struct to hold data for ease-of-use and re-use-ability
+{
+    public readonly int Score;
+    public readonly int SomeOtherValue;
+    public readonly int[] Details;
+
+    public LeaderboardScore(int score, int someOtherValue)
+    {
+        Score = score;
+        SomeOtherValue = someOtherValue;
+        Details = new[] { someOtherValue };
+    }
 }
 

@@ -23,7 +23,7 @@ public class Manager_Steam : MonoBehaviour
     public Steamworks.Data.Image playerImage { get; private set; }
 
 
-
+    #region CORE FUNCTIONS
 
     private void Awake()
     {
@@ -102,6 +102,8 @@ public class Manager_Steam : MonoBehaviour
     //    GUI.Label(new Rect(10, 10, 400, 30), $"Steam User: {steamName}");
     //    GUI.Label(new Rect(10, 30, 400, 30), $"Steam ID: {steamId}");
     //}
+
+    #endregion core functions
 
 
     #region STEAM AVATAR
@@ -252,13 +254,53 @@ public class Manager_Steam : MonoBehaviour
         return null;
     }
 
+    public static async Task<LeaderboardEntry[]> ReturnScoresGlobal(Steamworks.Data.Leaderboard _leaderboard, int _numberOfScores)
+    {
+        print("Called ReturnScoresGlobal()");
+        // Get top XX scores globally
+        LeaderboardEntry[] globalScores = await _leaderboard.GetScoresAsync(_numberOfScores);
+
+        foreach (LeaderboardEntry e in globalScores)
+        {
+            Console.WriteLine($"{e.GlobalRank}: {e.Score} {e.User}");
+        }
+        return globalScores;
+    }
+
+    public static async Task<LeaderboardEntry[]> ReturnScoresFriends(Steamworks.Data.Leaderboard _leaderboard)
+    {
+        print("Called ReturnScoresFriends()");
+        // Get scores from friends
+        LeaderboardEntry[] friendScores = await _leaderboard.GetScoresFromFriendsAsync();
+
+        foreach (LeaderboardEntry e in friendScores)
+        {
+            Console.WriteLine($"{e.GlobalRank}: {e.Score} {e.User}");
+        }
+        return friendScores;
+    }
+
+    public static async Task<LeaderboardEntry[]> ReturnScoresAndNeighbors(Steamworks.Data.Leaderboard _leaderboard, int _neighborScoresLow, int _neighborScoresHigh) // (-10, 10) example
+    {
+        print("Called ReturnScoresOfCurrentUser()");
+        // Get scores around current user
+        LeaderboardEntry[] surroundScores = await _leaderboard.GetScoresAroundUserAsync(_neighborScoresLow, _neighborScoresHigh);
+
+        foreach (LeaderboardEntry e in surroundScores)
+        {
+            Console.WriteLine($"{e.GlobalRank}: {e.Score} {e.User}");
+        }
+        return surroundScores;
+    }
+
+
     /// <summary>
     ///     This function will only replace your last score if the new one is better.
     /// </summary>
     /// <param name="leaderboard"></param>
     /// <param name="value"></param>
     /// <param name="details"></param>
-    public static async Task SubmitLeaderboardUpdate(Steamworks.Data.Leaderboard _leaderboard, int _value, int[] details = null)
+    public static async Task SubmitLeaderboardUpdate(Steamworks.Data.Leaderboard _leaderboard, int _value, int[] details = null) // TODO: this seems to update if the score is LOWER (but I want higher)
     {
         var leaderboardUpdate = await _leaderboard.SubmitScoreAsync(_value, details ?? Array.Empty<int>());
         if (!leaderboardUpdate.HasValue)
@@ -266,7 +308,6 @@ public class Manager_Steam : MonoBehaviour
             Debug.LogError("leaderboardUpdate is null");
             return;
         }
-
         Debug.Log(leaderboardUpdate.Value);
     }
 
@@ -288,14 +329,14 @@ public class Manager_Steam : MonoBehaviour
         Debug.Log(leaderboardUpdate.Value);
     }    
 
-    public float ConvertScoreToInt(int _score, int _multiplier)
+    public static int ConvertScoreToInt(float _score, int _multiplier)
     {
-        return _score * _multiplier;
+        return (int)(_score * _multiplier);
     }
 
-    public int ConvertScoreToFloat(int _score, int _multiplier)
+    public static float ConvertScoreToFloat(int _score, int _multiplier)
     {
-        return Mathf.RoundToInt(_score * _multiplier);
+        return (_score / _multiplier);
     }
     #endregion leaderboards
 

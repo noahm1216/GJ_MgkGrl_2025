@@ -284,6 +284,7 @@ public class Manager_Platforms : MonoBehaviour
     {
         if (isBlocked)
             return 0;
+        if (Manager_GameState.Instance && Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing) return 0;
 
         float speed = ((speedBase * dir * inputXYTime) * speedLimiting) * startSpeedAccel;
         speed = Mathf.Round(speed * 100f) / 100f; // rounding 2 Decimals so for other reliable calculations

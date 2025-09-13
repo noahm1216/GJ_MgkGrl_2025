@@ -207,7 +207,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Maho UI 1_4
+      name: Maho UI 1_4_CloudColor
       rect:
         serializedVersion: 2
         x: 19
@@ -483,8 +483,8 @@ TextureImporter:
       name: Maho UI 1_25
       rect:
         serializedVersion: 2
-        x: 1497
-        y: 137
+        x: 2429
+        y: 0
         width: 379
         height: 103
       alignment: 0
@@ -504,8 +504,8 @@ TextureImporter:
       name: Maho UI 1_31
       rect:
         serializedVersion: 2
-        x: 1978
-        y: 111
+        x: 1975
+        y: 131
         width: 855
         height: 100
       alignment: 0
@@ -551,7 +551,7 @@ TextureImporter:
         width: 168
         height: 168
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -559,6 +559,27 @@ TextureImporter:
       bones: []
       spriteID: 5757ec6379bbaed48b3449bab0cff956
       internalID: 361675142
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Maho UI 1_4_CloudColorless
+      rect:
+        serializedVersion: 2
+        x: 1443
+        y: 40
+        width: 418
+        height: 301
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c12931b71912a1c45a467ca4e13c6639
+      internalID: 141127122
       vertices: []
       indices: 
       edges: []
@@ -580,7 +601,6 @@ TextureImporter:
       Maho UI 1_11: -1666347496
       Maho UI 1_12: 80306043
       Maho UI 1_13: 361675142
-      Maho UI 1_14: -330858854
       Maho UI 1_15: 1435913117
       Maho UI 1_16: 2008544531
       Maho UI 1_17: -1561779525
@@ -603,7 +623,8 @@ TextureImporter:
       Maho UI 1_32: -188689023
       Maho UI 1_33: 724709995
       Maho UI 1_34: 1749349288
-      Maho UI 1_4: 1701829283
+      Maho UI 1_4_CloudColor: 1701829283
+      Maho UI 1_4_CloudColorless: -330858854
       Maho UI 1_5: 709943758
       Maho UI 1_6: 491877713
       Maho UI 1_7: 249043898

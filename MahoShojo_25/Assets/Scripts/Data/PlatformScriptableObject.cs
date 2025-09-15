@@ -7,6 +7,8 @@ public class PlatformScriptableObject : ScriptableObject
 {
     public string levelName;
     public bool levelUnlocked;
+    public bool levelBeat;
+    public Sprite monsterImage;
     public Sprite levelRewardImage;
     public Transform monsterBoss;
     // maybe we have additional variables for

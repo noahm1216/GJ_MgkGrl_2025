@@ -20,16 +20,59 @@ public class Manager_Levels : MonoBehaviour
     /// </summary>
     /// 
 
+    public static Manager_Levels Instance { get; private set; }
+
+    public PlatformScriptableObject[] levelsList;
+    public LevelSelectData[] levelUis;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this) // If there is an instance, and it's not me, delete myself.
+            Destroy(this);
+        else
+            Instance = this;
+    }
+
 
     // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
-        
+        print("Level Manager: Enabled");
+        if (levelsList.Length > 0) levelsList[0].levelUnlocked = true; // unlock the first level
+        CheckLevelSaveData();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void CheckLevelSaveData() //TODO: get data for levels we have unlocked
     {
-        
+        print("Level Manager: Data Loading");
+        // load from file data to see what we unlocked or havent unlocked
+        UpdateUnlockedLevels();
     }
+
+    public void UpdateUnlockedLevels()
+    {
+        print("Level Manager: Levels Unlocking");
+
+        if (levelUis.Length == 0) { Debug.LogError("Missing Level data UI"); return; }
+
+        for (int i = 0; i < levelUis.Length; i++)
+        {
+            if (levelsList.Length > i)
+            {
+                if (levelUis[i] && levelsList[i])
+                {
+                    levelUis[i].UpdateLevelButton(levelsList[i].levelName,
+                        levelsList[i].levelUnlocked,
+                        levelsList[i].monsterImage,
+                        levelsList[i].levelBeat);
+                }
+                else
+                    if (levelUis[i]) levelUis[i].UpdateLevelButton("???", false, null, false);
+            }
+            else
+                if (levelUis[i]) levelUis[i].UpdateLevelButton("???", false, null, false);
+        }
+    }
+
+
 }

@@ -8,8 +8,10 @@ public class Manager_GameState : MonoBehaviour
     public static Manager_GameState Instance { get; private set; }
 
     public enum GAMESTATE {Menu, Playing, Paused, Lost, Won }
+    public enum GAMEMODE {None, Story, Endless }
     public GAMESTATE currentState;// { get; private set; }
     private GAMESTATE stateWhenPaused; // store whatever game state we were in
+    public GAMEMODE currentMode { get; private set; }
 
     public KeyCode key_Pause1 = KeyCode.P, key_Pause2 = KeyCode.Escape;
 
@@ -73,7 +75,12 @@ public class Manager_GameState : MonoBehaviour
                 break;
         }
         currentState = _newState;
-    }        
+    }
+
+    public void ChangeMode(GAMEMODE _newMode)
+    {       
+        currentMode = _newMode;
+    }
 
     // Update is called once per frame
     private void Update()

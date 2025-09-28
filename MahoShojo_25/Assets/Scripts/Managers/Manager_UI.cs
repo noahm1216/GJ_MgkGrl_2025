@@ -183,4 +183,11 @@ public class Manager_UI : MonoBehaviour
         }
         return KeyCode.None;
     }
+
+    public void CloseGame()
+    {
+        Debug.LogError("MISSING FILE SAVE / STEAM DATA VALIDATION");
+        Debug.Log("Closing Game");
+        Application.Quit();
+    }
 }

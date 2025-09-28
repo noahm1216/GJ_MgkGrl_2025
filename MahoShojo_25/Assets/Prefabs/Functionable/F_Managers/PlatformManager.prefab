@@ -199,7 +199,7 @@ MonoBehaviour:
   - {x: 14, y: 4, z: 0}
   - {x: 14, y: 4, z: 0}
   - {x: 14, y: 4, z: 0}
-  waitTimeUntilDespawn: 20
+  waitTimeUntilDespawn: 25
   waitTimeAfterCapture: 30
   monstersSpawned: 0
   monsterSignaledCapture: 0

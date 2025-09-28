@@ -18,6 +18,7 @@ public class BehaviorMonster : MonoBehaviour
 
     private string tag_ToHunt = "Player";
     private float currentStateTimeStamp;
+    private Quaternion startRotation;
 
     // WAITING
     [Header("Waiting Variables\n______________")]
@@ -30,15 +31,14 @@ public class BehaviorMonster : MonoBehaviour
     // HUNTING
     [Header("Hunting Variables\n______________")]
     public float huntingTime = 10;
-    public float blendSpeed = 1;
+    public float getIntoPositionSpeed = 15;
     public Vector2 accetpablePlayerOffsetX = new Vector2(-4, 9); // offsets from where the player is
     public Vector2 accetpablePlayerOffsetY = new Vector2(-2, 4); // these ranges are still within camera frames, but may need tweaking
     public float forceZOffset = 0; // if we want the monster to be more forward or behind
-
-    private Vector3 lerpPosA, lerpPosB;
-    private float blend;
+    
+    private Vector3 huntingTargPos;
+    private float huntOffX, huntOffY;
     private int dir = 1;
-    private float getIntoPositionSpeed = 15;
     private bool gettingIntoPosition;
 
 
@@ -75,6 +75,8 @@ public class BehaviorMonster : MonoBehaviour
     public float sizeToShrinkTo = 0.15f;
     public float sizePercentChangeEveryFrame = 0.999f;
     public float capturedMoveSpeed = 1;
+    public bool spinWhileCaptured;
+    public Vector3 spinSpeedDir = new Vector3(0,90,0);
     [Space]
     [Space]
     public bool flyTowardsPlayer;     
@@ -96,13 +98,15 @@ public class BehaviorMonster : MonoBehaviour
         ChangeState(MONSTERSTATE.Waiting);
         currentStateTimeStamp = Time.time;
         currentCapturePointsLeft = pointsUntilCaptured;
+        startRotation = transform.rotation;
         collider.enabled = false;
         if (startScale == Vector3.zero)
             startScale = transform.localScale;
         transform.localScale = startScale;
         UpdateUserInterface();
         if (!playerObj)
-            playerObj = GameObject.FindGameObjectWithTag(tag_ToHunt).transform;
+            playerObj = GameObject.FindGameObjectWithTag(tag_ToHunt).transform;    
+           
     }
 
     private void Update()
@@ -188,7 +192,7 @@ public class BehaviorMonster : MonoBehaviour
     }
 
     private void StateChecker()
-    {
+    {        
         switch (currentState)
         {
             case MONSTERSTATE.Waiting:
@@ -215,9 +219,15 @@ public class BehaviorMonster : MonoBehaviour
         }
     }
 
+    private void ForcePosInFront()
+    {
+        transform.position = new Vector3(transform.position.x, transform.position.y, -3);
+    }
+
     private void StateWaiting()
     {
         transform.position += MoveWithBackground();
+        ForcePosInFront();
 
         if (activatesOnDistance)
         {
@@ -232,40 +242,43 @@ public class BehaviorMonster : MonoBehaviour
 
     private void StateHunting()
     {
-        if (gettingIntoPosition)
+        if (gettingIntoPosition) // move to the lerp position
         {
-            lerpPosA = playerObj.transform.position + new Vector3(accetpablePlayerOffsetX.x, accetpablePlayerOffsetY.y, forceZOffset); // update target position   
-            float distToHuntingSpot = Vector3.Distance(transform.position, lerpPosA);
+            huntingTargPos = playerObj.transform.position + new Vector3(accetpablePlayerOffsetX.x, accetpablePlayerOffsetY.y, forceZOffset); // update target position   
+            float distToHuntingSpot = Vector3.Distance(transform.position, huntingTargPos);
 
             if (distToHuntingSpot > targetTolerance * 2)
             {
                 var step = getIntoPositionSpeed * Time.deltaTime; // calculate distance to move
-                transform.position = Vector3.MoveTowards(transform.position, lerpPosA, step);
+                transform.position = Vector3.MoveTowards(transform.position, huntingTargPos, step);
                 currentStateTimeStamp = Time.time; // gives us extra time to get into position
             }
             else
+            {
+                huntOffX = Random.Range(accetpablePlayerOffsetX.x, accetpablePlayerOffsetX.y);
+                huntOffY = Random.Range(accetpablePlayerOffsetY.x, accetpablePlayerOffsetY.y);
                 gettingIntoPosition = false;
-        }
-        else
-        {
-            if (dir > 0 && blend < 1) // go forward
-            {
-                blend += (Time.deltaTime * blendSpeed) * dir;
-                transform.position = Vector3.Lerp(lerpPosA, lerpPosB, blend);
             }
-            else if (dir < 0 && blend > 0) // go backwards
+        }
+        else // lerping back and forth
+        {
+            float distToHuntingSpot = Vector3.Distance(transform.position, huntingTargPos);
+            if (dir > 0)
             {
-                blend += (Time.deltaTime * blendSpeed) * dir;
-                transform.position = Vector3.Lerp(lerpPosA, lerpPosB, blend);
+                distToHuntingSpot = Vector3.Distance(transform.position, huntingTargPos);
+                if (distToHuntingSpot <= 0.025f) { dir *= -1; huntingTargPos = playerObj.transform.position + new Vector3(huntOffX, huntOffY, forceZOffset); }
             }
             else
             {
-                dir *= -1;
-                lerpPosA = playerObj.transform.position + new Vector3(accetpablePlayerOffsetX.x, accetpablePlayerOffsetY.y, forceZOffset);
-                lerpPosB = playerObj.transform.position + new Vector3(accetpablePlayerOffsetX.y, accetpablePlayerOffsetY.y, forceZOffset);
+                distToHuntingSpot = Vector3.Distance(transform.position, huntingTargPos);
+                if (distToHuntingSpot <= 0.025f) { dir *= -1; huntingTargPos = playerObj.transform.position + new Vector3(-huntOffX, -huntOffY, forceZOffset); }
             }
+
+            var step = getIntoPositionSpeed * Time.deltaTime; // calculate distance to move
+            transform.position = Vector3.MoveTowards(transform.position, huntingTargPos, step);
+         
             if (Time.time > currentStateTimeStamp + huntingTime)
-                ChangeState(MONSTERSTATE.TargetLocked);
+            { ChangeState(MONSTERSTATE.TargetLocked); gettingIntoPosition = true; }
         }
     }
 
@@ -280,6 +293,7 @@ public class BehaviorMonster : MonoBehaviour
         float randomX = startPos.x + shakeSpeed * shakeAmount * Random.Range(0.95f, 1.05f);
         float randomY = startPos.y + shakeSpeed * shakeAmount * Random.Range(0.85f, 1.15f);
         transform.position = new Vector3(randomX, randomY, startPos.z + forceZOffset);
+        ForcePosInFront();
 
         // place a target obj where the player is to show this creatures intentions
 
@@ -324,7 +338,12 @@ public class BehaviorMonster : MonoBehaviour
             if (transform.localScale.x < 0.01f)
                 transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
 
-        }        
+        }
+
+        if (spinWhileCaptured)
+        {
+            transform.Rotate(spinSpeedDir.x * Time.deltaTime, spinSpeedDir.y * Time.deltaTime, spinSpeedDir.z * Time.deltaTime);
+        }
 
         if (flyTowardsPlayer)
         {
@@ -333,6 +352,7 @@ public class BehaviorMonster : MonoBehaviour
             {
                 var step = capturedMoveSpeed * Time.deltaTime; // calculate distance to move
                 transform.position = Vector3.MoveTowards(transform.position, playerObj.position, step);
+                ForcePosInFront();
             }
             else // DONE
             {
@@ -359,6 +379,8 @@ public class BehaviorMonster : MonoBehaviour
 
     private bool CaptureEvents() // turned this into a bool so we can ensure its done before turning the object off
     {
+        transform.rotation = startRotation;
+
         if (Manager_GameState.Instance)
         { Manager_GameState.Instance.CaptureChange(1, pointsForCapturing); }
 

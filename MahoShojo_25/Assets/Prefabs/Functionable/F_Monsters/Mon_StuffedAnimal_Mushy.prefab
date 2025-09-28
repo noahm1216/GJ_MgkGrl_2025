@@ -1343,10 +1343,10 @@ MonoBehaviour:
   activatesOnDistance: 1
   distanceToActivate: 10
   huntingTime: 7
-  blendSpeed: 0.4
+  getIntoPositionSpeed: 8
   accetpablePlayerOffsetX: {x: -4, y: 9}
   accetpablePlayerOffsetY: {x: -2, y: 4}
-  forceZOffset: 0
+  forceZOffset: -3
   targetLockedTime: 5
   shakeSpeed: 2
   shakeAmount: 0.1
@@ -1360,6 +1360,8 @@ MonoBehaviour:
   sizeToShrinkTo: 0.15
   sizePercentChangeEveryFrame: 0.999
   capturedMoveSpeed: 1
+  spinWhileCaptured: 1
+  spinSpeedDir: {x: 0, y: 180, z: 0}
   flyTowardsPlayer: 0
   distanceToCollect: 0.5
   captureFlyAwayTime: 5

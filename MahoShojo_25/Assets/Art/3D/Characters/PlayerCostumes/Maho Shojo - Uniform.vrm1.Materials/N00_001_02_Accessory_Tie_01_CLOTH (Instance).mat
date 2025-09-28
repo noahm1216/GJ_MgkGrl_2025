@@ -93,7 +93,7 @@ Material:
     - _UvAnimScrollXSpeed: 0
     - _UvAnimScrollYSpeed: 0
     m_Colors:
-    - _Color: {r: 0.7031813, g: 0.43073502, b: 0.7578347, a: 1}
+    - _Color: {r: 0.5513078, g: 0.33922213, b: 0.5943396, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _MatcapColor: {r: 1, g: 1, b: 1, a: 1}
     - _OutlineColor: {r: 0.27450976, g: 0.09019602, b: 0.12549013, a: 1}

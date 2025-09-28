@@ -16,7 +16,7 @@ PlayerSettings:
   productName: Magic Maho Dream Runner
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
-  m_SplashScreenBackgroundColor: {r: 1, g: 1, b: 1, a: 1}
+  m_SplashScreenBackgroundColor: {r: 0, g: 0, b: 0, a: 1}
   m_ShowUnitySplashScreen: 1
   m_ShowUnitySplashLogo: 1
   m_SplashScreenOverlayOpacity: 1
@@ -42,9 +42,9 @@ PlayerSettings:
   m_SplashScreenLogos:
   - logo: {fileID: 10404, guid: 0000000000000000f000000000000000, type: 0}
     duration: 2
-  - logo: {fileID: 21300000, guid: e40fd323a539f774c81896f7cf02059a, type: 3}
+  - logo: {fileID: 21300000, guid: d78f7630aa65236499d226ee0fc775af, type: 3}
     duration: 3.4
-  m_VirtualRealitySplashScreen: {fileID: 2800000, guid: 297a5132c81c95e4fb167dcdb8cb7902,
+  m_VirtualRealitySplashScreen: {fileID: 2800000, guid: d78f7630aa65236499d226ee0fc775af,
     type: 3}
   m_HolographicTrackingLossScreen: {fileID: 0}
   defaultScreenWidth: 1024
@@ -84,7 +84,7 @@ PlayerSettings:
   androidAutoRotationBehavior: 1
   defaultIsNativeResolution: 1
   macRetinaSupport: 1
-  runInBackground: 0
+  runInBackground: 1
   captureSingleScreen: 0
   muteOtherAudioSources: 0
   Prepare IOS For Recording: 0

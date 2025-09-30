@@ -113,13 +113,13 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _HeightEnd: -20.9
-    - _HeightStart: -8.6
+    - _HeightEnd: -29.9
+    - _HeightStart: -6.4
     - _Metallic: 0
-    - _MidColorPosition: 0.551
-    - _NoiseIntensity: -0.6
+    - _MidColorPosition: 0.371
+    - _NoiseIntensity: 0
     - _NoiseScale: 64.2
-    - _NoiseSpeed: 5.18
+    - _NoiseSpeed: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueOffset: 0
@@ -137,10 +137,10 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _DarkColor: {r: 0.57138735, g: 0.470986, b: 0.6792453, a: 0}
+    - _DarkColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 0.2627451}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FogColor: {r: 0.27311733, g: 0.15468137, b: 0.41509432, a: 1}
-    - _LightColor: {r: 0.17823856, g: 0.11694552, b: 0.33962262, a: 1}
-    - _MidColor: {r: 0.33437115, g: 0.28128338, b: 0.4056604, a: 1}
+    - _LightColor: {r: 0.22427914, g: 0.14773941, b: 0.3773585, a: 1}
+    - _MidColor: {r: 0.13333334, g: 0.050980397, b: 0.3137255, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []

@@ -1343,13 +1343,13 @@ MonoBehaviour:
   activatesOnDistance: 1
   distanceToActivate: 10
   huntingTime: 6
-  getIntoPositionSpeed: 8
+  getIntoPositionSpeed: 9
   accetpablePlayerOffsetX: {x: -4, y: 9}
   accetpablePlayerOffsetY: {x: -2, y: 4}
   forceZOffset: -3
-  targetLockedTime: 4
+  targetLockedTime: 2
   shakeSpeed: 2
-  shakeAmount: 0.1
+  shakeAmount: 0.175
   attackSpeed: 25
   targetTolerance: 0.5
   positionalTargetOffset: {x: 0, y: 0, z: 0}

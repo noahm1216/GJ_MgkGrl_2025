@@ -15,8 +15,8 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 0
-  m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  m_FogMode: 3
+  m_FogColor: {r: 0, g: 1, b: 0.99030876, a: 1}
+  m_FogMode: 2
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
@@ -3981,6 +3981,36 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6193712932699466741, guid: 2233f553fe2318642aa3a791cd349c69,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -20.85
+      objectReference: {fileID: 0}
+    - target: {fileID: 6193712932699466741, guid: 2233f553fe2318642aa3a791cd349c69,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -6.69
+      objectReference: {fileID: 0}
+    - target: {fileID: 6193712932699466741, guid: 2233f553fe2318642aa3a791cd349c69,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6193712932699466741, guid: 2233f553fe2318642aa3a791cd349c69,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.8171569
+      objectReference: {fileID: 0}
+    - target: {fileID: 6193712932699466741, guid: 2233f553fe2318642aa3a791cd349c69,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.5764153
+      objectReference: {fileID: 0}
+    - target: {fileID: 6193712932699466741, guid: 2233f553fe2318642aa3a791cd349c69,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 109.60199
       objectReference: {fileID: 0}
     - target: {fileID: 6381153937417775963, guid: 2233f553fe2318642aa3a791cd349c69,
         type: 3}

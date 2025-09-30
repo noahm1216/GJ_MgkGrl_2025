@@ -257,6 +257,7 @@ public class BehaviorMonster : MonoBehaviour
             {
                 huntOffX = Random.Range(accetpablePlayerOffsetX.x, accetpablePlayerOffsetX.y);
                 huntOffY = Random.Range(accetpablePlayerOffsetY.x, accetpablePlayerOffsetY.y);
+                print($"Random Hunting Range = {huntOffX}, {huntOffY}");
                 gettingIntoPosition = false;
             }
         }
@@ -271,7 +272,7 @@ public class BehaviorMonster : MonoBehaviour
             else
             {
                 distToHuntingSpot = Vector3.Distance(transform.position, huntingTargPos);
-                if (distToHuntingSpot <= 0.025f) { dir *= -1; huntingTargPos = playerObj.transform.position + new Vector3(-huntOffX, -huntOffY, forceZOffset); }
+                if (distToHuntingSpot <= 0.025f) { dir *= -1; huntingTargPos = playerObj.transform.position + new Vector3(-huntOffX, huntOffY, forceZOffset); }
             }
 
             var step = getIntoPositionSpeed * Time.deltaTime; // calculate distance to move

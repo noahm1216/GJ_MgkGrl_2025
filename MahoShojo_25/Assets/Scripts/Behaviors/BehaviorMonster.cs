@@ -256,7 +256,7 @@ public class BehaviorMonster : MonoBehaviour
             else
             {
                 huntOffX = Random.Range(accetpablePlayerOffsetX.x, accetpablePlayerOffsetX.y);
-                huntOffY = Random.Range(accetpablePlayerOffsetY.x, accetpablePlayerOffsetY.y);                
+                huntOffY = Random.Range(accetpablePlayerOffsetY.x, accetpablePlayerOffsetY.y);es                
                 gettingIntoPosition = false;
             }
         }

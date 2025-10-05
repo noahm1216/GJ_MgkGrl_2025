@@ -70,7 +70,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   speedBase: 0.15
-  speedLimiting: 0.6
+  speedLimiting: 0.675
   startPlayerSlowly: 1
   speedAcceleration: 0.7
   speedDeceleration: 2

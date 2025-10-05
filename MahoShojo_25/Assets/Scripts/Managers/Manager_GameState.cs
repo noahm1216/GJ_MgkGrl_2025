@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 public class Manager_GameState : MonoBehaviour
 {
@@ -34,6 +35,9 @@ public class Manager_GameState : MonoBehaviour
     [Header("Hit Points \n______________")]
     public int hitpoints = 1;
     private int currentHitPoints;
+
+    [Space]
+    public UnityEvent onPauseInMainMenu;
 
     private void Awake()
     {
@@ -121,6 +125,7 @@ public class Manager_GameState : MonoBehaviour
 
         if(Input.GetKeyDown(key_Pause1) || Input.GetKeyDown(key_Pause2)) // pause toggle
         {
+            if(Manager_GameState.Instance && Manager_GameState.Instance.currentState == GAMESTATE.Menu) { onPauseInMainMenu?.Invoke(); return; }
             PauseToggle();
         }
     }

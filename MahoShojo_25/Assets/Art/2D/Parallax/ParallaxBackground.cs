@@ -112,7 +112,7 @@ public class ParallaxFromDistanceCameraTiled : MonoBehaviour
     void LateUpdate()
     {
         _distance = Manager_GameState.Instance.distanceOfCurrentGameRun * -1;
-        Debug.Log(_distance);
+        //Debug.Log(_distance);
         
         if (targetCamera == null) return;
 

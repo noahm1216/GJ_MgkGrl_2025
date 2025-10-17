@@ -38,7 +38,6 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.03524626, g: 0.025093067, b: 0.096942164, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -769,8 +768,9 @@ MonoBehaviour:
   referenceObject: {fileID: 0}
   backgroundLayers: []
   parallaxMultiplier: 0.5
-  speed: 1
-  resetDistance: 0
+  tilesPerCycle: 3
+  smoothingTime: 0.18
+  deltaDeadzone: 0.0005
 --- !u!212 &246097449
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1202,12 +1202,12 @@ MonoBehaviour:
   m_RequiresColorTexture: 0
   m_Version: 2
   m_TaaSettings:
-    quality: 3
-    frameInfluence: 0.1
-    jitterScale: 1
-    mipBias: 0
-    varianceClampScale: 0.9
-    contrastAdaptiveSharpening: 0
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
 --- !u!1 &598636800
 GameObject:
   m_ObjectHideFlags: 0
@@ -1783,8 +1783,9 @@ MonoBehaviour:
   referenceObject: {fileID: 0}
   backgroundLayers: []
   parallaxMultiplier: 0.5
-  speed: 1
-  resetDistance: 0
+  tilesPerCycle: 3
+  smoothingTime: 0.18
+  deltaDeadzone: 0.0005
 --- !u!212 &1061483116
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1888,8 +1889,9 @@ MonoBehaviour:
   referenceObject: {fileID: 0}
   backgroundLayers: []
   parallaxMultiplier: 0.5
-  speed: 1
-  resetDistance: 0
+  tilesPerCycle: 3
+  smoothingTime: 0.18
+  deltaDeadzone: 0.0005
 --- !u!212 &1082292762
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2102,12 +2104,12 @@ MonoBehaviour:
   m_RequiresColorTexture: 0
   m_Version: 2
   m_TaaSettings:
-    quality: 3
-    frameInfluence: 0.1
-    jitterScale: 1
-    mipBias: 0
-    varianceClampScale: 0.9
-    contrastAdaptiveSharpening: 0
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
 --- !u!81 &1156802103
 AudioListener:
   m_ObjectHideFlags: 0

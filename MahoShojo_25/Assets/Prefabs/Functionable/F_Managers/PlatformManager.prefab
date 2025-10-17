@@ -51,7 +51,7 @@ MonoBehaviour:
   automaicallyMoveRight: 1
   dashRequiresDoubleTap: 0
   timeWindowForDashing: 0.25
-  dashingSpeedMultiplier: 1.25
+  dashingSpeedMultiplier: 200
   dashingLastingTime: 0.75
   onDashEvent:
     m_PersistentCalls:
@@ -69,10 +69,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  speedBase: 0.15
-  speedLimiting: 0.675
+  speedBase: 14
+  speedLimiting: 1
   startPlayerSlowly: 1
-  speedAcceleration: 0.7
+  speedAcceleration: 0.33
   speedDeceleration: 2
   speedChangeOnDirectionChange: 0.33
   speedChangeWhileInAir: 0.66

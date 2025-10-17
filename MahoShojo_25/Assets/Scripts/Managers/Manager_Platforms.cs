@@ -35,8 +35,8 @@ public class Manager_Platforms : MonoBehaviour
     [Range(0.1f, 3)]
     public float timeWindowForDashing = 0.75f;
     [Tooltip("The multiplier for speed when we dash")]
-    [Range(0.1f, 10)]
-    public float dashingSpeedMultiplier = 2f;
+    [Range(0.1f, 1000)]
+    public float dashingSpeedMultiplier = 200f;
     [Tooltip("The amount of time we will continue to dash (or at least our speed will reflect it)")]
     [Range(0.1f, 10)]
     public float dashingLastingTime = 2f;
@@ -53,10 +53,10 @@ public class Manager_Platforms : MonoBehaviour
     [Space]
     [Header("Platform Objects\n______________")]
     [Tooltip("The starting Variable for how our speed is calculated")]
-    [Range(0.1f, 1)]
-    public float speedBase = 0.1f;   
+    [Range(0.1f, 30)]
+    public float speedBase = 14f;   
     [Tooltip("Change how fast / slow we can go at top speed")]
-    [Range(0.1f, 1.0f)] public float speedLimiting = 0.25f;
+    [Range(0.1f, 10.0f)] public float speedLimiting = 1f;
     public bool startPlayerSlowly = true;
     [Tooltip("Change how fast / slow we ramp up to full speed")]
     [Range(0.1f, 6f)] public float speedAcceleration = 1;
@@ -286,12 +286,12 @@ public class Manager_Platforms : MonoBehaviour
             return 0;
         if (Manager_GameState.Instance && Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing) return 0;
 
-        float speed = ((speedBase * dir * inputXYTime) * speedLimiting) * startSpeedAccel;
-        speed = Mathf.Round(speed * 100f) / 100f; // rounding 2 Decimals so for other reliable calculations
+        float speed = ((speedBase * dir * inputXYTime * Time.deltaTime) * speedLimiting) * startSpeedAccel;
+        speed = Mathf.Round(speed * 100f) / 100f; // rounding 2 Decimals for other reliable calculations
         if (playerInAir && !isDashing)
             speed *= speedChangeWhileInAir;
         if (isDashing)
-            speed *= dashingSpeedMultiplier;
+            speed *= (dashingSpeedMultiplier * Time.deltaTime);
         return speed; // if we dont round we dont need to create a new variable
     }
 

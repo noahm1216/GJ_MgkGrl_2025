@@ -652,8 +652,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -7.0568, y: -58.1597}
-  m_SizeDelta: {x: 469.2962, y: 481.5686}
+  m_AnchoredPosition: {x: -7.0568, y: -49.424603}
+  m_SizeDelta: {x: 469.2962, y: 464.0984}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1093258539521776876
 CanvasRenderer:
@@ -685,7 +685,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "Sy Anderson \r\nMusic Composition (end-song) \r\n\nGabriel Priem\r\nMusic
     Composition \n(gameplay & menu-song) \r\n\nMillie Harris\r\nTechnical Art (rigging,
-    visual-physics, environment art)\r\n\nBrett Blandford\nTrailer\r\n"
+    visual-physics, environment art)\r\n\nBrett Blandford\nTrailer\r\n\nNgan Nguyen\nMarketing
+    and Outreach Coordinator\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2ce0f397884293e4da5502c9dcc56b63, type: 2}
   m_sharedMaterial: {fileID: -3615169078879098026, guid: 2ce0f397884293e4da5502c9dcc56b63,
@@ -713,7 +714,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 29.2
+  m_fontSize: 22.85
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1

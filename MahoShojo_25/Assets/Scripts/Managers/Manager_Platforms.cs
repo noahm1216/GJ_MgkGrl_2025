@@ -258,9 +258,9 @@ public class Manager_Platforms : MonoBehaviour
 
     public void ResetMonsterTimers()
     {
-        lastCaptureTimeStamp += Time.deltaTime;
-        timeMonsterSpawned += Time.time;
-        waitTimeUntilDespawnDynamic += Time.time;
+        lastCaptureTimeStamp = Time.deltaTime;
+        timeMonsterSpawned = Time.time;
+        waitTimeUntilDespawnDynamic = Time.time;
     }
 
     public void ChangeSpawningPlatforms(bool _stop)

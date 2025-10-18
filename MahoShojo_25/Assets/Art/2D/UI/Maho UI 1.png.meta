@@ -119,6 +119,32 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -420,7 +446,7 @@ TextureImporter:
       name: Maho UI 1_22
       rect:
         serializedVersion: 2
-        x: 593
+        x: 506
         y: 95
         width: 146
         height: 176
@@ -441,7 +467,7 @@ TextureImporter:
       name: Maho UI 1_23
       rect:
         serializedVersion: 2
-        x: 887
+        x: 697
         y: 96
         width: 139
         height: 154
@@ -462,8 +488,8 @@ TextureImporter:
       name: Maho UI 1_24
       rect:
         serializedVersion: 2
-        x: 1174
-        y: 95
+        x: 879
+        y: 96
         width: 157
         height: 156
       alignment: 0
@@ -572,7 +598,7 @@ TextureImporter:
         width: 418
         height: 301
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -580,6 +606,27 @@ TextureImporter:
       bones: []
       spriteID: c12931b71912a1c45a467ca4e13c6639
       internalID: 141127122
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Maho UI 1_4
+      rect:
+        serializedVersion: 2
+        x: 1064
+        y: 94
+        width: 159
+        height: 159
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fea321623d8e82e4eafdbaf72b1d0d61
+      internalID: 2106039604
       vertices: []
       indices: 
       edges: []
@@ -623,6 +670,7 @@ TextureImporter:
       Maho UI 1_32: -188689023
       Maho UI 1_33: 724709995
       Maho UI 1_34: 1749349288
+      Maho UI 1_4: 2106039604
       Maho UI 1_4_CloudColor: 1701829283
       Maho UI 1_4_CloudColorless: -330858854
       Maho UI 1_5: 709943758

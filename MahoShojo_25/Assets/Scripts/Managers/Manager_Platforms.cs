@@ -237,6 +237,7 @@ public class Manager_Platforms : MonoBehaviour
         lastCaptureTimeStamp = Time.time;
         ChangeSpawningPlatforms(true);
         readyToSpawn = true;
+        ResetMonsterTimers();
     }
 
     private void ReactToGameManager()
@@ -248,7 +249,7 @@ public class Manager_Platforms : MonoBehaviour
         {
             startSpeedAccelStamp = Time.time;
             timePressedJumpOrMove = Time.time;
-            lastCaptureTimeStamp = Time.time;
+            ResetMonsterTimers();
         }
         if (Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing) // make sure that if we are not playing, it doesnt change our spawn timers
         {
@@ -260,7 +261,8 @@ public class Manager_Platforms : MonoBehaviour
     {
         lastCaptureTimeStamp = Time.deltaTime;
         timeMonsterSpawned = Time.time;
-        waitTimeUntilDespawnDynamic = Time.time;
+        waitTimeUntilDespawnDynamic = waitTimeUntilDespawn;
+        readyToSpawn = true;
     }
 
     public void ChangeSpawningPlatforms(bool _stop)
@@ -563,7 +565,7 @@ public class Manager_Platforms : MonoBehaviour
             if (Manager_GameState.Instance.capturedCreatues_Unique > 0)
                 waitTimeUntilDespawnDynamic = waitTimeUntilDespawn * (Manager_GameState.Instance.capturedCreatues_Unique * 1.1f); // Adds time to fight each monster  
             else
-                waitTimeUntilDespawnDynamic = waitTimeUntilDespawn * (Manager_GameState.Instance.capturedCreatues_Unique * 1f); // Adds time to fight each monster  
+                waitTimeUntilDespawnDynamic = waitTimeUntilDespawn * (2f); // Adds first monster to spawn/despawn
         }
 
         if (!_monsterInPlay && ref_BehaviorCameraFollower)

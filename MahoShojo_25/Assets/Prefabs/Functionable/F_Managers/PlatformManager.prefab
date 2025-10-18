@@ -200,7 +200,7 @@ MonoBehaviour:
   - {x: 14, y: 4, z: 0}
   - {x: 14, y: 4, z: 0}
   waitTimeUntilDespawn: 25
-  waitTimeAfterCapture: 30
+  waitTimeAfterCapture: 35
   monstersSpawned: 0
   monsterSignaledCapture: 0
   pockiBoxObjPrefab: {fileID: 6433395996423652930, guid: f3dcd76d850cb9a4caddf9d4d4b6d73f,

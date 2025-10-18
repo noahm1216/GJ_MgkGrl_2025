@@ -51,7 +51,7 @@ MonoBehaviour:
   aSourceSFX: {fileID: 0}
   aSourceAtmosphere: {fileID: 0}
   clipMusic_Gameplay: {fileID: 8300000, guid: dbfc2f6256a65cf4ea1a36d04142066a, type: 3}
-  clipMusic_Win: {fileID: 8300000, guid: 8e544f6bb86b7a54e87d32c84a410c85, type: 3}
+  clipMusic_Win: {fileID: 8300000, guid: b0993d9471ebf34468361350c431242d, type: 3}
   clipMusic_GameplayList:
   - {fileID: 8300000, guid: dbfc2f6256a65cf4ea1a36d04142066a, type: 3}
   - {fileID: 8300000, guid: b7c1c33b30f07494f976e4e017ec6f4b, type: 3}

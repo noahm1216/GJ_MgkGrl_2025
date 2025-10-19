@@ -122,7 +122,7 @@ public class PlayerCore : MonoBehaviour
 
         if (lockYPositionAtZero)
             transform.position = new Vector3(transform.position.x, 0, transform.position.z);
-        
+
         CheckIfBlocked(); // TODO: we can check this less than every frame (because we are raycasting multiple rays and it becomes expensive
         CheckForInputs();
     }
@@ -226,6 +226,9 @@ public class PlayerCore : MonoBehaviour
             if (Manager_Platforms.Instance.dir < 0) // forward or idle
                 raycastDirection = -transform.right;
 
+            if (rb3D && Mathf.Abs(rb3D.velocity.x) > 0.1f) // our physics collided and pushed or pulled us
+                Manager_Platforms.Instance.ChangeIsBlocked(true, null); //print("Physics are being offset");
+
             //Manager_Platforms.Instance.ChangeIsBlocked(Physics.Raycast(transform.position + offset, transform.TransformDirection(raycastDirection), out hit, raycastDistance, layersThatResetJumps));
             if (CheckBlockerRaycasts((transform.right), Manager_Platforms.Instance.dir, new Vector3(0, 0.25f, 0), 0.15f) || // our feet
                 CheckBlockerRaycasts(transform.right, Manager_Platforms.Instance.dir, new Vector3(0, 0.65f, 0), 0.375f) || // our hips
@@ -239,12 +242,12 @@ public class PlayerCore : MonoBehaviour
     private Transform RaycastHitObj()
     {
         int _dir = Manager_Platforms.Instance.dir;
-        Vector3 _raycastDirection = transform.right;        
-        if (_dir < 0)_raycastDirection = -_raycastDirection; // forward or idle
+        Vector3 _raycastDirection = transform.right;
+        if (_dir < 0) _raycastDirection = -_raycastDirection; // forward or idle
         float _dist = 0.51f; // furthest distance we can
         Vector3 _offset = new Vector3(0, 0.65f, 0);  // our hips
 
-         RaycastHit hit; // raycast to the nearest wall within X (raycastDistance) meters and if there is a wall our speed is zero
+        RaycastHit hit; // raycast to the nearest wall within X (raycastDistance) meters and if there is a wall our speed is zero
         Debug.DrawLine(transform.position + _offset, transform.position + _offset + (new Vector3(_dist * -_dir, 0, 0)), Color.red);
         if (Physics.Raycast(transform.position + _offset, transform.TransformDirection(_raycastDirection), out hit, _dist, layersThatResetJumps))
             return hit.transform;
@@ -285,7 +288,7 @@ public class PlayerCore : MonoBehaviour
             else
                 print("Unable To Handle Interaction with this Obstacle");
         }
-    }  
+    }
 
 
     private void OnTriggerEnter(Collider trig)
@@ -337,14 +340,14 @@ public class PlayerCore : MonoBehaviour
 
 
     private void OnTriggerStay(Collider trig)
-    {     
+    {
         if (trig.tag == "Obstacle" && Manager_Platforms.Instance && Manager_Platforms.Instance.isDashing) // dashing check for while we're sitting in front of senpai
         {
             BehaviorObstacles ref_BehObs = null;
             trig.TryGetComponent(out ref_BehObs);
 
             if (ref_BehObs)
-                ref_BehObs.Interacted(transform, this, BehaviorObstacles.signalType.Dash);          
+                { ref_BehObs.Interacted(transform, this, BehaviorObstacles.signalType.Dash); Debug.LogError("Please change this from physics to speedup (like the roll/dodge speed change)"); } // TODO: change this from physics to speed changes
         }
     }
 }

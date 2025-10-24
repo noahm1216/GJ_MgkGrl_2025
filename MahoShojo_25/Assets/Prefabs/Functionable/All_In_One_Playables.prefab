@@ -1096,6 +1096,11 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 181068072850648416}
+    - target: {fileID: 2230486654237012668, guid: ec7f285267d0edf489a2621da2d30354,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2284062600016128551, guid: ec7f285267d0edf489a2621da2d30354,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -1681,6 +1686,16 @@ PrefabInstance:
       propertyPath: m_TargetGraphic
       value: 
       objectReference: {fileID: 4267128649890032369}
+    - target: {fileID: 5087646522445345220, guid: ec7f285267d0edf489a2621da2d30354,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5330877842125852142, guid: ec7f285267d0edf489a2621da2d30354,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5373768743319357331, guid: ec7f285267d0edf489a2621da2d30354,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -2279,7 +2294,7 @@ PrefabInstance:
     - target: {fileID: 8591006380708184405, guid: ec7f285267d0edf489a2621da2d30354,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8632662844880218468, guid: ec7f285267d0edf489a2621da2d30354,
         type: 3}

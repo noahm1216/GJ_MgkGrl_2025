@@ -10,27 +10,42 @@ public class BehaviorMonster : MonoBehaviour
         Waiting, Hunting, TargetLocked, Attacking, Recovering, Captured
     }
 
+    public enum MONSTERPLUSHIE
+    { //The Cases offered based on each creature's unique behavior
+        Unnamed, Jello, Mushroom, Frog, Hamster, Cat, Shark, Wolf, Bunny, Bear
+    }
+
     // GENERAL   
     [Header("General Variables\n______________")]
-    public MONSTERSTATE currentState = MONSTERSTATE.Waiting; // { get; private set; } 
+    public MONSTERPLUSHIE monsterPlushy;
+    public MONSTERSTATE currentState = MONSTERSTATE.Waiting; // { get; private set; }     
+    public LayerMask groundLayers;
     public Transform playerObj;
     public SphereCollider collider;
+    public bool runIndependantly = false;    
 
     private string tag_ToHunt = "Player";
     private float currentStateTimeStamp;
     private Quaternion startRotation;
+    private Vector3 spawnPosition;
 
     // WAITING
     [Header("Waiting Variables\n______________")]
     public bool activatesOnWait;
-    public float waitTime = 10;
+    public float stateWaitTime = 10;
+    public float betweenWaitActionsTime = 3;
     public bool activatesOnDistance;
     public float distanceToActivate = 4;
+    public UnityEvent onWait1;
+
+    private float betweenWaitActionsStamp;
+    private Vector3 waitVarVector3One, waitVarVector3Two;
+    private float stepArc;
 
 
     // HUNTING
     [Header("Hunting Variables\n______________")]
-    public float huntingTime = 10;
+    public float stateHuntingTime = 10;
     public float getIntoPositionSpeed = 15;
     public Vector2 accetpablePlayerOffsetX = new Vector2(-4, 9); // offsets from where the player is
     public Vector2 accetpablePlayerOffsetY = new Vector2(-2, 4); // these ranges are still within camera frames, but may need tweaking
@@ -44,7 +59,7 @@ public class BehaviorMonster : MonoBehaviour
 
     // TARGET LOCKED
     [Header("TargetLocked Variables\n______________")]
-    public float targetLockedTime = 10;
+    public float stateTargLockTime = 10;
     public float shakeSpeed = 1;
     [Range(0, 1)]
     public float shakeAmount = 0.05f;
@@ -64,7 +79,7 @@ public class BehaviorMonster : MonoBehaviour
 
     // RECOVERING
     [Header("Recovering Variables\n______________")]
-    public float recoveringTime = 10;
+    public float stateRecoverTime = 10;
 
 
     // RECOVERING
@@ -83,7 +98,7 @@ public class BehaviorMonster : MonoBehaviour
     public float distanceToCollect = 0.5f;    
     [Space]
     [Space]
-    public float captureFlyAwayTime = 10;
+    public float stateCaptureFlyTime = 10;
     [Space]
     public UnityEvent onHit, onHitAudio, onCapture, onRushAttacking;
    
@@ -98,6 +113,7 @@ public class BehaviorMonster : MonoBehaviour
         ChangeState(MONSTERSTATE.Waiting);
         currentStateTimeStamp = Time.time;
         currentCapturePointsLeft = pointsUntilCaptured;
+        spawnPosition = transform.position;
         startRotation = transform.rotation;
         collider.enabled = false;
         if (startScale == Vector3.zero)
@@ -109,10 +125,12 @@ public class BehaviorMonster : MonoBehaviour
            
     }
 
-    //private void Update() // we'll run this from manager_platforms
-    //{
-    //    RunMonsterBehavior();
-    //}
+#if UNITY_EDITOR
+    private void LateUpdate() // we'll run this from manager_platforms
+    {
+        if(runIndependantly) RunMonsterBehavior();
+    }
+#endif //unity_editor
 
     public void RunMonsterBehavior()
     {
@@ -231,19 +249,92 @@ public class BehaviorMonster : MonoBehaviour
 
     private void StateWaiting()
     {
-        transform.position += MoveWithBackground();
-        ForcePosInFront();
+        transform.position += MoveWithBackground(); // keep moving with the background
 
-        if (activatesOnDistance)
+        switch (monsterPlushy)
         {
-            float dist = Vector3.Distance(transform.position, playerObj.position);
-            if (dist <= distanceToActivate)
-                ChangeState(MONSTERSTATE.Hunting);
-        }
+            case MONSTERPLUSHIE.Jello:
+                if (Time.time > betweenWaitActionsStamp + betweenWaitActionsTime)
+                {
+                    waitVarVector3Two = ReturnRaycastPosition(spawnPosition.x + Random.Range(-5,5), groundLayers); // locate and set target area on the ground
+                    waitVarVector3Two.y += 0.05f;
 
-        if (activatesOnWait && Time.time > currentStateTimeStamp + huntingTime)
-            ChangeState(MONSTERSTATE.Hunting);
+                    if (waitVarVector3Two != Vector3.zero)
+                    {
+                        betweenWaitActionsStamp = Time.time; // reset Timer                                                             
+                        waitVarVector3One = transform.position; // store current points for path
+                        stepArc = 0; // ready the arc path to move again
+                    }
+                    
+                    //if(Time.time > currentStateTimeStamp + stateWaitTime)  ChangeState(MONSTERSTATE.Hunting); // change state
+                }
+                if(waitVarVector3Two != Vector3.zero)  // step across said path
+                {
+                    
+                    if (stepArc < 1f) // calculate path and move along it
+                    {
+                        print("Move Along Path");
+                        stepArc += Time.deltaTime * getIntoPositionSpeed*0.1f;
+                        Vector3 controlPoint1 = (waitVarVector3One + new Vector3(waitVarVector3One.x *1.5f, waitVarVector3One.y + 3f, forceZOffset)); // TODO: change X (on both) to be a between percent (x2-x1 / to keep consistent)
+                        Vector3 controlPoint2 = (waitVarVector3Two + new Vector3(waitVarVector3Two.x * 0.5f, waitVarVector3Two.y +1.5f, forceZOffset));
+                        transform.position = CalculateBezierPoint(stepArc, waitVarVector3One, controlPoint1, controlPoint2, waitVarVector3Two);
+                        if (stepArc >= 1) onWait1?.Invoke();
+                    }
+                }
+                break;
+            default:
+                print($"STATE-WAITING: Plushie '{monsterPlushy}' not handled yet...\nReturning to Demo Idle Behavior");
+                //--------------------------------------------ORIGINAL STATE WAITING()
+                transform.position += MoveWithBackground();
+                ForcePosInFront();
+
+                if (activatesOnDistance)
+                {
+                    float dist = Vector3.Distance(transform.position, playerObj.position);
+                    if (dist <= distanceToActivate)
+                        ChangeState(MONSTERSTATE.Hunting);
+                }
+
+                if (activatesOnWait && Time.time > currentStateTimeStamp + stateWaitTime)
+                    ChangeState(MONSTERSTATE.Hunting);
+                break;
+        }
+        
     }
+
+
+    private Vector3 ReturnRaycastPosition(float _xOffset, LayerMask _rayCastable)
+    {
+        // move it
+        Vector3 position = Vector3.zero + new Vector3(_xOffset, 20, 0); // add offset
+        // raycast from the position down onto a platform and place it there
+        RaycastHit hit;
+        if (Physics.Raycast(position, Vector3.down, out hit, Mathf.Infinity, _rayCastable))
+        {
+            position = hit.point + new Vector3(0, 0, 0); // print($"New Point: {position}");
+        }
+        else
+        { Debug.Log("WARNING: MonsterBehvaior Raycast wasnt able to find surface to land on"); position = Vector3.zero; }
+
+        return position;
+    }
+
+    public static Vector3 CalculateBezierPoint(float t, Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3)
+    {
+        float u = 1 - t;
+        float uu = u * u;
+        float uuu = uu * u;
+        float tt = t * t;
+        float ttt = tt * t;
+
+        Vector3 p = uuu * p0; // (1-t)^3 * P0
+        p += 3 * uu * t * p1; // 3 * (1-t)^2 * t * P1
+        p += 3 * u * tt * p2; // 3 * (1-t) * t^2 * P2
+        p += ttt * p3; // t^3 * P3
+
+        return p;
+    }
+
 
     private void StateHunting()
     {
@@ -282,7 +373,7 @@ public class BehaviorMonster : MonoBehaviour
             var step = getIntoPositionSpeed * Time.deltaTime; // calculate distance to move
             transform.position = Vector3.MoveTowards(transform.position, huntingTargPos, step);
          
-            if (Time.time > currentStateTimeStamp + huntingTime)
+            if (Time.time > currentStateTimeStamp + stateHuntingTime)
             { ChangeState(MONSTERSTATE.TargetLocked); gettingIntoPosition = true; }
         }
     }
@@ -302,7 +393,7 @@ public class BehaviorMonster : MonoBehaviour
 
         // place a target obj where the player is to show this creatures intentions
 
-        if (Time.time > currentStateTimeStamp + targetLockedTime)
+        if (Time.time > currentStateTimeStamp + stateTargLockTime)
             ChangeState(MONSTERSTATE.Attacking); // attackings
     }
 
@@ -327,7 +418,7 @@ public class BehaviorMonster : MonoBehaviour
     {
         transform.position += MoveWithBackground();
 
-        if (Time.time > currentStateTimeStamp + recoveringTime)
+        if (Time.time > currentStateTimeStamp + stateRecoverTime)
             ChangeState(MONSTERSTATE.Hunting);
     }
 
@@ -373,7 +464,7 @@ public class BehaviorMonster : MonoBehaviour
             if (transform.position.y > 99) // to help with point floating errors
                 transform.position = new Vector3(0, 99, 0);
 
-            if (Time.time > currentStateTimeStamp + captureFlyAwayTime) // DONE
+            if (Time.time > currentStateTimeStamp + stateCaptureFlyTime) // DONE
             {
                 if (CaptureEvents())
                     gameObject.SetActive(false);

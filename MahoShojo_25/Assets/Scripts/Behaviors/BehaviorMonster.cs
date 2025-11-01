@@ -266,7 +266,7 @@ public class BehaviorMonster : MonoBehaviour
                         stepArc = 0; // ready the arc path to move again
                     }
                     
-                    //if(Time.time > currentStateTimeStamp + stateWaitTime)  ChangeState(MONSTERSTATE.Hunting); // change state
+                    if(Time.time > currentStateTimeStamp + stateWaitTime)  ChangeState(MONSTERSTATE.Hunting); // change state
                 }
                 if(waitVarVector3Two != Vector3.zero)  // step across said path
                 {

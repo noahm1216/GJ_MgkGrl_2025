@@ -109,6 +109,7 @@ public class Manager_Platforms : MonoBehaviour
     public bool monsterIsInPlay { get; private set; } // so we dont over spawn
     public int monstersSpawned;//{ get; private set; } // tracking how manywe've spawned
     public Transform spawnedMonster { get; private set; } // the monster we want to track
+    private BehaviorMonster spawnedMonsterBehavior;
     [HideInInspector] public bool monsterSignaledCapture; // the monster can signal its capture so it does not despawn by accident while being captured
     //private List<Transform> allSpawnedMonsters = new List<Transform>(); // to pool the monsters, but this should come in later versions
     private float lastCaptureTimeStamp;
@@ -604,9 +605,10 @@ public class Manager_Platforms : MonoBehaviour
         {
             if (Manager_GameState.Instance)
             {
-                // spawn monster
+                // spawn monster communicating with Game Manager
                 spawnedMonster = Instantiate(monstersToSpawnInOrder[Manager_GameState.Instance.capturedCreatues_Unique]);
                 spawnedMonster.transform.position = distanceOkayToSpawnFromPlayer[Manager_GameState.Instance.capturedCreatues_Unique];
+                spawnedMonster.TryGetComponent(out spawnedMonsterBehavior);
                 Manager_GameState.Instance.objectsSpawnedDuringRuntime.Add(spawnedMonster);
 
                 if (Manager_TutorialUI.Instance)
@@ -621,9 +623,10 @@ public class Manager_Platforms : MonoBehaviour
             }
             else
             {
-                // spawn monster
+                // spawn monster locally
                 spawnedMonster = Instantiate(monstersToSpawnInOrder[monstersSpawned]);
                 spawnedMonster.transform.position = distanceOkayToSpawnFromPlayer[monstersSpawned];
+                spawnedMonster.TryGetComponent(out spawnedMonsterBehavior);
             }
             timeMonsterSpawned = Time.time;
             ChangeMonsterVariables(false, true, false);
@@ -645,6 +648,12 @@ public class Manager_Platforms : MonoBehaviour
         //monsterIsInPlay = true;
     }
 
+    public void RunMonsterBehavior()
+    {
+        if (spawnedMonsterBehavior)
+            spawnedMonsterBehavior.RunMonsterBehavior();
+    }
+
     public void DespawnMonster()
     {
         //print("Checking if we need to despawn monster");
@@ -654,6 +663,7 @@ public class Manager_Platforms : MonoBehaviour
             //print("Despawning MONSTER");       
             Destroy(spawnedMonster.gameObject, 1);
             spawnedMonster = null;
+            spawnedMonsterBehavior = null;
             monstersSpawned--;
             timeMonsterSpawned = Time.time;
             ChangeMonsterVariables(true, false, false);

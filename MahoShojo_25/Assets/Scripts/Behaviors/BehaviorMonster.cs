@@ -109,7 +109,12 @@ public class BehaviorMonster : MonoBehaviour
            
     }
 
-    private void Update()
+    //private void Update() // we'll run this from manager_platforms
+    //{
+    //    RunMonsterBehavior();
+    //}
+
+    public void RunMonsterBehavior()
     {
         if (!playerObj)
         { Debug.Log($"ERROR: Cant find player obj for this monster ({transform.name}) to hunt"); playerObj = GameObject.FindGameObjectWithTag(tag_ToHunt).transform; return; }
@@ -117,7 +122,7 @@ public class BehaviorMonster : MonoBehaviour
         if (currentState != MONSTERSTATE.Waiting && Manager_GameState.Instance && Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing)
         { currentState = MONSTERSTATE.Waiting; return; }
 
-        StateChecker();      
+        StateChecker();
     }
 
     public void ChangeCapturePoints(int _changeAmount)

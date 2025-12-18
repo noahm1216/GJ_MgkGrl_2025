@@ -22,7 +22,7 @@ public class BehaviorMonster : MonoBehaviour
     public LayerMask groundLayers;
     public Transform playerObj;
     public SphereCollider collider;
-    public bool runIndependantly = false;    
+    public bool runIndependantly = false;
 
     private string tag_ToHunt = "Player";
     private float currentStateTimeStamp;
@@ -36,7 +36,7 @@ public class BehaviorMonster : MonoBehaviour
     public float betweenWaitActionsTime = 3;
     public bool activatesOnDistance;
     public float distanceToActivate = 4;
-    public UnityEvent onWait1;
+    public UnityEvent onWaitEndOne;
 
     private float betweenWaitActionsStamp;
     private Vector3 waitVarVector3One, waitVarVector3Two;
@@ -50,7 +50,8 @@ public class BehaviorMonster : MonoBehaviour
     public Vector2 accetpablePlayerOffsetX = new Vector2(-4, 9); // offsets from where the player is
     public Vector2 accetpablePlayerOffsetY = new Vector2(-2, 4); // these ranges are still within camera frames, but may need tweaking
     public float forceZOffset = 0; // if we want the monster to be more forward or behind
-    
+    public UnityEvent onHuntEndOne;
+
     private Vector3 huntingTargPos;
     private float huntOffX, huntOffY;
     private int dir = 1;
@@ -63,6 +64,8 @@ public class BehaviorMonster : MonoBehaviour
     public float shakeSpeed = 1;
     [Range(0, 1)]
     public float shakeAmount = 0.05f;
+    public UnityEvent onTargetEndOne;
+    public Transform targetGraphic;
 
     private Vector3 startPos;
 
@@ -72,6 +75,7 @@ public class BehaviorMonster : MonoBehaviour
     public float attackSpeed = 5;
     public float targetTolerance = 0.25f;
     public Vector3 positionalTargetOffset = new Vector3(0, 0, 0);
+    public UnityEvent onAttackEndOne;
 
     private Vector3 storedAttackPos;
     private bool didStoreAttack;
@@ -80,6 +84,7 @@ public class BehaviorMonster : MonoBehaviour
     // RECOVERING
     [Header("Recovering Variables\n______________")]
     public float stateRecoverTime = 10;
+    public UnityEvent onRecoverEndOne;
 
 
     // RECOVERING
@@ -91,17 +96,17 @@ public class BehaviorMonster : MonoBehaviour
     public float sizePercentChangeEveryFrame = 0.999f;
     public float capturedMoveSpeed = 1;
     public bool spinWhileCaptured;
-    public Vector3 spinSpeedDir = new Vector3(0,90,0);
+    public Vector3 spinSpeedDir = new Vector3(0, 90, 0);
     [Space]
     [Space]
-    public bool flyTowardsPlayer;     
-    public float distanceToCollect = 0.5f;    
+    public bool flyTowardsPlayer;
+    public float distanceToCollect = 0.5f;
     [Space]
     [Space]
     public float stateCaptureFlyTime = 10;
     [Space]
     public UnityEvent onHit, onHitAudio, onCapture, onRushAttacking;
-   
+
     private float percentHP;
     private int currentCapturePointsLeft;
     private Vector3 startScale;
@@ -121,14 +126,14 @@ public class BehaviorMonster : MonoBehaviour
         transform.localScale = startScale;
         UpdateUserInterface();
         if (!playerObj)
-            playerObj = GameObject.FindGameObjectWithTag(tag_ToHunt).transform;    
-           
+            playerObj = GameObject.FindGameObjectWithTag(tag_ToHunt).transform;
+
     }
 
 #if UNITY_EDITOR
     private void LateUpdate() // we'll run this from manager_platforms
     {
-        if(runIndependantly) RunMonsterBehavior();
+        if (runIndependantly) RunMonsterBehavior();
     }
 #endif //unity_editor
 
@@ -143,6 +148,8 @@ public class BehaviorMonster : MonoBehaviour
         StateChecker();
     }
 
+
+    #region HELPER FUNCTIONS
     public void ChangeCapturePoints(int _changeAmount)
     {
         print($"My HP Is Changing by 1");
@@ -159,9 +166,9 @@ public class BehaviorMonster : MonoBehaviour
 
     private void CheckOnHitAudio() // this is done to avoid audio glitches when we fire a LOT of attacks at our enemy
     {
-        for(int i =0; i < audioPlayedTimeStamps.Length; i++)
+        for (int i = 0; i < audioPlayedTimeStamps.Length; i++)
         {
-            if(audioPlayedTimeStamps[i] > Time.time + audioPlayedTimeWait)
+            if (audioPlayedTimeStamps[i] > Time.time + audioPlayedTimeWait)
             {
                 audioPlayedTimeStamps[i] = Time.time;
                 onHitAudio?.Invoke();
@@ -174,13 +181,13 @@ public class BehaviorMonster : MonoBehaviour
     {
         if (!uiHolderOfHeartPoints || uiHolderOfHeartPoints.childCount == 0)
             return;
-       
+
         percentHP = ((float)currentCapturePointsLeft / (float)pointsUntilCaptured); // get the decimal      
         percentHP = (Mathf.RoundToInt(percentHP * 10)); // we have 10 hp bars to show or hide     
 
         for (int i = 0; i < uiHolderOfHeartPoints.childCount; i++)
         {
-            if(uiHolderOfHeartPoints.GetChild(i))
+            if (uiHolderOfHeartPoints.GetChild(i))
                 if (i < percentHP)
                     uiHolderOfHeartPoints.GetChild(i).gameObject.SetActive(true);
                 else
@@ -196,7 +203,7 @@ public class BehaviorMonster : MonoBehaviour
         if (currentState != MONSTERSTATE.Captured && _newState == MONSTERSTATE.Captured)
             onCapture?.Invoke();
 
-        currentState = _newState;       
+        currentState = _newState;
     }
 
     private void ResetVariables()
@@ -215,7 +222,7 @@ public class BehaviorMonster : MonoBehaviour
     }
 
     private void StateChecker()
-    {        
+    {
         switch (currentState)
         {
             case MONSTERSTATE.Waiting:
@@ -233,7 +240,7 @@ public class BehaviorMonster : MonoBehaviour
             case MONSTERSTATE.Recovering:
                 StateRecovering();
                 break;
-            case MONSTERSTATE.Captured:               
+            case MONSTERSTATE.Captured:
                 StateCaptured();
                 break;
             default:
@@ -246,62 +253,6 @@ public class BehaviorMonster : MonoBehaviour
     {
         transform.position = new Vector3(transform.position.x, transform.position.y, -3);
     }
-
-    private void StateWaiting()
-    {
-        transform.position += MoveWithBackground(); // keep moving with the background
-
-        switch (monsterPlushy)
-        {
-            case MONSTERPLUSHIE.Jello:
-                if (Time.time > betweenWaitActionsStamp + betweenWaitActionsTime)
-                {
-                    waitVarVector3Two = ReturnRaycastPosition(spawnPosition.x + Random.Range(-5,5), groundLayers); // locate and set target area on the ground
-                    waitVarVector3Two.y += 0.05f;
-
-                    if (waitVarVector3Two != Vector3.zero)
-                    {
-                        betweenWaitActionsStamp = Time.time; // reset Timer                                                             
-                        waitVarVector3One = transform.position; // store current points for path
-                        stepArc = 0; // ready the arc path to move again
-                    }
-                    
-                    if(Time.time > currentStateTimeStamp + stateWaitTime)  ChangeState(MONSTERSTATE.Hunting); // change state
-                }
-                if(waitVarVector3Two != Vector3.zero)  // step across said path
-                {
-                    
-                    if (stepArc < 1f) // calculate path and move along it
-                    {
-                        print("Move Along Path");
-                        stepArc += Time.deltaTime * getIntoPositionSpeed*0.1f;
-                        Vector3 controlPoint1 = (waitVarVector3One + new Vector3(waitVarVector3One.x *1.5f, waitVarVector3One.y + 3f, forceZOffset)); // TODO: change X (on both) to be a between percent (x2-x1 / to keep consistent)
-                        Vector3 controlPoint2 = (waitVarVector3Two + new Vector3(waitVarVector3Two.x * 0.5f, waitVarVector3Two.y +1.5f, forceZOffset));
-                        transform.position = CalculateBezierPoint(stepArc, waitVarVector3One, controlPoint1, controlPoint2, waitVarVector3Two);
-                        if (stepArc >= 1) onWait1?.Invoke();
-                    }
-                }
-                break;
-            default:
-                print($"STATE-WAITING: Plushie '{monsterPlushy}' not handled yet...\nReturning to Demo Idle Behavior");
-                //--------------------------------------------ORIGINAL STATE WAITING()
-                transform.position += MoveWithBackground();
-                ForcePosInFront();
-
-                if (activatesOnDistance)
-                {
-                    float dist = Vector3.Distance(transform.position, playerObj.position);
-                    if (dist <= distanceToActivate)
-                        ChangeState(MONSTERSTATE.Hunting);
-                }
-
-                if (activatesOnWait && Time.time > currentStateTimeStamp + stateWaitTime)
-                    ChangeState(MONSTERSTATE.Hunting);
-                break;
-        }
-        
-    }
-
 
     private Vector3 ReturnRaycastPosition(float _xOffset, LayerMask _rayCastable)
     {
@@ -335,95 +286,231 @@ public class BehaviorMonster : MonoBehaviour
         return p;
     }
 
+    public static Vector3 MoveTowardsHelper(Vector3 _yourPos, Vector3 _targetPos, float _step)
+    {
+        return Vector3.MoveTowards(_yourPos, _targetPos, _step);
+    }
+    #endregion helper functions
 
+
+
+    #region STATE: WAITING
+    private void StateWaiting()
+    {
+        print("MONSTER WAITING DEBUG");
+        transform.position += MoveWithBackground(); // keep moving with the background
+
+        switch (monsterPlushy)
+        {
+            case MONSTERPLUSHIE.Jello:
+                if (Time.time > betweenWaitActionsStamp + betweenWaitActionsTime)
+                {
+                    waitVarVector3Two = ReturnRaycastPosition(spawnPosition.x + Random.Range(-5, 8), groundLayers); // locate and set target area on the ground
+                    waitVarVector3Two.y += 0.05f;
+
+                    if (waitVarVector3Two != Vector3.zero)
+                    {
+                        betweenWaitActionsStamp = Time.time; // reset Timer                                                             
+                        waitVarVector3One = transform.position; // store current points for path
+                        stepArc = 0; // ready the arc path to move again
+                    }
+
+                    if (Time.time > currentStateTimeStamp + stateWaitTime) { ChangeState(MONSTERSTATE.Hunting); }// change state
+                }
+                if (waitVarVector3Two != Vector3.zero)  // step across said path
+                {
+                    if (stepArc < 1f) // calculate path and move along it
+                    {
+                        //print("Move Along Path");
+                        stepArc += Time.deltaTime * getIntoPositionSpeed * 0.1f;
+                        Vector3 controlPoint1 = (waitVarVector3One + new Vector3(waitVarVector3One.x * 1.5f, waitVarVector3One.y + 3f, forceZOffset)); // TODO: change X (on both) to be a between percent (x2-x1 / to keep consistent)
+                        Vector3 controlPoint2 = (waitVarVector3Two + new Vector3(waitVarVector3Two.x * 0.5f, waitVarVector3Two.y + 1.5f, forceZOffset));
+                        transform.position = CalculateBezierPoint(stepArc, waitVarVector3One, controlPoint1, controlPoint2, waitVarVector3Two);
+                        if (stepArc >= 1) onWaitEndOne?.Invoke();
+                    }
+                }
+                break;
+            default:
+                print($"STATE-WAITING: Plushie '{monsterPlushy}' not handled yet...\nReturning to Demo Idle Behavior");
+                //--------------------------------------------ORIGINAL STATE WAITING()
+                transform.position += MoveWithBackground();
+                ForcePosInFront();
+
+                if (activatesOnDistance)
+                {
+                    float dist = Vector3.Distance(transform.position, playerObj.position);
+                    if (dist <= distanceToActivate)
+                    { onWaitEndOne?.Invoke(); ChangeState(MONSTERSTATE.Hunting); }
+                }
+
+                if (activatesOnWait && Time.time > currentStateTimeStamp + stateWaitTime)
+                { onWaitEndOne?.Invoke(); ChangeState(MONSTERSTATE.Hunting); }
+                break;
+        }
+
+    }
+    #endregion state: waiting
+
+    #region STATE: HUNTING
     private void StateHunting()
     {
-        if (gettingIntoPosition) // move to the lerp position
+        print("MONSTER HUNTING DEBUG");
+        switch (monsterPlushy)
         {
-            huntingTargPos = playerObj.transform.position + new Vector3(accetpablePlayerOffsetX.x, accetpablePlayerOffsetY.y, forceZOffset); // update target position   
-            float distToHuntingSpot = Vector3.Distance(transform.position, huntingTargPos);
+            case MONSTERPLUSHIE.Jello:
+                if (Time.time > currentStateTimeStamp + stateHuntingTime) //if (Time.time > betweenWaitActionsStamp + betweenWaitActionsTime)
+                {
+                    waitVarVector3Two = ReturnRaycastPosition(playerObj.position.x + Random.Range(-2, 4), groundLayers); // locate and set target area on the ground
+                    waitVarVector3Two.y += 0.05f;
 
-            if (distToHuntingSpot > targetTolerance * 2)
-            {
-                var step = getIntoPositionSpeed * Time.deltaTime; // calculate distance to move
-                transform.position = Vector3.MoveTowards(transform.position, huntingTargPos, step);
-                currentStateTimeStamp = Time.time; // gives us extra time to get into position
-            }
-            else
-            {
-                huntOffX = Random.Range(accetpablePlayerOffsetX.x, accetpablePlayerOffsetX.y);
-                huntOffY = Random.Range(accetpablePlayerOffsetY.x, accetpablePlayerOffsetY.y);                
-                gettingIntoPosition = false;
-            }
-        }
-        else // lerping back and forth
-        {
-            float distToHuntingSpot = Vector3.Distance(transform.position, huntingTargPos);
-            if (dir > 0)
-            {
-                distToHuntingSpot = Vector3.Distance(transform.position, huntingTargPos);
-                if (distToHuntingSpot <= 0.025f) { dir *= -1; huntingTargPos = playerObj.transform.position + new Vector3(huntOffX, huntOffY, forceZOffset); }
-            }
-            else
-            {
-                distToHuntingSpot = Vector3.Distance(transform.position, huntingTargPos);
-                if (distToHuntingSpot <= 0.025f) { dir *= -1; huntingTargPos = playerObj.transform.position + new Vector3(-huntOffX, huntOffY, forceZOffset); }
-            }
+                    if (stepArc != 0)
+                    {
+                        betweenWaitActionsStamp = Time.time; // reset Timer                                                            
+                        stepArc = 0; // ready the arc path to move again
+                    }
+                    onHuntEndOne?.Invoke();
+                    ChangeState(MONSTERSTATE.TargetLocked); // change state
+                }
+                else { if (targetGraphic) { targetGraphic.SetParent(null); float targetSpeed = 2; targetGraphic.position = MoveTowardsHelper(targetGraphic.position, waitVarVector3Two, targetSpeed*Time.deltaTime); targetGraphic.gameObject.SetActive(true); } }
+                break;
+            default:
+                print($"STATE-HUNTING: Plushie '{monsterPlushy}' not handled yet...\nReturning to Demo Idle Behavior");
+                //--------------------------------------------ORIGINAL STATE WAITING()
+                if (gettingIntoPosition) // move to the lerp position
+                {
+                    huntingTargPos = playerObj.transform.position + new Vector3(accetpablePlayerOffsetX.x, accetpablePlayerOffsetY.y, forceZOffset); // update target position   
+                    float distToHuntingSpot = Vector3.Distance(transform.position, huntingTargPos);
 
-            var step = getIntoPositionSpeed * Time.deltaTime; // calculate distance to move
-            transform.position = Vector3.MoveTowards(transform.position, huntingTargPos, step);
-         
-            if (Time.time > currentStateTimeStamp + stateHuntingTime)
-            { ChangeState(MONSTERSTATE.TargetLocked); gettingIntoPosition = true; }
+                    if (distToHuntingSpot > targetTolerance * 2)
+                    {
+                        var step = getIntoPositionSpeed * Time.deltaTime; // calculate distance to move
+                        transform.position = Vector3.MoveTowards(transform.position, huntingTargPos, step);
+                        currentStateTimeStamp = Time.time; // gives us extra time to get into position
+                    }
+                    else
+                    {
+                        huntOffX = Random.Range(accetpablePlayerOffsetX.x, accetpablePlayerOffsetX.y);
+                        huntOffY = Random.Range(accetpablePlayerOffsetY.x, accetpablePlayerOffsetY.y);
+                        gettingIntoPosition = false;
+                    }
+                }
+                else // lerping back and forth
+                {
+                    float distToHuntingSpot = Vector3.Distance(transform.position, huntingTargPos);
+                    if (dir > 0)
+                    {
+                        distToHuntingSpot = Vector3.Distance(transform.position, huntingTargPos);
+                        if (distToHuntingSpot <= 0.025f) { dir *= -1; huntingTargPos = playerObj.transform.position + new Vector3(huntOffX, huntOffY, forceZOffset); }
+                    }
+                    else
+                    {
+                        distToHuntingSpot = Vector3.Distance(transform.position, huntingTargPos);
+                        if (distToHuntingSpot <= 0.025f) { dir *= -1; huntingTargPos = playerObj.transform.position + new Vector3(-huntOffX, huntOffY, forceZOffset); }
+                    }
+
+                    var step = getIntoPositionSpeed * Time.deltaTime; // calculate distance to move
+                    transform.position = Vector3.MoveTowards(transform.position, huntingTargPos, step);
+
+                    if (Time.time > currentStateTimeStamp + stateHuntingTime)
+                    { onHuntEndOne?.Invoke(); ChangeState(MONSTERSTATE.TargetLocked); gettingIntoPosition = true; }
+                }
+                break;
         }
+
     }
+    #endregion state: hunting
 
-
+    #region STATE: TARGET LOCKED
     private void StateTargetLocked()
     {
-        if (startPos == Vector3.zero)
-            startPos = transform.position;
+        print("MONSTER TARGET LOCKED DEBUG");
+        transform.position += MoveWithBackground();      
 
-        startPos += MoveWithBackground();
+        switch (monsterPlushy)
+        {
+            case MONSTERPLUSHIE.Jello:
+                if (targetGraphic) { targetGraphic.SetParent(null); targetGraphic.position = waitVarVector3Two; targetGraphic.gameObject.SetActive(true); }
+                waitVarVector3One = transform.position; // store current points for path                
+                if (Time.time > currentStateTimeStamp + stateTargLockTime) { onTargetEndOne?.Invoke(); ChangeState(MONSTERSTATE.Attacking); } // change state forward         
+                break;
+            default:
+                print($"STATE-TARGETLOCKED: Plushie '{monsterPlushy}' not handled yet...\nReturning to Demo Idle Behavior");
+                //--------------------------------------------ORIGINAL STATE WAITING()
+                if (startPos == Vector3.zero)
+                    startPos = transform.position;
 
-        float randomX = startPos.x + shakeSpeed * shakeAmount * Random.Range(0.95f, 1.05f);
-        float randomY = startPos.y + shakeSpeed * shakeAmount * Random.Range(0.85f, 1.15f);
-        transform.position = new Vector3(randomX, randomY, startPos.z + forceZOffset);
-        ForcePosInFront();
+                //startPos += MoveWithBackground();
 
-        // place a target obj where the player is to show this creatures intentions
+                float randomX = startPos.x + shakeSpeed * shakeAmount * Random.Range(0.95f, 1.05f);
+                float randomY = startPos.y + shakeSpeed * shakeAmount * Random.Range(0.85f, 1.15f);
+                transform.position = new Vector3(randomX, randomY, startPos.z + forceZOffset);
+                ForcePosInFront();
 
-        if (Time.time > currentStateTimeStamp + stateTargLockTime)
-            ChangeState(MONSTERSTATE.Attacking); // attackings
+                // place a target obj where the player is to show this creatures intentions
+
+                if (Time.time > currentStateTimeStamp + stateTargLockTime)
+                { onTargetEndOne?.Invoke(); ChangeState(MONSTERSTATE.Attacking); } // attackings
+                break;
+        }
     }
+    #endregion state: target locked
 
-
+    #region STATE: ATTACKING
     private void StateAttacking()
     {
-        if (!didStoreAttack)
-        { storedAttackPos = (playerObj.transform.position + positionalTargetOffset); didStoreAttack = true; collider.enabled = true; onRushAttacking.Invoke(); }
+        print("MONSTER ATTACKING DEBUG");
+        switch (monsterPlushy)
+        {
+            case MONSTERPLUSHIE.Jello:
+                if (waitVarVector3Two != Vector3.zero)  // step across said path
+                {
+                    if (stepArc < 1f) // calculate path and move along it
+                    {
+                        //print("Move Along Path");
+                        stepArc += Time.deltaTime * getIntoPositionSpeed * 0.1f;
+                        Vector3 controlPoint1 = (waitVarVector3One + new Vector3(waitVarVector3One.x * 1.5f, waitVarVector3One.y + 3f, forceZOffset)); // TODO: change X (on both) to be a between percent (x2-x1 / to keep consistent)
+                        Vector3 controlPoint2 = (waitVarVector3Two + new Vector3(waitVarVector3Two.x * 0.5f, waitVarVector3Two.y + 1.5f, forceZOffset));
+                        transform.position = CalculateBezierPoint(stepArc, waitVarVector3One, controlPoint1, controlPoint2, waitVarVector3Two);
+                        if (stepArc >= 1) onAttackEndOne?.Invoke();
+                    }
+                }
+                if (Time.time > currentStateTimeStamp + stateTargLockTime) ChangeState(MONSTERSTATE.Recovering); // change state
+                break;
+            default:
+                if (!didStoreAttack)
+                { storedAttackPos = (playerObj.transform.position + positionalTargetOffset); didStoreAttack = true; collider.enabled = true; onRushAttacking.Invoke(); }
 
-        var step = attackSpeed * Time.deltaTime; // calculate distance to move
-        transform.position = Vector3.MoveTowards(transform.position, storedAttackPos, step);
+                var step = attackSpeed * Time.deltaTime; // calculate distance to move
+                transform.position = Vector3.MoveTowards(transform.position, storedAttackPos, step);
 
-        float dist = Vector3.Distance(transform.position, storedAttackPos);
-        transform.position += MoveWithBackground();
-        storedAttackPos += MoveWithBackground();
+                float dist = Vector3.Distance(transform.position, storedAttackPos);
+                transform.position += MoveWithBackground();
+                storedAttackPos += MoveWithBackground();
 
-        if (dist <= targetTolerance)
-        { ChangeState(MONSTERSTATE.Recovering); collider.enabled = false; }
+                if (dist <= targetTolerance)
+                { ChangeState(MONSTERSTATE.Recovering); collider.enabled = false; }
+                break;
+        }
+
     }
+    #endregion state: attacking
 
+    #region STATE: RECOVERING
     private void StateRecovering()
     {
+        print("MONSTER RECOVERING DEBUG");
         transform.position += MoveWithBackground();
+        if (targetGraphic) { targetGraphic.SetParent(transform); targetGraphic.gameObject.SetActive(false); }
 
         if (Time.time > currentStateTimeStamp + stateRecoverTime)
-            ChangeState(MONSTERSTATE.Hunting);
+        { onRecoverEndOne?.Invoke(); ChangeState(MONSTERSTATE.Hunting); }
     }
+    #endregion state: recovering
 
+    #region STATE: CAPTURED
     private void StateCaptured()
     {
+        print("MONSTER CAPTURED DEBUG");
         if (Manager_Platforms.Instance)
             Manager_Platforms.Instance.monsterSignaledCapture = true;
 
@@ -452,7 +539,7 @@ public class BehaviorMonster : MonoBehaviour
             }
             else // DONE
             {
-                CaptureEvents();                
+                CaptureEvents();
                 gameObject.SetActive(false);
             }
         }
@@ -485,6 +572,7 @@ public class BehaviorMonster : MonoBehaviour
 
         return true;
     }
+    #endregion state: captured
 
 }
 

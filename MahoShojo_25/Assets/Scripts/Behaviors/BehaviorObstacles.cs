@@ -9,7 +9,7 @@ using UnityEngine.Events;
 public class BehaviorObstacles : MonoBehaviour
 {
     public enum signalType { None, Dash, Bump, Jump }
-    public enum obstacleType { None, MagicRing, Senpai, LoveBox, Endgame }
+    public enum obstacleType { None, MagicRing, Senpai, LoveBox, Endgame, StickyGoop, }
     [Space]
     [Header("Obstacle Tag \n __________")]
     [Space]

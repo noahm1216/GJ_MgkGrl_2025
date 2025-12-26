@@ -131,7 +131,7 @@ public class BehaviorMonster : MonoBehaviour
     }
 
 #if UNITY_EDITOR
-    private void LateUpdate() // we'll run this from manager_platforms
+    private void LateUpdate() // we'll run this from manager_platforms in the build
     {
         if (runIndependantly) RunMonsterBehavior();
     }
@@ -202,7 +202,7 @@ public class BehaviorMonster : MonoBehaviour
 
         if (currentState != MONSTERSTATE.Captured && _newState == MONSTERSTATE.Captured)
             onCapture?.Invoke();
-
+        print($"MONSTERSTATE Change To: {_newState}\nFrom: {currentState}");
         currentState = _newState;
     }
 
@@ -262,7 +262,8 @@ public class BehaviorMonster : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(position, Vector3.down, out hit, Mathf.Infinity, _rayCastable))
         {
-            position = hit.point + new Vector3(0, 0, 0); // print($"New Point: {position}");
+            position = hit.point + new Vector3(0, 0, 0);
+            print($"New Hunting Point: {position}");
         }
         else
         { Debug.Log("WARNING: MonsterBehvaior Raycast wasnt able to find surface to land on"); position = Vector3.zero; }
@@ -297,7 +298,7 @@ public class BehaviorMonster : MonoBehaviour
     #region STATE: WAITING
     private void StateWaiting()
     {
-        print("MONSTER WAITING DEBUG");
+        //print("MONSTER WAITING DEBUG");
         transform.position += MoveWithBackground(); // keep moving with the background
 
         switch (monsterPlushy)
@@ -354,7 +355,7 @@ public class BehaviorMonster : MonoBehaviour
     #region STATE: HUNTING
     private void StateHunting()
     {
-        print("MONSTER HUNTING DEBUG");
+        //print("MONSTER HUNTING DEBUG");
         switch (monsterPlushy)
         {
             case MONSTERPLUSHIE.Jello:
@@ -371,7 +372,7 @@ public class BehaviorMonster : MonoBehaviour
                     onHuntEndOne?.Invoke();
                     ChangeState(MONSTERSTATE.TargetLocked); // change state
                 }
-                else { if (targetGraphic) { targetGraphic.SetParent(null); float targetSpeed = 2; targetGraphic.position = MoveTowardsHelper(targetGraphic.position, waitVarVector3Two, targetSpeed*Time.deltaTime); targetGraphic.gameObject.SetActive(true); } }
+                else { if (targetGraphic) { targetGraphic.SetParent(null); float targetSpeed = 2.5f; targetGraphic.position = MoveTowardsHelper(targetGraphic.position, waitVarVector3Two, targetSpeed*Time.deltaTime); targetGraphic.gameObject.SetActive(true); } }
                 break;
             default:
                 print($"STATE-HUNTING: Plushie '{monsterPlushy}' not handled yet...\nReturning to Demo Idle Behavior");
@@ -423,7 +424,7 @@ public class BehaviorMonster : MonoBehaviour
     #region STATE: TARGET LOCKED
     private void StateTargetLocked()
     {
-        print("MONSTER TARGET LOCKED DEBUG");
+        //print("MONSTER TARGET LOCKED DEBUG");
         transform.position += MoveWithBackground();      
 
         switch (monsterPlushy)
@@ -458,7 +459,7 @@ public class BehaviorMonster : MonoBehaviour
     #region STATE: ATTACKING
     private void StateAttacking()
     {
-        print("MONSTER ATTACKING DEBUG");
+        //print("MONSTER ATTACKING DEBUG");
         switch (monsterPlushy)
         {
             case MONSTERPLUSHIE.Jello:
@@ -471,10 +472,10 @@ public class BehaviorMonster : MonoBehaviour
                         Vector3 controlPoint1 = (waitVarVector3One + new Vector3(waitVarVector3One.x * 1.5f, waitVarVector3One.y + 3f, forceZOffset)); // TODO: change X (on both) to be a between percent (x2-x1 / to keep consistent)
                         Vector3 controlPoint2 = (waitVarVector3Two + new Vector3(waitVarVector3Two.x * 0.5f, waitVarVector3Two.y + 1.5f, forceZOffset));
                         transform.position = CalculateBezierPoint(stepArc, waitVarVector3One, controlPoint1, controlPoint2, waitVarVector3Two);
-                        if (stepArc >= 1) onAttackEndOne?.Invoke();
+                        if (stepArc >= 1){ onAttackEndOne?.Invoke(); ChangeState(MONSTERSTATE.Recovering); }
                     }
                 }
-                if (Time.time > currentStateTimeStamp + stateTargLockTime) ChangeState(MONSTERSTATE.Recovering); // change state
+                //if (Time.time > currentStateTimeStamp + stateTargLockTime) ChangeState(MONSTERSTATE.Recovering); // change state
                 break;
             default:
                 if (!didStoreAttack)
@@ -498,21 +499,23 @@ public class BehaviorMonster : MonoBehaviour
     #region STATE: RECOVERING
     private void StateRecovering()
     {
-        print("MONSTER RECOVERING DEBUG");
+        //print("MONSTER RECOVERING DEBUG");
         transform.position += MoveWithBackground();
         if (targetGraphic) { targetGraphic.SetParent(transform); targetGraphic.gameObject.SetActive(false); }
 
         if (Time.time > currentStateTimeStamp + stateRecoverTime)
-        { onRecoverEndOne?.Invoke(); ChangeState(MONSTERSTATE.Hunting); }
+        { onRecoverEndOne?.Invoke(); waitVarVector3Two = Vector3.zero; stepArc = 0; ChangeState(MONSTERSTATE.Hunting); }
     }
     #endregion state: recovering
 
     #region STATE: CAPTURED
     private void StateCaptured()
     {
-        print("MONSTER CAPTURED DEBUG");
+        //print("MONSTER CAPTURED DEBUG");
         if (Manager_Platforms.Instance)
             Manager_Platforms.Instance.monsterSignaledCapture = true;
+
+        if (targetGraphic) { targetGraphic.SetParent(transform); targetGraphic.gameObject.SetActive(false); }
 
         if (transform.localScale.x > sizeToShrinkTo)
         {

@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ce73f33ce8934f48af4c001f9c580aa, type: 3}
-  m_Name: Level_1_Jelly
+  m_Name: Level_0_LockTest
   m_EditorClassIdentifier: 
-  levelName: Dreaming Jellies
-  levelUnlocked: 1
+  levelName: TEST LOCK
+  levelUnlocked: 0
   levelBeat: 0
-  monsterImage: {fileID: 21300000, guid: 8e7a627856e8cc448a9af67aff60069a, type: 3}
-  levelRewardImage: {fileID: 21300000, guid: 8e7a627856e8cc448a9af67aff60069a, type: 3}
-  monsterBoss: {fileID: 3351900402880586524, guid: ac7cd4dfe2212024482a9ed3d40bcd8f,
+  monsterImage: {fileID: 21300000, guid: 9de23079ed3b3f84189c86d0e6154021, type: 3}
+  levelRewardImage: {fileID: 21300000, guid: 2b84db2826baa9546abba423b7e19545, type: 3}
+  monsterBoss: {fileID: 3351900402880586524, guid: 53b0f5c7dc6df2642b54790b87b6cf9a,
     type: 3}
   listOfSpawnablePlatforms:
   - platformNickname: Test Platform
@@ -33,9 +33,22 @@ MonoBehaviour:
     onFinishedEvents:
       m_PersistentCalls:
         m_Calls: []
+  - platformNickname: Env_Platform_BuildingsMarioMatch
+    spawnChance: 0.05
+    prefabToSpawn: {fileID: 4362509337005501213, guid: 90e153e5be5b98146aaeb0b10ae52f37,
+      type: 3}
+    onSpawnEvents:
+      m_PersistentCalls:
+        m_Calls: []
+    onMainPlatformEvents:
+      m_PersistentCalls:
+        m_Calls: []
+    onFinishedEvents:
+      m_PersistentCalls:
+        m_Calls: []
   - platformNickname: Env_Platform_Buildings 0
     spawnChance: 1
-    prefabToSpawn: {fileID: 4362509337005501213, guid: 0055199725c46ff43bce9c63e850f223,
+    prefabToSpawn: {fileID: 4362509337005501213, guid: fe0354de5acd0d34abff8efd648ad8d8,
       type: 3}
     onSpawnEvents:
       m_PersistentCalls:
@@ -48,7 +61,7 @@ MonoBehaviour:
         m_Calls: []
   - platformNickname: Env_Platform_Buildings 1
     spawnChance: 0.75
-    prefabToSpawn: {fileID: 4362509337005501213, guid: 7523e360dc5997e44b680657b5d2f8eb,
+    prefabToSpawn: {fileID: 4362509337005501213, guid: 9c909152424449c4393fd2eea097b929,
       type: 3}
     onSpawnEvents:
       m_PersistentCalls:
@@ -61,7 +74,7 @@ MonoBehaviour:
         m_Calls: []
   - platformNickname: Env_Platform_Buildings 2
     spawnChance: 0.75
-    prefabToSpawn: {fileID: 4362509337005501213, guid: a2993b9b4af89ba448f9d4c4cee278e6,
+    prefabToSpawn: {fileID: 4362509337005501213, guid: a1672b60c43695b45a764e5882b159f2,
       type: 3}
     onSpawnEvents:
       m_PersistentCalls:
@@ -74,7 +87,7 @@ MonoBehaviour:
         m_Calls: []
   - platformNickname: Env_Platform_Buildings 3
     spawnChance: 1
-    prefabToSpawn: {fileID: 4362509337005501213, guid: 2325983ef0c64e34e98c8dd7c42c74aa,
+    prefabToSpawn: {fileID: 4362509337005501213, guid: e4f2be94471d27d4898990e0d6adf1a4,
       type: 3}
     onSpawnEvents:
       m_PersistentCalls:
@@ -87,7 +100,7 @@ MonoBehaviour:
         m_Calls: []
   - platformNickname: Env_Platform_Buildings 4
     spawnChance: 0.75
-    prefabToSpawn: {fileID: 4362509337005501213, guid: 0aec9cdf6351d1e40a2e4aefcd72974b,
+    prefabToSpawn: {fileID: 4362509337005501213, guid: 385ff721951aef345b6dd9c8c014db69,
       type: 3}
     onSpawnEvents:
       m_PersistentCalls:
@@ -100,7 +113,7 @@ MonoBehaviour:
         m_Calls: []
   - platformNickname: Env_Platform_Buildings 5
     spawnChance: 0.75
-    prefabToSpawn: {fileID: 4362509337005501213, guid: f4a7c366596aeb34db05f0f8106732f6,
+    prefabToSpawn: {fileID: 4362509337005501213, guid: 2e92360f700d2de4c893ac434dc4dfc6,
       type: 3}
     onSpawnEvents:
       m_PersistentCalls:

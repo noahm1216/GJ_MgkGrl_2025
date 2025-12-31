@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -160,8 +161,7 @@ public class Manager_Platforms : MonoBehaviour
         if (FoundErrors())
             return;
 
-        for (int i = 0; i < platformsToKeepOnScreen - 1; i++)
-            SpawnOrPoolPlatform(null, true);
+        SpawnStartingPlatforms();
 
         lastCaptureTimeStamp = Time.time + (waitTimeAfterCapture * 1.2f); // the first monster shouldnt spawn right away, but the normal pacing is good for most
         ChangeMonsterVariables(true, false, false);
@@ -198,11 +198,11 @@ public class Manager_Platforms : MonoBehaviour
         StartSpeedIsRampedUp();
         CheckForObstacles();
         if (spawnPockiBoxOnTimer && Time.time > pockiBoxSpawnStamp + timeUntilPockiBoxSpawn && !playerUnlockedPockiBox)
-            SpawnOrMovePockiBox();
-
-        
+            SpawnOrMovePockiBox();        
     }
 
+
+    #region HELPERS
     private void CheckTimeStamps()
     {
         if (!isBlocked)
@@ -266,10 +266,6 @@ public class Manager_Platforms : MonoBehaviour
         readyToSpawn = true;
     }
 
-    public void ChangeSpawningPlatforms(bool _stop)
-    {
-        stopSpawningPlatforms = _stop;
-    }
 
     public void ChangeIsBlocked(bool _isBlocked, Transform _blockerObj)
     {
@@ -328,6 +324,7 @@ public class Manager_Platforms : MonoBehaviour
         isDashing = true;
         onDashEvent.Invoke();
     }
+    #endregion helpers
 
     #region INPUTS
 
@@ -391,10 +388,30 @@ public class Manager_Platforms : MonoBehaviour
 
     #endregion INPUTS
 
-
     #region PLATFORMS
 
-    public void SpawnNewPlatformFromEdge()
+    public void ChangeSpawningPlatforms(bool _stop)
+    {
+        stopSpawningPlatforms = _stop;
+    }
+
+
+    public void RemoveAllPlatforms()
+    {
+        for (int i = 0; i < spawnedPlatformsInPlay.Count; i++)
+        {
+            if (spawnedPlatformsInPlay[i] != null) { Destroy(spawnedPlatformsInPlay[i].gameObject); }
+        }
+        spawnedPlatformsInPlay.Clear();
+    }
+
+    public void SpawnStartingPlatforms()
+    {
+        for (int i = 0; i < platformsToKeepOnScreen - 1; i++)
+            SpawnOrPoolPlatform(null, true);
+    }
+
+    public void SpawnNewPlatformFromEdge() // when player reaches end of env chunk trigger
     {
         if (stopSpawningPlatforms)
         {
@@ -411,6 +428,19 @@ public class Manager_Platforms : MonoBehaviour
         else
             SpawnOrPoolPlatform(null, false);
     }
+
+    public void SpawnPlatformsOnDelay(float _delay)
+    {
+        StartCoroutine(SpawnPlatformsOnDelayEnum(_delay));
+    }
+
+    public IEnumerator SpawnPlatformsOnDelayEnum(float _delay)
+    {
+        print($"spawning platforms on delay of: {_delay} seconds");
+        yield return new WaitForSeconds(_delay);
+        SpawnStartingPlatforms();
+    }
+
 
     private void MoveMaps()
     {
@@ -434,10 +464,42 @@ public class Manager_Platforms : MonoBehaviour
         Transform returnPlatform = null; // the platform we are storing to spawn or enable
         string nicknameRef = ""; // the name the platform will be titled if spawned
 
+        // PROCESS REWRITE
+        //  --> bool foundInLibrary = false;
+        //  --> bool foundUnusedInGame = false;
+        //
+        //  --> Did we require a specific name?
+        //      --> YES
+        //          --> foundInLibrary = check if we have in library
+        //          --> foundUnusedInGame = check if we have in-game & unused
+        //          --> Did we require new instance?
+        //              --> YES 
+        //                  --> If foundInLibrary = true --> then set returnPlatform
+        //                  --> If NO, but foundUnusedInGame = true --> set returnPlatform
+        //
+        //      --> If No returnPlatform yet
+        //          --> Roll Dice
+        //          --> Collect accepted platforms from library
+        //          --> Randomly pick from simulated pool and assign nicknameRef
+        //          --> foundInLibrary = check if we have in library
+        //          --> foundUnusedInGame = check if we have in-game & unused
+        //          --> Did we _forceNewPlatformInstance?
+        //              --> YES
+        //                  --> Assign library version if we have it
+        //              --> NO
+        //                  --> Assign unused version if we have it
+        //      
+        //  --> If no level was selected
+        //      --> log it
+        //      --> if we have any levels in our library set to level 0
+        //      --> if it's still null --> create a large cube and assign it
+
+
         if (!string.IsNullOrEmpty(_forceByNickname)) // for when we have a specific platform we want
         {
             if (!_forceNewPlatformInstance) // pool from list if possible 
             {
+                print("HERE!!! ... We should pick a random platform first, then see if we already have a copy of it");
                 for (int p = 0; p < parentOfMapModelsToMove.childCount; p++) // check the platforms we have
                 {
                     BehaviorPlatform pooledPlatformBehavior = null;
@@ -543,7 +605,6 @@ public class Manager_Platforms : MonoBehaviour
     }
 
     #endregion PLATFORMS
-
 
     #region MONSTERS
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -49,6 +50,28 @@ public class Manager_Levels : MonoBehaviour
         UpdateUnlockedLevels();
     }
 
+    public void LoadLevel(int _levelId)
+    {
+        print("Level Manager: Load Level");
+
+        if (levelsList.Length == 0 || _levelId < 0) { Debug.LogError("Missing Level data ..."); return; }
+
+        for (int i = 0; i < levelsList.Length; i++)
+        {
+            if(i == _levelId)
+            {
+                if(levelsList[i] == null) { Debug.LogError("Missing Level data Level"); return; }
+                print($"Found Level To Load: {levelsList[i].levelName}");
+                if (Manager_Platforms.Instance)
+                {
+                    Manager_Platforms.Instance.listOfSpawnablePlatforms = levelsList[i].listOfSpawnablePlatforms;
+                    Manager_Platforms.Instance.RemoveAllPlatforms();
+                    Manager_Platforms.Instance.SpawnPlatformsOnDelay(0);
+                }
+            }
+        }
+    }
+
     public void UpdateUnlockedLevels()
     {
         print("Level Manager: Levels Unlocking");
@@ -73,6 +96,8 @@ public class Manager_Levels : MonoBehaviour
                 if (levelUis[i]) levelUis[i].UpdateLevelButton("???", false, null, false);
         }
     }
+
+    
 
 
 }

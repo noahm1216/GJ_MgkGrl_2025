@@ -84,7 +84,7 @@ public class Manager_Platforms : MonoBehaviour
     [Space]
     [Header("Platform Objects\n______________")]   
     [Tooltip("a transform of the object holding all of our children")]
-    public Transform parentOfMapModelsToMove;
+    private Transform parentOfMapModelsToMove;
 
     [Range(1, 10)] public int platformsToSpawnOnStart = 3;
     [Range(1,20)] public int platformsToKeepOnScreen = 5;
@@ -140,10 +140,14 @@ public class Manager_Platforms : MonoBehaviour
     private bool FoundErrors()
     {
         if (listOfSpawnablePlatforms.Count == 0)
-        { Debug.Log("ERROR: Missing Platforms To Spawn"); return true; }
+        { Debug.Log("ERROR Platform-Log: Missing Platforms To Spawn"); return true; }
 
         if (!parentOfMapModelsToMove)
-        { Debug.Log("ERROR: Missing Platforms To Spawn"); return true; }
+        {
+            Debug.Log("Note: Platform-Log: Missing Platform Parent To Spawn Under ... spawning one");
+            parentOfMapModelsToMove = new GameObject("ParentOfMapModelsToMove").transform;
+            parentOfMapModelsToMove.SetParent(transform);
+        }
 
         return false;
     }
@@ -184,21 +188,33 @@ public class Manager_Platforms : MonoBehaviour
             return;
 
         if(Manager_GameState.Instance) // if we have the game manager then we want things to look a specific way
+            if (Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing)
+                return;
+
+        CheckForInputs();
+        CheckDashing();   
+    }
+
+    private void FixedUpdate()
+    {
+        if (FoundErrors())
+            return;
+
+        if (Manager_GameState.Instance) // if we have the game manager then we want things to look a specific way
         {
             ReactToGameManager();
             if (Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing)
                 return;
         }
+
         CheckForTutorial(); // TODO: Maybe we can delay how frequently we check for some of these (instead of every frame)
         CheckTimeStamps();
-        CheckForInputs();
-        CheckDashing();
         MoveMaps();
         CheckForMonsterSpawn();
         StartSpeedIsRampedUp();
         CheckForObstacles();
         if (spawnPockiBoxOnTimer && Time.time > pockiBoxSpawnStamp + timeUntilPockiBoxSpawn && !playerUnlockedPockiBox)
-            SpawnOrMovePockiBox();        
+            SpawnOrMovePockiBox();
     }
 
 
@@ -398,16 +414,16 @@ public class Manager_Platforms : MonoBehaviour
 
     public void RemoveAllPlatforms()
     {
-        for (int i = 0; i < spawnedPlatformsInPlay.Count; i++)
-        {
-            if (spawnedPlatformsInPlay[i] != null) { Destroy(spawnedPlatformsInPlay[i].gameObject); }
-        }
+        //print($"Platforms To Remove: {spawnedPlatformsInPlay.Count} platforms ");
+        for (int i = 0; i <= spawnedPlatformsInPlay.Count; i++)
+            RemoveSpecificPlatform(0, true); // they will all be 0 when we remove them
+
         spawnedPlatformsInPlay.Clear();
     }
 
     public void SpawnStartingPlatforms()
     {
-        for (int i = 0; i < platformsToKeepOnScreen - 1; i++)
+        for (int i = 0; i < platformsToSpawnOnStart; i++)
             SpawnOrPoolPlatform(null, true);
     }
 
@@ -416,11 +432,11 @@ public class Manager_Platforms : MonoBehaviour
         if (stopSpawningPlatforms)
         {
             if (spawnedPlatformsInPlay.Count > 1)
-            {
+
                 for (int i = 1; i < spawnedPlatformsInPlay.Count; i++)
                     RemoveSpecificPlatform(i, false);
-            }
-            return; // stop here if we dont want to spawn anymore
+
+            return; // stop here if we dont want to spawn anymore platforms
         }
 
         if (Manager_GameState.Instance)
@@ -430,17 +446,17 @@ public class Manager_Platforms : MonoBehaviour
     }
 
     public void SpawnPlatformsOnDelay(float _delay)
-    {
+    {        
         StartCoroutine(SpawnPlatformsOnDelayEnum(_delay));
     }
 
-    public IEnumerator SpawnPlatformsOnDelayEnum(float _delay)
+    private IEnumerator SpawnPlatformsOnDelayEnum(float _delay) // NOTE: when public still not easily accessible??
     {
-        print($"spawning platforms on delay of: {_delay} seconds");
+        //print($"spawning platforms on delay of: {_delay} seconds");
         yield return new WaitForSeconds(_delay);
         SpawnStartingPlatforms();
+        print("TODO: Raycast Maho's new position when we do this");
     }
-
 
     private void MoveMaps()
     {
@@ -460,112 +476,77 @@ public class Manager_Platforms : MonoBehaviour
         if (FoundErrors() || listOfSpawnablePlatforms.Count == 0)
         { Debug.LogError("NO PLATFORMS AVAILABLE ||OR|| FoundErros()"); return null; }
 
-        float diceRoller = Random.Range(0.01f, 1); // the odds of a platform being selected
+        CustomPlatformData newPlatform = null; // the data of the platform we will spawn
         Transform returnPlatform = null; // the platform we are storing to spawn or enable
+        BehaviorPlatform platformBehavior = null; // the data of the platform we will update when we spawn or pull from existing spawns
         string nicknameRef = ""; // the name the platform will be titled if spawned
 
-        // PROCESS REWRITE
-        //  --> bool foundInLibrary = false;
-        //  --> bool foundUnusedInGame = false;
-        //
-        //  --> Did we require a specific name?
-        //      --> YES
-        //          --> foundInLibrary = check if we have in library
-        //          --> foundUnusedInGame = check if we have in-game & unused
-        //          --> Did we require new instance?
-        //              --> YES 
-        //                  --> If foundInLibrary = true --> then set returnPlatform
-        //                  --> If NO, but foundUnusedInGame = true --> set returnPlatform
-        //
-        //      --> If No returnPlatform yet
-        //          --> Roll Dice
-        //          --> Collect accepted platforms from library
-        //          --> Randomly pick from simulated pool and assign nicknameRef
-        //          --> foundInLibrary = check if we have in library
-        //          --> foundUnusedInGame = check if we have in-game & unused
-        //          --> Did we _forceNewPlatformInstance?
-        //              --> YES
-        //                  --> Assign library version if we have it
-        //              --> NO
-        //                  --> Assign unused version if we have it
-        //      
-        //  --> If no level was selected
-        //      --> log it
-        //      --> if we have any levels in our library set to level 0
-        //      --> if it's still null --> create a large cube and assign it
 
+        newPlatform = PickOurNextPlatform(_forceByNickname); // try to get a platform, if no nickname then just roll the dice
 
-        if (!string.IsNullOrEmpty(_forceByNickname)) // for when we have a specific platform we want
+        if (newPlatform != null) // we either found a match, rolled the dice, or picked the first platform in the list
         {
-            if (!_forceNewPlatformInstance) // pool from list if possible 
+            nicknameRef = newPlatform.platformNickname;
+
+            if (!_forceNewPlatformInstance) // if we dont want to force, we should first try to pool
             {
-                print("HERE!!! ... We should pick a random platform first, then see if we already have a copy of it");
-                for (int p = 0; p < parentOfMapModelsToMove.childCount; p++) // check the platforms we have
+                for (int p = 0; p < parentOfMapModelsToMove.childCount; p++) // check the platforms we have disabled
                 {
-                    BehaviorPlatform pooledPlatformBehavior = null;
                     if (parentOfMapModelsToMove.GetChild(p).gameObject.activeSelf == false)
                     {
-                        parentOfMapModelsToMove.GetChild(p).TryGetComponent(out pooledPlatformBehavior); // if we get a reference that matches and disabled
-                        if (pooledPlatformBehavior && pooledPlatformBehavior.nickname == _forceByNickname || pooledPlatformBehavior.isVisible == false && pooledPlatformBehavior.nickname == _forceByNickname)
+                        parentOfMapModelsToMove.GetChild(p).TryGetComponent(out platformBehavior); // if we get a reference that matches and disabled
+                        if (platformBehavior && platformBehavior.nickname == _forceByNickname || platformBehavior.isVisible == false && platformBehavior.nickname == _forceByNickname)
                             returnPlatform = parentOfMapModelsToMove.GetChild(p); // use it
-                    }                        
+                    }
                 }
             }
-        }
-               
-        if (!returnPlatform)  // if we dont have a plafform yet we will try spawning one or choose a default
-        {
-            CustomPlatformData newPlatform = null;
-            newPlatform = PickOurNextPlatform(_forceByNickname); // try to get a platform, if no nickname then just roll the dice
-            if (newPlatform != null) returnPlatform = Instantiate(newPlatform.prefabToSpawn, parentOfMapModelsToMove);           
-            nicknameRef = newPlatform.platformNickname;
-        }
+            // if no platform yet then we instantiate one
+            if (returnPlatform == null) returnPlatform = Instantiate(newPlatform.prefabToSpawn, parentOfMapModelsToMove);
+
+        } // else we didn't find anything by the name and tried to roll a dice
+        else { Debug.LogError($"ERROR - MISSING DATA: Couldnt Find Platform using current library of options\nObject: {transform.name}"); }
 
         // find where it goes & move it over
-        BehaviorPlatform newPlatformBehavior = null;
-        returnPlatform.TryGetComponent(out newPlatformBehavior);
-        if (newPlatformBehavior == null)
-        { Debug.Log("ERROR: Platform missing script resources"); return null; }
+        returnPlatform.TryGetComponent(out platformBehavior);
+        if (returnPlatform == null || platformBehavior == null)
+        {
+            Debug.LogError("ERROR: Platform missing script resources");
+            GameObject errorCube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            if (!returnPlatform) return errorCube.transform;
+            else
+            {
+                errorCube.transform.SetParent(returnPlatform);
+                errorCube.transform.position = new Vector3(0, 0.5f, 0);
+                return returnPlatform;
+            }
+        }
 
-        if (spawnedPlatformsInPlay.Count > 0 && returnPlatform != null) // move it if we can
-        returnPlatform.position = spawnedPlatformsInPlay[spawnedPlatformsInPlay.Count - 1].transform.transform.position + new Vector3((spawnedPlatformsInPlay[spawnedPlatformsInPlay.Count - 1].scale.x / 2) + (newPlatformBehavior.scale.x / 2), 0, 0); 
+        if (spawnedPlatformsInPlay.Count > 0 && returnPlatform != null) // move the platform to the correct location in the list of platforms we've spawned
+            returnPlatform.position = spawnedPlatformsInPlay[spawnedPlatformsInPlay.Count - 1].transform.transform.position + new Vector3((spawnedPlatformsInPlay[spawnedPlatformsInPlay.Count - 1].scale.x / 2) + (platformBehavior.scale.x / 2), 0, 0);
 
-        //add the platform to the list
-        spawnedPlatformsInPlay.Add(newPlatformBehavior);
-        if(!string.IsNullOrEmpty(nicknameRef))
-        newPlatformBehavior.nickname = nicknameRef;
-        // make sure it's visible
-        returnPlatform.gameObject.SetActive(true);
-        newPlatformBehavior.ShowHideArt(true);
-        if (spawnedPlatformsInPlay.Count > platformsToKeepOnScreen) // check if we need to remove any
-            RemoveSpecificPlatform(0, false);
+        spawnedPlatformsInPlay.Add(platformBehavior); //add the platform to the list
+        if (!string.IsNullOrEmpty(nicknameRef)) platformBehavior.nickname = nicknameRef; // assign nickname
+        returnPlatform.gameObject.SetActive(true);  // make sure it's visible
+        platformBehavior.ShowHideArt(true); // make sure the platform and its elements are visible
+        if (spawnedPlatformsInPlay.Count > platformsToKeepOnScreen) RemoveSpecificPlatform(0, false);  // check if we need to remove any
 
         return returnPlatform;
     }
 
     public void RemoveSpecificPlatform(int _removeId, bool _delete)
     {
+        //print($"ASKED TO REMOVE: Platform: {_removeId} - Delete: {_delete}");
         if (_removeId >= 0 && _removeId < spawnedPlatformsInPlay.Count)
-        {          
-            if (!_delete)
-            {                
+        {
+            if (spawnedPlatformsInPlay[_removeId] != null)
+            {
+                if(_delete) Destroy(spawnedPlatformsInPlay[_removeId].gameObject, 1); // destroy on delay to ensure we time the removal well
                 spawnedPlatformsInPlay[_removeId].ShowHideArt(false);
-                spawnedPlatformsInPlay.RemoveAt(_removeId);
             }
-            else
-            {              
-                GameObject deleteObj = null;
-                if (spawnedPlatformsInPlay[_removeId] != null)
-                {
-                    deleteObj = spawnedPlatformsInPlay[_removeId].gameObject;
-                    Destroy(deleteObj);
-                }
-                spawnedPlatformsInPlay.RemoveAt(_removeId);
-            }
+            spawnedPlatformsInPlay.RemoveAt(_removeId);
         }
         else
             Debug.Log("WARNING: Tried to remove a platform that wasnt in the list");
-
     }
 
     public void RemoveAnyNullPlatforms() // this is called when we RESET ... so TODO: make a reset function that calls these things instead
@@ -588,6 +569,7 @@ public class Manager_Platforms : MonoBehaviour
             for (int cpd = 0; cpd < listOfSpawnablePlatforms.Count; cpd++)
                 if (listOfSpawnablePlatforms[cpd].platformNickname == _forceByNickname)
                     return listOfSpawnablePlatforms[cpd];
+            return null;
         }
 
         float diceRoller = Random.Range(0.01f, 1);
@@ -603,7 +585,6 @@ public class Manager_Platforms : MonoBehaviour
         else
             return listOfSpawnablePlatforms[0]; // if we didnt find any in range then return the default       
     }
-
     #endregion PLATFORMS
 
     #region MONSTERS

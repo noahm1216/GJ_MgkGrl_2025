@@ -38,7 +38,7 @@ public class Manager_Levels : MonoBehaviour
     // Start is called before the first frame update
     void OnEnable()
     {
-        print("Level Manager: Enabled");
+        //print("Level Manager: Enabled");
         if (levelsList.Length > 0) levelsList[0].levelUnlocked = true; // unlock the first level
         CheckLevelSaveData();
     }

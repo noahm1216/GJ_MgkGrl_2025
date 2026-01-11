@@ -63,11 +63,7 @@ public class Manager_Levels : MonoBehaviour
                 if(levelsList[i] == null) { Debug.LogError("Missing Level data Level"); return; }
                 print($"Found Level To Load: {levelsList[i].levelName}");
                 if (Manager_Platforms.Instance)
-                {
-                    Manager_Platforms.Instance.listOfSpawnablePlatforms = levelsList[i].listOfSpawnablePlatforms;
-                    Manager_Platforms.Instance.RemoveAllPlatforms();
-                    Manager_Platforms.Instance.SpawnPlatformsOnDelay(0);
-                }
+                    Manager_Platforms.Instance.UpdateCurrentLoadedLevel(levelsList[i]);                   
             }
         }
     }

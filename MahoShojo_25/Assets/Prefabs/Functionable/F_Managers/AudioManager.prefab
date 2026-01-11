@@ -53,6 +53,7 @@ MonoBehaviour:
   clipMusic_Gameplay: {fileID: 8300000, guid: dbfc2f6256a65cf4ea1a36d04142066a, type: 3}
   clipMusic_Win: {fileID: 8300000, guid: b0993d9471ebf34468361350c431242d, type: 3}
   clipMusic_GameplayList:
+  - {fileID: 8300000, guid: 7009bf6ede3fc1b45bb5020061adf6d3, type: 3}
   - {fileID: 8300000, guid: dbfc2f6256a65cf4ea1a36d04142066a, type: 3}
   - {fileID: 8300000, guid: b7c1c33b30f07494f976e4e017ec6f4b, type: 3}
 --- !u!114 &1381389679963200836

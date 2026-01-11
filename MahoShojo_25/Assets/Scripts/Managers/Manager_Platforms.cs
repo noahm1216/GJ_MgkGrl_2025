@@ -8,7 +8,10 @@ using UnityEngine.Events;
 /// </summary>
 public class Manager_Platforms : MonoBehaviour
 {
-    public static Manager_Platforms Instance { get; private set; }    
+    public static Manager_Platforms Instance { get; private set; }
+
+    public PlatformScriptableObject CurrentLoadedLevel { get; private set; } = null;
+    public PlayerCore PlayerReference { get; private set; } = null;
 
     [Header("Input Keys\n______________")]
     [Tooltip("This keycode will move the maps to the Left (as if we are going right)")]
@@ -27,8 +30,7 @@ public class Manager_Platforms : MonoBehaviour
     private KeyCode key_MovePlatformsRight2 = KeyCode.LeftArrow;
 
     // dash right/ left ability
-    [Space]
-    [Space]
+    [Space][Space]
     [Header("Dash Rules\n______________")]    
     [Tooltip("When true, dashing requires you to press forward twice within the blow variables")]
     public bool dashRequiresDoubleTap;
@@ -50,17 +52,20 @@ public class Manager_Platforms : MonoBehaviour
     private float dashStartTimeStamp;
 
 
-    [Space]
-    [Space]
+    [Space][Space]
     [Header("Platform Objects\n______________")]
     [Tooltip("The starting Variable for how our speed is calculated")]
     [Range(0.1f, 30)]
     public float speedBase = 14f;   
     [Tooltip("Change how fast / slow we can go at top speed")]
     [Range(0.1f, 10.0f)] public float speedLimiting = 1f;
+    [Tooltip("When true, the player will start at 0 speed and use 'Time Between Aceeleration' + 'Speed Acceleration' to ramp up speed")]
     public bool startPlayerSlowly = true;
+    [Tooltip("Change how much time inbetween speed increases/ramp ups")]
+    [Range(0.1f, 10f)] public float timeBetweenAceeleration = 1.5f;
     [Tooltip("Change how fast / slow we ramp up to full speed")]
     [Range(0.1f, 6f)] public float speedAcceleration = 1;
+    
     [Tooltip("Change how fast / slow we ramp down when we let go of the controls")]
     [Range(0.1f, 6f)] public float speedDeceleration = 1;
     [Tooltip("When changing direction, what percent of speed should we cut? (0.5 means we cut half of our speed)")]
@@ -80,8 +85,7 @@ public class Manager_Platforms : MonoBehaviour
     private float blockedTimeUntilControlsPopUp = 7;
    
 
-    [Space]
-    [Space]
+    [Space][Space]
     [Header("Platform Objects\n______________")]   
     [Tooltip("a transform of the object holding all of our children")]
     private Transform parentOfMapModelsToMove;
@@ -96,8 +100,7 @@ public class Manager_Platforms : MonoBehaviour
     public bool stopSpawningPlatforms { get; private set; }
 
 
-    [Space]
-    [Space]
+    [Space][Space]
     [Header("Monster Objects\n______________")]
     [Tooltip("The prefabs of the monsters we want to spawn in the order we want to spawn them")]
     public Transform[] monstersToSpawnInOrder;
@@ -118,8 +121,7 @@ public class Manager_Platforms : MonoBehaviour
     private float waitTimeUntilDespawnDynamic;
 
 
-    [Space]
-    [Space]
+    [Space][Space]
     [Header("Pocki Objects\n______________")]
     public Transform pockiBoxObjPrefab;
     public bool playerUnlockedPockiBox;
@@ -132,7 +134,7 @@ public class Manager_Platforms : MonoBehaviour
     private float pockiBoxSpawnStamp;
 
 
-    [Space]
+    [Space][Space]
     [Header("Camera\n______________")]
     public BehaviorCameraFollower ref_BehaviorCameraFollower;
 
@@ -241,6 +243,30 @@ public class Manager_Platforms : MonoBehaviour
         }
     }
 
+    public void UpdateCurrentLoadedLevel(PlatformScriptableObject _newLevelToUpdate)
+    {
+        string nameRef = "null";
+        CurrentLoadedLevel = _newLevelToUpdate; // assign the references   
+        
+        if (_newLevelToUpdate != null) // update the platforms and data we use
+        {   // level data
+            nameRef = _newLevelToUpdate.levelName;
+            listOfSpawnablePlatforms = _newLevelToUpdate.listOfSpawnablePlatforms;
+            RemoveAllPlatforms();
+            SpawnPlatformsOnDelay(0);
+            // monsters
+            monstersToSpawnInOrder = _newLevelToUpdate.monsterBosses;
+            // player
+            if (PlayerReference) PlayerReference.transform.position += new Vector3(0, 1, 0);
+        }        
+        print($"UpdatedLevel to: {_newLevelToUpdate.levelName}"); // log it
+    }
+
+    public void PopulatePlayerCoreRef(PlayerCore _newPlayerRef)
+    {
+        PlayerReference = _newPlayerRef;
+    }
+
     public void ResetToBeginning()
     {
         for(int i = 0; i < spawnedPlatformsInPlay.Count; i++)
@@ -315,7 +341,7 @@ public class Manager_Platforms : MonoBehaviour
         if(Time.time > startSpeedAccelStamp + startSpeedAceelWaitTime && startSpeedAccel < 2)
         {
             if (startSpeedAceelWaitTime < 20)
-                startSpeedAceelWaitTime++;
+                startSpeedAceelWaitTime+= 1 * timeBetweenAceeleration;
             startSpeedAccelStamp = Time.time;
             startSpeedAccel += 6f * Time.deltaTime;
             return false;
@@ -591,6 +617,8 @@ public class Manager_Platforms : MonoBehaviour
 
     public void ChangeMonsterVariables(bool _readyToSpawn, bool _monsterInPlay, bool _successfulCapture)
     {
+        // NOTE TODO - when we have have captured all the monsters we needed to, thats when we play the end-game screen
+
         if (monsterIsInPlay && !_monsterInPlay)
             lastCaptureTimeStamp = Time.time;        
 
@@ -621,10 +649,12 @@ public class Manager_Platforms : MonoBehaviour
     {
         //if (Manager_GameState.Instance && Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing)
         //{ print($"no spawning monsters during { Manager_GameState.Instance.currentState} mode");  return; }
+       
 
         if (Time.time > timeMonsterSpawned + waitTimeUntilDespawnDynamic && spawnedMonster != null && monsterIsInPlay)
             DespawnMonster();
 
+        print("TODO: Incorporate our level requirements...\n(1) Distance \n(2) Time \n(3) Score");
         if (readyToSpawn)
         {
             if (!monsterIsInPlay)

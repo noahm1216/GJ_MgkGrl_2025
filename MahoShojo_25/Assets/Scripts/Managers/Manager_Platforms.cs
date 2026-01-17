@@ -615,6 +615,19 @@ public class Manager_Platforms : MonoBehaviour
 
     #region MONSTERS
 
+    /// <summary>
+    ///  Ideal Monster behavior:
+    ///  we have monster(s) we plan to spawn
+    ///  one or more requirements are set for their spawning
+    ///  once all those requirements are met the platforms should pause for a moment (if story mode)
+    ///  while pause we can move the camera to show the animation and abilities (make maho invincible temporarily)
+    ///  once the player is the focus again we resume the platforms moving
+    ///  the monster will despawn after it's alloted time (this is on each monster's behavior)
+    ///  if pocki hasnt been spawned yet, it will 
+    ///  the monster will be respawned at half of the required values each time it despawns (so 120 seconds becomes 60 seconds)
+    ///  
+    /// </summary>
+
     public void ChangeMonsterVariables(bool _readyToSpawn, bool _monsterInPlay, bool _successfulCapture)
     {
         // NOTE TODO - when we have have captured all the monsters we needed to, thats when we play the end-game screen

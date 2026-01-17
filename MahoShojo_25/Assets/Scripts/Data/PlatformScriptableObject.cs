@@ -19,4 +19,35 @@ public class PlatformScriptableObject : ScriptableObject
     // - text the game will play/show
     [Header("Levels To Load")]
     public List<CustomPlatformData> listOfSpawnablePlatforms = new List<CustomPlatformData>();
+
+    [Space]
+    [Header("Text To Show")]
+    public List<CustomTextMessageData> listOfTextToShow = new List<CustomTextMessageData>();
 }
+
+
+
+// the custom data for platforms
+[System.Serializable]
+public class CustomTextMessageData
+{
+    public string messageNickname;
+    [TextArea] [Tooltip("The text that will show on screen")]
+    public string textToSay;
+    [Tooltip("The character icon image for who will show up when the line is being spoken")]
+    public Sprite characterIconSpeaking;
+    [Tooltip("When assigned, this text will not play before the assigned text even if it's condition is met")]
+    public CustomTextMessageData requiredTextBefore;
+    [Tooltip("When not set to 0, these conditions must be met before this text will show up in a level")]
+    public float distanceBeforeTextShows, timeBeforeTextShows, scoreBeforeTextShows;
+    [Tooltip("When not set to 0, these conditions must be met before this text will show up in a level")]
+    public int monstersSpawnedBeforeTextShows, monstersCapturedBeforeTextShows;
+    [HideInInspector]
+    public bool hasPlayed;
+    
+    //public CustomTextMessageData(string _newName,)
+    //{
+    //    //abilityNickname = _newName;
+    //}
+
+}//end of data text messages

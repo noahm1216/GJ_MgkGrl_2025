@@ -56,6 +56,8 @@ public class Manager_Levels : MonoBehaviour
 
         if (levelsList.Length == 0 || _levelId < 0) { Debug.LogError("Missing Level data ..."); return; }
 
+        if (!levelsList[_levelId].levelUnlocked) { Debug.LogError("Level not unlocked... and should be unclickable"); return; }
+
         for (int i = 0; i < levelsList.Length; i++)
         {
             if(i == _levelId)
@@ -93,7 +95,7 @@ public class Manager_Levels : MonoBehaviour
         }
     }
 
-    
+   
 
 
 }

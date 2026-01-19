@@ -114,3 +114,15 @@ MonoBehaviour:
     onFinishedEvents:
       m_PersistentCalls:
         m_Calls: []
+  listOfTextToShow:
+  - messageNickname: Test Text
+    textToSay: Maho!!!! Oh my gosh... I cannot believe this text finally reached
+      you
+    characterIconSpeaking: {fileID: 21300000, guid: 2bf95750dd301c242bf52e596ea58e18,
+      type: 3}
+    distanceBeforeTextShows: 100
+    timeBeforeTextShows: 0
+    scoreBeforeTextShows: 0
+    monstersSpawnedBeforeTextShows: 0
+    monstersCapturedBeforeTextShows: 0
+    hasPlayed: 0

@@ -1,7 +1,0 @@
-Refactor Data sharing, Monster Spawning, and Overall Conditions
-
-Next Opportunities / Challenges:
-+ Test win condition when we capture jelly
-+ Test jelly despawn and respawn
-+ Completing a level unlocks the next one
-+ Refactor Monster stats/changer code in PlatformManager

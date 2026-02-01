@@ -23,6 +23,9 @@ public class Manager_GameState : MonoBehaviour
     public float timeOfCurrentGameRun { get; private set; }// how long we have been in play-mode of our current run
     public float distanceOfCurrentGameRun { get; private set; } // how long we have been traveling in our current run
 
+    public CustomConditionVariables dataSinceLevelStarted { get; private set; }
+    public CustomConditionVariables dataSinceMonsterSpawn { get; private set; }
+
 
     public Transform[] objectsToResetPositions;
     private Vector3[] startPositions, startScales;
@@ -101,6 +104,8 @@ public class Manager_GameState : MonoBehaviour
                 break;
             case GAMESTATE.Playing:
                 timeOfCurrentGameRun += Time.deltaTime;
+                dataSinceMonsterSpawn.timePassed += Time.deltaTime;
+                dataSinceLevelStarted.timePassed += Time.deltaTime;
                 break;
             case GAMESTATE.Paused:
                 break;
@@ -155,7 +160,13 @@ public class Manager_GameState : MonoBehaviour
     public void CaptureChange(int _amountChange, int _changePoints)
     {
         capturedCreatues_Unique += _amountChange;
+        dataSinceMonsterSpawn.monstersCaptured += _amountChange;
+        dataSinceLevelStarted.monstersCaptured += _amountChange;
+
         capturedPoints += _changePoints;
+        dataSinceMonsterSpawn.scoreAchieved += _changePoints;
+        dataSinceLevelStarted.scoreAchieved += _changePoints;
+
         TallyPoints();
 
         if (Manager_TutorialUI.Instance)
@@ -165,6 +176,8 @@ public class Manager_GameState : MonoBehaviour
     public void ObstaclePointChange(int _changePoints)
     {
         obstaclePoints += _changePoints;
+        dataSinceMonsterSpawn.scoreAchieved += _changePoints;
+        dataSinceLevelStarted.scoreAchieved += _changePoints;
         TallyPoints();
     }
 
@@ -176,6 +189,11 @@ public class Manager_GameState : MonoBehaviour
     public bool ChangeHitPoints(int _amountChange)
     {
         currentHitPoints += _amountChange;
+        dataSinceMonsterSpawn.hitPointsCurrent = currentHitPoints;
+        dataSinceMonsterSpawn.hitPointsChange += _amountChange;
+        dataSinceLevelStarted.hitPointsCurrent = currentHitPoints;
+        dataSinceLevelStarted.hitPointsChange += _amountChange;
+
         if (currentHitPoints > hitpoints)
             currentHitPoints = hitpoints;
         if (currentHitPoints <= 0)
@@ -187,6 +205,48 @@ public class Manager_GameState : MonoBehaviour
     public void ChangeDistanceTraveled(float _amountChange)
     {
         distanceOfCurrentGameRun += _amountChange;
+        dataSinceMonsterSpawn.distanceTravel += _amountChange;
+        dataSinceLevelStarted.distanceTravel += _amountChange;
+    }
+
+    public bool CheckMetConditions(CustomConditionVariables _chkConASource, CustomConditionVariables _chkConBCompare)
+    { // this checks the requirements of the monster data and returns how many are NOT zero and > variable
+
+        if (_chkConASource == null || _chkConBCompare == null) { print("Manager GameState: Can't Compare Null Conditions"); return false; }
+
+        //print($"Comparing Conditions: A:{_chkConASource.conditionNickname} - B:{_chkConBCompare.conditionNickname}");
+        bool atLeastOneCondition = (_chkConBCompare.distanceTravel > 0 || _chkConBCompare.timePassed > 0 || _chkConBCompare.scoreAchieved > 0 ||
+            _chkConBCompare.monstersSpawned > 0 || _chkConBCompare.monstersCaptured > 0 || _chkConBCompare.hitPointsCurrent > 0 || _chkConBCompare.hitPointsChange > 0);
+        if (!atLeastOneCondition) { print("Manager GameState: No Conditions Possible"); return false; }
+
+        int metConditionsFromA = 0;
+        if (_chkConBCompare.distanceTravel > 0 && _chkConASource.distanceTravel >= _chkConBCompare.distanceTravel) metConditionsFromA++;
+        if (_chkConBCompare.timePassed > 0 && _chkConASource.timePassed >= _chkConBCompare.timePassed) metConditionsFromA++;
+        if (_chkConBCompare.scoreAchieved > 0 && _chkConASource.scoreAchieved >= _chkConBCompare.scoreAchieved) metConditionsFromA++;
+        if (_chkConBCompare.monstersSpawned > 0 && _chkConASource.monstersSpawned >= _chkConBCompare.monstersSpawned) metConditionsFromA++;
+        if (_chkConBCompare.monstersCaptured > 0 && _chkConASource.monstersCaptured >= _chkConBCompare.monstersCaptured) metConditionsFromA++;
+        if (_chkConBCompare.hitPointsCurrent > 0 && _chkConASource.hitPointsCurrent >= _chkConBCompare.hitPointsCurrent) metConditionsFromA++;
+        if (_chkConBCompare.hitPointsChange > 0 && _chkConASource.hitPointsChange >= _chkConBCompare.hitPointsChange) metConditionsFromA++;
+        //print($"Conditions Possible: {possibleConditions} \nConditions Met: {metConditionsFromA} out of {_chkConBCompare.numberOfRequiredConditions} total required" +
+        //    $"\n CanSpawn = {metConditionsFromA >= _chkConBCompare.numberOfRequiredConditions} + {possibleConditions > 0} = {metConditionsFromA >= _chkConBCompare.numberOfRequiredConditions && possibleConditions > 0}");
+        return (metConditionsFromA >= _chkConBCompare.numberOfRequiredConditions && atLeastOneCondition);
+    }
+
+    public void ResetDataSinceMonsterSpawn()
+    {
+        dataSinceMonsterSpawn = ResetCustomConditionsData(dataSinceMonsterSpawn);
+    }
+
+    public CustomConditionVariables ResetCustomConditionsData(CustomConditionVariables _dataToReset)
+    { // reset the data of our variables for tracking monster data. This will allow each monster to have its own conditions if called on capture/despawn
+
+        CustomConditionVariables _newData = new CustomConditionVariables(
+            "ResetDataTracker", 0, 0, 0, 0, 0, 0, currentHitPoints, 0);
+
+        if (_dataToReset != null)
+        { _newData.conditionNickname = _dataToReset.conditionNickname; _newData.numberOfRequiredConditions = _dataToReset.numberOfRequiredConditions; }
+
+        return _newData;
     }
 
 
@@ -244,7 +304,11 @@ public class Manager_GameState : MonoBehaviour
 
     private void RestartVariables(bool _callingFromStart)
     {       
-        currentHitPoints = hitpoints;       
+        currentHitPoints = hitpoints;
+        if (dataSinceLevelStarted == null) { dataSinceLevelStarted = ResetCustomConditionsData(null); }
+        if (dataSinceMonsterSpawn == null) { dataSinceMonsterSpawn = ResetCustomConditionsData(null); }
+        dataSinceMonsterSpawn.hitPointsCurrent = currentHitPoints;
+        dataSinceLevelStarted.hitPointsCurrent = currentHitPoints;
         CaptureChange(-capturedCreatues_Unique, -capturedPoints);
 
         if (!_callingFromStart)

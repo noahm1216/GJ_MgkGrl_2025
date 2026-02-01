@@ -139,17 +139,13 @@ public class PlayerCore : MonoBehaviour
                                                                                                                                   //    rb3D.AddForce((Vector3.up * dir) * jumpLeftToAchieve * lagInputTime); // This may produce unique results each jump || 95 jump power tested and works
             jumpLeftToAchieve += 1 * jumpAcceleration;
         }
+
         if (rb3D.velocity.y < 0) // faling / moving down
             rb3D.AddForce(Vector3.down * (1 * fallAcceleration));
 
-        if (Manager_GameState.Instance)
-        {
-            if (Manager_GameState.Instance.capturedCreatues_Unique >= 6 && transform.position.y < 25) // falling off the buildings
-            {
-                //print($"transform.position = {transform.position}");
-                if (!triggeredWin)
-                { Manager_GameState.Instance.WonTheGame(); triggeredWin = true; }
-            }
+        if (Manager_GameState.Instance && Manager_GameState.Instance.currentState == Manager_GameState.GAMESTATE.Playing)
+        { // check if we fell too far down
+            if (transform.position.y < -20) Manager_GameState.Instance.GameOver();
         }
     }
 

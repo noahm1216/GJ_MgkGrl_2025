@@ -50,22 +50,22 @@ public class Manager_Levels : MonoBehaviour
         UpdateUnlockedLevels();
     }
 
-    public void LoadLevel(int _levelId)
+    public void LoadLevel(int _levelId) // this may be called from a button press
     {
-        print("Level Manager: Load Level");
+        print("Level Manager: Load Level Attempt");
 
-        if (levelsList.Length == 0 || _levelId < 0) { Debug.LogError("Missing Level data ..."); return; }
+        if (levelsList.Length == 0 || _levelId < 0) { Debug.LogError("Level Manager: Missing Level data ..."); return; }
 
-        if (!levelsList[_levelId].levelUnlocked) { Debug.LogError("Level not unlocked... and should be unclickable"); return; }
+        if (!levelsList[_levelId].levelUnlocked) { Debug.LogError("Level Manager: Level not unlocked... and should be unclickable"); return; }
 
         for (int i = 0; i < levelsList.Length; i++)
         {
             if(i == _levelId)
             {
-                if(levelsList[i] == null) { Debug.LogError("Missing Level data Level"); return; }
+                if(levelsList[i] == null) { Debug.LogError("Level Manager: Missing Level data Level"); return; }
                 print($"Found Level To Load: {levelsList[i].levelName}");
                 if (Manager_Platforms.Instance)
-                    Manager_Platforms.Instance.UpdateCurrentLoadedLevel(levelsList[i]);                   
+                    Manager_Platforms.Instance.UpdateCurrentLoadedLevel(levelsList[i]);               
             }
         }
     }
@@ -84,7 +84,7 @@ public class Manager_Levels : MonoBehaviour
                 {
                     levelUis[i].UpdateLevelButton(levelsList[i].levelName,
                         levelsList[i].levelUnlocked,
-                        levelsList[i].monsterImage,
+                        levelsList[i].buttonImage,
                         levelsList[i].levelBeat);
                 }
                 else

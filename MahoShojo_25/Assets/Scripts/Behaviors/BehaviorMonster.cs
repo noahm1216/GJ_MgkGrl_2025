@@ -142,6 +142,8 @@ public class BehaviorMonster : MonoBehaviour
         if (!playerObj)
         { Debug.Log($"ERROR: Cant find player obj for this monster ({transform.name}) to hunt"); playerObj = GameObject.FindGameObjectWithTag(tag_ToHunt).transform; return; }
 
+        if (runIndependantly) runIndependantly = false;
+
         if (currentState != MONSTERSTATE.Waiting && Manager_GameState.Instance && Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing)
         { currentState = MONSTERSTATE.Waiting; return; }
 

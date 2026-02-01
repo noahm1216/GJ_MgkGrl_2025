@@ -15,13 +15,33 @@ MonoBehaviour:
   levelName: Dreaming Jellies
   levelUnlocked: 1
   levelBeat: 0
-  monsterImage: {fileID: 21300000, guid: 8e7a627856e8cc448a9af67aff60069a, type: 3}
+  buttonImage: {fileID: 21300000, guid: 8e7a627856e8cc448a9af67aff60069a, type: 3}
   levelRewardImage: {fileID: 21300000, guid: ff68860ce7bf954458addeb607846946, type: 3}
-  monsterBosses:
-  - {fileID: 3351900402880586524, guid: ac7cd4dfe2212024482a9ed3d40bcd8f, type: 3}
-  distanceBeforeBossShowsUp: 0
-  timeBeforeBossShowsUp: 0
-  scoreBeforeBossShowsUp: 0
+  levelWinConditions:
+    conditionNickname: Capture Jelly
+    numberOfRequiredConditions: 1
+    distanceTravel: 0
+    timePassed: 0
+    scoreAchieved: 0
+    monstersSpawned: 0
+    monstersCaptured: 1
+    hitPointsCurrent: 0
+    hitPointsChange: 0
+  spawnMonstersEndlessly: 0
+  monstersToSpawn:
+  - monsterNickname: Jelly
+    monsterBosses: {fileID: 3351900402880586524, guid: ac7cd4dfe2212024482a9ed3d40bcd8f,
+      type: 3}
+    requiredConditions:
+      conditionNickname: Easy Platform Conditions
+      numberOfRequiredConditions: 1
+      distanceTravel: 100
+      timePassed: 180
+      scoreAchieved: 0
+      monstersSpawned: 0
+      monstersCaptured: 0
+      hitPointsCurrent: 0
+      hitPointsChange: 0
   listOfSpawnablePlatforms:
   - platformNickname: Test Platform
     spawnChance: 0
@@ -120,9 +140,14 @@ MonoBehaviour:
       you
     characterIconSpeaking: {fileID: 21300000, guid: 2bf95750dd301c242bf52e596ea58e18,
       type: 3}
-    distanceBeforeTextShows: 100
-    timeBeforeTextShows: 0
-    scoreBeforeTextShows: 0
-    monstersSpawnedBeforeTextShows: 0
-    monstersCapturedBeforeTextShows: 0
+    requiredConditions:
+      conditionNickname: 
+      numberOfRequiredConditions: 0
+      distanceTravel: 0
+      timePassed: 0
+      scoreAchieved: 0
+      monstersSpawned: 0
+      monstersCaptured: 0
+      hitPointsCurrent: 0
+      hitPointsChange: 0
     hasPlayed: 0

@@ -15,18 +15,98 @@ MonoBehaviour:
   levelName: Demo Levels
   levelUnlocked: 1
   levelBeat: 0
-  monsterImage: {fileID: 2106039604, guid: 2179568ae6f951b40b656e2611e1d6af, type: 3}
+  buttonImage: {fileID: 2106039604, guid: 2179568ae6f951b40b656e2611e1d6af, type: 3}
   levelRewardImage: {fileID: 21300000, guid: 2b84db2826baa9546abba423b7e19545, type: 3}
-  monsterBosses:
-  - {fileID: 3351900402880586524, guid: ac7cd4dfe2212024482a9ed3d40bcd8f, type: 3}
-  - {fileID: 3351900402880586524, guid: 965bc6efbf7901c4fb0fe5651122b7fe, type: 3}
-  - {fileID: 3351900402880586524, guid: a06a9ff5e7de9e44eb1b4bdc12b0611f, type: 3}
-  - {fileID: 3351900402880586524, guid: 0a29b4d5ff8143d49a8e0cfed4dd93e9, type: 3}
-  - {fileID: 3351900402880586524, guid: 3a9891c992cf9d042af0bb85e1a4af68, type: 3}
-  - {fileID: 3351900402880586524, guid: 53b0f5c7dc6df2642b54790b87b6cf9a, type: 3}
-  distanceBeforeBossShowsUp: 0
-  timeBeforeBossShowsUp: 0
-  scoreBeforeBossShowsUp: 0
+  levelWinConditions:
+    conditionNickname: Capture All Monsters
+    numberOfRequiredConditions: 1
+    distanceTravel: 0
+    timePassed: 0
+    scoreAchieved: 0
+    monstersSpawned: 0
+    monstersCaptureds: 6
+    hitPointsCurrent: 0
+    hitPointsChange: 0
+  spawnMonstersEndlessly: 0
+  monstersToSpawn:
+  - monsterNickname: Jelly
+    monsterBosses: {fileID: 3351900402880586524, guid: ac7cd4dfe2212024482a9ed3d40bcd8f,
+      type: 3}
+    requiredConditions:
+      conditionNickname: 
+      numberOfRequiredConditions: 0
+      distanceTravel: 0
+      timePassed: 0
+      scoreAchieved: 0
+      monstersSpawned: 0
+      monstersCaptureds: 0
+      hitPointsCurrent: 0
+      hitPointsChange: 0
+  - monsterNickname: Mushy
+    monsterBosses: {fileID: 3351900402880586524, guid: 965bc6efbf7901c4fb0fe5651122b7fe,
+      type: 3}
+    requiredConditions:
+      conditionNickname: 
+      numberOfRequiredConditions: 0
+      distanceTravel: 0
+      timePassed: 0
+      scoreAchieved: 0
+      monstersSpawned: 0
+      monstersCaptureds: 0
+      hitPointsCurrent: 0
+      hitPointsChange: 0
+  - monsterNickname: Froggy
+    monsterBosses: {fileID: 3351900402880586524, guid: a06a9ff5e7de9e44eb1b4bdc12b0611f,
+      type: 3}
+    requiredConditions:
+      conditionNickname: 
+      numberOfRequiredConditions: 0
+      distanceTravel: 0
+      timePassed: 0
+      scoreAchieved: 0
+      monstersSpawned: 0
+      monstersCaptureds: 0
+      hitPointsCurrent: 0
+      hitPointsChange: 0
+  - monsterNickname: Kitty
+    monsterBosses: {fileID: 3351900402880586524, guid: 0a29b4d5ff8143d49a8e0cfed4dd93e9,
+      type: 3}
+    requiredConditions:
+      conditionNickname: 
+      numberOfRequiredConditions: 0
+      distanceTravel: 0
+      timePassed: 0
+      scoreAchieved: 0
+      monstersSpawned: 0
+      monstersCaptureds: 0
+      hitPointsCurrent: 0
+      hitPointsChange: 0
+  - monsterNickname: Wolfy
+    monsterBosses: {fileID: 3351900402880586524, guid: 3a9891c992cf9d042af0bb85e1a4af68,
+      type: 3}
+    requiredConditions:
+      conditionNickname: 
+      numberOfRequiredConditions: 0
+      distanceTravel: 0
+      timePassed: 0
+      scoreAchieved: 0
+      monstersSpawned: 0
+      monstersCaptureds: 0
+      hitPointsCurrent: 0
+      hitPointsChange: 0
+  - monsterNickname: Beary
+    monsterBosses: {fileID: 3351900402880586524, guid: 53b0f5c7dc6df2642b54790b87b6cf9a,
+      type: 3}
+    requiredConditions:
+      conditionNickname: 
+      numberOfRequiredConditions: 0
+      distanceTravel: 0
+      timePassed: 0
+      scoreAchieved: 0
+      monstersSpawned: 0
+      monstersCaptureds: 0
+      hitPointsCurrent: 0
+      hitPointsChange: 0
   listOfSpawnablePlatforms:
   - platformNickname: Test Platform
     spawnChance: 0
@@ -132,3 +212,4 @@ MonoBehaviour:
     onFinishedEvents:
       m_PersistentCalls:
         m_Calls: []
+  listOfTextToShow: []

@@ -119,6 +119,7 @@ public class Manager_Platforms : MonoBehaviour
     private float lastCaptureTimeStamp;
     private float timeMonsterSpawned;
     private float waitTimeUntilDespawnDynamic;
+    private int monstersCaptured; // the number of monsters we've captured in a level
 
 
     [Space][Space]
@@ -197,7 +198,7 @@ public class Manager_Platforms : MonoBehaviour
         CheckDashing();   
     }
 
-    private void FixedUpdate()
+    private void FixedUpdate() //TODO: refactor function calling we dont need to check all of these functions every frame, it can be more as-needed
     {
         if (FoundErrors())
             return;
@@ -209,12 +210,14 @@ public class Manager_Platforms : MonoBehaviour
                 return;
         }
 
-        CheckForTutorial(); // TODO: Maybe we can delay how frequently we check for some of these (instead of every frame)
+        // TODO: Maybe we can delay how frequently we check for some of these (instead of every frame)
+        CheckForTutorial();
         CheckTimeStamps();
         MoveMaps();
-        CheckForMonsterSpawn();
+        CheckMonsterSpawner(); 
         StartSpeedIsRampedUp();
         CheckForObstacles();
+        CheckWinCondition();
         if (spawnPockiBoxOnTimer && Time.time > pockiBoxSpawnStamp + timeUntilPockiBoxSpawn && !playerUnlockedPockiBox)
             SpawnOrMovePockiBox();
     }
@@ -228,6 +231,24 @@ public class Manager_Platforms : MonoBehaviour
         if (Time.time > blockedTimeStamp + blockedTimeUntilControlsPopUp && Manager_TutorialUI.Instance)
         { Manager_TutorialUI.Instance.QueueMessage("Controls_Jump"); blockedTimeStamp = Time.time; }
     
+    }
+
+    private void CheckWinCondition()
+    {
+        if (CurrentLoadedLevel == null) { print("Manager Platforms: No Current Level Loaded"); return; }
+
+        if (Manager_GameState.Instance && Manager_GameState.Instance.currentState == Manager_GameState.GAMESTATE.Playing)
+        { 
+            if (Manager_GameState.Instance.CheckMetConditions // check win condition
+                (
+                  Manager_GameState.Instance.dataSinceLevelStarted,
+                  CurrentLoadedLevel.levelWinConditions)) // Compare if we met enough win conditions in the level
+            {
+                print("Triggering Win Condition Naturally");
+                if (Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Won)
+                    Manager_GameState.Instance.WonTheGame();
+            }
+        }
     }
 
     private void CheckForTutorial()
@@ -245,21 +266,26 @@ public class Manager_Platforms : MonoBehaviour
 
     public void UpdateCurrentLoadedLevel(PlatformScriptableObject _newLevelToUpdate)
     {
-        string nameRef = "null";
+        print("Manager Platform: Updating Current Loaded Level Attempt");
+
         CurrentLoadedLevel = _newLevelToUpdate; // assign the references   
         
         if (_newLevelToUpdate != null) // update the platforms and data we use
         {   // level data
-            nameRef = _newLevelToUpdate.levelName;
-            listOfSpawnablePlatforms = _newLevelToUpdate.listOfSpawnablePlatforms;
+            listOfSpawnablePlatforms = CurrentLoadedLevel.listOfSpawnablePlatforms;
             RemoveAllPlatforms();
-            SpawnPlatformsOnDelay(0);
+            SpawnPlatformsOnDelay(0);            
             // monsters
-            monstersToSpawnInOrder = _newLevelToUpdate.monsterBosses;
+            monstersToSpawnInOrder = new Transform[CurrentLoadedLevel.monstersToSpawn.Length];
+            for (int i = 0; i < CurrentLoadedLevel.monstersToSpawn.Length; i++)
+                monstersToSpawnInOrder[i] = CurrentLoadedLevel.monstersToSpawn[i].monsterBosses;
+            monstersCaptured = 0;
             // player
             if (PlayerReference) PlayerReference.transform.position += new Vector3(0, 1, 0);
-        }        
-        print($"UpdatedLevel to: {_newLevelToUpdate.levelName}"); // log it
+        }
+
+        if (_newLevelToUpdate) print($"Manager Platform: UpdatedLevel to: {_newLevelToUpdate.levelName}"); // log it
+        else print("Manager Platform: Unable To Load Null level");
     }
 
     public void PopulatePlayerCoreRef(PlayerCore _newPlayerRef)
@@ -613,8 +639,40 @@ public class Manager_Platforms : MonoBehaviour
     }
     #endregion PLATFORMS
 
-    #region MONSTERS
+    #region POKKI
+    public void SpawnOrMovePockiBox()
+    {
+        pockiBoxSpawnStamp = Time.time;
+        spawnPockiBoxOnTimer = true;
 
+        if (!pockiBoxObjPrefab)
+        { Debug.Log("WARNING: PlatformManager.cs missing reference to pocki prefab and cannot spawn or move it."); return; }
+
+        // check if we dont have a spawned one
+        if (!spawnedPockiBoxObj)
+        { spawnedPockiBoxObj = Instantiate(pockiBoxObjPrefab, Camera.main.transform); spawnedPockiBoxObj.gameObject.SetActive(false); }
+
+        // move it
+        spawnedPockiBoxObj.SetParent(transform);
+        spawnedPockiBoxObj.position = Vector3.zero + new Vector3(spawnXOffset, 20, 0);
+        // raycast from the pocki box down onto a platform and place it there
+        RaycastHit hit;
+        if (Physics.Raycast(spawnedPockiBoxObj.position, -spawnedPockiBoxObj.up, out hit, Mathf.Infinity, pockiBoxInteractionLayers))
+        {
+            //Debug.DrawRay(spawnedPockiBoxObj.position, -spawnedPockiBoxObj.up * hit.distance, Color.yellow);
+            //Debug.Log($"Pocki Box Did Hit: {hit.transform.name} @ {hit.point}");
+            spawnedPockiBoxObj.position = hit.point + new Vector3(0, 1, 0);
+            spawnedPockiBoxObj.gameObject.SetActive(true);
+
+            // read tutorial line
+            Manager_TutorialUI.Instance.QueueMessage("Controls_Pokie");
+        }
+        else
+            Debug.Log("WARNING: Pocki box wasnt able to find surface to land on");
+    }
+    #endregion pokki
+
+    #region MONSTERS
     /// <summary>
     ///  Ideal Monster behavior:
     ///  we have monster(s) we plan to spawn
@@ -628,6 +686,33 @@ public class Manager_Platforms : MonoBehaviour
     ///  
     /// </summary>
 
+    public void CheckMonsterSpawner()
+    {
+        if (monstersCaptured < monstersToSpawnInOrder.Length)
+        {
+            if (monstersCaptured == monstersSpawned) // if we have captured all the monster who have spawned...
+            {
+                print("Checking if Ready To Spawn A Monster!");
+                if (Manager_GameState.Instance)
+                { // check the requirements it has || returns true if enough conditions are met
+                    if (Manager_GameState.Instance.CheckMetConditions
+                        (
+                        Manager_GameState.Instance.dataSinceMonsterSpawn,
+                        CurrentLoadedLevel.monstersToSpawn[monstersCaptured].requiredConditions)) // check we achieved enough conditiond for next monster
+                    {
+                        print("READY to spawn a monster!");
+                        SpawnMonster(monstersSpawned);
+                    }
+                    else { print("Monster Spawn Conditions Not Yet Met"); }
+                }
+            }
+        }
+
+        if (spawnedMonster != null && Time.time > timeMonsterSpawned + waitTimeUntilDespawnDynamic)
+            DespawnMonster();
+    }
+
+    // TODO: REMOVE
     public void ChangeMonsterVariables(bool _readyToSpawn, bool _monsterInPlay, bool _successfulCapture)
     {
         // NOTE TODO - when we have have captured all the monsters we needed to, thats when we play the end-game screen
@@ -657,14 +742,14 @@ public class Manager_Platforms : MonoBehaviour
 
         monsterSignaledCapture = false; // reset our capture situation so we can despawn if needed
     }
-
+    // TODO: REMOVE
     private void CheckForMonsterSpawn() // TODO: this needs refactoring... this functions purpose is to spawn monster if ready... COMBINED with "ChangeMonsterVariables" (above) we can have a singular checker
     {
         //if (Manager_GameState.Instance && Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing)
         //{ print($"no spawning monsters during { Manager_GameState.Instance.currentState} mode");  return; }
        
 
-        if (Time.time > timeMonsterSpawned + waitTimeUntilDespawnDynamic && spawnedMonster != null && monsterIsInPlay)
+        if (Time.time > timeMonsterSpawned + waitTimeUntilDespawnDynamic && spawnedMonster != null)
             DespawnMonster();
 
         print("TODO: Incorporate our level requirements...\n(1) Distance \n(2) Time \n(3) Score");
@@ -675,75 +760,69 @@ public class Manager_Platforms : MonoBehaviour
                 if (isBlocked)
                     lastCaptureTimeStamp += Time.deltaTime; // delays the monster spawning if we are standing still
 
-                if (Time.time > lastCaptureTimeStamp + waitTimeAfterCapture)
-                    SpawnMonster();
+                //if (Time.time > lastCaptureTimeStamp + waitTimeAfterCapture) // UNCOMMENTED DURING REFACTOR
+                //    SpawnMonster();
                 //else
                 //    print("waiting to spawn a new monster");
             }
         }
     }
 
-    public void SpawnMonster()
+    public void SpawnMonster(int _idToSpawn)
     {
-        //print("CALLING SPAWN MONSTER");
-        if (monstersSpawned < monstersToSpawnInOrder.Length)
-        {
-            if (Manager_GameState.Instance)
+        // BEGIN with a return that stops if we already spawned all the monsters 
+        if (_idToSpawn > CurrentLoadedLevel.monstersToSpawn.Length && CurrentLoadedLevel.spawnMonstersEndlessly == false)
+        { print("We have spawned all possible monsters"); return; }
+
+        monstersSpawned++;
+
+        // spawn monster locally
+        spawnedMonster = Instantiate(monstersToSpawnInOrder[_idToSpawn]);
+        spawnedMonster.transform.position = distanceOkayToSpawnFromPlayer[_idToSpawn];
+        spawnedMonster.TryGetComponent(out spawnedMonsterBehavior);
+
+        print($"Manager Platform: Spawning Monster #{_idToSpawn}");
+        if (Manager_GameState.Instance) // communicating with Game Manager
+        {            
+            //spawnedMonster = Instantiate(monstersToSpawnInOrder[Manager_GameState.Instance.capturedCreatues_Unique]);
+            //spawnedMonster.transform.position = distanceOkayToSpawnFromPlayer[Manager_GameState.Instance.capturedCreatues_Unique];
+            //spawnedMonster.TryGetComponent(out spawnedMonsterBehavior);
+            Manager_GameState.Instance.objectsSpawnedDuringRuntime.Add(spawnedMonster);
+
+            if (Manager_TutorialUI.Instance) // TODO: replace this with check loadedlevel condition for "TextToShow"
             {
-                // spawn monster communicating with Game Manager
-                spawnedMonster = Instantiate(monstersToSpawnInOrder[Manager_GameState.Instance.capturedCreatues_Unique]);
-                spawnedMonster.transform.position = distanceOkayToSpawnFromPlayer[Manager_GameState.Instance.capturedCreatues_Unique];
-                spawnedMonster.TryGetComponent(out spawnedMonsterBehavior);
-                Manager_GameState.Instance.objectsSpawnedDuringRuntime.Add(spawnedMonster);
-
-                if (Manager_TutorialUI.Instance)
-                {
-                    if (Manager_GameState.Instance.capturedCreatues_Unique == 0)
-                    { Manager_TutorialUI.Instance.QueueMessage("Story_3"); Manager_TutorialUI.Instance.QueueMessage("Story_4"); }
-                    if (Manager_GameState.Instance.capturedCreatues_Unique == 4)
-                    { Manager_TutorialUI.Instance.QueueMessage("Story_6"); }
-                    if (Manager_GameState.Instance.capturedCreatues_Unique == 5)
-                    { Manager_TutorialUI.Instance.QueueMessage("Story_7"); Manager_TutorialUI.Instance.QueueMessage("Story_8"); Manager_TutorialUI.Instance.QueueMessage("Story_9"); }
-                }
+                if (Manager_GameState.Instance.capturedCreatues_Unique == 0)
+                { Manager_TutorialUI.Instance.QueueMessage("Story_3"); Manager_TutorialUI.Instance.QueueMessage("Story_4"); }
+                if (Manager_GameState.Instance.capturedCreatues_Unique == 4)
+                { Manager_TutorialUI.Instance.QueueMessage("Story_6"); }
+                if (Manager_GameState.Instance.capturedCreatues_Unique == 5)
+                { Manager_TutorialUI.Instance.QueueMessage("Story_7"); Manager_TutorialUI.Instance.QueueMessage("Story_8"); Manager_TutorialUI.Instance.QueueMessage("Story_9"); }
             }
-            else
-            {
-                // spawn monster locally
-                spawnedMonster = Instantiate(monstersToSpawnInOrder[monstersSpawned]);
-                spawnedMonster.transform.position = distanceOkayToSpawnFromPlayer[monstersSpawned];
-                spawnedMonster.TryGetComponent(out spawnedMonsterBehavior);
-            }
-            timeMonsterSpawned = Time.time;
-            ChangeMonsterVariables(false, true, false);
-            monstersSpawned++;                      
-
-            if (ref_BehaviorCameraFollower)
-                ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.FightingMonster, true);
-
-            //print("SPAWNED MONSTER");
-        }
-        else // we've captured each unique monster
-        {
-            // spawn a random monster we've already captured one in endless mode
-            ChangeSpawningPlatforms(true);
-            Debug.LogWarning("WARNING: We should be finished with the demo game and dont want to spawn more monsters");
         }
 
-        //readyToSpawn = false;
-        //monsterIsInPlay = true;
+        timeMonsterSpawned = Time.time;
+        //ChangeMonsterVariables(false, true, false);
+        //monstersSpawned++;
+
+        if (ref_BehaviorCameraFollower)
+            ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.FightingMonster, true);
+
+        //print("SPAWNED MONSTER");
     }
+
 
     public void RunMonsterBehavior()
     {
         if (spawnedMonsterBehavior)
-            spawnedMonsterBehavior.RunMonsterBehavior();
+         spawnedMonsterBehavior.RunMonsterBehavior(); 
     }
 
     public void DespawnMonster()
     {
         //print("Checking if we need to despawn monster");
 
-        if(monstersSpawned > 0 && spawnedMonster != null && !monsterSignaledCapture) // if we have more than 1 spawned monster and its active now and we havent captured it yet
+        // if we have spawned at least 1 monster and its active now and we havent captured it yet
+        if (monstersSpawned > 0 && spawnedMonster != null && !monsterSignaledCapture) 
         {
             //print("Despawning MONSTER");       
             Destroy(spawnedMonster.gameObject, 1);
@@ -753,47 +832,21 @@ public class Manager_Platforms : MonoBehaviour
             timeMonsterSpawned = Time.time;
             ChangeMonsterVariables(true, false, false);
             if (Manager_GameState.Instance)
+            {
                 Manager_GameState.Instance.objectsSpawnedDuringRuntime.Remove(spawnedMonster);
+                Manager_GameState.Instance.ResetDataSinceMonsterSpawn();
+            }
 
             // spawn pocki if we havent collected it yet
             if (!playerUnlockedPockiBox)
                 SpawnOrMovePockiBox();
-
         }
     }
-
-    public void SpawnOrMovePockiBox()
-    {
-        pockiBoxSpawnStamp = Time.time;
-        spawnPockiBoxOnTimer = true;
-
-        if(!pockiBoxObjPrefab)
-        { Debug.Log("WARNING: PlatformManager.cs missing reference to pocki prefab and cannot spawn or move it."); return; }
-
-        // check if we dont have a spawned one
-        if (!spawnedPockiBoxObj)
-        { spawnedPockiBoxObj = Instantiate(pockiBoxObjPrefab, Camera.main.transform); spawnedPockiBoxObj.gameObject.SetActive(false); }
-        
-        // move it
-        spawnedPockiBoxObj.SetParent(transform);
-        spawnedPockiBoxObj.position = Vector3.zero +  new Vector3(spawnXOffset, 20, 0);
-        // raycast from the pocki box down onto a platform and place it there
-        RaycastHit hit;
-        if (Physics.Raycast(spawnedPockiBoxObj.position, -spawnedPockiBoxObj.up, out hit, Mathf.Infinity, pockiBoxInteractionLayers))
-        {
-            //Debug.DrawRay(spawnedPockiBoxObj.position, -spawnedPockiBoxObj.up * hit.distance, Color.yellow);
-            //Debug.Log($"Pocki Box Did Hit: {hit.transform.name} @ {hit.point}");
-            spawnedPockiBoxObj.position = hit.point + new Vector3(0, 1, 0);
-            spawnedPockiBoxObj.gameObject.SetActive(true);
-
-            // read tutorial line
-            Manager_TutorialUI.Instance.QueueMessage("Controls_Pokie");
-        }
-        else
-            Debug.Log("WARNING: Pocki box wasnt able to find surface to land on");              
-    }
-
     #endregion MONSTERS
+
+    
+
+   
 
 }// end of manager-platform class
 

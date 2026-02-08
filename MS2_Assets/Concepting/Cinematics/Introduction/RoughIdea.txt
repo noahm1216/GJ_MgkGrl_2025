@@ -1,0 +1,24 @@
+Intro to maho should be quick and not overly complex
+but capture the mood of a magic girl transforming 
+and potentially a little hint of story.
+
+This sequence happens when the player loads the game.
+Then the sequence plays (either pre recorded or in game)
+Finally the sequence ends with the main menu
+(if easy to transition awesome, if not, fade is okay)
+------------------------------------------------------
+
+
+Ideation (Nhi)
+-------------
+Alice in wonderland
++
+"Wake up maho" trialer
+
+
+1) maho told to wake up
+2) she is falling down
+3) bear come to help and transform her mid-air from school uniform into magic girl uniform
+4) by the time she touch the rooftop, she finish her transformation to magic girl
+5) we can now press play and start running as magic maho
+

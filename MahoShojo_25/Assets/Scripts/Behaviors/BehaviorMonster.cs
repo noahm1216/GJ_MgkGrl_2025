@@ -18,7 +18,8 @@ public class BehaviorMonster : MonoBehaviour
     // GENERAL   
     [Header("General Variables\n______________")]
     public MONSTERPLUSHIE monsterPlushy;
-    public MONSTERSTATE currentState = MONSTERSTATE.Waiting; // { get; private set; }     
+    public MONSTERSTATE currentState = MONSTERSTATE.Waiting; // { get; private set; }     // enable when testing monsters is done
+    public float timeUntilDespawn = 15f;
     public LayerMask groundLayers;
     public Transform playerObj;
     public SphereCollider collider;

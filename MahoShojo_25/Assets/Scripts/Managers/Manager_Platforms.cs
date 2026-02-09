@@ -214,7 +214,8 @@ public class Manager_Platforms : MonoBehaviour
         CheckForTutorial();
         CheckTimeStamps();
         MoveMaps();
-        CheckMonsterSpawner(); 
+        CheckMonsterSpawner();
+        RunMonsterBehavior();
         StartSpeedIsRampedUp();
         CheckForObstacles();
         CheckWinCondition();
@@ -712,6 +713,32 @@ public class Manager_Platforms : MonoBehaviour
             DespawnMonster();
     }
 
+    public void RemoveMonsterInPlay()
+    {
+        if (spawnedMonster)
+        {
+            monstersSpawned--;
+            monsterSignaledCapture = false;
+            print("Turn Off Monster Stuff In-game");
+            spawnedMonster.gameObject.SetActive(false);
+            ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.MovingForward, true);            
+        }
+    }
+
+    public void CaptureMonsterInPlay()
+    {
+        if (spawnedMonster)
+        {
+            print("Captured Monster!!");
+            ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.MovingForward, true);
+            spawnedMonster.gameObject.SetActive(false);            
+            Destroy(spawnedMonster, 2);
+            spawnedMonsterBehavior = null;
+            spawnedMonster = null;
+            monsterSignaledCapture = false;
+        }
+    }
+
     // TODO: REMOVE
     public void ChangeMonsterVariables(bool _readyToSpawn, bool _monsterInPlay, bool _successfulCapture)
     {
@@ -777,28 +804,33 @@ public class Manager_Platforms : MonoBehaviour
         monstersSpawned++;
 
         // spawn monster locally
-        spawnedMonster = Instantiate(monstersToSpawnInOrder[_idToSpawn]);
-        spawnedMonster.transform.position = distanceOkayToSpawnFromPlayer[_idToSpawn];
-        spawnedMonster.TryGetComponent(out spawnedMonsterBehavior);
+        if (!spawnedMonster)
+        {
+            spawnedMonster = Instantiate(monstersToSpawnInOrder[_idToSpawn]);
+            spawnedMonster.transform.position = distanceOkayToSpawnFromPlayer[_idToSpawn];
+            spawnedMonster.TryGetComponent(out spawnedMonsterBehavior);
 
-        print($"Manager Platform: Spawning Monster #{_idToSpawn}");
-        if (Manager_GameState.Instance) // communicating with Game Manager
-        {            
-            //spawnedMonster = Instantiate(monstersToSpawnInOrder[Manager_GameState.Instance.capturedCreatues_Unique]);
-            //spawnedMonster.transform.position = distanceOkayToSpawnFromPlayer[Manager_GameState.Instance.capturedCreatues_Unique];
-            //spawnedMonster.TryGetComponent(out spawnedMonsterBehavior);
-            Manager_GameState.Instance.objectsSpawnedDuringRuntime.Add(spawnedMonster);
-
-            if (Manager_TutorialUI.Instance) // TODO: replace this with check loadedlevel condition for "TextToShow"
+            print($"Manager Platform: Spawning Monster #{_idToSpawn}");
+            if (Manager_GameState.Instance) // communicating with Game Manager
             {
-                if (Manager_GameState.Instance.capturedCreatues_Unique == 0)
-                { Manager_TutorialUI.Instance.QueueMessage("Story_3"); Manager_TutorialUI.Instance.QueueMessage("Story_4"); }
-                if (Manager_GameState.Instance.capturedCreatues_Unique == 4)
-                { Manager_TutorialUI.Instance.QueueMessage("Story_6"); }
-                if (Manager_GameState.Instance.capturedCreatues_Unique == 5)
-                { Manager_TutorialUI.Instance.QueueMessage("Story_7"); Manager_TutorialUI.Instance.QueueMessage("Story_8"); Manager_TutorialUI.Instance.QueueMessage("Story_9"); }
+                //spawnedMonster = Instantiate(monstersToSpawnInOrder[Manager_GameState.Instance.capturedCreatues_Unique]);
+                //spawnedMonster.transform.position = distanceOkayToSpawnFromPlayer[Manager_GameState.Instance.capturedCreatues_Unique];
+                //spawnedMonster.TryGetComponent(out spawnedMonsterBehavior);
+                Manager_GameState.Instance.objectsSpawnedDuringRuntime.Add(spawnedMonster);
+
+                if (Manager_TutorialUI.Instance) // TODO: replace this with check loadedlevel condition for "TextToShow"
+                {
+                    if (Manager_GameState.Instance.capturedCreatues_Unique == 0)
+                    { Manager_TutorialUI.Instance.QueueMessage("Story_3"); Manager_TutorialUI.Instance.QueueMessage("Story_4"); }
+                    if (Manager_GameState.Instance.capturedCreatues_Unique == 4)
+                    { Manager_TutorialUI.Instance.QueueMessage("Story_6"); }
+                    if (Manager_GameState.Instance.capturedCreatues_Unique == 5)
+                    { Manager_TutorialUI.Instance.QueueMessage("Story_7"); Manager_TutorialUI.Instance.QueueMessage("Story_8"); Manager_TutorialUI.Instance.QueueMessage("Story_9"); }
+                }
             }
         }
+        else
+            spawnedMonster.gameObject.SetActive(true);
 
         timeMonsterSpawned = Time.time;
         //ChangeMonsterVariables(false, true, false);

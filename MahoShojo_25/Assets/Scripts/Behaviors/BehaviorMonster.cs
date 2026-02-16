@@ -22,7 +22,7 @@ public class BehaviorMonster : MonoBehaviour
     public float timeUntilDespawn = 15f;
     public LayerMask groundLayers;
     public Transform playerObj;
-    public SphereCollider collider;
+    public SphereCollider colliderSphere;
     public bool runIndependantly = false;
 
     private string tag_ToHunt = "Player";
@@ -121,7 +121,8 @@ public class BehaviorMonster : MonoBehaviour
         currentCapturePointsLeft = pointsUntilCaptured;
         spawnPosition = transform.position;
         startRotation = transform.rotation;
-        collider.enabled = false;
+        if (!colliderSphere) TryGetComponent(out colliderSphere);
+        if(colliderSphere) colliderSphere.enabled = false;
         if (startScale == Vector3.zero)
             startScale = transform.localScale;
         transform.localScale = startScale;
@@ -482,7 +483,7 @@ public class BehaviorMonster : MonoBehaviour
                 break;
             default:
                 if (!didStoreAttack)
-                { storedAttackPos = (playerObj.transform.position + positionalTargetOffset); didStoreAttack = true; collider.enabled = true; onRushAttacking.Invoke(); }
+                { storedAttackPos = (playerObj.transform.position + positionalTargetOffset); didStoreAttack = true; colliderSphere.enabled = true; onRushAttacking.Invoke(); }
 
                 var step = attackSpeed * Time.deltaTime; // calculate distance to move
                 transform.position = Vector3.MoveTowards(transform.position, storedAttackPos, step);
@@ -492,7 +493,7 @@ public class BehaviorMonster : MonoBehaviour
                 storedAttackPos += MoveWithBackground();
 
                 if (dist <= targetTolerance)
-                { ChangeState(MONSTERSTATE.Recovering); collider.enabled = false; }
+                { ChangeState(MONSTERSTATE.Recovering); colliderSphere.enabled = false; }
                 break;
         }
 
@@ -574,7 +575,7 @@ public class BehaviorMonster : MonoBehaviour
         { Manager_GameState.Instance.CaptureChange(1, pointsForCapturing); }
 
         if (Manager_Platforms.Instance)
-        { Manager_Platforms.Instance.ChangeMonsterVariables(true, false, true); }
+        { print("BehaviorMonster: CaptureEvents() - ChangeMonsterVariable HERE"); }// Manager_Platforms.Instance.ChangeMonsterVariables(true, false, true); }
 
         return true;
     }

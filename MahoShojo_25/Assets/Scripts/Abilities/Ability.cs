@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Ability : ScriptableObject
 {
-    public new string abilityName;
+    public string abilityName;
     public float cooldownTime;
     public float activeTime;
 

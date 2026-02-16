@@ -106,7 +106,6 @@ public class Manager_Platforms : MonoBehaviour
     public Transform[] monstersToSpawnInOrder;
     [Tooltip("The acceptable distance of those monsters")]
     public Vector3[] distanceOkayToSpawnFromPlayer;
-    public float waitTimeUntilDespawn = 20;
     public float waitTimeAfterCapture = 10;
 
     public bool readyToSpawn { get; private set; } // decidor when we can spawn
@@ -171,7 +170,7 @@ public class Manager_Platforms : MonoBehaviour
         SpawnStartingPlatforms();
 
         lastCaptureTimeStamp = Time.time + (waitTimeAfterCapture * 1.2f); // the first monster shouldnt spawn right away, but the normal pacing is good for most
-        ChangeMonsterVariables(true, false, false);
+        //ChangeMonsterVariables(true, false, false);
 
         if (startPlayerSlowly)
             startSpeedAccel = 0;
@@ -181,7 +180,7 @@ public class Manager_Platforms : MonoBehaviour
         if (!ref_BehaviorCameraFollower && Camera.main)
             Camera.main.TryGetComponent(out ref_BehaviorCameraFollower);
 
-        waitTimeUntilDespawnDynamic = waitTimeUntilDespawn;
+        //waitTimeUntilDespawnDynamic = waitTimeUntilDespawn;
     }
 
     // Update is called once per frame
@@ -198,7 +197,7 @@ public class Manager_Platforms : MonoBehaviour
         CheckDashing();   
     }
 
-    private void FixedUpdate() //TODO: refactor function calling we dont need to check all of these functions every frame, it can be more as-needed
+    private void FixedUpdate() //TODO: refactor function calling: we dont need to check all of these functions every frame, it can be more as-needed
     {
         if (FoundErrors())
             return;
@@ -330,8 +329,7 @@ public class Manager_Platforms : MonoBehaviour
     public void ResetMonsterTimers()
     {
         lastCaptureTimeStamp = Time.deltaTime;
-        timeMonsterSpawned = Time.time;
-        waitTimeUntilDespawnDynamic = waitTimeUntilDespawn;
+        timeMonsterSpawned = Time.time;        
         readyToSpawn = true;
     }
 
@@ -604,7 +602,7 @@ public class Manager_Platforms : MonoBehaviour
 
     public void RemoveAnyNullPlatforms() // this is called when we RESET ... so TODO: make a reset function that calls these things instead
     {
-        ChangeMonsterVariables(true, false, false);
+        //ChangeMonsterVariables(true, false, false);
 
         for (int i = 0; i < spawnedPlatformsInPlay.Count; i++)
         {
@@ -689,7 +687,10 @@ public class Manager_Platforms : MonoBehaviour
 
     public void CheckMonsterSpawner()
     {
-        if (monstersCaptured < monstersToSpawnInOrder.Length)
+        //if (isBlocked)
+               //lastCaptureTimeStamp += Time.deltaTime; // delays the monster spawning if we are standing still
+
+        if (monstersCaptured < monstersToSpawnInOrder.Length) // if we havent finished the list of monsters to spawn in this level
         {
             if (monstersCaptured == monstersSpawned) // if we have captured all the monster who have spawned...
             {
@@ -709,7 +710,7 @@ public class Manager_Platforms : MonoBehaviour
             }
         }
 
-        if (spawnedMonster != null && Time.time > timeMonsterSpawned + waitTimeUntilDespawnDynamic)
+        if (spawnedMonster != null && spawnedMonster.gameObject.activeSelf == true && Time.time > timeMonsterSpawned + waitTimeUntilDespawnDynamic)
             DespawnMonster();
     }
 
@@ -740,60 +741,61 @@ public class Manager_Platforms : MonoBehaviour
     }
 
     // TODO: REMOVE
-    public void ChangeMonsterVariables(bool _readyToSpawn, bool _monsterInPlay, bool _successfulCapture)
-    {
-        // NOTE TODO - when we have have captured all the monsters we needed to, thats when we play the end-game screen
+    //public void ChangeMonsterVariables(bool _readyToSpawn, bool _monsterInPlay, bool _successfulCapture)
+    //{
+    //    // NOTE TODO - when we have have captured all the monsters we needed to, thats when we play the end-game screen
 
-        if (monsterIsInPlay && !_monsterInPlay)
-            lastCaptureTimeStamp = Time.time;        
+    //    if (monsterIsInPlay && !_monsterInPlay)
+    //        lastCaptureTimeStamp = Time.time;        
 
-        readyToSpawn = _readyToSpawn;
-        monsterIsInPlay = _monsterInPlay;
+    //    readyToSpawn = _readyToSpawn;
+    //    monsterIsInPlay = _monsterInPlay;
 
-        if (_successfulCapture && Manager_TutorialUI.Instance && Manager_GameState.Instance)
-        {
-            print("successful capture");
-            if (Manager_GameState.Instance.capturedCreatues_Unique >= 4)
-            { }// do nothing
-            else
-                Manager_TutorialUI.Instance.QueueMessage("Story_5");
+    //    if (_successfulCapture && Manager_TutorialUI.Instance && Manager_GameState.Instance)
+    //    {
+    //        print("successful capture");
+    //        if (Manager_GameState.Instance.capturedCreatues_Unique >= 4)
+    //        { }// do nothing
+    //        else
+    //            Manager_TutorialUI.Instance.QueueMessage("Story_5");
 
-            if (Manager_GameState.Instance.capturedCreatues_Unique > 0)
-                waitTimeUntilDespawnDynamic = waitTimeUntilDespawn * (Manager_GameState.Instance.capturedCreatues_Unique * 1.1f); // Adds time to fight each monster  
-            else
-                waitTimeUntilDespawnDynamic = waitTimeUntilDespawn * (2f); // Adds first monster to spawn/despawn
-        }
+    //        if (Manager_GameState.Instance.capturedCreatues_Unique > 0)
+    //            waitTimeUntilDespawnDynamic = waitTimeUntilDespawn * (Manager_GameState.Instance.capturedCreatues_Unique * 1.1f); // Adds time to fight each monster  
+    //        else
+    //            waitTimeUntilDespawnDynamic = waitTimeUntilDespawn * (2f); // Adds first monster to spawn/despawn
+    //    }
 
-        if (!_monsterInPlay && ref_BehaviorCameraFollower)
-            ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.MovingForward, true);
+    //    if (!_monsterInPlay && ref_BehaviorCameraFollower)
+    //        ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.MovingForward, true);
 
-        monsterSignaledCapture = false; // reset our capture situation so we can despawn if needed
-    }
+    //    monsterSignaledCapture = false; // reset our capture situation so we can despawn if needed
+    //}
+
     // TODO: REMOVE
-    private void CheckForMonsterSpawn() // TODO: this needs refactoring... this functions purpose is to spawn monster if ready... COMBINED with "ChangeMonsterVariables" (above) we can have a singular checker
-    {
-        //if (Manager_GameState.Instance && Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing)
-        //{ print($"no spawning monsters during { Manager_GameState.Instance.currentState} mode");  return; }
+    //private void CheckForMonsterSpawn() // TODO: this needs refactoring... this functions purpose is to spawn monster if ready... COMBINED with "ChangeMonsterVariables" (above) we can have a singular checker
+    //{
+    //    //if (Manager_GameState.Instance && Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing)
+    //    //{ print($"no spawning monsters during { Manager_GameState.Instance.currentState} mode");  return; }
        
 
-        if (Time.time > timeMonsterSpawned + waitTimeUntilDespawnDynamic && spawnedMonster != null)
-            DespawnMonster();
+    //    if (Time.time > timeMonsterSpawned + waitTimeUntilDespawnDynamic && spawnedMonster != null)
+    //        DespawnMonster();
 
-        print("TODO: Incorporate our level requirements...\n(1) Distance \n(2) Time \n(3) Score");
-        if (readyToSpawn)
-        {
-            if (!monsterIsInPlay)
-            {
-                if (isBlocked)
-                    lastCaptureTimeStamp += Time.deltaTime; // delays the monster spawning if we are standing still
+    //    print("TODO: Incorporate our level requirements...\n(1) Distance \n(2) Time \n(3) Score");
+    //    if (readyToSpawn)
+    //    {
+    //        if (!monsterIsInPlay)
+    //        {
+    //            if (isBlocked)
+    //                lastCaptureTimeStamp += Time.deltaTime; // delays the monster spawning if we are standing still
 
-                //if (Time.time > lastCaptureTimeStamp + waitTimeAfterCapture) // UNCOMMENTED DURING REFACTOR
-                //    SpawnMonster();
-                //else
-                //    print("waiting to spawn a new monster");
-            }
-        }
-    }
+    //            //if (Time.time > lastCaptureTimeStamp + waitTimeAfterCapture) // UNCOMMENTED DURING REFACTOR
+    //            //    SpawnMonster();
+    //            //else
+    //            //    print("waiting to spawn a new monster");
+    //        }
+    //    }
+    //}
 
     public void SpawnMonster(int _idToSpawn)
     {
@@ -832,6 +834,7 @@ public class Manager_Platforms : MonoBehaviour
         else
             spawnedMonster.gameObject.SetActive(true);
 
+        waitTimeUntilDespawnDynamic = spawnedMonsterBehavior.timeUntilDespawn;
         timeMonsterSpawned = Time.time;
         //ChangeMonsterVariables(false, true, false);
         //monstersSpawned++;
@@ -845,7 +848,7 @@ public class Manager_Platforms : MonoBehaviour
 
     public void RunMonsterBehavior()
     {
-        if (spawnedMonsterBehavior)
+        if (spawnedMonsterBehavior && spawnedMonster && spawnedMonster.gameObject.activeSelf == true)
          spawnedMonsterBehavior.RunMonsterBehavior(); 
     }
 
@@ -862,7 +865,7 @@ public class Manager_Platforms : MonoBehaviour
             spawnedMonsterBehavior = null;
             monstersSpawned--;
             timeMonsterSpawned = Time.time;
-            ChangeMonsterVariables(true, false, false);
+            //ChangeMonsterVariables(true, false, false);
             if (Manager_GameState.Instance)
             {
                 Manager_GameState.Instance.objectsSpawnedDuringRuntime.Remove(spawnedMonster);

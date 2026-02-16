@@ -25,7 +25,7 @@ public class ChargingPocki : MonoBehaviour // TODO: Add a reference to player an
 
     private float timeStampPressedKey;
     private float chargePercent = 0;
-    private float pockiFollowSpeed = 4.5f;
+    //private float pockiFollowSpeed = 4.5f;
     // -C
     private List<Vector3> chargingPockiPositions = new List<Vector3>();
     private List<Transform> chargingPockiArtObjs = new List<Transform>();

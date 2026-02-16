@@ -15,8 +15,8 @@ public class PlayerCore : MonoBehaviour
 
     [Tooltip("Move our character up")]
     private KeyCode key_MoveUp2 = KeyCode.UpArrow;
-    [Tooltip("Move our character down")]
-    private KeyCode key_MoveDown2 = KeyCode.DownArrow;
+    //[Tooltip("Move our character down")]
+    //private KeyCode key_MoveDown2 = KeyCode.DownArrow;
 
 
     [Space]

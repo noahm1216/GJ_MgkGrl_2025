@@ -39,8 +39,8 @@ public class CustomTextMessageData
     public float timeToDisplayTex = 8;
     [Tooltip("The character icon image for who will show up when the line is being spoken")]
     public Sprite characterIconSpeaking;
-    [Tooltip("When assigned, this text will not play before the assigned text even if it's condition is met")]
-    public CustomTextMessageData requiredTextBefore;
+    [Tooltip("When a MessageNickname is provided, this text will not play before the assigned text even if it's condition is met")]
+    public string requiredTextBefore;
     public CustomConditionVariables requiredConditions;
     [HideInInspector] public bool hasPlayed;
     [Tooltip("When checked, this message will play again when its condition is met. Unchecked means it will only play one time")]

@@ -135,18 +135,74 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
   listOfTextToShow:
-  - messageNickname: Test Text
-    textToSay: Maho!!!! Oh my gosh... I cannot believe this text finally reached
-      you
+  - messageNickname: Story 01 - Intro To Bear
+    textToSay: "Don\u2019t be scared, Maho. I\u2019m Bear, your best friend, remember? "
+    timeToDisplayTex: 8
     characterIconSpeaking: {fileID: 21300000, guid: 2bf95750dd301c242bf52e596ea58e18,
       type: 3}
+    requiredTextBefore: 
     requiredConditions:
-      conditionNickname: Starting out the level
+      conditionNickname: 
       numberOfRequiredConditions: 1
       distanceTravel: 3
       timePassed: 0
       scoreAchieved: 0
       monstersSpawned: 0
+      monstersCaptured: 0
+      hitPointsCurrent: 0
+      hitPointsChange: 0
+    hasPlayed: 1
+    messageCanRepeat: 0
+  - messageNickname: Story 02 - Intro To Bear
+    textToSay: 'With magic, I will help you get home safely. Follow me! '
+    timeToDisplayTex: 8
+    characterIconSpeaking: {fileID: 21300000, guid: 2bf95750dd301c242bf52e596ea58e18,
+      type: 3}
+    requiredTextBefore: Story 01 - Intro To Bear
+    requiredConditions:
+      conditionNickname: 
+      numberOfRequiredConditions: 1
+      distanceTravel: 1
+      timePassed: 0
+      scoreAchieved: 0
+      monstersSpawned: 0
+      monstersCaptured: 0
+      hitPointsCurrent: 0
+      hitPointsChange: 0
+    hasPlayed: 1
+    messageCanRepeat: 0
+  - messageNickname: Story 03 - Intro To Jelly
+    textToSay: "Oh, don\u2019t worry, it\u2019s just a slow Jelly. Try to dodge it
+      using your movement. "
+    timeToDisplayTex: 8
+    characterIconSpeaking: {fileID: 21300000, guid: 2bf95750dd301c242bf52e596ea58e18,
+      type: 3}
+    requiredTextBefore: 
+    requiredConditions:
+      conditionNickname: 
+      numberOfRequiredConditions: 1
+      distanceTravel: 0
+      timePassed: 0
+      scoreAchieved: 0
+      monstersSpawned: 1
+      monstersCaptured: 0
+      hitPointsCurrent: 0
+      hitPointsChange: 0
+    hasPlayed: 0
+    messageCanRepeat: 0
+  - messageNickname: Story 04 - Capture Jelly
+    textToSay: 'Shoot Jelly with Pokie, it will scare her away!  '
+    timeToDisplayTex: 12
+    characterIconSpeaking: {fileID: 21300000, guid: 2bf95750dd301c242bf52e596ea58e18,
+      type: 3}
+    requiredTextBefore: Story 03 - Intro To Jelly
+    requiredConditions:
+      conditionNickname: 
+      numberOfRequiredConditions: 2
+      distanceTravel: 400
+      timePassed: 0
+      scoreAchieved: 0
+      monstersSpawned: 1
       monstersCaptured: 0
       hitPointsCurrent: 0
       hitPointsChange: 0

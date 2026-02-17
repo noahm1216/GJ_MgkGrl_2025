@@ -249,12 +249,11 @@ public class Manager_Platforms : MonoBehaviour
             }
         }
     }
-
     
 
     public void UpdateCurrentLoadedLevel(PlatformScriptableObject _newLevelToUpdate)
     {
-        print("Manager Platform: Updating Current Loaded Level Attempt");
+        //print("Manager Platform: Updating Current Loaded Level Attempt");
 
         CurrentLoadedLevel = _newLevelToUpdate; // assign the references   
         
@@ -270,9 +269,9 @@ public class Manager_Platforms : MonoBehaviour
             monstersCaptured = 0;
             // player
             if (PlayerReference) PlayerReference.transform.position += new Vector3(0, 1, 0);
-        }
+        }       
 
-        if (_newLevelToUpdate) print($"Manager Platform: UpdatedLevel to: {_newLevelToUpdate.levelName}"); // log it
+        if (_newLevelToUpdate) { ResetLevelMessageData(); print($"Manager Platform: UpdatedLevel to: {_newLevelToUpdate.levelName}"); } // log it
         else print("Manager Platform: Unable To Load Null level");
     }
 
@@ -889,6 +888,12 @@ public class Manager_Platforms : MonoBehaviour
         }
     }
 
+    public void ResetLevelMessageData()
+    {
+        for (int i = 0; i < CurrentLoadedLevel.listOfTextToShow.Count; i++)
+            CurrentLoadedLevel.listOfTextToShow[i].hasPlayed = false;
+    }
+
     public void CheckLevelMessages()
     {
         if (!CurrentLoadedLevel || CurrentLoadedLevel.listOfTextToShow.Count == 0)
@@ -897,19 +902,21 @@ public class Manager_Platforms : MonoBehaviour
 
         for (int i = 0; i < CurrentLoadedLevel.listOfTextToShow.Count; i++)
         {
+            print("Looping Levels Text | Checking Conditions");
             if (Manager_GameState.Instance.CheckMetConditions( // if we met the conditions for the text to display
-                Manager_GameState.Instance.dataSinceLevelStarted,
-                CurrentLoadedLevel.listOfTextToShow[i].requiredConditions)
-                )
+                Manager_GameState.Instance.dataSinceLevelStarted, CurrentLoadedLevel.listOfTextToShow[i].requiredConditions))
             {
-                if (CurrentLoadedLevel.listOfTextToShow[i].hasPlayed && !CurrentLoadedLevel.listOfTextToShow[i].messageCanRepeat) return;// non repeatables already played, stop here
-                if (CurrentLoadedLevel.listOfTextToShow[i].requiredTextBefore != null) // if there is a text we want to show first, we check it here
+                print($"We Met A Condition For: {CurrentLoadedLevel.listOfTextToShow[i].messageNickname}");
+                if (CurrentLoadedLevel.listOfTextToShow[i].hasPlayed && !CurrentLoadedLevel.listOfTextToShow[i].messageCanRepeat)  continue; // non repeatables already played, skip here
+
+                if (!string.IsNullOrEmpty(CurrentLoadedLevel.listOfTextToShow[i].requiredTextBefore)) // if there is a text we want to show first, we check it here
                     for (int j = 0; j < CurrentLoadedLevel.listOfTextToShow.Count; j++) // loop the text again & if our match hasn't been played
-                        if (CurrentLoadedLevel.listOfTextToShow[j] == CurrentLoadedLevel.listOfTextToShow[i].requiredTextBefore && !CurrentLoadedLevel.listOfTextToShow[j].hasPlayed)
-                            return; // stop
+                        if (CurrentLoadedLevel.listOfTextToShow[j].messageNickname == CurrentLoadedLevel.listOfTextToShow[i].requiredTextBefore && !CurrentLoadedLevel.listOfTextToShow[j].hasPlayed)
+                         continue; // skip
 
                 Manager_TutorialUI.Instance.QueueMessageToShow(CurrentLoadedLevel.listOfTextToShow[i]);
                 CurrentLoadedLevel.listOfTextToShow[i].hasPlayed = true;
+                print($"Queued Message: {CurrentLoadedLevel.listOfTextToShow[i].messageNickname}");
                 break;
             }
         }

@@ -141,9 +141,9 @@ MonoBehaviour:
     characterIconSpeaking: {fileID: 21300000, guid: 2bf95750dd301c242bf52e596ea58e18,
       type: 3}
     requiredConditions:
-      conditionNickname: 
-      numberOfRequiredConditions: 0
-      distanceTravel: 0
+      conditionNickname: Starting out the level
+      numberOfRequiredConditions: 1
+      distanceTravel: 3
       timePassed: 0
       scoreAchieved: 0
       monstersSpawned: 0
@@ -151,3 +151,4 @@ MonoBehaviour:
       hitPointsCurrent: 0
       hitPointsChange: 0
     hasPlayed: 0
+    messageCanRepeat: 0

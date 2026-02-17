@@ -210,11 +210,13 @@ public class Manager_Platforms : MonoBehaviour
         }
 
         // TODO: Maybe we can delay how frequently we check for some of these (instead of every frame)
-        CheckForTutorial();
+        CheckForTutorial(); // TODO: we will replace this entirely with our new message system 
+        CheckLevelMessages();
         CheckTimeStamps();
         MoveMaps();
         CheckMonsterSpawner();
         RunMonsterBehavior();
+        
         StartSpeedIsRampedUp();
         CheckForObstacles();
         CheckWinCondition();
@@ -227,10 +229,7 @@ public class Manager_Platforms : MonoBehaviour
     private void CheckTimeStamps()
     {
         if (!isBlocked)
-            blockedTimeStamp = Time.time;
-        if (Time.time > blockedTimeStamp + blockedTimeUntilControlsPopUp && Manager_TutorialUI.Instance)
-        { Manager_TutorialUI.Instance.QueueMessage("Controls_Jump"); blockedTimeStamp = Time.time; }
-    
+            blockedTimeStamp = Time.time;    
     }
 
     private void CheckWinCondition()
@@ -251,18 +250,7 @@ public class Manager_Platforms : MonoBehaviour
         }
     }
 
-    private void CheckForTutorial()
-    {
-        if (Time.time > timePressedJumpOrMove + timeUntilShowTutorial && !pressedMove)
-        {
-            if (Manager_TutorialUI.Instance)
-            {
-                Manager_TutorialUI.Instance.QueueMessage("Controls_Move");
-                Manager_TutorialUI.Instance.QueueMessage("Controls_Dash");
-                timePressedJumpOrMove = Time.time;
-            }
-        }
-    }
+    
 
     public void UpdateCurrentLoadedLevel(PlatformScriptableObject _newLevelToUpdate)
     {
@@ -664,7 +652,7 @@ public class Manager_Platforms : MonoBehaviour
             spawnedPockiBoxObj.gameObject.SetActive(true);
 
             // read tutorial line
-            Manager_TutorialUI.Instance.QueueMessage("Controls_Pokie");
+            //Manager_TutorialUI.Instance.QueueMessage("Controls_Pokie");
         }
         else
             Debug.Log("WARNING: Pocki box wasnt able to find surface to land on");
@@ -820,15 +808,15 @@ public class Manager_Platforms : MonoBehaviour
                 //spawnedMonster.TryGetComponent(out spawnedMonsterBehavior);
                 Manager_GameState.Instance.objectsSpawnedDuringRuntime.Add(spawnedMonster);
 
-                if (Manager_TutorialUI.Instance) // TODO: replace this with check loadedlevel condition for "TextToShow"
-                {
-                    if (Manager_GameState.Instance.capturedCreatues_Unique == 0)
-                    { Manager_TutorialUI.Instance.QueueMessage("Story_3"); Manager_TutorialUI.Instance.QueueMessage("Story_4"); }
-                    if (Manager_GameState.Instance.capturedCreatues_Unique == 4)
-                    { Manager_TutorialUI.Instance.QueueMessage("Story_6"); }
-                    if (Manager_GameState.Instance.capturedCreatues_Unique == 5)
-                    { Manager_TutorialUI.Instance.QueueMessage("Story_7"); Manager_TutorialUI.Instance.QueueMessage("Story_8"); Manager_TutorialUI.Instance.QueueMessage("Story_9"); }
-                }
+                //if (Manager_TutorialUI.Instance) // TODO: replace this with check loadedlevel condition for "TextToShow"
+                //{
+                //    if (Manager_GameState.Instance.capturedCreatues_Unique == 0)
+                //    { Manager_TutorialUI.Instance.QueueMessage("Story_3"); Manager_TutorialUI.Instance.QueueMessage("Story_4"); }
+                //    if (Manager_GameState.Instance.capturedCreatues_Unique == 4)
+                //    { Manager_TutorialUI.Instance.QueueMessage("Story_6"); }
+                //    if (Manager_GameState.Instance.capturedCreatues_Unique == 5)
+                //    { Manager_TutorialUI.Instance.QueueMessage("Story_7"); Manager_TutorialUI.Instance.QueueMessage("Story_8"); Manager_TutorialUI.Instance.QueueMessage("Story_9"); }
+                //}
             }
         }
         else
@@ -879,9 +867,56 @@ public class Manager_Platforms : MonoBehaviour
     }
     #endregion MONSTERS
 
-    
+    #region MESSAGES/TUTORIALS
+    private void CheckForTutorial() // TODO: we can remove this, or revamp it since this type of text will be relayed globally
+    {
+        if (Time.time > blockedTimeStamp + blockedTimeUntilControlsPopUp && Manager_TutorialUI.Instance)
+        {
+            print("Originally we show the character a text/message about jumping here");
+            //Manager_TutorialUI.Instance.QueueMessage("Controls_Jump");
+            blockedTimeStamp = Time.time;
+        }
 
-   
+        if (Time.time > timePressedJumpOrMove + timeUntilShowTutorial && !pressedMove)
+        {
+            if (Manager_TutorialUI.Instance)
+            {
+                print("Originally we show text that helps people move / jump / dash at this moment");
+                //Manager_TutorialUI.Instance.QueueMessage("Controls_Move");
+                //Manager_TutorialUI.Instance.QueueMessage("Controls_Dash");
+                timePressedJumpOrMove = Time.time;
+            }
+        }
+    }
+
+    public void CheckLevelMessages()
+    {
+        if (!CurrentLoadedLevel || CurrentLoadedLevel.listOfTextToShow.Count == 0)
+        { Debug.Log("Manager_Platform: CheckMessages - Missing Data For TextToShow/CurrentLoadedLevel"); return; }
+        if (!Manager_GameState.Instance || !Manager_TutorialUI.Instance) { Debug.Log("Manager_Platform: CheckMessages - Missing Important Manager References"); return; }
+
+        for (int i = 0; i < CurrentLoadedLevel.listOfTextToShow.Count; i++)
+        {
+            if (Manager_GameState.Instance.CheckMetConditions( // if we met the conditions for the text to display
+                Manager_GameState.Instance.dataSinceLevelStarted,
+                CurrentLoadedLevel.listOfTextToShow[i].requiredConditions)
+                )
+            {
+                if (CurrentLoadedLevel.listOfTextToShow[i].hasPlayed && !CurrentLoadedLevel.listOfTextToShow[i].messageCanRepeat) return;// non repeatables already played, stop here
+                if (CurrentLoadedLevel.listOfTextToShow[i].requiredTextBefore != null) // if there is a text we want to show first, we check it here
+                    for (int j = 0; j < CurrentLoadedLevel.listOfTextToShow.Count; j++) // loop the text again & if our match hasn't been played
+                        if (CurrentLoadedLevel.listOfTextToShow[j] == CurrentLoadedLevel.listOfTextToShow[i].requiredTextBefore && !CurrentLoadedLevel.listOfTextToShow[j].hasPlayed)
+                            return; // stop
+
+                Manager_TutorialUI.Instance.QueueMessageToShow(CurrentLoadedLevel.listOfTextToShow[i]);
+                CurrentLoadedLevel.listOfTextToShow[i].hasPlayed = true;
+                break;
+            }
+        }
+    }
+    #endregion end messages/tutorials
+
+
 
 }// end of manager-platform class
 

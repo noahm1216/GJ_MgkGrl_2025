@@ -13,10 +13,10 @@ public class Manager_TutorialUI : MonoBehaviour
     public Sprite imgBearyNormal, imgBearySmirky;
     public List<CustomMessageData> messageLibrary = new List<CustomMessageData>();
 
-    private float textDisplayTime = 8; // show time
+    //private float textDisplayTime = 8; // show time
     private float waitUntilNewTextTime = 2; // time until next one can show next one
     private float textDisplayTimeStamp;
-    private List<CustomMessageData> queuedMessages = new List<CustomMessageData>();
+    private List<CustomTextMessageData> queuedMessages = new List<CustomTextMessageData>();
 
     [Space]
     [Space]
@@ -57,17 +57,25 @@ public class Manager_TutorialUI : MonoBehaviour
         //    textDisplayTimeStamp += Time.time; // make sure our tutorial time doesnt show messages too early
     }
 
-    public void QueueMessage(string _lookUpName)
+    public void QueueMessageToShow(CustomTextMessageData _newMessage)
     {
-        CustomMessageData messageToAdd = null;
-
-        messageToAdd = MessageLookup(_lookUpName);
-
-        if (messageToAdd == null || queuedMessages.Contains(messageToAdd))
+        if (_newMessage == null || queuedMessages.Contains(_newMessage))
             return;
         else // add the message to the queue
-            queuedMessages.Add(messageToAdd);
+            queuedMessages.Add(_newMessage);
     }
+
+    //public void QueueMessage(string _lookUpName) // ToDo: DEPRECATE
+    //{
+    //    CustomMessageData messageToAdd = null;
+
+    //    messageToAdd = MessageLookup(_lookUpName);
+
+    //    if (messageToAdd == null || queuedMessages.Contains(messageToAdd))
+    //        return;
+    //    else // add the message to the queue
+    //        queuedMessages.Add(messageToAdd);
+    //}
 
     private void PlayFromQueue()
     {
@@ -83,34 +91,34 @@ public class Manager_TutorialUI : MonoBehaviour
             queuedMessages.RemoveAt(_removeAtId);
     }
     
-    private CustomMessageData MessageLookup(string _lookUpName)
-    {
-        if (string.IsNullOrEmpty(_lookUpName) || messageLibrary.Count == 0)
-        { Debug.Log($"WARNING: Empty/Null LookUp - {_lookUpName}"); return null; }
+    //private CustomMessageData MessageLookup(string _lookUpName)
+    //{
+    //    if (string.IsNullOrEmpty(_lookUpName) || messageLibrary.Count == 0)
+    //    { Debug.Log($"WARNING: Empty/Null LookUp - {_lookUpName}"); return null; }
 
-        for (int i = 0; i < messageLibrary.Count; i++) { // check our libray for the lookup code and additional data
-            if (messageLibrary[i].lookUpName.ToLower() == _lookUpName.ToLower()) {
-                if (messageLibrary[i].messageType == CustomMessageData.MessageType.OneTime)
-                {
-                    if (messageLibrary[i].timesPlayed < 1)
-                    {
-                        messageLibrary[i].timesPlayed++;
-                        return messageLibrary[i];
-                    }
-                    else
-                        return null;
-                }
-                else
-                {
-                    messageLibrary[i].timesPlayed++;
-                    return messageLibrary[i];
-                }
-            }
-        }
+    //    for (int i = 0; i < messageLibrary.Count; i++) { // check our libray for the lookup code and additional data
+    //        if (messageLibrary[i].lookUpName.ToLower() == _lookUpName.ToLower()) {
+    //            if (messageLibrary[i].messageType == CustomMessageData.MessageType.OneTime)
+    //            {
+    //                if (messageLibrary[i].timesPlayed < 1)
+    //                {
+    //                    messageLibrary[i].timesPlayed++;
+    //                    return messageLibrary[i];
+    //                }
+    //                else
+    //                    return null;
+    //            }
+    //            else
+    //            {
+    //                messageLibrary[i].timesPlayed++;
+    //                return messageLibrary[i];
+    //            }
+    //        }
+    //    }
 
-        Debug.Log($"WARNING: Unable To Lookup - {_lookUpName}");
-        return null;
-    }
+    //    Debug.Log($"WARNING: Unable To Lookup - {_lookUpName}");
+    //    return null;
+    //}
 
     public void SetCaptureShowcase(int _howManyCaptured)
     {
@@ -146,21 +154,21 @@ public class Manager_TutorialUI : MonoBehaviour
         StartCoroutine(GameIntroForcedDelayOnStart());
     }
 
-    public void ShowText(CustomMessageData _queuedMessage)
+    public void ShowText(CustomTextMessageData _queuedMessage)
     {
 
-        if (string.IsNullOrEmpty(_queuedMessage.messageContent)) // error
+        if (string.IsNullOrEmpty(_queuedMessage.textToSay)) // error
             speechText.text = "Whoops ... I was just about to say something but I forgot... Sorry Maho somethings wrong with me lately.";
         else
-            speechText.text = _queuedMessage.messageContent;
+            speechText.text = _queuedMessage.textToSay;
         
-        if (_queuedMessage.useSneakyBearIcon)
-            imgBearHolder.sprite = imgBearySmirky;
+        if (_queuedMessage.characterIconSpeaking)
+            imgBearHolder.sprite = _queuedMessage.characterIconSpeaking;
         else
             imgBearHolder.sprite = imgBearyNormal;
 
-        if (Manager_GameState.Instance && Manager_GameState.Instance.capturedCreatues_Unique == 5) // NOTE: right now changing the bear to smirky once we are about to fight him or are fighting him
-            imgBearHolder.sprite = imgBearySmirky;
+        //if (Manager_GameState.Instance && Manager_GameState.Instance.capturedCreatues_Unique == 5) // NOTE: right now changing the bear to smirky once we are about to fight him or are fighting him
+            //imgBearHolder.sprite = imgBearySmirky;
 
         imgBearHolder.gameObject.SetActive(true);
     }
@@ -174,10 +182,10 @@ public class Manager_TutorialUI : MonoBehaviour
         RemoveQueuedMessage(0);
     }
 
-    private IEnumerator PlayQueueMessage(CustomMessageData _queuedMessage)
+    private IEnumerator PlayQueueMessage(CustomTextMessageData _queuedMessage)
     {
         ShowText(_queuedMessage);
-        yield return new WaitForSeconds(textDisplayTime);
+        yield return new WaitForSeconds(_queuedMessage.timeToDisplayTex);
         HideText();
     }
 
@@ -203,8 +211,9 @@ public class Manager_TutorialUI : MonoBehaviour
     private IEnumerator GameIntroForcedDelayOnStart()
     {        
         yield return new WaitForSeconds(10);
-        QueueMessage("Story_1");
-        QueueMessage("Story_2");
+        print("Used to show the tutorial intro text here");
+        //QueueMessage("Story_1");
+        //QueueMessage("Story_2");
     }
 
     public void ShowGameOverScreen()
@@ -236,10 +245,11 @@ public class CustomMessageData
     public enum MessageType { OneTime, Repeatable, DebugText, }
 
 
-    public string lookUpName = "";    
+    public string lookUpName = "";
     public MessageType messageType;
     public int timesPlayed;
     public bool useSneakyBearIcon;
+    public Sprite iconToUse;
     [TextArea]
     public string messageContent;
 

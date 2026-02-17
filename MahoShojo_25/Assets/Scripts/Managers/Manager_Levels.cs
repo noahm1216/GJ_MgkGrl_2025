@@ -43,6 +43,39 @@ public class Manager_Levels : MonoBehaviour
         CheckLevelSaveData();
     }
 
+    public void BeatLevel(int _levelId)
+    {
+        print("Level Manager: Beat Level Attempt");
+        if (levelsList.Length == 0 || _levelId < 0) { Debug.LogError("Level Manager: Missing Level data ..."); return; }       
+
+        for (int i = 0; i < levelsList.Length; i++)
+        {
+            if (i == _levelId)
+            {
+                if (levelsList[i] == null) { Debug.LogError("Level Manager: Missing Level data Level"); return; }
+                print($"Found Level To Beat: {levelsList[i].levelName}");
+                if (!levelsList[_levelId].levelBeat) levelsList[i].levelBeat = true;
+            }
+        }
+    }
+
+    public void UnlockLevel(int _levelId)
+    {
+        print("Level Manager: Unlock Level Attempt");
+        if (levelsList.Length == 0 || _levelId < 0) { Debug.LogError("Level Manager: Missing Level data ..."); return; }
+
+        for (int i = 0; i < levelsList.Length; i++)
+        {
+            if (i == _levelId)
+            {
+                if (levelsList[i] == null) { Debug.LogError("Level Manager: Missing Level data Level"); return; }
+                print($"Found Level To Load: {levelsList[i].levelName}");
+                if (!levelsList[_levelId].levelUnlocked) levelsList[i].levelUnlocked = true;
+            }
+        }
+        
+    }
+
     public void CheckLevelSaveData() //TODO: get data for levels we have unlocked
     {
         print("Level Manager: Data Loading");
@@ -64,6 +97,8 @@ public class Manager_Levels : MonoBehaviour
             {
                 if(levelsList[i] == null) { Debug.LogError("Level Manager: Missing Level data Level"); return; }
                 print($"Found Level To Load: {levelsList[i].levelName}");
+                if (Manager_GameState.Instance)
+                    Manager_GameState.Instance.UpdateRecentLevel(i);
                 if (Manager_Platforms.Instance)
                     Manager_Platforms.Instance.UpdateCurrentLoadedLevel(levelsList[i]);               
             }

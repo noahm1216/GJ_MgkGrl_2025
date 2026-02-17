@@ -32,7 +32,9 @@ public class Manager_GameState : MonoBehaviour
     private Quaternion[] startRotations;
     private bool[] wasEnabled;
    [HideInInspector] public List<Transform> objectsSpawnedDuringRuntime = new List<Transform>();
-   
+
+
+    public int mostRecentLevel {get; private set; } = 0; 
 
     [Space]
     [Header("Hit Points \n______________")]
@@ -253,9 +255,16 @@ public class Manager_GameState : MonoBehaviour
 
     #region GameOver And Restarts
 
-    public void WonTheGame()
+    public void UpdateRecentLevel(int _levelId)
+    {
+        mostRecentLevel = _levelId;
+    }
+
+    public void WonTheGame() // TODO: rename to "WonTheLevel" (and update any functions calling it)
     {
         ChangeState(GAMESTATE.Won);
+        if (Manager_Levels.Instance)
+        { Manager_Levels.Instance.BeatLevel(mostRecentLevel); Manager_Levels.Instance.UnlockLevel(mostRecentLevel+1); }
         if (Manager_TutorialUI.Instance)
             Manager_TutorialUI.Instance.ShowWinGameScreen();
         if (Manager_Audio.Instance)

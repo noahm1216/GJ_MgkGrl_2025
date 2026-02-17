@@ -696,9 +696,11 @@ public class Manager_Platforms : MonoBehaviour
                 }
             }
         }
-
-        if (spawnedMonster != null && spawnedMonster.gameObject.activeSelf == true && Time.time > timeMonsterSpawned + waitTimeUntilDespawnDynamic)
-            DespawnMonster();
+        // if we have a monster, it's enabled, enough time has passed, and it hasnt been captured
+        if (spawnedMonster != null && spawnedMonster.gameObject.activeSelf == true &&
+            Time.time > timeMonsterSpawned + waitTimeUntilDespawnDynamic && 
+            spawnedMonsterBehavior.currentState != BehaviorMonster.MONSTERSTATE.Captured)
+            DespawnMonster(false); // despawn the monster
     }
 
     public void RemoveMonsterInPlay()
@@ -787,10 +789,13 @@ public class Manager_Platforms : MonoBehaviour
     public void SpawnMonster(int _idToSpawn)
     {
         // BEGIN with a return that stops if we already spawned all the monsters 
-        if (_idToSpawn > CurrentLoadedLevel.monstersToSpawn.Length && CurrentLoadedLevel.spawnMonstersEndlessly == false)
-        { print("We have spawned all possible monsters"); return; }
+        if (_idToSpawn > CurrentLoadedLevel.monstersToSpawn.Length)
+        {
+            if (CurrentLoadedLevel.spawnMonstersEndlessly == false) { print("We have spawned all possible monsters"); return; }
+            else _idToSpawn = 0;
+        }
 
-        monstersSpawned++;
+        //monstersSpawned++;
 
         // spawn monster locally
         if (!spawnedMonster)
@@ -821,14 +826,15 @@ public class Manager_Platforms : MonoBehaviour
         else
             spawnedMonster.gameObject.SetActive(true);
 
-        waitTimeUntilDespawnDynamic = spawnedMonsterBehavior.timeUntilDespawn;
+        waitTimeUntilDespawnDynamic = CurrentLoadedLevel.monstersToSpawn[_idToSpawn].timeUntilDespawn;
         timeMonsterSpawned = Time.time;
         //ChangeMonsterVariables(false, true, false);
-        //monstersSpawned++;
+        monstersSpawned++;
 
-        if (ref_BehaviorCameraFollower)
-            ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.FightingMonster, true);
+        //if (ref_BehaviorCameraFollower)
+        //    ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.FightingMonster, true);
 
+        if (Manager_GameState.Instance) Manager_GameState.Instance.SpawnChange(1);
         //print("SPAWNED MONSTER");
     }
 
@@ -839,17 +845,23 @@ public class Manager_Platforms : MonoBehaviour
          spawnedMonsterBehavior.RunMonsterBehavior(); 
     }
 
-    public void DespawnMonster()
+    public void DespawnMonster(bool _wasCaptured)
     {
         //print("Checking if we need to despawn monster");
 
         // if we have spawned at least 1 monster and its active now and we havent captured it yet
-        if (monstersSpawned > 0 && spawnedMonster != null && !monsterSignaledCapture) 
+        if (monstersSpawned > 0) 
         {
-            //print("Despawning MONSTER");       
-            Destroy(spawnedMonster.gameObject, 1);
-            spawnedMonster = null;
-            spawnedMonsterBehavior = null;
+            if (_wasCaptured)
+            {
+                //print("Despawning MONSTER");       
+                Destroy(spawnedMonster.gameObject, 1);
+                spawnedMonster = null;
+                spawnedMonsterBehavior = null;
+            }
+            else
+                spawnedMonster.gameObject.SetActive(false);
+
             monstersSpawned--;
             timeMonsterSpawned = Time.time;
             //ChangeMonsterVariables(true, false, false);
@@ -857,7 +869,10 @@ public class Manager_Platforms : MonoBehaviour
             {
                 Manager_GameState.Instance.objectsSpawnedDuringRuntime.Remove(spawnedMonster);
                 Manager_GameState.Instance.ResetDataSinceMonsterSpawn();
+                if(!_wasCaptured) Manager_GameState.Instance.SpawnChange(-1);
             }
+
+            ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.MovingForward, true);
 
             // spawn pocki if we havent collected it yet
             if (!playerUnlockedPockiBox)

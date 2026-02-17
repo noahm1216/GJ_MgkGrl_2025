@@ -19,7 +19,7 @@ public class BehaviorMonster : MonoBehaviour
     [Header("General Variables\n______________")]
     public MONSTERPLUSHIE monsterPlushy;
     public MONSTERSTATE currentState = MONSTERSTATE.Waiting; // { get; private set; }     // enable when testing monsters is done
-    public float timeUntilDespawn = 15f;
+    public float timeUntilDespawn = 30f;
     public LayerMask groundLayers;
     public Transform playerObj;
     public SphereCollider colliderSphere;
@@ -296,7 +296,6 @@ public class BehaviorMonster : MonoBehaviour
         return Vector3.MoveTowards(_yourPos, _targetPos, _step);
     }
     #endregion helper functions
-
 
 
     #region STATE: WAITING

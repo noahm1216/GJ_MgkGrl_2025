@@ -174,7 +174,7 @@ MonoBehaviour:
   - messageNickname: Story 03 - Intro To Jelly
     textToSay: "Oh, don\u2019t worry, it\u2019s just a slow Jelly. Try to dodge it
       using your movement. "
-    timeToDisplayTex: 8
+    timeToDisplayTex: 12
     characterIconSpeaking: {fileID: 21300000, guid: 2bf95750dd301c242bf52e596ea58e18,
       type: 3}
     requiredTextBefore: 
@@ -188,7 +188,7 @@ MonoBehaviour:
       monstersCaptured: 0
       hitPointsCurrent: 0
       hitPointsChange: 0
-    hasPlayed: 0
+    hasPlayed: 1
     messageCanRepeat: 0
   - messageNickname: Story 04 - Capture Jelly
     textToSay: 'Shoot Jelly with Pokie, it will scare her away!  '
@@ -199,7 +199,7 @@ MonoBehaviour:
     requiredConditions:
       conditionNickname: 
       numberOfRequiredConditions: 2
-      distanceTravel: 400
+      distanceTravel: 250
       timePassed: 0
       scoreAchieved: 0
       monstersSpawned: 1

@@ -90,6 +90,7 @@ public class CustomMonsterSpawner
 {
     public string monsterNickname;
     public Transform monsterBosses;
+    public float timeUntilDespawn = 30;
     public CustomConditionVariables requiredConditions;
 
     //public CustomMonsterSpawner(string _newName,)

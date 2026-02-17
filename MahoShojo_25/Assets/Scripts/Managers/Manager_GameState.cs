@@ -19,6 +19,7 @@ public class Manager_GameState : MonoBehaviour
     public int scoreTotal { get; private set; } // the score we get from capturing & other things
     public int obstaclePoints { get; private set; } // TODO: Break this out into the different obstacles points and amounts so we can track all of the points and amounts as stats?
     public int capturedCreatues_Unique { get; private set; }
+    public int spawnedCreatues { get; private set; }
     public int capturedPoints { get; private set; }
     public float timeOfCurrentGameRun { get; private set; }// how long we have been in play-mode of our current run
     public float distanceOfCurrentGameRun { get; private set; } // how long we have been traveling in our current run
@@ -157,6 +158,13 @@ public class Manager_GameState : MonoBehaviour
 
             Time.timeScale = 1;
         }
+    }
+
+    public void SpawnChange(int _amountChange)
+    {
+        spawnedCreatues += _amountChange;
+        dataSinceMonsterSpawn.monstersSpawned += _amountChange;
+        dataSinceLevelStarted.monstersSpawned += _amountChange;
     }
 
     public void CaptureChange(int _amountChange, int _changePoints)

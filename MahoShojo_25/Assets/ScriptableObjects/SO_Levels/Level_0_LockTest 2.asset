@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ce73f33ce8934f48af4c001f9c580aa, type: 3}
-  m_Name: Level_0_LockTest
+  m_Name: Level_0_LockTest 2
   m_EditorClassIdentifier: 
-  levelName: TEST LOCK
+  levelName: TEST LOCK 2
   levelUnlocked: 0
   levelBeat: 0
   buttonImage: {fileID: 21300000, guid: 0b902110c09c4284186ec1cca100e5e1, type: 3}

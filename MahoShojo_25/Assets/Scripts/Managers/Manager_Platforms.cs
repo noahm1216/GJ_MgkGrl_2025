@@ -268,7 +268,7 @@ public class Manager_Platforms : MonoBehaviour
                 monstersToSpawnInOrder[i] = CurrentLoadedLevel.monstersToSpawn[i].monsterBosses;
             monstersCaptured = 0;
             // player
-            if (PlayerReference) PlayerReference.transform.position += new Vector3(0, 1, 0);
+            //if (PlayerReference) PlayerReference.transform.position += new Vector3(0, 1, 0);
         }       
 
         if (_newLevelToUpdate) { ResetLevelMessageData(); print($"Manager Platform: UpdatedLevel to: {_newLevelToUpdate.levelName}"); } // log it
@@ -493,7 +493,7 @@ public class Manager_Platforms : MonoBehaviour
         //print($"spawning platforms on delay of: {_delay} seconds");
         yield return new WaitForSeconds(_delay);
         SpawnStartingPlatforms();
-        print("TODO: Raycast Maho's new position when we do this");
+        //print("TODO: Raycast Maho's new position when we do this");
     }
 
     private void MoveMaps()
@@ -811,16 +811,6 @@ public class Manager_Platforms : MonoBehaviour
                 //spawnedMonster.transform.position = distanceOkayToSpawnFromPlayer[Manager_GameState.Instance.capturedCreatues_Unique];
                 //spawnedMonster.TryGetComponent(out spawnedMonsterBehavior);
                 Manager_GameState.Instance.objectsSpawnedDuringRuntime.Add(spawnedMonster);
-
-                //if (Manager_TutorialUI.Instance) // TODO: replace this with check loadedlevel condition for "TextToShow"
-                //{
-                //    if (Manager_GameState.Instance.capturedCreatues_Unique == 0)
-                //    { Manager_TutorialUI.Instance.QueueMessage("Story_3"); Manager_TutorialUI.Instance.QueueMessage("Story_4"); }
-                //    if (Manager_GameState.Instance.capturedCreatues_Unique == 4)
-                //    { Manager_TutorialUI.Instance.QueueMessage("Story_6"); }
-                //    if (Manager_GameState.Instance.capturedCreatues_Unique == 5)
-                //    { Manager_TutorialUI.Instance.QueueMessage("Story_7"); Manager_TutorialUI.Instance.QueueMessage("Story_8"); Manager_TutorialUI.Instance.QueueMessage("Story_9"); }
-                //}
             }
         }
         else
@@ -917,7 +907,7 @@ public class Manager_Platforms : MonoBehaviour
 
         for (int i = 0; i < CurrentLoadedLevel.listOfTextToShow.Count; i++)
         {
-            print("Looping Levels Text | Checking Conditions");
+            //print("Looping Levels Text | Checking Conditions");
             if (Manager_GameState.Instance.CheckMetConditions( // if we met the conditions for the text to display
                 Manager_GameState.Instance.dataSinceLevelStarted, CurrentLoadedLevel.listOfTextToShow[i].requiredConditions))
             {

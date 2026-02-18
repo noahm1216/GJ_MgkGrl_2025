@@ -205,8 +205,34 @@ public class PlayerCore : MonoBehaviour
         StartCoroutine(AnimateModelChange());
     }
 
+    public bool SpawnPlayerOnPlatforms()
+    {
+        // move it
+        transform.position = new Vector3(0, 2, 0);
+        Vector3 newPosition = transform.position;// + new Vector3(0, 100, 0);
+        // raycast from the player down onto a platform and place it there if we hit something
+        RaycastHit hit;
+        for (int i = 1; i < 100; i++)
+        {
+            print("Attempting to raycast player position");
+            if (Physics.Raycast(transform.position, -transform.up, out hit, 0.75f*i, layersThatResetJumps)) //layersThatResetJumps
+            {
+                print($"hit maho-spawn target DOWN: {hit.transform.name} @ {hit.point}");
+                transform.position = hit.point + new Vector3(0, 0.15f, 0);
+                return true;
+            }
+        }
+        return false;
+       
+    }
+
     private IEnumerator AnimateModelChange()
     {
+        transform.position = new Vector3(0, 2, 0);
+        yield return new WaitForSeconds(1); // didn't work
+        if (SpawnPlayerOnPlatforms() == false)
+            print($"Unable to place character on a platform at multiplier");   //spawnAttempts++;
+
         if (ref_PlayerAnimations)
             ref_PlayerAnimations.SetAnyTrigger("Transform");
 
@@ -218,6 +244,8 @@ public class PlayerCore : MonoBehaviour
 
     private void CheckIfBlocked() // if moving in a direction but cant keep going
     {
+        //Debug.DrawLine(transform.position, transform.position - new Vector3(0,100,0), Color.red);
+
         if (Manager_Platforms.Instance)
         {
             Vector3 raycastDirection = transform.right;

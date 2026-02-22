@@ -1335,25 +1335,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3e6fe19a533cca4e92b576e5ad23516, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  monsterPlushy: 0
   currentState: 0
+  timeUntilDespawn: 15
+  groundLayers:
+    serializedVersion: 2
+    m_Bits: 0
   playerObj: {fileID: 0}
-  collider: {fileID: 5491539329710582480}
+  colliderSphere: {fileID: 0}
+  runIndependantly: 0
   activatesOnWait: 1
-  waitTime: 60
+  stateWaitTime: 10
+  betweenWaitActionsTime: 3
   activatesOnDistance: 1
   distanceToActivate: 10
-  huntingTime: 7
+  onWaitEndOne:
+    m_PersistentCalls:
+      m_Calls: []
+  stateHuntingTime: 10
   getIntoPositionSpeed: 6
   accetpablePlayerOffsetX: {x: -4, y: 9}
   accetpablePlayerOffsetY: {x: -2, y: 4}
   forceZOffset: -3
-  targetLockedTime: 3
+  onHuntEndOne:
+    m_PersistentCalls:
+      m_Calls: []
+  stateTargLockTime: 10
   shakeSpeed: 2
   shakeAmount: 0.1
+  onTargetEndOne:
+    m_PersistentCalls:
+      m_Calls: []
+  targetGraphic: {fileID: 0}
   attackSpeed: 20
   targetTolerance: 0.5
   positionalTargetOffset: {x: 0, y: 0, z: 0}
-  recoveringTime: 2
+  onAttackEndOne:
+    m_PersistentCalls:
+      m_Calls: []
+  stateRecoverTime: 10
+  onRecoverEndOne:
+    m_PersistentCalls:
+      m_Calls: []
   pointsUntilCaptured: 12
   pointsForCapturing: 24
   uiHolderOfHeartPoints: {fileID: 716657010637737737}
@@ -1364,7 +1387,7 @@ MonoBehaviour:
   spinSpeedDir: {x: 0, y: 180, z: 0}
   flyTowardsPlayer: 0
   distanceToCollect: 0.5
-  captureFlyAwayTime: 5
+  stateCaptureFlyTime: 10
   onHit:
     m_PersistentCalls:
       m_Calls:
@@ -1401,7 +1424,7 @@ MonoBehaviour:
         m_MethodName: PlayOneShot
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 8300000, guid: 6fe73b618177a7c45800ec660930170a,
+          m_ObjectArgument: {fileID: 8300000, guid: 5078b41e06e861940ab8afc6e5455ec1,
             type: 3}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
           m_IntArgument: 0

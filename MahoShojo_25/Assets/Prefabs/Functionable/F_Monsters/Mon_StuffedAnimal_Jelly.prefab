@@ -1339,11 +1339,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monsterPlushy: 1
   currentState: 0
+  timeUntilDespawn: 15
   groundLayers:
     serializedVersion: 2
     m_Bits: 1
   playerObj: {fileID: 0}
-  collider: {fileID: 8512860568730172181}
+  colliderSphere: {fileID: 0}
   runIndependantly: 1
   activatesOnWait: 1
   stateWaitTime: 10

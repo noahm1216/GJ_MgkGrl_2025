@@ -53,6 +53,10 @@ public class PlayerCore : MonoBehaviour
     [Header("Camera\n______________")]
     public BehaviorCameraFollower ref_BehaviorCameraFollower;
 
+    [Space]
+    [Header("Platforms\n______________")]
+    public RaycastCheck ref_RaycastCheck;
+
 
     [Space]
     [Header("Animations\n______________")]
@@ -205,33 +209,30 @@ public class PlayerCore : MonoBehaviour
         StartCoroutine(AnimateModelChange());
     }
 
-    public bool SpawnPlayerOnPlatforms()
-    {
-        // move it
-        transform.position = new Vector3(0, 2, 0);
-        Vector3 newPosition = transform.position;// + new Vector3(0, 100, 0);
-        // raycast from the player down onto a platform and place it there if we hit something
-        RaycastHit hit;
-        for (int i = 1; i < 100; i++)
+    public void SpawnPlayerOnPlatforms()
+    { // we needed to reference a unique object because every attempt at testing unique directions proved fruitless unless we roated the object 90 on x...
+        if (ref_RaycastCheck) // since we dont want to rotate the player we have a unique empty with a script to handle this behavior challenge.
         {
-            print("Attempting to raycast player position");
-            if (Physics.Raycast(transform.position, -transform.up, out hit, 0.75f*i, layersThatResetJumps)) //layersThatResetJumps
+            int attempts = 0; // on the rare chance that there is an unexpected level design that causes issues, this will reduce chance of freezing (which is the worst player exp).
+            RaycastHit hit = new RaycastHit();
+            while (hit.collider == null || attempts < 100)
             {
-                print($"hit maho-spawn target DOWN: {hit.transform.name} @ {hit.point}");
-                transform.position = hit.point + new Vector3(0, 0.15f, 0);
-                return true;
+                hit = ref_RaycastCheck.RaycastWorking(new Vector3(0, 2 + (attempts * 0.75f), 0), new Vector3(0, -1, 0), layersThatResetJumps);
+                attempts++;
             }
+
+            if (hit.collider)
+            { transform.position = new Vector3(transform.position.x, hit.collider.bounds.max.y, transform.position.z); return; }
         }
-        return false;
-       
+
+        print($"Missing ref_RaycastToCheck |or| Unable to place character on a platform as designed");
+        transform.position = new Vector3(0, 2, 0);
     }
 
     private IEnumerator AnimateModelChange()
     {
-        transform.position = new Vector3(0, 2, 0);
-        yield return new WaitForSeconds(1); // didn't work
-        if (SpawnPlayerOnPlatforms() == false)
-            print($"Unable to place character on a platform at multiplier");   //spawnAttempts++;
+        yield return new WaitForSeconds(0.15f);
+        SpawnPlayerOnPlatforms();
 
         if (ref_PlayerAnimations)
             ref_PlayerAnimations.SetAnyTrigger("Transform");

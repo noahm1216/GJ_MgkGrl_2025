@@ -151,6 +151,8 @@ public class PlayerCore : MonoBehaviour
         { // check if we fell too far down
             if (transform.position.y < -20) Manager_GameState.Instance.GameOver();
         }
+
+        if (transform.position.x > 1 || transform.position.x < -1) AdjustPlayerToZeroX();
     }
 
     private void CheckForInputs()
@@ -202,6 +204,14 @@ public class PlayerCore : MonoBehaviour
     private void ReactToGameManager()
     {
 
+    }
+
+    private void AdjustPlayerToZeroX()
+    {
+        if (transform.position.x > 1)
+            transform.position -= new Vector3(Time.deltaTime * Mathf.Abs(transform.position.x), 0, 0); // just added the Mathf.Abs ... come back here if there are speed issues
+        if (transform.position.x < -1)
+            transform.position += new Vector3(Time.deltaTime * Mathf.Abs(transform.position.x), 0, 0);
     }
 
     public void ChangeModel_TransformMaho()

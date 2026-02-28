@@ -32,6 +32,7 @@ MonoBehaviour:
   - monsterNickname: Jelly
     monsterBosses: {fileID: 3351900402880586524, guid: ac7cd4dfe2212024482a9ed3d40bcd8f,
       type: 3}
+    timeUntilDespawn: 30
     requiredConditions:
       conditionNickname: Easy Platform Conditions
       numberOfRequiredConditions: 1
@@ -206,5 +207,5 @@ MonoBehaviour:
       monstersCaptured: 0
       hitPointsCurrent: 0
       hitPointsChange: 0
-    hasPlayed: 0
+    hasPlayed: 1
     messageCanRepeat: 0

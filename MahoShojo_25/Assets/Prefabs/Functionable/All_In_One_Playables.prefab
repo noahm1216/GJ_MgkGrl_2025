@@ -270,7 +270,12 @@ PrefabInstance:
     - target: {fileID: 871776211502202134, guid: efde2fa9a4ac81a4aa6df5916ca59042,
         type: 3}
       propertyPath: m_Name
-      value: Background
+      value: Background_00_2D
+      objectReference: {fileID: 0}
+    - target: {fileID: 871776211502202134, guid: efde2fa9a4ac81a4aa6df5916ca59042,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1601601875087730685, guid: efde2fa9a4ac81a4aa6df5916ca59042,
         type: 3}

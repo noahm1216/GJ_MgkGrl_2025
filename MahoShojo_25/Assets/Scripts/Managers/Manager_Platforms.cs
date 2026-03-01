@@ -12,6 +12,7 @@ public class Manager_Platforms : MonoBehaviour
 
     public PlatformScriptableObject CurrentLoadedLevel { get; private set; } = null;
     public PlayerCore PlayerReference { get; private set; } = null;
+    public BehaviorBackground BackgroundReference { get; private set; } = null;
 
     [Header("Input Keys\n______________")]
     [Tooltip("This keycode will move the maps to the Left (as if we are going right)")]
@@ -168,7 +169,6 @@ public class Manager_Platforms : MonoBehaviour
             return;
 
         SpawnStartingPlatforms();
-
         lastCaptureTimeStamp = Time.time + (waitTimeAfterCapture * 1.2f); // the first monster shouldnt spawn right away, but the normal pacing is good for most
         //ChangeMonsterVariables(true, false, false);
 
@@ -226,6 +226,13 @@ public class Manager_Platforms : MonoBehaviour
 
 
     #region HELPERS
+    public PlayerCore AssignBackground(BehaviorBackground _bg)
+    {
+        BackgroundReference = _bg;
+        return PlayerReference;
+    }
+
+
     private void CheckTimeStamps()
     {
         if (!isBlocked)
@@ -267,8 +274,6 @@ public class Manager_Platforms : MonoBehaviour
             for (int i = 0; i < CurrentLoadedLevel.monstersToSpawn.Length; i++)
                 monstersToSpawnInOrder[i] = CurrentLoadedLevel.monstersToSpawn[i].monsterBosses;
             monstersCaptured = 0;
-            // player
-            //if (PlayerReference) PlayerReference.transform.position += new Vector3(0, 1, 0);
         }       
 
         if (_newLevelToUpdate) { ResetLevelMessageData(); print($"Manager Platform: UpdatedLevel to: {_newLevelToUpdate.levelName}"); } // log it
@@ -463,6 +468,8 @@ public class Manager_Platforms : MonoBehaviour
     {
         for (int i = 0; i < platformsToSpawnOnStart; i++)
             SpawnOrPoolPlatform(null, true);
+
+        if (BackgroundReference && CurrentLoadedLevel) BackgroundReference.AssignBackgroundLayers(CurrentLoadedLevel.listOfBackgroundLayers);
     }
 
     public void SpawnNewPlatformFromEdge() // when player reaches end of env chunk trigger
@@ -507,6 +514,10 @@ public class Manager_Platforms : MonoBehaviour
 
         if (Manager_GameState.Instance)
             Manager_GameState.Instance.ChangeDistanceTraveled(-CurrentSpeed());
+
+        if (BackgroundReference && PlayerReference)
+            BackgroundReference.RunBackgroundMovement(new Vector3(CurrentSpeed(), 0, 0));
+        else print("No BackgroundReference OR PlayerReference");
     }
 
     public Transform SpawnOrPoolPlatform(string _forceByNickname, bool _forceNewPlatformInstance) // can try to get a platform by name and/or force the code to spawn a new instance

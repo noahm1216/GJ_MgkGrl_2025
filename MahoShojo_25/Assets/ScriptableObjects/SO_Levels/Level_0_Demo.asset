@@ -24,7 +24,7 @@ MonoBehaviour:
     timePassed: 0
     scoreAchieved: 0
     monstersSpawned: 0
-    monstersCaptureds: 6
+    monstersCaptured: 0
     hitPointsCurrent: 0
     hitPointsChange: 0
   spawnMonstersEndlessly: 0
@@ -32,6 +32,7 @@ MonoBehaviour:
   - monsterNickname: Jelly
     monsterBosses: {fileID: 3351900402880586524, guid: ac7cd4dfe2212024482a9ed3d40bcd8f,
       type: 3}
+    timeUntilDespawn: 30
     requiredConditions:
       conditionNickname: 
       numberOfRequiredConditions: 0
@@ -39,12 +40,13 @@ MonoBehaviour:
       timePassed: 0
       scoreAchieved: 0
       monstersSpawned: 0
-      monstersCaptureds: 0
+      monstersCaptured: 0
       hitPointsCurrent: 0
       hitPointsChange: 0
   - monsterNickname: Mushy
     monsterBosses: {fileID: 3351900402880586524, guid: 965bc6efbf7901c4fb0fe5651122b7fe,
       type: 3}
+    timeUntilDespawn: 30
     requiredConditions:
       conditionNickname: 
       numberOfRequiredConditions: 0
@@ -52,12 +54,13 @@ MonoBehaviour:
       timePassed: 0
       scoreAchieved: 0
       monstersSpawned: 0
-      monstersCaptureds: 0
+      monstersCaptured: 0
       hitPointsCurrent: 0
       hitPointsChange: 0
   - monsterNickname: Froggy
     monsterBosses: {fileID: 3351900402880586524, guid: a06a9ff5e7de9e44eb1b4bdc12b0611f,
       type: 3}
+    timeUntilDespawn: 30
     requiredConditions:
       conditionNickname: 
       numberOfRequiredConditions: 0
@@ -65,12 +68,13 @@ MonoBehaviour:
       timePassed: 0
       scoreAchieved: 0
       monstersSpawned: 0
-      monstersCaptureds: 0
+      monstersCaptured: 0
       hitPointsCurrent: 0
       hitPointsChange: 0
   - monsterNickname: Kitty
     monsterBosses: {fileID: 3351900402880586524, guid: 0a29b4d5ff8143d49a8e0cfed4dd93e9,
       type: 3}
+    timeUntilDespawn: 30
     requiredConditions:
       conditionNickname: 
       numberOfRequiredConditions: 0
@@ -78,12 +82,13 @@ MonoBehaviour:
       timePassed: 0
       scoreAchieved: 0
       monstersSpawned: 0
-      monstersCaptureds: 0
+      monstersCaptured: 0
       hitPointsCurrent: 0
       hitPointsChange: 0
   - monsterNickname: Wolfy
     monsterBosses: {fileID: 3351900402880586524, guid: 3a9891c992cf9d042af0bb85e1a4af68,
       type: 3}
+    timeUntilDespawn: 30
     requiredConditions:
       conditionNickname: 
       numberOfRequiredConditions: 0
@@ -91,12 +96,13 @@ MonoBehaviour:
       timePassed: 0
       scoreAchieved: 0
       monstersSpawned: 0
-      monstersCaptureds: 0
+      monstersCaptured: 0
       hitPointsCurrent: 0
       hitPointsChange: 0
   - monsterNickname: Beary
     monsterBosses: {fileID: 3351900402880586524, guid: 53b0f5c7dc6df2642b54790b87b6cf9a,
       type: 3}
+    timeUntilDespawn: 30
     requiredConditions:
       conditionNickname: 
       numberOfRequiredConditions: 0
@@ -104,7 +110,7 @@ MonoBehaviour:
       timePassed: 0
       scoreAchieved: 0
       monstersSpawned: 0
-      monstersCaptureds: 0
+      monstersCaptured: 0
       hitPointsCurrent: 0
       hitPointsChange: 0
   listOfSpawnablePlatforms:
@@ -213,3 +219,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
   listOfTextToShow: []
+  listOfBackgroundLayers:
+  - layerNickname: Demo Background
+    layerParent: {fileID: 0}
+    layerSpeedMultiplier: {x: 0, y: 0}

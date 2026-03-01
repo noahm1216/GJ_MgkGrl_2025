@@ -209,3 +209,16 @@ MonoBehaviour:
       hitPointsChange: 0
     hasPlayed: 1
     messageCanRepeat: 0
+  listOfBackgroundLayers:
+  - layerNickname: Pipes
+    layerParent: {fileID: 8407076625662600258, guid: b499497b94f2cee4194da8a80a77825b,
+      type: 3}
+    layerSpeedMultiplier: {x: 1, y: -0.15}
+  - layerNickname: Water
+    layerParent: {fileID: 3886454215772717650, guid: 4b719cfb87909aa4eb14bb2989de1844,
+      type: 3}
+    layerSpeedMultiplier: {x: 1, y: -0.05}
+  - layerNickname: Flat City
+    layerParent: {fileID: 1240331526456721400, guid: ba247d7aca2b10548a1fe2e7ad3399a2,
+      type: 3}
+    layerSpeedMultiplier: {x: 1, y: -0.01}

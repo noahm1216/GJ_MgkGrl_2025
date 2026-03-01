@@ -92,13 +92,13 @@ public class PlayerCore : MonoBehaviour
 
     private void Start()
     {
-        jumpLeftToAchieve = maximumJumpPower;
+        if (Manager_Platforms.Instance)
+            Manager_Platforms.Instance.PopulatePlayerCoreRef(this);       
 
         if (!ref_BehaviorCameraFollower && Camera.main)
             Camera.main.TryGetComponent(out ref_BehaviorCameraFollower);
 
-        if (Manager_Platforms.Instance)
-            Manager_Platforms.Instance.PopulatePlayerCoreRef(this);
+        jumpLeftToAchieve = maximumJumpPower;
     }
 
     private void Update() // TODO: remove inputXY from affecting jump (always affect at full speed)

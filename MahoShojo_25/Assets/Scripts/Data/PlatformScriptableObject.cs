@@ -25,6 +25,10 @@ public class PlatformScriptableObject : ScriptableObject
     [Space]
     [Header("Text To Show")]
     public List<CustomTextMessageData> listOfTextToShow = new List<CustomTextMessageData>();
+
+    [Space]
+    [Header("Background Assets")]
+    public List<BackgroundLayerData> listOfBackgroundLayers = new List<BackgroundLayerData>();
 }
 
 

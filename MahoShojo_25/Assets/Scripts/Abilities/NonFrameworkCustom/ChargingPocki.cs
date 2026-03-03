@@ -8,6 +8,9 @@ using System;
 public class ChargingPocki : MonoBehaviour // TODO: Add a reference to player animations that accounts for holding this button ... then set the bool until we release it
 {
     public KeyCode keyToCharge;
+    public string axisFire { get; private set; } = "Fire0";
+    private float axisInputDeadzone = 0.15f;
+    private bool holdingKey = false;
     // -C
     public bool showPockiWhileCharging;
     public Transform pockiPrefabArtOnly;
@@ -69,8 +72,10 @@ public class ChargingPocki : MonoBehaviour // TODO: Add a reference to player an
             return;
 
 
-        if (Input.GetKeyUp(keyToCharge)) // let go of key (no longer charging)
+        if (Input.GetKeyUp(keyToCharge) || Input.GetButtonUp(axisFire) || Input.GetAxis(axisFire) < axisInputDeadzone && holdingKey) // let go of key (no longer charging)
         {
+            holdingKey = false;
+
             if (Time.time > timeStampPressedKey + requiredChargeTime / chargeTimeMultiplier)  // finished charging ability            
                 onReleaseSuccessEvent.Invoke();
             else
@@ -84,10 +89,13 @@ public class ChargingPocki : MonoBehaviour // TODO: Add a reference to player an
 
             if (showPockiWhileCharging)
             {  ShowPockiArtObjs(Vector3.zero, -1); } // spawn and disable pocki art when 
+
+            
         }
 
-        if (Input.GetKeyDown(keyToCharge)) // Pressing key (start charging)
+        if (Input.GetKeyDown(keyToCharge) || Input.GetButtonDown(axisFire) || Input.GetAxis(axisFire) > axisInputDeadzone && !holdingKey) // Pressing key (start charging)
         {
+            holdingKey = true;
             chargePercent = 0;
             if (showPockiWhileCharging)
             { pockiShownWhileCharging = 0; SpawnAllPockiArtRefs(); }
@@ -98,7 +106,7 @@ public class ChargingPocki : MonoBehaviour // TODO: Add a reference to player an
             onChargeStartEvent.Invoke();
         }
 
-        if (Input.GetKey(keyToCharge)) // Holding key (sustain charging)
+        if (Input.GetKey(keyToCharge) || Input.GetAxis(axisFire) > axisInputDeadzone || Input.GetButton(axisFire)) // Holding key (sustain charging)
         {
             if (chargePercent < 1)
                 chargePercent = ((Time.time - timeStampPressedKey) / requiredChargeTime) * chargeTimeMultiplier;

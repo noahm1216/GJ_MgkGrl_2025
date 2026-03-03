@@ -18,6 +18,11 @@ public class PlayerCore : MonoBehaviour
     [Tooltip("Move our character down")]
     private KeyCode key_MoveDown2 = KeyCode.DownArrow;
 
+    public string axisVertical { get; private set; } = "Vertical";    
+    public string buttonJump { get; private set; } = "Jump";
+    private float axisInputDeadzone = 0.15f;
+    private bool holdingJumpButton = false;
+
 
     [Space]
     [Header("Jump Ability\n______________")]
@@ -151,8 +156,10 @@ public class PlayerCore : MonoBehaviour
     }
 
     private void CheckForInputs()
-    {
-        if (Input.GetKey(key_MoveUp) || Input.GetKey(key_MoveUp2))
+    {  // if no buttons are pressed then we are not holding any jumps
+        if (Input.GetKey(key_MoveUp) || Input.GetKey(key_MoveUp2) || Input.GetButtonUp(buttonJump) ||
+            Input.GetAxis(axisVertical) < axisInputDeadzone && Input.GetAxis(axisVertical) > -axisInputDeadzone && 
+            Input.GetAxis(buttonJump) < axisInputDeadzone && Input.GetAxis(buttonJump) > -axisInputDeadzone && holdingJumpButton == true)
         {
             inputXYTime += Time.deltaTime * speedToMaxJumpPower;
             if (!jumpBasedOnKeyPressTime)
@@ -162,12 +169,13 @@ public class PlayerCore : MonoBehaviour
                 inputXYTime = 1;
 
             onPress_MoveUp.Invoke();
+            holdingJumpButton = false; 
         }
 
-        if (Input.GetKeyDown(key_MoveUp) || Input.GetKeyDown(key_MoveUp2))
+        if (Input.GetKeyDown(key_MoveUp) || Input.GetKeyDown(key_MoveUp2) || Input.GetAxis(axisVertical) > axisInputDeadzone || Input.GetAxis(buttonJump) > axisInputDeadzone || Input.GetButtonDown(buttonJump))
         {
             onRelease_MoveUp.Invoke(); // changed to pres down instead of press up
-            if (CanJump())
+            if (CanJump() && !holdingJumpButton)
             {
                 if (Manager_Platforms.Instance && Manager_Platforms.Instance.isDashing)
                     return;
@@ -190,6 +198,7 @@ public class PlayerCore : MonoBehaviour
                 if (ref_BehaviorCameraFollower)
                     ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.InTheAir, false);
 
+                holdingJumpButton = true;
                 onSuccess_MoveUp.Invoke();
             }
         }

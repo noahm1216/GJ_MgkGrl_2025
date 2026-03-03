@@ -15,6 +15,7 @@ public class Manager_GameState : MonoBehaviour
     public GAMEMODE currentMode { get; private set; }
 
     public KeyCode key_Pause1 = KeyCode.P, key_Pause2 = KeyCode.Escape;
+    public string axisPause { get; private set; } = "Cancel";
 
     public int scoreTotal { get; private set; } // the score we get from capturing & other things
     public int obstaclePoints { get; private set; } // TODO: Break this out into the different obstacles points and amounts so we can track all of the points and amounts as stats?
@@ -123,7 +124,7 @@ public class Manager_GameState : MonoBehaviour
             Debug.Log("Cheated your way to winning... now you just have to fall off the map");
         }
 
-        if(Input.GetKeyDown(key_Pause1) || Input.GetKeyDown(key_Pause2)) // pause toggle
+        if(Input.GetKeyDown(key_Pause1) || Input.GetKeyDown(key_Pause2) || Input.GetButtonDown(axisPause)) // pause toggle
         {
             if(Manager_GameState.Instance && Manager_GameState.Instance.currentState == GAMESTATE.Menu) { onPauseInMainMenu?.Invoke(); return; }
             PauseToggle();

@@ -7,13 +7,18 @@ using UnityEngine.Events;
 /// </summary>
 public class Manager_Platforms : MonoBehaviour
 {
-    public static Manager_Platforms Instance { get; private set; }    
+    public static Manager_Platforms Instance { get; private set; }
 
-    [Header("Input Keys\n______________")]
+    [Header("Input Keys\n______________")]   
     [Tooltip("This keycode will move the maps to the Left (as if we are going right)")]
     public KeyCode key_MovePlatformsLeft = KeyCode.D;
     [Tooltip("This keycode will move the maps to the Right (as if we are going left)")]
     public KeyCode key_MovePlatformsRight = KeyCode.A;
+
+    private float axisInputDeadzone = 0.15f;
+    public string axisHorizontal { get; private set; } = "Horizontal";
+    public string buttonRetract { get; private set; } = "Retract";
+
     [Tooltip("When checked, the platforms will move on their own")]
     public bool automaicallyMoveRight = true;
 
@@ -344,7 +349,7 @@ public class Manager_Platforms : MonoBehaviour
 
     private void CheckForInputs()
     {
-        if (Input.GetKey(key_MovePlatformsRight) || Input.GetKey(key_MovePlatformsRight2)) // going left  
+        if (Input.GetKey(key_MovePlatformsRight) || Input.GetKey(key_MovePlatformsRight2) || Input.GetAxis(axisHorizontal) < -axisInputDeadzone || Input.GetButton(buttonRetract)) // going left  
         {
             pressedMove = true;
 
@@ -356,9 +361,9 @@ public class Manager_Platforms : MonoBehaviour
             if (ref_BehaviorCameraFollower)
                 ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.MovingBackwards, false);
         }
-        else if (Input.GetKey(key_MovePlatformsLeft) || Input.GetKey(key_MovePlatformsLeft2) || automaicallyMoveRight ) // going right
+        else if (Input.GetKey(key_MovePlatformsLeft) || Input.GetKey(key_MovePlatformsLeft2) || Input.GetAxis(axisHorizontal) > axisInputDeadzone ||  automaicallyMoveRight || Input.GetButton(axisHorizontal)) // going right
         {
-            if (Input.GetKeyDown(key_MovePlatformsLeft) || Input.GetKey(key_MovePlatformsLeft2)) // pressed forward to dash
+            if (Input.GetKey(key_MovePlatformsLeft) || Input.GetKey(key_MovePlatformsLeft2) || Input.GetAxis(axisHorizontal)> axisInputDeadzone || Input.GetButton(axisHorizontal)) // pressed forward to dash
             {
                 pressedMove = true;
 

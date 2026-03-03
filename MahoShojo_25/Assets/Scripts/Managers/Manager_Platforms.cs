@@ -182,7 +182,21 @@ public class Manager_Platforms : MonoBehaviour
         if (FoundErrors())
             return;
 
-        if(Manager_GameState.Instance) // if we have the game manager then we want things to look a specific way
+        if (Manager_GameState.Instance) // if we have the game manager then we want things to look a specific way
+        {
+            ReactToGameManager();
+            if (Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing)
+                return;
+        }
+        CheckForInputs();
+    }
+
+    private void FixedUpdate()
+    {
+        if (FoundErrors())
+            return;
+
+        if (Manager_GameState.Instance) // if we have the game manager then we want things to look a specific way
         {
             ReactToGameManager();
             if (Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing)
@@ -190,7 +204,7 @@ public class Manager_Platforms : MonoBehaviour
         }
         CheckForTutorial(); // TODO: Maybe we can delay how frequently we check for some of these (instead of every frame)
         CheckTimeStamps();
-        CheckForInputs();
+       
         CheckDashing();
         MoveMaps();
         CheckForMonsterSpawn();
@@ -198,8 +212,6 @@ public class Manager_Platforms : MonoBehaviour
         CheckForObstacles();
         if (spawnPockiBoxOnTimer && Time.time > pockiBoxSpawnStamp + timeUntilPockiBoxSpawn && !playerUnlockedPockiBox)
             SpawnOrMovePockiBox();
-
-        
     }
 
     private void CheckTimeStamps()

@@ -51,7 +51,7 @@ MonoBehaviour:
   automaicallyMoveRight: 1
   dashRequiresDoubleTap: 0
   timeWindowForDashing: 0.25
-  dashingSpeedMultiplier: 200
+  dashingSpeedMultiplier: 100
   dashingLastingTime: 0.75
   onDashEvent:
     m_PersistentCalls:

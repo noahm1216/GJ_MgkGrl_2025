@@ -209,7 +209,6 @@ public class Manager_Platforms : MonoBehaviour
         }
         CheckForTutorial(); // TODO: Maybe we can delay how frequently we check for some of these (instead of every frame)
         CheckTimeStamps();
-       
         CheckDashing();
         MoveMaps();
         CheckForMonsterSpawn();
@@ -332,9 +331,7 @@ public class Manager_Platforms : MonoBehaviour
     }
 
     private void CheckDashing()
-    {
-        if (!isDashing)
-            dashStartTimeStamp = Time.time;
+    {            
         if (isDashing && Time.time > dashStartTimeStamp + dashingLastingTime)
             isDashing = false;
     }
@@ -342,6 +339,7 @@ public class Manager_Platforms : MonoBehaviour
     private void DashAction()
     {        
         isDashing = true;
+        dashStartTimeStamp = Time.time;
         onDashEvent.Invoke();
     }
 
@@ -366,12 +364,14 @@ public class Manager_Platforms : MonoBehaviour
             if (Input.GetKey(key_MovePlatformsLeft) || Input.GetKey(key_MovePlatformsLeft2) || Input.GetAxis(axisHorizontal)> axisInputDeadzone || Input.GetButton(axisHorizontal)) // pressed forward to dash
             {
                 pressedMove = true;
-
+                //CheckDashing();
                 if (dashRequiresDoubleTap && !isDashing) // if we must press it twice
+                {
                     if (lastKeyPressed == key_MovePlatformsLeft && Time.time < dashInputStamp + timeWindowForDashing) // TODO : Check for if dashing so we have to time it, and animation / VFX spot
                         DashAction();
                     else
                     { lastKeyPressed = key_MovePlatformsLeft; dashInputStamp = Time.time; } // reset
+                }
                 else if (!dashRequiresDoubleTap && !isDashing) // if we only have to press it once
                     DashAction();
             }

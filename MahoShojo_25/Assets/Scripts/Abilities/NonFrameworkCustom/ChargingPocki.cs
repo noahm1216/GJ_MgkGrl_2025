@@ -106,7 +106,7 @@ public class ChargingPocki : MonoBehaviour // TODO: Add a reference to player an
             onChargeStartEvent.Invoke();
         }
 
-        if (Input.GetKey(keyToCharge) || Input.GetAxis(axisFire) > axisInputDeadzone || Input.GetButton(axisFire)) // Holding key (sustain charging)
+        if (Input.GetKey(keyToCharge) || Input.GetButton(axisFire) || Input.GetAxis(axisFire) > axisInputDeadzone) // Holding key (sustain charging)
         {
             if (chargePercent < 1)
                 chargePercent = ((Time.time - timeStampPressedKey) / requiredChargeTime) * chargeTimeMultiplier;

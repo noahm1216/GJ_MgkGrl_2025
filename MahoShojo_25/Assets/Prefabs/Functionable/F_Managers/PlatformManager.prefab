@@ -52,7 +52,7 @@ MonoBehaviour:
   dashRequiresDoubleTap: 0
   timeWindowForDashing: 0.25
   dashingSpeedMultiplier: 100
-  dashingLastingTime: 0.75
+  dashingLastingTime: 1
   onDashEvent:
     m_PersistentCalls:
       m_Calls:

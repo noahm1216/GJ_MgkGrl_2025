@@ -12,6 +12,7 @@ public class Manager_UI : MonoBehaviour
     public KeyInputData[] keybindings;
     public PlayerCore ref_PlayerCore;
     public ChargingPocki ref_ChargingPocki;
+    public BehaviorUISelector ref_BehaviorUISelector;
     private bool detectingKeyInput;
 
 
@@ -26,8 +27,8 @@ public class Manager_UI : MonoBehaviour
     private void Start()
     {
         // set references to start data || TODO: Eventually we want to pull this data from a list or save file
-        if (ref_PlayerCore)
-            EstablishInitialKeys(ref_PlayerCore.key_MoveUp, "jump");
+        if (ref_PlayerCore) EstablishInitialKeys(ref_PlayerCore.key_MoveUp, "jump");
+
         if (Manager_GameState.Instance)
         {
             EstablishInitialKeys(Manager_GameState.Instance.key_Pause1, "pause 1");
@@ -36,9 +37,9 @@ public class Manager_UI : MonoBehaviour
             EstablishInitialKeys(Manager_Platforms.Instance.key_MovePlatformsRight, "retract");
         }
 
-        if (ref_ChargingPocki)
-            EstablishInitialKeys(ref_ChargingPocki.keyToCharge, "shoot");
+        if (ref_ChargingPocki) EstablishInitialKeys(ref_ChargingPocki.keyToCharge, "shoot");
 
+        TryGetComponent(out ref_BehaviorUISelector);
         detectingKeyInput = false;
     }
 

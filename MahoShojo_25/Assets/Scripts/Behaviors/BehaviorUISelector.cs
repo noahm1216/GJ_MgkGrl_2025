@@ -12,10 +12,11 @@ public class BehaviorUISelector : MonoBehaviour
     // Start is called before the first frame update
 
     private List<Transform> allInteractiveUI = new List<Transform>(); // Component: Buttons |or| Sliders
-    private List<Transform> activeUI = new List<Transform>();
-    public int uiSelectionId { get; private set; }  = 0;
+    public List<Transform> activeUI = new List<Transform>();
+    public int uiSelectionId { get; private set; } = 0;
     private Button activeButton = null;
     private Slider activeSlider = null;
+    private float stampUpdate;
 
     private void Awake()
     {
@@ -40,6 +41,21 @@ public class BehaviorUISelector : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        UpdateActiveUiList();
+    }
+
+    private void Update() // REMOVE THESE when plugged into other scripts
+    {
+        if (Input.GetKeyDown(KeyCode.W) ) ChangeUiId(uiSelectionId - 1);
+        if (Input.GetKeyDown(KeyCode.S) ) ChangeUiId(uiSelectionId + 1);
+        if (Input.GetKey(KeyCode.D) ) ChangeSliderDirection(true);
+        if (Input.GetKey(KeyCode.A) ) ChangeSliderDirection(false);
+        if (Input.GetKeyDown(KeyCode.Space)) SelectButton();
+
+    }
+
     public void UpdateActiveUiList() // call anytime a menu changes and buttons show up
     {
         if (allInteractiveUI.Count == 0) return;
@@ -48,8 +64,10 @@ public class BehaviorUISelector : MonoBehaviour
 
         for (int i = 0; i < allInteractiveUI.Count; i++)
         {
+            if (allInteractiveUI[i].gameObject.activeInHierarchy == false) continue;
+
             if (allInteractiveUI[i].gameObject.activeSelf == true)
-                activeUI.Add(allInteractiveUI[i]);
+            { activeUI.Add(allInteractiveUI[i]); }
         }
 
         activeButton = null;
@@ -59,23 +77,31 @@ public class BehaviorUISelector : MonoBehaviour
 
     public void ChangeUiId(int _newId) // call when menu is active and we press Up or Down buttons
     {
-        if (activeUI.Count > 0) return;
+        //print($"Attempting to change ui id: {_newId}");
+        if (activeUI.Count == 0)  return; 
 
-        EventSystem.current.SetSelectedGameObject(null);       
+        EventSystem.current.SetSelectedGameObject(null);
+
+        if (_newId >= activeUI.Count) _newId = 0;
+        if (_newId < 0) _newId = activeUI.Count;
 
         for (int i = 0; i < activeUI.Count; i++)
         {
-            if (i != _newId) continue;
-
+            if (i != _newId) continue;       
+            //print($"Found Matching UI: {activeUI[i].name}");
             activeUI[i].TryGetComponent(out activeButton);
             activeUI[i].TryGetComponent(out activeSlider);
-            if (activeButton) activeButton.Select();
+
+            if (activeButton) { EventSystem.current.SetSelectedGameObject(activeButton.gameObject); activeButton.Select(); }
             if (activeSlider) activeSlider.Select();
+            uiSelectionId = _newId;
+            break;
         }
     }
 
     public void ChangeSliderDirection(bool moveRight) // call when we press left or right
     {
+        //print($"Attempting to change slider: {moveRight}");
         if (!activeSlider || activeSlider.gameObject.activeSelf == false) return;
 
         float amount = 0.1f;
@@ -86,7 +112,9 @@ public class BehaviorUISelector : MonoBehaviour
 
     public void SelectButton() // call when we press any select/confirm button
     {
+        //print($"Attempting to select button");
         if (!activeButton || activeButton.gameObject.activeSelf == false) return;
         activeButton.onClick.Invoke();
+        UpdateActiveUiList();
     }
 }

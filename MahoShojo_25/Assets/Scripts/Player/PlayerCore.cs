@@ -22,6 +22,7 @@ public class PlayerCore : MonoBehaviour
     public string buttonJump { get; private set; } = "Jump";
     private float axisInputDeadzone = 0.15f;
     private bool holdingJumpButton = false;
+    private bool holdVerticalButton = false;
 
 
     [Space]
@@ -207,7 +208,23 @@ public class PlayerCore : MonoBehaviour
 
     private void ReactToGameManager()
     {
+        if (Manager_GameState.Instance.currentState == Manager_GameState.GAMESTATE.Paused || Manager_GameState.Instance.currentState == Manager_GameState.GAMESTATE.Menu)
+        {
+            if (Manager_UI.Instance && Manager_UI.Instance.ref_BehaviorUISelector)
+            {
+                // up
+                if (Input.GetKeyDown(key_MoveUp) || Input.GetKeyDown(key_MoveUp2) || Input.GetAxis(axisVertical) > axisInputDeadzone && holdVerticalButton == false )
+                { Manager_UI.Instance.ref_BehaviorUISelector.ChangeUiId(Manager_UI.Instance.ref_BehaviorUISelector.uiSelectionId - 1); holdVerticalButton = true; }// up
+                // down
+                if (Input.GetKeyDown(key_MoveDown) || Input.GetKeyDown(key_MoveDown2) || Input.GetAxis(axisVertical) < -axisInputDeadzone && holdVerticalButton == false)
+                { Manager_UI.Instance.ref_BehaviorUISelector.ChangeUiId(Manager_UI.Instance.ref_BehaviorUISelector.uiSelectionId + 1); holdVerticalButton = true;} // down
+                //confirm        
+                if (Input.GetButtonDown(buttonJump))  //confirm
+                    Manager_UI.Instance.ref_BehaviorUISelector.SelectButton();
+            }
 
+            if (Input.GetAxis(axisVertical) < axisInputDeadzone && Input.GetAxis(axisVertical) > -axisInputDeadzone) holdVerticalButton = false;
+        }
     }
 
     public void ChangeModel_TransformMaho()

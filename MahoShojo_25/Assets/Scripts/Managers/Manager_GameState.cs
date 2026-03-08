@@ -126,7 +126,7 @@ public class Manager_GameState : MonoBehaviour
 
         if(Input.GetKeyDown(key_Pause1) || Input.GetKeyDown(key_Pause2) || Input.GetButtonDown(axisPause)) // pause toggle
         {
-            if(Manager_GameState.Instance && Manager_GameState.Instance.currentState == GAMESTATE.Menu) { onPauseInMainMenu?.Invoke(); return; }
+            if(currentState == GAMESTATE.Menu) { onPauseInMainMenu?.Invoke(); return; }
             PauseToggle();
         }
     }
@@ -151,6 +151,7 @@ public class Manager_GameState : MonoBehaviour
 
             Time.timeScale = 1;
         }
+        if (Manager_UI.Instance && Manager_UI.Instance.ref_BehaviorUISelector) Manager_UI.Instance.ref_BehaviorUISelector.UpdateActiveUiList();
     }
 
     public void CaptureChange(int _amountChange, int _changePoints)

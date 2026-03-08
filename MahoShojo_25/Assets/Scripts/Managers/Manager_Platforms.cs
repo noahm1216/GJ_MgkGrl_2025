@@ -201,12 +201,12 @@ public class Manager_Platforms : MonoBehaviour
         if (FoundErrors())
             return;
 
-        if (Manager_GameState.Instance) // if we have the game manager then we want things to look a specific way
-        {
-            ReactToGameManager();
-            if (Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing)
-                return;
-        }
+        //if (Manager_GameState.Instance) // if we have the game manager then we want things to look a specific way
+        //{
+        //    ReactToGameManager();
+        //    if (Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing)
+        //        return;
+        //}
         CheckForTutorial(); // TODO: Maybe we can delay how frequently we check for some of these (instead of every frame)
         CheckTimeStamps();
         CheckDashing();
@@ -260,6 +260,15 @@ public class Manager_Platforms : MonoBehaviour
     {
         // can put code for animations or other objects to enable / disable
         // also code for checking if we are done or finished with the game
+
+        if (Manager_GameState.Instance.currentState == Manager_GameState.GAMESTATE.Paused || Manager_GameState.Instance.currentState == Manager_GameState.GAMESTATE.Menu)
+        { // press left 
+            if (Input.GetKey(key_MovePlatformsRight) || Input.GetKey(key_MovePlatformsRight2) || Input.GetAxis(axisHorizontal) < -axisInputDeadzone || Input.GetButton(buttonRetract))  
+                if (Manager_UI.Instance && Manager_UI.Instance.ref_BehaviorUISelector) Manager_UI.Instance.ref_BehaviorUISelector.ChangeSliderDirection(false);  // press left
+            // press right 
+            if (Input.GetKey(key_MovePlatformsLeft) || Input.GetKey(key_MovePlatformsLeft2) || Input.GetAxis(axisHorizontal) > axisInputDeadzone || automaicallyMoveRight || Input.GetButton(axisHorizontal))
+                if (Manager_UI.Instance && Manager_UI.Instance.ref_BehaviorUISelector) Manager_UI.Instance.ref_BehaviorUISelector.ChangeSliderDirection(true); // press right 
+        }
 
         if (Manager_GameState.Instance.currentState == Manager_GameState.GAMESTATE.Menu)
         {
@@ -593,7 +602,7 @@ public class Manager_Platforms : MonoBehaviour
 
     private void CheckForMonsterSpawn() // TODO: this needs refactoring... this functions purpose is to spawn monster if ready... COMBINED with "ChangeMonsterVariables" (above) we can have a singular checker
     {
-        //if (Manager_GameState.Instance && Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing)
+        if (Manager_GameState.Instance && Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing) timeMonsterSpawned += Time.deltaTime;
         //{ print($"no spawning monsters during { Manager_GameState.Instance.currentState} mode");  return; }
 
         if (Time.time > timeMonsterSpawned + waitTimeUntilDespawnDynamic && spawnedMonster != null && monsterIsInPlay)

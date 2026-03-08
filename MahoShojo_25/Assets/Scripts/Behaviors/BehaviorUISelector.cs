@@ -1,0 +1,92 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
+
+public class BehaviorUISelector : MonoBehaviour
+{
+    /// <summary>
+    /// goes on the UI manager and grabs all active UI
+    /// </summary>
+    // Start is called before the first frame update
+
+    private List<Transform> allInteractiveUI = new List<Transform>(); // Component: Buttons |or| Sliders
+    private List<Transform> activeUI = new List<Transform>();
+    public int uiSelectionId { get; private set; }  = 0;
+    private Button activeButton = null;
+    private Slider activeSlider = null;
+
+    private void Awake()
+    {
+        GrabAllSelectableUI();  
+    }
+
+    private void GrabAllSelectableUI()
+    {
+        // grab all ui transforms if Button Or Slider
+        AddAllInteractiveUiChildren(transform);
+    }
+
+    private void AddAllInteractiveUiChildren(Transform _parent)
+    {
+        for( int i = 0; i < _parent.childCount; i++)
+        {
+            if (_parent.GetChild(i).GetComponent<Button>() || _parent.GetChild(i).GetComponent<Slider>())
+                allInteractiveUI.Add(_parent.GetChild(i));
+
+            if (_parent.GetChild(i).childCount > 0)
+                AddAllInteractiveUiChildren(_parent.GetChild(i));
+        }
+    }
+
+    public void UpdateActiveUiList() // call anytime a menu changes and buttons show up
+    {
+        if (allInteractiveUI.Count == 0) return;
+
+        activeUI.Clear();
+
+        for (int i = 0; i < allInteractiveUI.Count; i++)
+        {
+            if (allInteractiveUI[i].gameObject.activeSelf == true)
+                activeUI.Add(allInteractiveUI[i]);
+        }
+
+        activeButton = null;
+        activeSlider = null;
+        ChangeUiId(0);
+    }
+
+    public void ChangeUiId(int _newId) // call when menu is active and we press Up or Down buttons
+    {
+        if (activeUI.Count > 0) return;
+
+        EventSystem.current.SetSelectedGameObject(null);       
+
+        for (int i = 0; i < activeUI.Count; i++)
+        {
+            if (i != _newId) continue;
+
+            activeUI[i].TryGetComponent(out activeButton);
+            activeUI[i].TryGetComponent(out activeSlider);
+            if (activeButton) activeButton.Select();
+            if (activeSlider) activeSlider.Select();
+        }
+    }
+
+    public void ChangeSliderDirection(bool moveRight) // call when we press left or right
+    {
+        if (!activeSlider || activeSlider.gameObject.activeSelf == false) return;
+
+        float amount = 0.1f;
+        if (!moveRight) amount = -0.1f;
+        float newValue = activeSlider.value * amount;
+        activeSlider.value += newValue;
+    }
+
+    public void SelectButton() // call when we press any select/confirm button
+    {
+        if (!activeButton || activeButton.gameObject.activeSelf == false) return;
+        activeButton.onClick.Invoke();
+    }
+}

@@ -46,15 +46,15 @@ public class BehaviorUISelector : MonoBehaviour
         UpdateActiveUiList();
     }
 
-    private void Update() // REMOVE THESE when plugged into other scripts
-    {
-        if (Input.GetKeyDown(KeyCode.W) ) ChangeUiId(uiSelectionId - 1);
-        if (Input.GetKeyDown(KeyCode.S) ) ChangeUiId(uiSelectionId + 1);
-        if (Input.GetKey(KeyCode.D) ) ChangeSliderDirection(true);
-        if (Input.GetKey(KeyCode.A) ) ChangeSliderDirection(false);
-        if (Input.GetKeyDown(KeyCode.Space)) SelectButton();
+    //private void Update() // REMOVE THESE when plugged into other scripts
+    //{
+    //    if (Input.GetKeyDown(KeyCode.W) ) ChangeUiId(uiSelectionId - 1);
+    //    if (Input.GetKeyDown(KeyCode.S) ) ChangeUiId(uiSelectionId + 1);
+    //    if (Input.GetKey(KeyCode.D) ) ChangeSliderDirection(true);
+    //    if (Input.GetKey(KeyCode.A) ) ChangeSliderDirection(false);
+    //    if (Input.GetKeyDown(KeyCode.Space)) SelectButton();
 
-    }
+    //}
 
     public void UpdateActiveUiList() // call anytime a menu changes and buttons show up
     {
@@ -77,22 +77,22 @@ public class BehaviorUISelector : MonoBehaviour
 
     public void ChangeUiId(int _newId) // call when menu is active and we press Up or Down buttons
     {
-        //print($"Attempting to change ui id: {_newId}");
-        if (activeUI.Count == 0)  return; 
+        //print($"Attempting to change ui id from: {uiSelectionId} to -  {_newId}");
+        if (activeUI.Count == 0) return;
 
-        EventSystem.current.SetSelectedGameObject(null);
+        ChangeUiSelection(null); // remove any selection
 
         if (_newId >= activeUI.Count) _newId = 0;
-        if (_newId < 0) _newId = activeUI.Count;
+        if (_newId < 0) _newId = activeUI.Count - 1;
 
         for (int i = 0; i < activeUI.Count; i++)
         {
-            if (i != _newId) continue;       
+            if (i != _newId) continue;
             //print($"Found Matching UI: {activeUI[i].name}");
             activeUI[i].TryGetComponent(out activeButton);
             activeUI[i].TryGetComponent(out activeSlider);
 
-            if (activeButton) { EventSystem.current.SetSelectedGameObject(activeButton.gameObject); activeButton.Select(); }
+            if (activeButton) { ChangeUiSelection(activeButton.gameObject); activeButton.Select(); }
             if (activeSlider) activeSlider.Select();
             uiSelectionId = _newId;
             break;
@@ -102,7 +102,7 @@ public class BehaviorUISelector : MonoBehaviour
     public void ChangeSliderDirection(bool moveRight) // call when we press left or right
     {
         //print($"Attempting to change slider: {moveRight}");
-        if (!activeSlider || activeSlider.gameObject.activeSelf == false) return;
+        if (!activeSlider || activeSlider.gameObject.activeInHierarchy == false) return;
 
         float amount = 0.1f;
         if (!moveRight) amount = -0.1f;
@@ -110,11 +110,17 @@ public class BehaviorUISelector : MonoBehaviour
         activeSlider.value += newValue;
     }
 
+    public void ChangeUiSelection(GameObject _obj)
+    {
+        EventSystem.current.SetSelectedGameObject(_obj);
+    }
+
     public void SelectButton() // call when we press any select/confirm button
     {
         //print($"Attempting to select button");
-        if (!activeButton || activeButton.gameObject.activeSelf == false) return;
-        activeButton.onClick.Invoke();
+        if (!activeButton || activeButton.gameObject.activeInHierarchy == false) { ChangeUiSelection(null); }// return; }
+        else activeButton.onClick.Invoke(); // if the button is still active then press it
         UpdateActiveUiList();
+       
     }
 }

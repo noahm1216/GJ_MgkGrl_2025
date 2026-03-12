@@ -262,12 +262,16 @@ public class Manager_Platforms : MonoBehaviour
         // also code for checking if we are done or finished with the game
 
         if (Manager_GameState.Instance.currentState == Manager_GameState.GAMESTATE.Paused || Manager_GameState.Instance.currentState == Manager_GameState.GAMESTATE.Menu)
-        { // press left 
-            if (Input.GetKey(key_MovePlatformsRight) || Input.GetKey(key_MovePlatformsRight2) || Input.GetAxis(axisHorizontal) < -axisInputDeadzone || Input.GetButton(buttonRetract))  
-                if (Manager_UI.Instance && Manager_UI.Instance.ref_BehaviorUISelector) Manager_UI.Instance.ref_BehaviorUISelector.ChangeSliderDirection(false);  // press left
-            // press right 
-            if (Input.GetKey(key_MovePlatformsLeft) || Input.GetKey(key_MovePlatformsLeft2) || Input.GetAxis(axisHorizontal) > axisInputDeadzone || automaicallyMoveRight || Input.GetButton(axisHorizontal))
-                if (Manager_UI.Instance && Manager_UI.Instance.ref_BehaviorUISelector) Manager_UI.Instance.ref_BehaviorUISelector.ChangeSliderDirection(true); // press right 
+        {
+            if (Manager_UI.Instance.ref_BehaviorUISelector)
+            {
+                // press left 
+                if (Input.GetKey(key_MovePlatformsRight) || Input.GetKey(key_MovePlatformsRight2) || Input.GetButton(buttonRetract)) //Input.GetAxis(axisHorizontal) > -axisInputDeadzone || //calling every frame
+                    Manager_UI.Instance.ref_BehaviorUISelector.ChangeSliderDirection(false);  // press left
+                // press right 
+                if (Input.GetKey(key_MovePlatformsLeft) || Input.GetKey(key_MovePlatformsLeft2) || Input.GetAxis(axisHorizontal) > axisInputDeadzone || Input.GetButton(axisHorizontal))
+                    Manager_UI.Instance.ref_BehaviorUISelector.ChangeSliderDirection(true); // press right 
+            }
         }
 
         if (Manager_GameState.Instance.currentState == Manager_GameState.GAMESTATE.Menu)
@@ -602,7 +606,7 @@ public class Manager_Platforms : MonoBehaviour
 
     private void CheckForMonsterSpawn() // TODO: this needs refactoring... this functions purpose is to spawn monster if ready... COMBINED with "ChangeMonsterVariables" (above) we can have a singular checker
     {
-        if (Manager_GameState.Instance && Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing) timeMonsterSpawned += Time.deltaTime;
+        if (Manager_GameState.Instance && Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing) return;
         //{ print($"no spawning monsters during { Manager_GameState.Instance.currentState} mode");  return; }
 
         if (Time.time > timeMonsterSpawned + waitTimeUntilDespawnDynamic && spawnedMonster != null && monsterIsInPlay)

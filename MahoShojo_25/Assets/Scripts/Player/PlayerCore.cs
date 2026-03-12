@@ -122,19 +122,17 @@ public class PlayerCore : MonoBehaviour
         if (Manager_GameState.Instance) // if we have the game manager then we want things to look a specific way
         {
             ReactToGameManager();
-            if (Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing)
-                return;
+            if (Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing) return;
         }
-
-        if (lockYPositionAtZero)
-            transform.position = new Vector3(transform.position.x, 0, transform.position.z);
-
-        CheckIfBlocked(); // TODO: we can check this less than every frame (because we are raycasting multiple rays and it becomes expensive
+        
         CheckForInputs();
     }
 
     private void FixedUpdate()
     {
+        KeepMahoZeroed();
+        CheckIfBlocked(); // TODO: we can check this less than every frame (because we are raycasting multiple rays and it becomes expensive
+
         if (jumpLeftToAchieve < maximumJumpPower)
         {
             if (rb3D)
@@ -155,6 +153,44 @@ public class PlayerCore : MonoBehaviour
             }
         }
     }
+
+    public void KeepMahoZeroed()
+    {
+        // lock maho's y position to make sure collisions dont force her off
+        if (lockYPositionAtZero)transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+        // correct maho's x position to be close to zero
+        if (transform.position.x > axisInputDeadzone) transform.Translate(Vector3.left * Time.deltaTime);
+        if (transform.position.x < -axisInputDeadzone) transform.Translate(Vector3.right * Time.deltaTime);
+    }
+
+    private void ReactToGameManager()
+    {
+        if (Manager_GameState.Instance.currentState == Manager_GameState.GAMESTATE.Paused || Manager_GameState.Instance.currentState == Manager_GameState.GAMESTATE.Menu)
+        {
+            if (Manager_UI.Instance && Manager_UI.Instance.ref_BehaviorUISelector)
+            {
+                if (holdVerticalButton == false)
+                {
+                    // up
+                    if (Input.GetKeyDown(key_MoveUp) || Input.GetKeyDown(key_MoveUp2) || Input.GetAxis(axisVertical) > axisInputDeadzone || Input.GetAxis(buttonJump) > axisInputDeadzone)
+                    { Manager_UI.Instance.ref_BehaviorUISelector.ChangeUiId(Manager_UI.Instance.ref_BehaviorUISelector.uiSelectionId - 1); holdVerticalButton = true; }// up
+                                                                                                                                                                       // down
+                    if (Input.GetKeyDown(key_MoveDown) || Input.GetKeyDown(key_MoveDown2) || Input.GetAxis(axisVertical) < -axisInputDeadzone || Input.GetAxis(buttonJump) < -axisInputDeadzone)
+                    { Manager_UI.Instance.ref_BehaviorUISelector.ChangeUiId(Manager_UI.Instance.ref_BehaviorUISelector.uiSelectionId + 1); holdVerticalButton = true; } // down
+                }
+                //confirm        
+                if (Input.GetButtonDown(buttonJump))  //confirm
+                { print("Pressed Jump Button"); Manager_UI.Instance.ref_BehaviorUISelector.SelectButton(); }
+            }
+
+            if (Input.GetAxis(axisVertical) < axisInputDeadzone && Input.GetAxis(axisVertical) > -axisInputDeadzone &&
+                Input.GetKeyDown(key_MoveUp) == false && Input.GetKeyDown(key_MoveUp2) == false &&
+                Input.GetKeyDown(key_MoveDown) == false &&  Input.GetKeyDown(key_MoveDown2) == false &&
+                Input.GetAxis(buttonJump) < axisInputDeadzone && Input.GetAxis(buttonJump) > -axisInputDeadzone)
+                holdVerticalButton = false;
+        }
+    }
+
 
     private void CheckForInputs()
     {  // if no buttons are pressed then we are not holding any jumps
@@ -202,28 +238,6 @@ public class PlayerCore : MonoBehaviour
                 holdingJumpButton = true;
                 onSuccess_MoveUp.Invoke();
             }
-        }
-    }
-
-
-    private void ReactToGameManager()
-    {
-        if (Manager_GameState.Instance.currentState == Manager_GameState.GAMESTATE.Paused || Manager_GameState.Instance.currentState == Manager_GameState.GAMESTATE.Menu)
-        {
-            if (Manager_UI.Instance && Manager_UI.Instance.ref_BehaviorUISelector)
-            {
-                // up
-                if (Input.GetKeyDown(key_MoveUp) || Input.GetKeyDown(key_MoveUp2) || Input.GetAxis(axisVertical) > axisInputDeadzone && holdVerticalButton == false )
-                { Manager_UI.Instance.ref_BehaviorUISelector.ChangeUiId(Manager_UI.Instance.ref_BehaviorUISelector.uiSelectionId - 1); holdVerticalButton = true; }// up
-                // down
-                if (Input.GetKeyDown(key_MoveDown) || Input.GetKeyDown(key_MoveDown2) || Input.GetAxis(axisVertical) < -axisInputDeadzone && holdVerticalButton == false)
-                { Manager_UI.Instance.ref_BehaviorUISelector.ChangeUiId(Manager_UI.Instance.ref_BehaviorUISelector.uiSelectionId + 1); holdVerticalButton = true;} // down
-                //confirm        
-                if (Input.GetButtonDown(buttonJump))  //confirm
-                    Manager_UI.Instance.ref_BehaviorUISelector.SelectButton();
-            }
-
-            if (Input.GetAxis(axisVertical) < axisInputDeadzone && Input.GetAxis(axisVertical) > -axisInputDeadzone) holdVerticalButton = false;
         }
     }
 

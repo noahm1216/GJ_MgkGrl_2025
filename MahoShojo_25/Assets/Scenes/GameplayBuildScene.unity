@@ -3419,6 +3419,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 197680796656671685, guid: 2233f553fe2318642aa3a791cd349c69,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 255402303654299368, guid: 2233f553fe2318642aa3a791cd349c69,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -3758,6 +3763,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: All_In_One_Playables
+      objectReference: {fileID: 0}
+    - target: {fileID: 6534351324399042877, guid: 2233f553fe2318642aa3a791cd349c69,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6669524687816603271, guid: 2233f553fe2318642aa3a791cd349c69,
         type: 3}

@@ -118,7 +118,7 @@ public class BehaviorUISelector : MonoBehaviour
     public void SelectButton() // call when we press any select/confirm button
     {
         //print($"Attempting to select button");
-        if (!activeButton || activeButton.gameObject.activeInHierarchy == false) { ChangeUiSelection(null); }// return; }
+        if (!activeButton || activeButton.gameObject.activeInHierarchy == false) { ChangeUiSelection(null); UpdateActiveUiList(); }// return; }
         else activeButton.onClick.Invoke(); // if the button is still active then press it
         UpdateActiveUiList();
        

@@ -8,6 +8,7 @@ public class PlayerAnimations : MonoBehaviour
     public Animator[] animPlayer;
     public string[] triggersToReset;
     public bool updateAnimSpeed = true;
+    public float animationSpeedMultiplier = 5f;
 
     private bool delayMaskDisable;
     private float maskDisableTimeStamp, maskDisableTime = 1.5f;
@@ -62,7 +63,7 @@ public class PlayerAnimations : MonoBehaviour
     }
 
 
-    private void LateUpdate()
+    private void Update()
     {
         if (Manager_GameState.Instance) // if we have the game manager then we want things to look a specific way
         {
@@ -92,7 +93,7 @@ public class PlayerAnimations : MonoBehaviour
             if (updateAnimSpeed)
                 for (int i = 0; i < animPlayer.Length; i++)
                     if (animPlayer[i] != null && animPlayer[i].gameObject.activeSelf == true)
-                        animPlayer[i].speed = 0.5f + Mathf.Abs(Manager_Platforms.Instance.CurrentSpeed() * 8.0f);
+                        animPlayer[i].speed = 0.5f + Mathf.Abs(Manager_Platforms.Instance.CurrentSpeed() * animationSpeedMultiplier);
         }
     }
 

@@ -11,7 +11,7 @@ public class PlayerCore : MonoBehaviour
     [Tooltip("Move our character down")]
     public KeyCode key_MoveDown = KeyCode.S;
     [Tooltip("When true this makes sure our character's always in the 2.5D position we expect them to be")]
-    public bool lockYPositionAtZero = true;
+    public bool lockZPositionAtZero = true;
 
     [Tooltip("Move our character up")]
     private KeyCode key_MoveUp2 = KeyCode.UpArrow;
@@ -157,10 +157,10 @@ public class PlayerCore : MonoBehaviour
     public void KeepMahoZeroed()
     {
         // lock maho's y position to make sure collisions dont force her off
-        if (lockYPositionAtZero)transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+        if (lockZPositionAtZero)transform.position = new Vector3(transform.position.x, transform.position.y, 0);
         // correct maho's x position to be close to zero
-        if (transform.position.x > axisInputDeadzone) transform.Translate(Vector3.left * Time.deltaTime);
-        if (transform.position.x < -axisInputDeadzone) transform.Translate(Vector3.right * Time.deltaTime);
+        if (transform.position.x > axisInputDeadzone) transform.Translate(Vector3.back * Time.deltaTime);
+        if (transform.position.x < -axisInputDeadzone) transform.Translate(Vector3.forward * Time.deltaTime);
     }
 
     private void ReactToGameManager()

@@ -1,0 +1,584 @@
+fileFormatVersion: 2
+guid: 47a12b9ec02d4f0468292d979a47d18a
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 1024
+    resizeAlgorithm: 0
+    textureFormat: 12
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 1
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Fire_x2048_0
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 1758
+        width: 488
+        height: 278
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: db818490b724086438a62fcb9d79c526
+      internalID: 1857219708
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Fire_x2048_1
+      rect:
+        serializedVersion: 2
+        x: 508
+        y: 1758
+        width: 488
+        height: 278
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4f6328bfb8efe8c48a55a745c5c69233
+      internalID: -1799352749
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Fire_x2048_2
+      rect:
+        serializedVersion: 2
+        x: 1004
+        y: 1758
+        width: 488
+        height: 278
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b63751ddd51cb5e4981146a4b060e3ce
+      internalID: 1824870700
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Fire_x2048_3
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 1758
+        width: 488
+        height: 278
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 65f3404e031f2e641883aec9998e9bbe
+      internalID: -1130088910
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Fire_x2048_4
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 1472
+        width: 488
+        height: 278
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a97f622e0f3d33d42bfbfbfffb8068ab
+      internalID: -834180649
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Fire_x2048_5
+      rect:
+        serializedVersion: 2
+        x: 508
+        y: 1472
+        width: 488
+        height: 278
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 12ad824e85c41914ba687dec8072f8ed
+      internalID: -1354192614
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Fire_x2048_6
+      rect:
+        serializedVersion: 2
+        x: 1004
+        y: 1472
+        width: 488
+        height: 278
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c52ec30536b8e8b41b542a847071e8f0
+      internalID: -1723348467
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Fire_x2048_7
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 1472
+        width: 488
+        height: 278
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 774db8ce89f5c984fb432da0fe67dafc
+      internalID: -1036504889
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Fire_x2048_8
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 1186
+        width: 488
+        height: 278
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0ff7e59433e325545893dc687f56b5b7
+      internalID: 1780007245
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Fire_x2048_9
+      rect:
+        serializedVersion: 2
+        x: 508
+        y: 1186
+        width: 488
+        height: 278
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2bcdbddae814dd940bb88bbc7616e5fc
+      internalID: 85053779
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Fire_x2048_10
+      rect:
+        serializedVersion: 2
+        x: 1004
+        y: 1186
+        width: 488
+        height: 278
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f561940ce387a2c49807bd2f3cc178fe
+      internalID: 537722947
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Fire_x2048_11
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 1186
+        width: 488
+        height: 278
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 27f41e7de34db564c8258d1ee5458c91
+      internalID: -1541540202
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Fire_x2048_12
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 900
+        width: 488
+        height: 278
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9f54a56c8adb1be4b8a119c922492623
+      internalID: 1761284760
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Fire_x2048_13
+      rect:
+        serializedVersion: 2
+        x: 508
+        y: 900
+        width: 488
+        height: 278
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: edadce04a894fef4cb38946072150b26
+      internalID: -1774777785
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Fire_x2048_14
+      rect:
+        serializedVersion: 2
+        x: 1004
+        y: 900
+        width: 488
+        height: 278
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2ed6ef86027163d49bdb8efdb72b0965
+      internalID: 1805951700
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Fire_x2048_15
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 900
+        width: 488
+        height: 278
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6a72a594a02bbfd4a9c686afa4b99f35
+      internalID: -1977143684
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Fire_x2048_16
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 614
+        width: 488
+        height: 278
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3e92ee207f24a6f4fab041f3b0db8727
+      internalID: 361899928
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Fire_x2048_17
+      rect:
+        serializedVersion: 2
+        x: 508
+        y: 614
+        width: 488
+        height: 278
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a6fe6e43901a6a3469878ac9d713babd
+      internalID: -618636328
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Fire_x2048_18
+      rect:
+        serializedVersion: 2
+        x: 1004
+        y: 614
+        width: 488
+        height: 278
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ab51a2ea44b5fbd4fb58c451824b3e62
+      internalID: 606881189
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 27a066b97b2d61e4a9416c9ceec1374b
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      Atlassed_ImgSeq_Fire_x2048_0: 1857219708
+      Atlassed_ImgSeq_Fire_x2048_1: -1799352749
+      Atlassed_ImgSeq_Fire_x2048_10: 537722947
+      Atlassed_ImgSeq_Fire_x2048_11: -1541540202
+      Atlassed_ImgSeq_Fire_x2048_12: 1761284760
+      Atlassed_ImgSeq_Fire_x2048_13: -1774777785
+      Atlassed_ImgSeq_Fire_x2048_14: 1805951700
+      Atlassed_ImgSeq_Fire_x2048_15: -1977143684
+      Atlassed_ImgSeq_Fire_x2048_16: 361899928
+      Atlassed_ImgSeq_Fire_x2048_17: -618636328
+      Atlassed_ImgSeq_Fire_x2048_18: 606881189
+      Atlassed_ImgSeq_Fire_x2048_2: 1824870700
+      Atlassed_ImgSeq_Fire_x2048_3: -1130088910
+      Atlassed_ImgSeq_Fire_x2048_4: -834180649
+      Atlassed_ImgSeq_Fire_x2048_5: -1354192614
+      Atlassed_ImgSeq_Fire_x2048_6: -1723348467
+      Atlassed_ImgSeq_Fire_x2048_7: -1036504889
+      Atlassed_ImgSeq_Fire_x2048_8: 1780007245
+      Atlassed_ImgSeq_Fire_x2048_9: 85053779
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

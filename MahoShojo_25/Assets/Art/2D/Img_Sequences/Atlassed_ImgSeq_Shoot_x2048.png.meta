@@ -50,7 +50,7 @@ TextureImporter:
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spriteGenerateFallbackPhysicsShape: 1
+  spriteGenerateFallbackPhysicsShape: 0
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -82,7 +82,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
-    maxTextureSize: 1024
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 12
     textureCompression: 1
@@ -153,9 +153,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 12
-        y: 1758
-        width: 488
-        height: 278
+        y: 1818
+        width: 382
+        height: 218
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -173,10 +173,10 @@ TextureImporter:
       name: Atlassed_ImgSeq_Fire_x2048_1
       rect:
         serializedVersion: 2
-        x: 508
-        y: 1758
-        width: 488
-        height: 278
+        x: 404
+        y: 1818
+        width: 382
+        height: 218
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -194,10 +194,10 @@ TextureImporter:
       name: Atlassed_ImgSeq_Fire_x2048_2
       rect:
         serializedVersion: 2
-        x: 1004
-        y: 1758
-        width: 488
-        height: 278
+        x: 794
+        y: 1818
+        width: 382
+        height: 218
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -215,10 +215,10 @@ TextureImporter:
       name: Atlassed_ImgSeq_Fire_x2048_3
       rect:
         serializedVersion: 2
-        x: 1500
-        y: 1758
-        width: 488
-        height: 278
+        x: 1186
+        y: 1818
+        width: 382
+        height: 218
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -236,10 +236,10 @@ TextureImporter:
       name: Atlassed_ImgSeq_Fire_x2048_4
       rect:
         serializedVersion: 2
-        x: 12
-        y: 1472
-        width: 488
-        height: 278
+        x: 1576
+        y: 1818
+        width: 382
+        height: 218
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -257,10 +257,10 @@ TextureImporter:
       name: Atlassed_ImgSeq_Fire_x2048_5
       rect:
         serializedVersion: 2
-        x: 508
-        y: 1472
-        width: 488
-        height: 278
+        x: 12
+        y: 1590
+        width: 382
+        height: 218
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -278,10 +278,10 @@ TextureImporter:
       name: Atlassed_ImgSeq_Fire_x2048_6
       rect:
         serializedVersion: 2
-        x: 1004
-        y: 1472
-        width: 488
-        height: 278
+        x: 404
+        y: 1590
+        width: 382
+        height: 218
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -299,10 +299,10 @@ TextureImporter:
       name: Atlassed_ImgSeq_Fire_x2048_7
       rect:
         serializedVersion: 2
-        x: 1500
-        y: 1472
-        width: 488
-        height: 278
+        x: 794
+        y: 1590
+        width: 382
+        height: 218
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -320,10 +320,10 @@ TextureImporter:
       name: Atlassed_ImgSeq_Fire_x2048_8
       rect:
         serializedVersion: 2
-        x: 12
-        y: 1186
-        width: 488
-        height: 278
+        x: 1186
+        y: 1590
+        width: 382
+        height: 218
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -341,10 +341,10 @@ TextureImporter:
       name: Atlassed_ImgSeq_Fire_x2048_9
       rect:
         serializedVersion: 2
-        x: 508
-        y: 1186
-        width: 488
-        height: 278
+        x: 1576
+        y: 1590
+        width: 382
+        height: 218
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -362,10 +362,10 @@ TextureImporter:
       name: Atlassed_ImgSeq_Fire_x2048_10
       rect:
         serializedVersion: 2
-        x: 1004
-        y: 1186
-        width: 488
-        height: 278
+        x: 12
+        y: 1364
+        width: 382
+        height: 218
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -383,10 +383,10 @@ TextureImporter:
       name: Atlassed_ImgSeq_Fire_x2048_11
       rect:
         serializedVersion: 2
-        x: 1500
-        y: 1186
-        width: 488
-        height: 278
+        x: 404
+        y: 1364
+        width: 382
+        height: 218
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -404,10 +404,10 @@ TextureImporter:
       name: Atlassed_ImgSeq_Fire_x2048_12
       rect:
         serializedVersion: 2
-        x: 12
-        y: 900
-        width: 488
-        height: 278
+        x: 794
+        y: 1364
+        width: 382
+        height: 218
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -425,10 +425,10 @@ TextureImporter:
       name: Atlassed_ImgSeq_Fire_x2048_13
       rect:
         serializedVersion: 2
-        x: 508
-        y: 900
-        width: 488
-        height: 278
+        x: 1186
+        y: 1364
+        width: 382
+        height: 218
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -446,10 +446,10 @@ TextureImporter:
       name: Atlassed_ImgSeq_Fire_x2048_14
       rect:
         serializedVersion: 2
-        x: 1004
-        y: 900
-        width: 488
-        height: 278
+        x: 1576
+        y: 1364
+        width: 382
+        height: 218
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -467,10 +467,10 @@ TextureImporter:
       name: Atlassed_ImgSeq_Fire_x2048_15
       rect:
         serializedVersion: 2
-        x: 1500
-        y: 900
-        width: 488
-        height: 278
+        x: 12
+        y: 1136
+        width: 382
+        height: 218
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -488,10 +488,10 @@ TextureImporter:
       name: Atlassed_ImgSeq_Fire_x2048_16
       rect:
         serializedVersion: 2
-        x: 12
-        y: 614
-        width: 488
-        height: 278
+        x: 404
+        y: 1136
+        width: 382
+        height: 218
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -509,10 +509,10 @@ TextureImporter:
       name: Atlassed_ImgSeq_Fire_x2048_17
       rect:
         serializedVersion: 2
-        x: 508
-        y: 614
-        width: 488
-        height: 278
+        x: 794
+        y: 1136
+        width: 382
+        height: 218
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -530,10 +530,10 @@ TextureImporter:
       name: Atlassed_ImgSeq_Fire_x2048_18
       rect:
         serializedVersion: 2
-        x: 1004
-        y: 614
-        width: 488
-        height: 278
+        x: 1186
+        y: 1136
+        width: 382
+        height: 218
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -543,6 +543,405 @@ TextureImporter:
       bones: []
       spriteID: ab51a2ea44b5fbd4fb58c451824b3e62
       internalID: 606881189
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Fire_x2048_19
+      rect:
+        serializedVersion: 2
+        x: 1576
+        y: 1136
+        width: 382
+        height: 218
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9e590064955b2dd448d2834d3a0860c0
+      internalID: 593722779
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Fire_x2048_20
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 910
+        width: 382
+        height: 218
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a30096e1186b9c648b5df1d99383fa20
+      internalID: 2133379738
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Fire_x2048_21
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 910
+        width: 382
+        height: 218
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 959451db3d367514dad9f455b8e9036c
+      internalID: 964889308
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Fire_x2048_22
+      rect:
+        serializedVersion: 2
+        x: 794
+        y: 910
+        width: 382
+        height: 218
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 15a323b713fdfc841a55c6ad4b9c1bcc
+      internalID: -663075251
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Fire_x2048_23
+      rect:
+        serializedVersion: 2
+        x: 1186
+        y: 910
+        width: 382
+        height: 218
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c5f5c02afaec17c47b3ed29c77efe201
+      internalID: 73642663
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Fire_x2048_24
+      rect:
+        serializedVersion: 2
+        x: 1576
+        y: 910
+        width: 382
+        height: 218
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3691eaef40e22624da92b82ac8522742
+      internalID: 867181966
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Fire_x2048_25
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 682
+        width: 382
+        height: 218
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 14c4c55404faea24195653316f42476d
+      internalID: -1646024146
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Fire_x2048_26
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 682
+        width: 382
+        height: 218
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4bc88ec1479f2804ea477fc262efc602
+      internalID: 989632128
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Fire_x2048_27
+      rect:
+        serializedVersion: 2
+        x: 794
+        y: 682
+        width: 382
+        height: 218
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d4b19abaa92de9c4aaec4576f2ec347c
+      internalID: 620885494
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Fire_x2048_28
+      rect:
+        serializedVersion: 2
+        x: 1186
+        y: 682
+        width: 382
+        height: 218
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f42a011a81e2ec542bc049dd589d438a
+      internalID: 723532812
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Fire_x2048_29
+      rect:
+        serializedVersion: 2
+        x: 1576
+        y: 682
+        width: 382
+        height: 218
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eb49bea732e243b46849e216655ee3f7
+      internalID: 1847179213
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Fire_x2048_30
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 456
+        width: 382
+        height: 218
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f22b707d7e35a884bad6a01d3f2efdab
+      internalID: -942850464
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Fire_x2048_31
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 456
+        width: 382
+        height: 218
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 58b38df653b035643b60ad8c65fcfe52
+      internalID: -1204326723
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Fire_x2048_32
+      rect:
+        serializedVersion: 2
+        x: 794
+        y: 456
+        width: 382
+        height: 218
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e09388173116fab49bdf9df92d0906cf
+      internalID: 693788586
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Fire_x2048_33
+      rect:
+        serializedVersion: 2
+        x: 1186
+        y: 456
+        width: 382
+        height: 218
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: be74ef9a6f74d0042a417c7c95baa0c4
+      internalID: -1328816030
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Fire_x2048_34
+      rect:
+        serializedVersion: 2
+        x: 1576
+        y: 456
+        width: 382
+        height: 218
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 18b6aa54881438c4c857b6eff5dc58a4
+      internalID: -389910602
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Fire_x2048_35
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 228
+        width: 382
+        height: 218
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cef38c32ede3c0c48b20f3167d0f183e
+      internalID: -1646613555
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Fire_x2048_36
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 228
+        width: 382
+        height: 218
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fc9cfce04396c0341a58db26b492bd68
+      internalID: 1420647081
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Fire_x2048_37
+      rect:
+        serializedVersion: 2
+        x: 794
+        y: 228
+        width: 382
+        height: 218
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6a87a14053039324c9473ec1648a6da7
+      internalID: -2068348575
       vertices: []
       indices: 
       edges: []
@@ -569,8 +968,27 @@ TextureImporter:
       Atlassed_ImgSeq_Fire_x2048_16: 361899928
       Atlassed_ImgSeq_Fire_x2048_17: -618636328
       Atlassed_ImgSeq_Fire_x2048_18: 606881189
+      Atlassed_ImgSeq_Fire_x2048_19: 593722779
       Atlassed_ImgSeq_Fire_x2048_2: 1824870700
+      Atlassed_ImgSeq_Fire_x2048_20: 2133379738
+      Atlassed_ImgSeq_Fire_x2048_21: 964889308
+      Atlassed_ImgSeq_Fire_x2048_22: -663075251
+      Atlassed_ImgSeq_Fire_x2048_23: 73642663
+      Atlassed_ImgSeq_Fire_x2048_24: 867181966
+      Atlassed_ImgSeq_Fire_x2048_25: -1646024146
+      Atlassed_ImgSeq_Fire_x2048_26: 989632128
+      Atlassed_ImgSeq_Fire_x2048_27: 620885494
+      Atlassed_ImgSeq_Fire_x2048_28: 723532812
+      Atlassed_ImgSeq_Fire_x2048_29: 1847179213
       Atlassed_ImgSeq_Fire_x2048_3: -1130088910
+      Atlassed_ImgSeq_Fire_x2048_30: -942850464
+      Atlassed_ImgSeq_Fire_x2048_31: -1204326723
+      Atlassed_ImgSeq_Fire_x2048_32: 693788586
+      Atlassed_ImgSeq_Fire_x2048_33: -1328816030
+      Atlassed_ImgSeq_Fire_x2048_34: -389910602
+      Atlassed_ImgSeq_Fire_x2048_35: -1646613555
+      Atlassed_ImgSeq_Fire_x2048_36: 1420647081
+      Atlassed_ImgSeq_Fire_x2048_37: -2068348575
       Atlassed_ImgSeq_Fire_x2048_4: -834180649
       Atlassed_ImgSeq_Fire_x2048_5: -1354192614
       Atlassed_ImgSeq_Fire_x2048_6: -1723348467

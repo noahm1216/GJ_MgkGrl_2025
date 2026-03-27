@@ -1,0 +1,1002 @@
+fileFormatVersion: 2
+guid: 5e98e92d7fdd9cd45b1400f3ffb77a49
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 0
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 12
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 1
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Roll_x2048_0
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 1810
+        width: 398
+        height: 226
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6a306bd192a5fcc418dd4ad0f32da991
+      internalID: -328049171
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Roll_x2048_1
+      rect:
+        serializedVersion: 2
+        x: 418
+        y: 1810
+        width: 398
+        height: 226
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 334894594a7c9ff4481a906b9790b07b
+      internalID: -1214075890
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Roll_x2048_2
+      rect:
+        serializedVersion: 2
+        x: 824
+        y: 1810
+        width: 398
+        height: 226
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c1dc4c513008a114d8d39f2ce81a0c5b
+      internalID: -1426024616
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Roll_x2048_3
+      rect:
+        serializedVersion: 2
+        x: 1230
+        y: 1810
+        width: 398
+        height: 226
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0f7689edda8770e4b9683303e3c3750e
+      internalID: 968419908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Roll_x2048_4
+      rect:
+        serializedVersion: 2
+        x: 1636
+        y: 1810
+        width: 398
+        height: 226
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 034a35056ddfbdf4e8563750aa0ff625
+      internalID: -1623714614
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Roll_x2048_5
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 1574
+        width: 398
+        height: 226
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 89b83243df7d66a44907fef3f507c9df
+      internalID: -43340978
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Roll_x2048_6
+      rect:
+        serializedVersion: 2
+        x: 418
+        y: 1574
+        width: 398
+        height: 226
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 108ea109859a9394490987f9e06a714e
+      internalID: -677378673
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Roll_x2048_7
+      rect:
+        serializedVersion: 2
+        x: 824
+        y: 1574
+        width: 398
+        height: 226
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ec85acda447ec364d8108aeaa8c364f9
+      internalID: -1657304495
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Roll_x2048_8
+      rect:
+        serializedVersion: 2
+        x: 1230
+        y: 1574
+        width: 398
+        height: 226
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26504c719fcbdd14f9d60b5d659cdf3a
+      internalID: 1281330830
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Roll_x2048_9
+      rect:
+        serializedVersion: 2
+        x: 1636
+        y: 1574
+        width: 398
+        height: 226
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 53b10e9b4cd062d43a0f16698d4573e2
+      internalID: -682664206
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Roll_x2048_10
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 1340
+        width: 398
+        height: 226
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 273538f6c34daf34ba7f8e03795090d5
+      internalID: 1904170182
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Roll_x2048_11
+      rect:
+        serializedVersion: 2
+        x: 418
+        y: 1340
+        width: 398
+        height: 226
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 671b47fd7b13fb942a6ddd55c21a9650
+      internalID: -1561951737
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Roll_x2048_12
+      rect:
+        serializedVersion: 2
+        x: 824
+        y: 1340
+        width: 398
+        height: 226
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dac9d1b10f0bfe248bcd17309a118940
+      internalID: -1176374384
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Roll_x2048_13
+      rect:
+        serializedVersion: 2
+        x: 1230
+        y: 1340
+        width: 398
+        height: 226
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6cc3acbd6c914214d802cc8a0871e27f
+      internalID: -1254284191
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Roll_x2048_14
+      rect:
+        serializedVersion: 2
+        x: 1636
+        y: 1340
+        width: 398
+        height: 226
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 22ac76b41189e614f8f152c7c53307e2
+      internalID: 639486844
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Roll_x2048_15
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 1104
+        width: 398
+        height: 226
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5d980980d7acedf4b901181cec3002cf
+      internalID: -1622024139
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Roll_x2048_16
+      rect:
+        serializedVersion: 2
+        x: 418
+        y: 1104
+        width: 398
+        height: 226
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cdd5fc1cd4cb1c24b8447744ad2e4d4b
+      internalID: 1093704308
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Roll_x2048_17
+      rect:
+        serializedVersion: 2
+        x: 824
+        y: 1104
+        width: 398
+        height: 226
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 24879f254040ac043b318097cc298075
+      internalID: -690366531
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Roll_x2048_18
+      rect:
+        serializedVersion: 2
+        x: 1230
+        y: 1104
+        width: 398
+        height: 226
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c4160e212c9f73848845d4848b1bfda6
+      internalID: -1398559986
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Roll_x2048_19
+      rect:
+        serializedVersion: 2
+        x: 1636
+        y: 1104
+        width: 398
+        height: 226
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f3a24d624a3c80543af5f0f994ca1926
+      internalID: -99240927
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Roll_x2048_20
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 870
+        width: 398
+        height: 226
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: be472905e2f0b954b8211a82205b7002
+      internalID: -1935017844
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Roll_x2048_21
+      rect:
+        serializedVersion: 2
+        x: 418
+        y: 870
+        width: 398
+        height: 226
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 831dfec7fca90834e8637375eb9cb562
+      internalID: 699131615
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Roll_x2048_22
+      rect:
+        serializedVersion: 2
+        x: 824
+        y: 870
+        width: 398
+        height: 226
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 183bf3bad28d15e438c691b99b15a470
+      internalID: -1277048834
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Roll_x2048_23
+      rect:
+        serializedVersion: 2
+        x: 1230
+        y: 870
+        width: 398
+        height: 226
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4d95fcc5d3e051b41b2df5af8694b17d
+      internalID: -396972564
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Roll_x2048_24
+      rect:
+        serializedVersion: 2
+        x: 1636
+        y: 870
+        width: 398
+        height: 226
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 53a363518352c7c44b6e95429efc1495
+      internalID: -1534550236
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Roll_x2048_25
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 634
+        width: 398
+        height: 226
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cbff596a0086c7a40b845f4dec718531
+      internalID: 1111622258
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Roll_x2048_26
+      rect:
+        serializedVersion: 2
+        x: 418
+        y: 634
+        width: 398
+        height: 226
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 01d2c0098900a8c44819ce0c86100ccf
+      internalID: 1855859796
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Roll_x2048_27
+      rect:
+        serializedVersion: 2
+        x: 824
+        y: 634
+        width: 398
+        height: 226
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eb334d82820df9d409fd902b032ae4af
+      internalID: 114413918
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Roll_x2048_28
+      rect:
+        serializedVersion: 2
+        x: 1230
+        y: 634
+        width: 398
+        height: 226
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5ed6093df22d049418601c122094aebf
+      internalID: -1480579255
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Roll_x2048_29
+      rect:
+        serializedVersion: 2
+        x: 1636
+        y: 634
+        width: 398
+        height: 226
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9bef38a55289e9b4da53e84fc0baf9ab
+      internalID: 155247109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Roll_x2048_30
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 400
+        width: 398
+        height: 226
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 23d2b7e80556a634f8bc70da099023a1
+      internalID: 1166533865
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Roll_x2048_31
+      rect:
+        serializedVersion: 2
+        x: 418
+        y: 400
+        width: 398
+        height: 226
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b4411ed0bf1e4314e93f03f227059d65
+      internalID: 1633145600
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Roll_x2048_32
+      rect:
+        serializedVersion: 2
+        x: 824
+        y: 400
+        width: 398
+        height: 226
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9cf0e0c979d7ea948ab93ea7a41e3c57
+      internalID: -292651360
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Roll_x2048_33
+      rect:
+        serializedVersion: 2
+        x: 1230
+        y: 400
+        width: 398
+        height: 226
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6ba05344a9b057e4eae5ac109ca5a38b
+      internalID: -75410309
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Roll_x2048_34
+      rect:
+        serializedVersion: 2
+        x: 1636
+        y: 400
+        width: 398
+        height: 226
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: be8fa783af8cf9141b830af88699ea0a
+      internalID: 53816904
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Roll_x2048_35
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 164
+        width: 398
+        height: 226
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 23307154eeb53ed4db8ede325d72df4b
+      internalID: -443808832
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Roll_x2048_36
+      rect:
+        serializedVersion: 2
+        x: 418
+        y: 164
+        width: 398
+        height: 226
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 16daac2ab818b25418449f51ded7bb34
+      internalID: 1109959438
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Roll_x2048_37
+      rect:
+        serializedVersion: 2
+        x: 824
+        y: 164
+        width: 398
+        height: 226
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 20dd0ab9d5d0e304eaa701b50f3fa5f9
+      internalID: 1087964737
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 58c643502c619894b8a2e51778b40c58
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      Atlassed_ImgSeq_Roll_x2048_0: -328049171
+      Atlassed_ImgSeq_Roll_x2048_1: -1214075890
+      Atlassed_ImgSeq_Roll_x2048_10: 1904170182
+      Atlassed_ImgSeq_Roll_x2048_11: -1561951737
+      Atlassed_ImgSeq_Roll_x2048_12: -1176374384
+      Atlassed_ImgSeq_Roll_x2048_13: -1254284191
+      Atlassed_ImgSeq_Roll_x2048_14: 639486844
+      Atlassed_ImgSeq_Roll_x2048_15: -1622024139
+      Atlassed_ImgSeq_Roll_x2048_16: 1093704308
+      Atlassed_ImgSeq_Roll_x2048_17: -690366531
+      Atlassed_ImgSeq_Roll_x2048_18: -1398559986
+      Atlassed_ImgSeq_Roll_x2048_19: -99240927
+      Atlassed_ImgSeq_Roll_x2048_2: -1426024616
+      Atlassed_ImgSeq_Roll_x2048_20: -1935017844
+      Atlassed_ImgSeq_Roll_x2048_21: 699131615
+      Atlassed_ImgSeq_Roll_x2048_22: -1277048834
+      Atlassed_ImgSeq_Roll_x2048_23: -396972564
+      Atlassed_ImgSeq_Roll_x2048_24: -1534550236
+      Atlassed_ImgSeq_Roll_x2048_25: 1111622258
+      Atlassed_ImgSeq_Roll_x2048_26: 1855859796
+      Atlassed_ImgSeq_Roll_x2048_27: 114413918
+      Atlassed_ImgSeq_Roll_x2048_28: -1480579255
+      Atlassed_ImgSeq_Roll_x2048_29: 155247109
+      Atlassed_ImgSeq_Roll_x2048_3: 968419908
+      Atlassed_ImgSeq_Roll_x2048_30: 1166533865
+      Atlassed_ImgSeq_Roll_x2048_31: 1633145600
+      Atlassed_ImgSeq_Roll_x2048_32: -292651360
+      Atlassed_ImgSeq_Roll_x2048_33: -75410309
+      Atlassed_ImgSeq_Roll_x2048_34: 53816904
+      Atlassed_ImgSeq_Roll_x2048_35: -443808832
+      Atlassed_ImgSeq_Roll_x2048_36: 1109959438
+      Atlassed_ImgSeq_Roll_x2048_37: 1087964737
+      Atlassed_ImgSeq_Roll_x2048_4: -1623714614
+      Atlassed_ImgSeq_Roll_x2048_5: -43340978
+      Atlassed_ImgSeq_Roll_x2048_6: -677378673
+      Atlassed_ImgSeq_Roll_x2048_7: -1657304495
+      Atlassed_ImgSeq_Roll_x2048_8: 1281330830
+      Atlassed_ImgSeq_Roll_x2048_9: -682664206
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,1002 @@
+fileFormatVersion: 2
+guid: dc7e4c0ba06cdd64080a7599f9d5e842
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 0
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 12
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 1
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Retract_x2048_0
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 1819
+        width: 379
+        height: 215
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc72e67fba5a0dd4692c410221e94d49
+      internalID: 576727886
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Retract_x2048_1
+      rect:
+        serializedVersion: 2
+        x: 405
+        y: 1819
+        width: 379
+        height: 215
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8a9fd0da2ac71f24d85e5e4ddabbc3f6
+      internalID: -20667954
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Retract_x2048_2
+      rect:
+        serializedVersion: 2
+        x: 796
+        y: 1819
+        width: 379
+        height: 215
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9adc41b8b04ce5340b10ae2512d7a603
+      internalID: -341638497
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Retract_x2048_3
+      rect:
+        serializedVersion: 2
+        x: 1187
+        y: 1819
+        width: 379
+        height: 215
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 641a576e2b04aad4eb069c87502ac37e
+      internalID: 1639353359
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Retract_x2048_4
+      rect:
+        serializedVersion: 2
+        x: 1578
+        y: 1819
+        width: 379
+        height: 215
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 878b69f2b752306458cf1044e6cf5c0e
+      internalID: -1973434508
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Retract_x2048_5
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 1592
+        width: 379
+        height: 215
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 33752c3c86c5b2841bd19a3d8d14537f
+      internalID: -501397374
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Retract_x2048_6
+      rect:
+        serializedVersion: 2
+        x: 405
+        y: 1592
+        width: 379
+        height: 215
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: db2055b12fb19c940860b12ac0eac2bb
+      internalID: -2076660049
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Retract_x2048_7
+      rect:
+        serializedVersion: 2
+        x: 796
+        y: 1592
+        width: 379
+        height: 215
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 549e87c5c73cf264d94f4aa91010a0cc
+      internalID: 703550581
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Retract_x2048_8
+      rect:
+        serializedVersion: 2
+        x: 1187
+        y: 1592
+        width: 379
+        height: 215
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6e140f2af3090094f91a472f2dbc7b8f
+      internalID: -1258854008
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Retract_x2048_9
+      rect:
+        serializedVersion: 2
+        x: 1578
+        y: 1592
+        width: 379
+        height: 215
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 27a8f4886af5dd84eab24cb233198c7c
+      internalID: 2118366617
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Retract_x2048_10
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 1365
+        width: 379
+        height: 215
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eb8784b9e856ef84fa992cc47d1d16e2
+      internalID: -163240148
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Retract_x2048_11
+      rect:
+        serializedVersion: 2
+        x: 405
+        y: 1365
+        width: 379
+        height: 215
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6b5a1b88de2fba7459bdbac936dde097
+      internalID: -973345959
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Retract_x2048_12
+      rect:
+        serializedVersion: 2
+        x: 796
+        y: 1365
+        width: 379
+        height: 215
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 92d64eaf1234d7640a3094bef6f1f2fe
+      internalID: -1221184805
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Retract_x2048_13
+      rect:
+        serializedVersion: 2
+        x: 1187
+        y: 1365
+        width: 379
+        height: 215
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c0d12f202236cc24788066ffc4b07adf
+      internalID: 1587440225
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Retract_x2048_14
+      rect:
+        serializedVersion: 2
+        x: 1578
+        y: 1365
+        width: 379
+        height: 215
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a93de5fd0c76fcc4686df9f0ef377019
+      internalID: 238951810
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Retract_x2048_15
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 1138
+        width: 379
+        height: 215
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2fc84713e6c06a84f8840f76e3cdedc6
+      internalID: -103875807
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Retract_x2048_16
+      rect:
+        serializedVersion: 2
+        x: 405
+        y: 1138
+        width: 379
+        height: 215
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 71dbc59123677cd45aa351ddf8247c33
+      internalID: -1940181265
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Retract_x2048_17
+      rect:
+        serializedVersion: 2
+        x: 796
+        y: 1138
+        width: 379
+        height: 215
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8264260bc46172d42a1fca82d830b146
+      internalID: 2104839763
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Retract_x2048_18
+      rect:
+        serializedVersion: 2
+        x: 1187
+        y: 1138
+        width: 379
+        height: 215
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd015a5f60c2d7a4cbe0b40068afcb83
+      internalID: -1918055611
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Retract_x2048_19
+      rect:
+        serializedVersion: 2
+        x: 1578
+        y: 1138
+        width: 379
+        height: 215
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4a23b128d3fc0e74fbb339fc31c32760
+      internalID: -726249871
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Retract_x2048_20
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 911
+        width: 379
+        height: 215
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b21ba49ce4beba941a41e0469bf2740d
+      internalID: -915884443
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Retract_x2048_21
+      rect:
+        serializedVersion: 2
+        x: 405
+        y: 911
+        width: 379
+        height: 215
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7ecc8c2f7bb9cc8429c13e269ecfd0fd
+      internalID: -1720431905
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Retract_x2048_22
+      rect:
+        serializedVersion: 2
+        x: 796
+        y: 911
+        width: 379
+        height: 215
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: df125be516abf364aa10f90d95b070ce
+      internalID: -1053989997
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Retract_x2048_23
+      rect:
+        serializedVersion: 2
+        x: 1187
+        y: 911
+        width: 379
+        height: 215
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6e8a736d77238fd449145205280195f3
+      internalID: -602368545
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Retract_x2048_24
+      rect:
+        serializedVersion: 2
+        x: 1578
+        y: 911
+        width: 379
+        height: 215
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4e1f34831f1e99048b7b3f605fc05d9e
+      internalID: 590639664
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Retract_x2048_25
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 684
+        width: 379
+        height: 215
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 82406501f0a041e4d8bea353a0384be7
+      internalID: -1409500844
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Retract_x2048_26
+      rect:
+        serializedVersion: 2
+        x: 405
+        y: 684
+        width: 379
+        height: 215
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 91ed761460ece4641925a5dc8c020a65
+      internalID: -1495380042
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Retract_x2048_27
+      rect:
+        serializedVersion: 2
+        x: 796
+        y: 684
+        width: 379
+        height: 215
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 12d1063f30e27334ca9c9094228e121c
+      internalID: 972284816
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Retract_x2048_28
+      rect:
+        serializedVersion: 2
+        x: 1187
+        y: 684
+        width: 379
+        height: 215
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a5a88c1315147ff438519dfcd128914a
+      internalID: 1434416777
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Retract_x2048_29
+      rect:
+        serializedVersion: 2
+        x: 1578
+        y: 684
+        width: 379
+        height: 215
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 15415facabe96c44e8cdc5abaaaa230a
+      internalID: 1413339227
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Retract_x2048_30
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 457
+        width: 379
+        height: 215
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f72f53b2454840146a30965c0aa334f6
+      internalID: 16994713
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Retract_x2048_31
+      rect:
+        serializedVersion: 2
+        x: 405
+        y: 457
+        width: 379
+        height: 215
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ba86617544e2d74439d85192228a2901
+      internalID: -2124220050
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Retract_x2048_32
+      rect:
+        serializedVersion: 2
+        x: 796
+        y: 457
+        width: 379
+        height: 215
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0b1371fcac9293646a091348d2de30e7
+      internalID: -1521846679
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Retract_x2048_33
+      rect:
+        serializedVersion: 2
+        x: 1187
+        y: 457
+        width: 379
+        height: 215
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4ae474cccc43f6b4ba7543ab866c0cb0
+      internalID: 763309855
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Retract_x2048_34
+      rect:
+        serializedVersion: 2
+        x: 1578
+        y: 457
+        width: 379
+        height: 215
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f624cddc15378c1489e56b89ec6b0864
+      internalID: -1798519580
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Retract_x2048_35
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 230
+        width: 379
+        height: 215
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cd0f3a46ca3eb6c4fbb08c95fa540043
+      internalID: 1582862620
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Retract_x2048_36
+      rect:
+        serializedVersion: 2
+        x: 405
+        y: 230
+        width: 379
+        height: 215
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8cf1383be6535cf4f8fcb2c720967f52
+      internalID: 1280697743
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlassed_ImgSeq_Retract_x2048_37
+      rect:
+        serializedVersion: 2
+        x: 796
+        y: 230
+        width: 379
+        height: 215
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 11660acf88a58724c8a60fe16587e3a3
+      internalID: 1561093359
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 79287fbfc4892e54683239d26b61d356
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      Atlassed_ImgSeq_Retract_x2048_0: 576727886
+      Atlassed_ImgSeq_Retract_x2048_1: -20667954
+      Atlassed_ImgSeq_Retract_x2048_10: -163240148
+      Atlassed_ImgSeq_Retract_x2048_11: -973345959
+      Atlassed_ImgSeq_Retract_x2048_12: -1221184805
+      Atlassed_ImgSeq_Retract_x2048_13: 1587440225
+      Atlassed_ImgSeq_Retract_x2048_14: 238951810
+      Atlassed_ImgSeq_Retract_x2048_15: -103875807
+      Atlassed_ImgSeq_Retract_x2048_16: -1940181265
+      Atlassed_ImgSeq_Retract_x2048_17: 2104839763
+      Atlassed_ImgSeq_Retract_x2048_18: -1918055611
+      Atlassed_ImgSeq_Retract_x2048_19: -726249871
+      Atlassed_ImgSeq_Retract_x2048_2: -341638497
+      Atlassed_ImgSeq_Retract_x2048_20: -915884443
+      Atlassed_ImgSeq_Retract_x2048_21: -1720431905
+      Atlassed_ImgSeq_Retract_x2048_22: -1053989997
+      Atlassed_ImgSeq_Retract_x2048_23: -602368545
+      Atlassed_ImgSeq_Retract_x2048_24: 590639664
+      Atlassed_ImgSeq_Retract_x2048_25: -1409500844
+      Atlassed_ImgSeq_Retract_x2048_26: -1495380042
+      Atlassed_ImgSeq_Retract_x2048_27: 972284816
+      Atlassed_ImgSeq_Retract_x2048_28: 1434416777
+      Atlassed_ImgSeq_Retract_x2048_29: 1413339227
+      Atlassed_ImgSeq_Retract_x2048_3: 1639353359
+      Atlassed_ImgSeq_Retract_x2048_30: 16994713
+      Atlassed_ImgSeq_Retract_x2048_31: -2124220050
+      Atlassed_ImgSeq_Retract_x2048_32: -1521846679
+      Atlassed_ImgSeq_Retract_x2048_33: 763309855
+      Atlassed_ImgSeq_Retract_x2048_34: -1798519580
+      Atlassed_ImgSeq_Retract_x2048_35: 1582862620
+      Atlassed_ImgSeq_Retract_x2048_36: 1280697743
+      Atlassed_ImgSeq_Retract_x2048_37: 1561093359
+      Atlassed_ImgSeq_Retract_x2048_4: -1973434508
+      Atlassed_ImgSeq_Retract_x2048_5: -501397374
+      Atlassed_ImgSeq_Retract_x2048_6: -2076660049
+      Atlassed_ImgSeq_Retract_x2048_7: 703550581
+      Atlassed_ImgSeq_Retract_x2048_8: -1258854008
+      Atlassed_ImgSeq_Retract_x2048_9: 2118366617
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

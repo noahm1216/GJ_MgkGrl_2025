@@ -59,7 +59,7 @@ public class Manager_Platforms : MonoBehaviour
     [Header("Platform Objects\n______________")]
     [Tooltip("The starting Variable for how our speed is calculated")]
     [Range(0.1f, 30)]
-    public float speedBase = 14f;   
+    public float speedBaseTarget = 14f;   
     [Tooltip("Change how fast / slow we can go at top speed")]
     [Range(0.1f, 10.0f)] public float speedLimiting = 1f;
     public bool startPlayerSlowly = true;
@@ -72,6 +72,7 @@ public class Manager_Platforms : MonoBehaviour
     [Tooltip("When not touching anything (in air). our speed will be adjusted by this amound (0.5 means we cut half of our speed)")]
     [Range(0.00f, 2f)] public float speedChangeWhileInAir = 0.66f;
 
+    public float speedBaseCurrent { get; private set; } = 1;
     private float startSpeedAccel;
     private float startSpeedAccelStamp, startSpeedAceelWaitTime = 1;
     private float inputXYTime;
@@ -171,9 +172,9 @@ public class Manager_Platforms : MonoBehaviour
         ChangeMonsterVariables(true, false, false);
 
         if (startPlayerSlowly)
-            startSpeedAccel = 0;
+            startSpeedAccel = 0.25f;
         else
-            startSpeedAccel = 1;
+        { startSpeedAccel = speedAcceleration; speedBaseCurrent = speedBaseTarget; }
 
         if (!ref_BehaviorCameraFollower && Camera.main)
             Camera.main.TryGetComponent(out ref_BehaviorCameraFollower);
@@ -317,7 +318,7 @@ public class Manager_Platforms : MonoBehaviour
             return 0;
         if (Manager_GameState.Instance && Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing) return 0;        
 
-        float speed = ((speedBase * dir * inputXYTime * Time.deltaTime) * speedLimiting) * startSpeedAccel;
+        float speed = ((speedBaseCurrent * dir * inputXYTime * Time.deltaTime) * speedLimiting) * startSpeedAccel;
         speed = Mathf.Round(speed * 100f) / 100f; // rounding 2 Decimals for other reliable calculations
         if (playerInAir && !isDashing)
             speed *= speedChangeWhileInAir;
@@ -328,19 +329,26 @@ public class Manager_Platforms : MonoBehaviour
 
     public bool StartSpeedIsRampedUp() // lets us know if we are at full speed and makes adjustments if needed
     {      
-        if(Time.time > startSpeedAccelStamp + startSpeedAceelWaitTime && startSpeedAccel < 2)
+        if( Time.time > startSpeedAccelStamp + startSpeedAceelWaitTime)
         {
-            if (startSpeedAceelWaitTime < 20)
-                startSpeedAceelWaitTime++;
+            print("Speed Up");
             startSpeedAccelStamp = Time.time;
-            startSpeedAccel += 6f * Time.deltaTime;
+            startSpeedAceelWaitTime *= 1.5f;
+
+            if (speedBaseCurrent < speedBaseTarget)
+                speedBaseCurrent += startSpeedAccel;
+
+            if (startSpeedAccel < speedAcceleration) // change acceleration rate
+                startSpeedAccel += (Time.deltaTime);
+            else
+                startSpeedAccel = speedAcceleration;
+
             return false;
         }
 
-        if (startSpeedAccel >= 1)
-        { print("DONE SPEEDING UP"); startSpeedAccel = 1; return true; }
-        else
-            return false;              
+        speedBaseCurrent = speedBaseTarget;
+
+        return true;
     }
 
     private void CheckDashing()
@@ -366,7 +374,7 @@ public class Manager_Platforms : MonoBehaviour
 
             if (dir < 0) // check and set directions to be LEFT (platforms going right)
             { inputXYTime *= speedChangeOnDirectionChange; dir = 1; }
-            inputXYTime += 1 * Time.deltaTime * speedAcceleration;
+            inputXYTime += 1 * Time.deltaTime * startSpeedAccel;
             if (inputXYTime > 1) { inputXYTime = 1; }
 
             if (ref_BehaviorCameraFollower)
@@ -391,7 +399,7 @@ public class Manager_Platforms : MonoBehaviour
 
             if (dir > 0) // check and set directions to be Right (platforms going left)
             { inputXYTime *= speedChangeOnDirectionChange; dir = -1; }
-            inputXYTime += 1 * Time.deltaTime * speedAcceleration;
+            inputXYTime += 1 * Time.deltaTime * startSpeedAccel;
             if (inputXYTime > 1) { inputXYTime = 1; }
 
             if (ref_BehaviorCameraFollower)

@@ -165,7 +165,7 @@ public class BehaviorCameraFollower : MonoBehaviour
     {
         // set up the paremters for the camera
         currentPlatformSpeed = Mathf.Abs(Manager_Platforms.Instance.CurrentSpeed());
-        speedForZoomMax = Mathf.Abs(Manager_Platforms.Instance.speedBase * Manager_Platforms.Instance.speedLimiting);
+        speedForZoomMax = Mathf.Abs(Manager_Platforms.Instance.speedBaseCurrent * Manager_Platforms.Instance.speedLimiting);
         speedForZoomMed = platformSpeedMax * 0.5f;
 
         // follow those camera paremters

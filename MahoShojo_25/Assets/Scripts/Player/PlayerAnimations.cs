@@ -63,7 +63,7 @@ public class PlayerAnimations : MonoBehaviour
     }
 
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (Manager_GameState.Instance) // if we have the game manager then we want things to look a specific way
         {

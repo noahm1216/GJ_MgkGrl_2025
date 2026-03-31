@@ -5,6 +5,10 @@ using UnityEngine.Events;
 
 public class PlayerCore : MonoBehaviour
 {
+    [Header("References\n______________")]
+    public ChargingPocki ref_ChargingPocki;
+
+
     [Header("Input Keys\n______________")]
     [Tooltip("Move our character up")]
     public KeyCode key_MoveUp = KeyCode.W;
@@ -346,10 +350,17 @@ public class PlayerCore : MonoBehaviour
         if (trig.tag == "PockiBox") // collecting
         {
             if (Manager_Platforms.Instance)
+            {
                 if (!Manager_Platforms.Instance.playerUnlockedPockiBox)
-                { Manager_Platforms.Instance.playerUnlockedPockiBox = true; if (Manager_TutorialUI.Instance) Manager_TutorialUI.Instance.DisplayPockiCollection(true); }
+                {
+                    Manager_Platforms.Instance.playerUnlockedPockiBox = true;
+                    if (Manager_TutorialUI.Instance)
+                        Manager_TutorialUI.Instance.DisplayPockiCollection(true);
+                }
+            }
+
             if (trig.GetComponent<Collectible>())
-                trig.GetComponent<Collectible>().Interacted();
+                trig.GetComponent<Collectible>().Interacted();           
 
             onPockiBoxCollect.Invoke();
         }
@@ -360,6 +371,8 @@ public class PlayerCore : MonoBehaviour
             { Manager_Platforms.Instance.pockiBoxSticks += 1; if (Manager_TutorialUI.Instance) Manager_TutorialUI.Instance.DisplayPockiCollection(true); }
             if (trig.GetComponent<Collectible>())
                 trig.GetComponent<Collectible>().Interacted();
+
+            if (ref_ChargingPocki)  ref_ChargingPocki.UpdatePokkiCollected(); 
 
             onPockiStickCollect.Invoke();
         }

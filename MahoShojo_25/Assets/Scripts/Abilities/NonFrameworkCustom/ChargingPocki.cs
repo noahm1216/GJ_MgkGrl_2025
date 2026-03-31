@@ -11,6 +11,7 @@ public class ChargingPocki : MonoBehaviour // TODO: Add a reference to player an
     public string axisFire { get; private set; } = "Fire0";
     private float axisInputDeadzone = 0.15f;
     private bool holdingKey = false;
+ 
     // -C
     public bool showPockiWhileCharging;
     public Transform pockiPrefabArtOnly;
@@ -49,31 +50,99 @@ public class ChargingPocki : MonoBehaviour // TODO: Add a reference to player an
         { pockiPrefabArtOnly = GameObject.CreatePrimitive(PrimitiveType.Cylinder).transform; pockiPrefabArtOnly.gameObject.SetActive(false); }
     }
 
+    private void FixedUpdate()
+    {
+        if (alwaysShowPockiOnceUnlocked && pockiBoxObj && pockiBoxObj.gameObject.activeSelf == false)
+        {
+            if (Manager_Platforms.Instance)
+                pockiBoxObj.gameObject.SetActive(Manager_Platforms.Instance.playerUnlockedPockiBox);
+        }
+    }
+
+    public void UpdatePokkiCollected()
+    {
+        if (Manager_Platforms.Instance)
+            pockiCollected = Manager_Platforms.Instance.pockiBoxSticks;
+    }
+
     // Update is called once per frame
     void Update()
     {
+        CheckForInput();
+    }
 
+    private void CheckForInput()
+    {
         if (keyToCharge == KeyCode.None)
         { Debug.Log("WARNING: Unable to run charge code due to no key specified"); return; }
-
-        if (alwaysShowPockiOnceUnlocked && Manager_Platforms.Instance)
-        {
-            pockiCollected = Manager_Platforms.Instance.pockiBoxSticks;
-            if (Manager_Platforms.Instance.playerUnlockedPockiBox)
-                pockiBoxObj.gameObject.SetActive(true);
-            else
-            {
-                pockiBoxObj.gameObject.SetActive(false);
-                return;
-            }
-        }
 
         if (pockiCollected == 0) // no pocki to fire
             return;
 
+        CheckKeyRelease();        
+        CheckKeyPress();
+        CheckKeyHold();
+    }
 
+    private void CheckKeyPress()
+    {
+        if (Input.GetKeyDown(keyToCharge) || Input.GetButtonDown(axisFire) || Input.GetAxis(axisFire) > axisInputDeadzone && !holdingKey) // Pressing key (start charging)
+        {
+            print("0- PRESSING FIRE KEY");
+            holdingKey = false;
+            chargePercent = 0;
+
+            if (showPockiWhileCharging)
+            {
+                //pockiShownWhileCharging = 0;
+                //SpawnAllPockiArtRefs();
+            }
+
+            timeStampPressedKey = Time.time;
+            UpdateTotalCirclePositions(pockiCollected);
+
+            if (pockiBoxObj && followPlayer)
+            { pockiBoxObj.position = transform.position + pockiBoxOffset; pockiBoxObj.SetParent(transform); }
+
+            onChargeStartEvent.Invoke();
+        }
+    }
+
+    private void CheckKeyHold()
+    {
+        if (Input.GetKey(keyToCharge) || Input.GetButton(axisFire) || Input.GetAxis(axisFire) > axisInputDeadzone) // Holding key (sustain charging)
+        {
+            print("1- HOLDING FIRE KEY");
+            if (Input.GetAxis(axisFire) > axisInputDeadzone)
+                holdingKey = true;
+
+            if (chargePercent < 1)
+                chargePercent = ((Time.time - timeStampPressedKey) / requiredChargeTime) * chargeTimeMultiplier;
+            else
+                chargePercent = 1;
+
+            if (pockiBoxObj && visualObjMeter)
+            { visualObjMeter.localScale = new Vector3(visualObjMeter.localScale.x, chargePercent, visualObjMeter.localScale.z); }
+
+            if (showPockiWhileCharging) // display the pocki at the same time as we prepare to launch it
+            {
+                //float pockiChargeTime = requiredChargeTime / chargeTimeMultiplier;
+
+                //if (Time.time > showPockiWhileChargingTimeStamp + pockiChargeTime)
+                //{
+                //    pockiShownWhileCharging++;
+                //    showPockiWhileChargingTimeStamp = Time.time;
+                //    ShowPockiArtObjs(chargingPockiPositions[pockiShownWhileCharging], pockiShownWhileCharging);
+                //}
+            }
+        }
+    }
+
+    private void CheckKeyRelease()
+    {
         if (Input.GetKeyUp(keyToCharge) || Input.GetButtonUp(axisFire) || Input.GetAxis(axisFire) < axisInputDeadzone && holdingKey) // let go of key (no longer charging)
         {
+            print("2- RELEASING FIRE KEY");
             holdingKey = false;
 
             if (Time.time > timeStampPressedKey + requiredChargeTime / chargeTimeMultiplier)  // finished charging ability            
@@ -87,53 +156,8 @@ public class ChargingPocki : MonoBehaviour // TODO: Add a reference to player an
             if (pockiBoxObj && visualObjMeter)
                 visualObjMeter.localScale = new Vector3(visualObjMeter.localScale.x, 0.1f, visualObjMeter.localScale.z);
 
-            if (showPockiWhileCharging)
-            {  ShowPockiArtObjs(Vector3.zero, -1); } // spawn and disable pocki art when 
-
-            
-        }
-
-        if (Input.GetKeyDown(keyToCharge) || Input.GetButtonDown(axisFire) || Input.GetAxis(axisFire) > axisInputDeadzone && !holdingKey) // Pressing key (start charging)
-        {
-            holdingKey = true;
-            chargePercent = 0;
-            if (showPockiWhileCharging)
-            { pockiShownWhileCharging = 0; SpawnAllPockiArtRefs(); }
-            timeStampPressedKey = Time.time;
-            UpdateTotalCirclePositions(pockiCollected);
-            if (pockiBoxObj && followPlayer)
-            { pockiBoxObj.position = transform.position + pockiBoxOffset; pockiBoxObj.SetParent(transform); }
-            onChargeStartEvent.Invoke();
-        }
-
-        if (Input.GetKey(keyToCharge) || Input.GetButton(axisFire) || Input.GetAxis(axisFire) > axisInputDeadzone) // Holding key (sustain charging)
-        {
-            if (chargePercent < 1)
-                chargePercent = ((Time.time - timeStampPressedKey) / requiredChargeTime) * chargeTimeMultiplier;
-            else
-                chargePercent = 1;
-
-            if (pockiBoxObj && visualObjMeter)
-            { visualObjMeter.localScale = new Vector3(visualObjMeter.localScale.x, chargePercent, visualObjMeter.localScale.z); }
-
-            if (showPockiWhileCharging) // display the pocki at the same time as we prepare to launch it
-            {
-                for(int i = 0; i < chargingPockiPositions.Count; i++)
-                {
-                    //if(chargingPockiArtObjs.Count == 0 ||)
-
-                    //if(chargingPockiArtObjs[])
-                }
-
-                float pockiChargeTime = requiredChargeTime / chargeTimeMultiplier;
-
-                if(Time.time > showPockiWhileChargingTimeStamp + pockiChargeTime)
-                {                   
-                    pockiShownWhileCharging++;
-                    showPockiWhileChargingTimeStamp = Time.time;
-                    ShowPockiArtObjs(chargingPockiPositions[pockiShownWhileCharging], pockiShownWhileCharging);                                    
-                }
-            }
+            //if (showPockiWhileCharging)
+            //{ ShowPockiArtObjs(Vector3.zero, -1); } // spawn and disable pocki art when 
         }
     }
 

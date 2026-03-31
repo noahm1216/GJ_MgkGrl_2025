@@ -143,6 +143,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -334950970333022451, guid: 4eacdee713605b041baafcb5c9209874,
         type: 3}
+      propertyPath: ref_ChargingPocki
+      value: 
+      objectReference: {fileID: 3830545803713992449}
+    - target: {fileID: -334950970333022451, guid: 4eacdee713605b041baafcb5c9209874,
+        type: 3}
       propertyPath: onDeath.m_PersistentCalls.m_Calls.Array.size
       value: 0
       objectReference: {fileID: 0}

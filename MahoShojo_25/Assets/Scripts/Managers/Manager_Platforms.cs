@@ -273,14 +273,15 @@ public class Manager_Platforms : MonoBehaviour
                 if (Input.GetKey(key_MovePlatformsLeft) || Input.GetKey(key_MovePlatformsLeft2) || Input.GetAxis(axisHorizontal) > axisInputDeadzone || Input.GetButton(axisHorizontal))
                     Manager_UI.Instance.ref_BehaviorUISelector.ChangeSliderDirection(true); // press right 
             }
-        }
 
-        if (Manager_GameState.Instance.currentState == Manager_GameState.GAMESTATE.Menu)
-        {
-            startSpeedAccelStamp = Time.time;
-            timePressedJumpOrMove = Time.time;
-            ResetMonsterTimers();
+            if (Manager_GameState.Instance.currentState == Manager_GameState.GAMESTATE.Menu)
+            {
+                startSpeedAccelStamp = Time.time;
+                timePressedJumpOrMove = Time.time;
+                ResetMonsterTimers();
+            }
         }
+        
         if (Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing) // make sure that if we are not playing, it doesnt change our spawn timers
         {
            
@@ -289,7 +290,7 @@ public class Manager_Platforms : MonoBehaviour
 
     public void ResetMonsterTimers()
     {
-        lastCaptureTimeStamp = Time.deltaTime;
+        lastCaptureTimeStamp = Time.time;
         timeMonsterSpawned = Time.time;
         waitTimeUntilDespawnDynamic = waitTimeUntilDespawn;
         readyToSpawn = true;
@@ -626,6 +627,7 @@ public class Manager_Platforms : MonoBehaviour
             {
                 if (isBlocked)
                     lastCaptureTimeStamp += Time.deltaTime; // delays the monster spawning if we are standing still
+
 
                 if (Time.time > lastCaptureTimeStamp + waitTimeAfterCapture)
                     SpawnMonster();

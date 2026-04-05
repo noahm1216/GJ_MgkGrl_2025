@@ -81,7 +81,7 @@ public class BehaviorUISelector : MonoBehaviour
         if (activeUI.Count == 0) return;
 
         ChangeUiSelection(null); // remove any selection
-
+        
         if (_newId >= activeUI.Count) _newId = 0;
         if (_newId < 0) _newId = activeUI.Count - 1;
 
@@ -119,8 +119,9 @@ public class BehaviorUISelector : MonoBehaviour
     {
         //print($"Attempting to select button");
         if (!activeButton || activeButton.gameObject.activeInHierarchy == false) { ChangeUiSelection(null); UpdateActiveUiList(); }// return; }
-        else activeButton.onClick.Invoke(); // if the button is still active then press it
-        UpdateActiveUiList();
-       
+        else { print($"Button Selected = #{uiSelectionId} - {activeUI[uiSelectionId].name} \n Which should match: {activeButton.gameObject.name}"); activeButton.onClick.Invoke(); }// if the button is still active then press it
+        UpdateActiveUiList();       
     }
+
 }
+

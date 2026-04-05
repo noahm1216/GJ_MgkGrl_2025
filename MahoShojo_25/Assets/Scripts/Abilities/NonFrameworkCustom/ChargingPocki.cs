@@ -76,12 +76,29 @@ public class ChargingPocki : MonoBehaviour // TODO: Add a reference to player an
         if (keyToCharge == KeyCode.None)
         { Debug.Log("WARNING: Unable to run charge code due to no key specified"); return; }
 
+        if (Manager_GameState.Instance && Manager_UI.Instance)
+            if (InMenuInputs())
+                return;
+
         if (pockiCollected == 0) // no pocki to fire
             return;
 
         CheckKeyRelease();        
         CheckKeyPress();
         CheckKeyHold();
+    }
+
+    private bool InMenuInputs()
+    {
+        if(Manager_GameState.Instance.currentState == Manager_GameState.GAMESTATE.Menu || Manager_GameState.Instance.currentState == Manager_GameState.GAMESTATE.Paused)
+        {
+            if (Input.GetKeyDown(keyToCharge) || Input.GetButtonDown(axisFire) || Input.GetAxis(axisFire) > axisInputDeadzone && !holdingKey) // Pressing key (start charging)
+            {
+                Manager_UI.Instance.ref_BehaviorUISelector.SelectButton();
+            }
+            return true;
+        }
+        return false;
     }
 
     private void CheckKeyPress()

@@ -104,10 +104,10 @@ public class BehaviorUISelector : MonoBehaviour
         //print($"Attempting to change slider: {moveRight}");
         if (!activeSlider || activeSlider.gameObject.activeInHierarchy == false) return;
 
-        float amount = 0.1f;
-        if (!moveRight) amount = -0.1f;
-        float newValue = activeSlider.value * amount;
-        activeSlider.value += newValue;
+        float amount = 0.01f * (Mathf.Abs(activeSlider.maxValue) + Mathf.Abs(activeSlider.minValue));
+        if (!moveRight) amount *= -1f;
+        //float newValue = activeSlider.value + amount;
+        activeSlider.value += amount;//newValue;
     }
 
     public void ChangeUiSelection(GameObject _obj)

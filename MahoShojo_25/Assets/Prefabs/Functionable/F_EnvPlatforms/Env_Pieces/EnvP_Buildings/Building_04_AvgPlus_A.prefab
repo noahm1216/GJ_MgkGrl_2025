@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 377722003110922004}
   - component: {fileID: 5141339001597414072}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: BigBuffer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -67,7 +67,7 @@ GameObject:
   - component: {fileID: 7570898896878072604}
   - component: {fileID: 1206579936230688732}
   - component: {fileID: 5491704835005724282}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -170,13 +170,13 @@ GameObject:
   m_Component:
   - component: {fileID: 4907932645096156294}
   - component: {fileID: 5364057014861499194}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: BigBuffer (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4907932645096156294
 Transform:
   m_ObjectHideFlags: 0
@@ -225,7 +225,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7399932659518816323}
   - component: {fileID: 3124402856487967143}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EdgeBuffer (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -280,7 +280,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8931916856276891935}
   - component: {fileID: 1466112835180900107}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EdgeBuffer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -335,7 +335,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6177655745829221859}
   - component: {fileID: 5140342333500932723}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EdgeBuffer (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -390,7 +390,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2966819204916521985}
   - component: {fileID: 7959130222686408709}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EdgeBuffer (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -600,7 +600,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.065, y: 0.06011325, z: 0.09383742}
+  m_Size: {x: 0.09, y: 0.06011325, z: 0.09383742}
   m_Center: {x: 0, y: -9.313228e-10, z: 0.04691871}
 --- !u!4 &6712728414627775578 stripped
 Transform:

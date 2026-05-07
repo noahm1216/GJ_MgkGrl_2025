@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4000924769262035722}
   - component: {fileID: 4666717549162051741}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EdgeBuffer (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -65,13 +65,13 @@ GameObject:
   m_Component:
   - component: {fileID: 7047531432915127812}
   - component: {fileID: 7821013001649519913}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: BigBuffer (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7047531432915127812
 Transform:
   m_ObjectHideFlags: 0
@@ -122,7 +122,7 @@ GameObject:
   - component: {fileID: 8754698447140713203}
   - component: {fileID: 6232630656119977514}
   - component: {fileID: 6679827293781268743}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -225,7 +225,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4747818887540391467}
   - component: {fileID: 7297667427342279053}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EdgeBuffer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -280,7 +280,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5213855739941057575}
   - component: {fileID: 6349387527643183062}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EdgeBuffer (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -335,7 +335,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6221087562981675548}
   - component: {fileID: 5072865678386528270}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: BigBuffer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -390,7 +390,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5889823508498181778}
   - component: {fileID: 1209220853272054072}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EdgeBuffer (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -611,5 +611,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.085, y: 0.06011325, z: 0.103837416}
+  m_Size: {x: 0.095, y: 0.06011325, z: 0.103837416}
   m_Center: {x: 0, y: -9.313228e-10, z: 0.051918708}

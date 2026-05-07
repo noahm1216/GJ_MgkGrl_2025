@@ -1342,7 +1342,7 @@ MonoBehaviour:
   timeUntilDespawn: 15
   groundLayers:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 256
   playerObj: {fileID: 0}
   colliderSphere: {fileID: 0}
   runIndependantly: 1

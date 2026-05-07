@@ -198,7 +198,6 @@ MonoBehaviour:
   - {x: 14, y: 4, z: 0}
   - {x: 14, y: 4, z: 0}
   - {x: 14, y: 4, z: 0}
-  waitTimeUntilDespawn: 25
   waitTimeAfterCapture: 35
   monstersSpawned: 0
   monsterSignaledCapture: 0
@@ -209,7 +208,7 @@ MonoBehaviour:
   spawnXOffset: 20
   pockiBoxInteractionLayers:
     serializedVersion: 2
-    m_Bits: 17
+    m_Bits: 273
   spawnPockiBoxOnTimer: 0
   timeUntilPockiBoxSpawn: 20
   ref_BehaviorCameraFollower: {fileID: 0}

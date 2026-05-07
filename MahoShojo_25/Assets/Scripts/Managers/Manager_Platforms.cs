@@ -843,7 +843,7 @@ public class Manager_Platforms : MonoBehaviour
     public void RunMonsterBehavior()
     {
         if (spawnedMonsterBehavior && spawnedMonster && spawnedMonster.gameObject.activeSelf == true)
-         spawnedMonsterBehavior.RunMonsterBehavior(); 
+         spawnedMonsterBehavior.RunMonsterBehavior(false); 
     }
 
     public void DespawnMonster(bool _wasCaptured)

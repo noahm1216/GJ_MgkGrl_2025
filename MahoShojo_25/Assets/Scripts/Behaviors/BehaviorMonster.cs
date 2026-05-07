@@ -57,6 +57,7 @@ public class BehaviorMonster : MonoBehaviour
     private float huntOffX, huntOffY;
     private int dir = 1;
     private bool gettingIntoPosition;
+    private Vector3 targetGraphicStartPos;
 
 
     // TARGET LOCKED
@@ -127,24 +128,28 @@ public class BehaviorMonster : MonoBehaviour
             startScale = transform.localScale;
         transform.localScale = startScale;
         UpdateUserInterface();
-        if (!playerObj)
-            playerObj = GameObject.FindGameObjectWithTag(tag_ToHunt).transform;
+        if (!playerObj) playerObj = GameObject.FindGameObjectWithTag(tag_ToHunt).transform;
 
+    }
+
+    private void OnDisable()
+    {
+        if (targetGraphic)  targetGraphic.gameObject.SetActive(true); 
     }
 
 #if UNITY_EDITOR
     private void LateUpdate() // we'll run this from manager_platforms in the build
     {
-        if (runIndependantly) RunMonsterBehavior();
+        if (runIndependantly) RunMonsterBehavior(true);
     }
 #endif //unity_editor
 
-    public void RunMonsterBehavior()
+    public void RunMonsterBehavior(bool _runSelf)
     {
         if (!playerObj)
         { Debug.Log($"ERROR: Cant find player obj for this monster ({transform.name}) to hunt"); playerObj = GameObject.FindGameObjectWithTag(tag_ToHunt).transform; return; }
 
-        if (runIndependantly) runIndependantly = false;
+        if (!_runSelf) runIndependantly = false;
 
         if (currentState != MONSTERSTATE.Waiting && Manager_GameState.Instance && Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing)
         { currentState = MONSTERSTATE.Waiting; return; }
@@ -206,6 +211,35 @@ public class BehaviorMonster : MonoBehaviour
 
         if (currentState != MONSTERSTATE.Captured && _newState == MONSTERSTATE.Captured)
             onCapture?.Invoke();
+
+        if (_newState != currentState)
+        {
+            switch (_newState) // setting variables and calling functions on new switch events
+            {
+                case MONSTERSTATE.Waiting:
+                    // nothing on change
+                    break;
+                case MONSTERSTATE.Hunting:
+                    if (targetGraphic) { targetGraphic.SetParent(null); targetGraphic.position = transform.position; targetGraphic.gameObject.SetActive(true); }
+                    break;
+                case MONSTERSTATE.TargetLocked:
+                    // nothing on change
+                    break;
+                case MONSTERSTATE.Attacking:
+                    // nothing on change
+                    break;
+                case MONSTERSTATE.Recovering:
+                    // nothing on change
+                    break;
+                case MONSTERSTATE.Captured:
+                    // nothing on change
+                    break;
+                default:
+                    Debug.Log($"WARNING: Case for Monster state '{currentState}' - not found");
+                    break;
+            }
+        }
+
         print($"MONSTERSTATE Change To: {_newState}\nFrom: {currentState}");
         currentState = _newState;
     }
@@ -276,7 +310,7 @@ public class BehaviorMonster : MonoBehaviour
     }
 
     public static Vector3 CalculateBezierPoint(float t, Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3)
-    {
+    { // i don't know how this works, found it on the internet and it works... 
         float u = 1 - t;
         float uu = u * u;
         float uuu = uu * u;
@@ -297,12 +331,12 @@ public class BehaviorMonster : MonoBehaviour
     }
     #endregion helper functions
 
-
     #region STATE: WAITING
     private void StateWaiting()
     {
         //print("MONSTER WAITING DEBUG");
         transform.position += MoveWithBackground(); // keep moving with the background
+        timeUntilDespawn += Time.deltaTime; // doesnt count waiting time when considering despawn time
 
         switch (monsterPlushy)
         {
@@ -364,7 +398,7 @@ public class BehaviorMonster : MonoBehaviour
             case MONSTERPLUSHIE.Jello:
                 if (Time.time > currentStateTimeStamp + stateHuntingTime) //if (Time.time > betweenWaitActionsStamp + betweenWaitActionsTime)
                 {
-                    waitVarVector3Two = ReturnRaycastPosition(playerObj.position.x + Random.Range(-2, 4), groundLayers); // locate and set target area on the ground
+                    waitVarVector3Two = ReturnRaycastPosition(playerObj.position.x + Random.Range(1, 4), groundLayers); // locate and set target area on the ground
                     waitVarVector3Two.y += 0.05f;
 
                     if (stepArc != 0)
@@ -375,7 +409,14 @@ public class BehaviorMonster : MonoBehaviour
                     onHuntEndOne?.Invoke();
                     ChangeState(MONSTERSTATE.TargetLocked); // change state
                 }
-                else { if (targetGraphic) { targetGraphic.SetParent(null); float targetSpeed = 2.5f; targetGraphic.position = MoveTowardsHelper(targetGraphic.position, waitVarVector3Two, targetSpeed*Time.deltaTime); targetGraphic.gameObject.SetActive(true); } }
+                else
+                {
+                    if (targetGraphic)
+                    {
+                        float totalTime = currentStateTimeStamp + stateHuntingTime;  
+                        targetGraphic.position = Vector3.Lerp(transform.position, playerObj.position, Time.time / totalTime);
+                    }
+                }
                 break;
             default:
                 print($"STATE-HUNTING: Plushie '{monsterPlushy}' not handled yet...\nReturning to Demo Idle Behavior");

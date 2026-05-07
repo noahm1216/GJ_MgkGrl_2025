@@ -265,7 +265,7 @@ MonoBehaviour:
   numberOfJumps: 2
   layersThatResetJumps:
     serializedVersion: 2
-    m_Bits: 81
+    m_Bits: 337
   jumpAcceleration: 10
   fallAcceleration: 8
   ref_BehaviorCameraFollower: {fileID: 0}

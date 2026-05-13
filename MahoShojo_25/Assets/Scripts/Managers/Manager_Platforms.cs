@@ -340,9 +340,9 @@ public class Manager_Platforms : MonoBehaviour
 
     public float CurrentSpeed() // calculatedSpeed
     {
-        if (isBlocked)
-            return 0;
-        if (Manager_GameState.Instance && Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing) return 0;        
+        if (isBlocked)            return 0;
+        if (Manager_GameState.Instance && Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing) return 0;
+        if (BehaviorCameraFollower.Instance && BehaviorCameraFollower.Instance.currentState == BehaviorCameraFollower.CameraFocusState.Dolly) return 0;
 
         float speed = ((speedBase * dir * inputXYTime * Time.deltaTime) * speedLimiting) * startSpeedAccel;
         speed = Mathf.Round(speed * 100f) / 100f; // rounding 2 Decimals for other reliable calculations

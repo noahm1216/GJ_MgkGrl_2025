@@ -6,8 +6,8 @@ public class BehaviorMonster : MonoBehaviour
 {
 
     public enum MONSTERSTATE
-    { //Spawning, Looking, Prepare Attk, Charging, Waiting,    Beaten 
-        Waiting, Hunting, TargetLocked, Attacking, Recovering, Captured
+    { //    Spawning, Looking, Prepare Attk, Charging, Waiting,    Beaten 
+      None,  Waiting, Hunting, TargetLocked, Attacking, Recovering, Captured
     }
 
     public enum MONSTERPLUSHIE
@@ -39,6 +39,7 @@ public class BehaviorMonster : MonoBehaviour
     public float distanceToActivate = 4;
     public UnityEvent onWaitEndOne;
 
+    private bool alreadySpawned; // so the monster doesnt wait everytime it spawns. If it despawns, it will skip waiting again when enabled.
     private float betweenWaitActionsStamp;
     private Vector3 waitVarVector3One, waitVarVector3Two;
     private float stepArc;
@@ -212,14 +213,15 @@ public class BehaviorMonster : MonoBehaviour
         if (currentState != MONSTERSTATE.Captured && _newState == MONSTERSTATE.Captured)
             onCapture?.Invoke();
 
-        if (_newState != currentState)
+        if (_newState != currentState) // ON CHANGE ONLY
         {
             switch (_newState) // setting variables and calling functions on new switch events
             {
                 case MONSTERSTATE.Waiting:
-                    // nothing on change
+                    if (BehaviorCameraFollower.Instance) BehaviorCameraFollower.Instance.DollyTargetMonster(transform);
                     break;
                 case MONSTERSTATE.Hunting:
+                    if (BehaviorCameraFollower.Instance && BehaviorCameraFollower.Instance.currentState == BehaviorCameraFollower.CameraFocusState.Dolly) { print("HUNTING TIME"); BehaviorCameraFollower.Instance.DollyTargetMonster(null); }
                     if (targetGraphic) { targetGraphic.SetParent(null); targetGraphic.position = transform.position; targetGraphic.gameObject.SetActive(true); }
                     break;
                 case MONSTERSTATE.TargetLocked:
@@ -301,7 +303,7 @@ public class BehaviorMonster : MonoBehaviour
         if (Physics.Raycast(position, Vector3.down, out hit, Mathf.Infinity, _rayCastable))
         {
             position = hit.point + new Vector3(0, 0, 0);
-            print($"New Hunting Point: {position}");
+            //print($"New Hunting Point: {position}");
         }
         else
         { Debug.Log("WARNING: MonsterBehvaior Raycast wasnt able to find surface to land on"); position = Vector3.zero; }
@@ -353,7 +355,7 @@ public class BehaviorMonster : MonoBehaviour
                         stepArc = 0; // ready the arc path to move again
                     }
 
-                    if (Time.time > currentStateTimeStamp + stateWaitTime) { ChangeState(MONSTERSTATE.Hunting); }// change state
+                    if (Time.time > currentStateTimeStamp + stateWaitTime || alreadySpawned) { alreadySpawned = true;  ChangeState(MONSTERSTATE.Hunting); }// change state
                 }
                 if (waitVarVector3Two != Vector3.zero)  // step across said path
                 {
@@ -385,6 +387,8 @@ public class BehaviorMonster : MonoBehaviour
                 { onWaitEndOne?.Invoke(); ChangeState(MONSTERSTATE.Hunting); }
                 break;
         }
+
+        //if(alreadySpawned) ChangeState(MONSTERSTATE.Hunting); // if the monster already spawned, then we dont need to wait anymore
 
     }
     #endregion state: waiting

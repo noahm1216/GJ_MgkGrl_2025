@@ -5,12 +5,14 @@ using UnityEngine;
 public class BehaviorCameraFollower : MonoBehaviour
 {
     // the camera should be parented to the player object and the camer will just move around to help
+    public static BehaviorCameraFollower Instance { get; private set; }
 
-    public enum CameraFocusState {None, Idle, MovingForward, MovingBackwards, InTheAir, FightingMonster,  }
+    public enum CameraFocusState {None, Idle, MovingForward, MovingBackwards, InTheAir, FightingMonster, Dolly }
     public CameraFocusState currentState;
     public float stateChangeTime = 3;
 
     public PlayerCore ref_PlayerCore;
+    public Transform playerPos;
     public Camera camMain;
 
     public bool useLegacyBehavior;
@@ -18,6 +20,7 @@ public class BehaviorCameraFollower : MonoBehaviour
 
     public float speedOfCameraTranslate = 2;
     public float speedOfCameraZoom = 1.25f;
+    private float speedOfDollyMove = 1;
 
 
     private Transform currentTarget;
@@ -31,15 +34,23 @@ public class BehaviorCameraFollower : MonoBehaviour
 
     public Transform starrySkyObj;
 
+    private Transform targetMonster;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this) Destroy(this);  // If there is an instance, and it's not me, delete myself.
+        else Instance = this;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        if (!camMain)
-            camMain = Camera.main;
+        if (!camMain)  camMain = Camera.main;
+        if (ref_PlayerCore && !playerPos) playerPos = ref_PlayerCore.transform;
         currentState = CameraFocusState.Idle;
     }
 
-    public void StoreChangeState(CameraFocusState _newState, bool forceChange)
+    public void StoreChangeState(CameraFocusState _newState, bool forceChange = false)
     {    
         if (forceChange)
             ChangeState(_newState);
@@ -58,6 +69,7 @@ public class BehaviorCameraFollower : MonoBehaviour
     private void ChangeState(CameraFocusState _newState)
     {
         stateChangeTimeStamp = Time.time;
+        // CAN CHECK STATE DIFFERENCE if we'd like
         currentState = _newState;
         storedStateToChange = _newState;
         //print($"state change: {_newState}");
@@ -73,7 +85,7 @@ public class BehaviorCameraFollower : MonoBehaviour
             starrySkyObj.localScale = new Vector3(camMain.orthographicSize*0.2f, camMain.orthographicSize * 0.2f, camMain.orthographicSize * 0.2f);
 
 
-        if (Manager_Platforms.Instance && camMain)
+        if (camMain)
         {
             if (useLegacyBehavior)
                 LegacyGameJamMotion();
@@ -92,29 +104,36 @@ public class BehaviorCameraFollower : MonoBehaviour
 
         // X sets the Z (but is still left and right) || Y sets the Y (up and down) || Z sets the X (which is depth)
         Vector3 cameraOffset = new Vector3(0, 0, 0);  // Z, Y, X global space (i mention this because locally it feels different/off in inspector)
-        
+        if (speedOfDollyMove > 1) speedOfDollyMove *= 0.75f; // only one condition changes this to be higher gradually decrese the dolly otherwise
+        else speedOfDollyMove = 1; // shouldnt be lower than 1
 
         switch (currentState)
         {
+            case CameraFocusState.Dolly:
+                speedOfDollyMove = 4; 
+                targetZoom = 5.75f;
+                cameraOffset = new Vector3(2, 1f, -10); // TODO: Move this back a little (was (2,1,-5) )
+                if (targetMonster != null) targetLookAtPoint = targetMonster.position + cameraOffset;
+                else ChangeState(CameraFocusState.Idle);
+                break;
             case CameraFocusState.Idle:
+                speedOfDollyMove = 2;
                 targetZoom = 2.75f;
                 cameraOffset = new Vector3(2, 1f, -10); // TODO: Move this back a little (was (2,1,-5) )
-                targetLookAtPoint = ref_PlayerCore.transform.position + cameraOffset;
+                if (playerPos) targetLookAtPoint = playerPos.position + cameraOffset;
                 break;
-            case CameraFocusState.MovingForward:
-                targetZoom = 6 + (Mathf.Abs(ref_PlayerCore.transform.position.y) * 0.55f);
-                cameraOffset = new Vector3(8, 3, -5);   
-                targetLookAtPoint = ref_PlayerCore.transform.position + cameraOffset;
+            case CameraFocusState.MovingForward:                
+                cameraOffset = new Vector3(8, 3, -5);
+                if (playerPos) { targetZoom = 6 + (Mathf.Abs(playerPos.transform.position.y) * 0.55f); targetLookAtPoint = playerPos.position + cameraOffset; }
                 break;
             case CameraFocusState.MovingBackwards:
-                targetZoom = 6 + (Mathf.Abs(ref_PlayerCore.transform.position.y) * 0.55f);
                 cameraOffset = new Vector3(-5, 3, -5);
-                targetLookAtPoint = ref_PlayerCore.transform.position + cameraOffset;
+                if (playerPos)
+                { targetZoom = 6 + (Mathf.Abs(playerPos.position.y) * 0.55f); targetLookAtPoint = playerPos.position + cameraOffset; }
                 break;
-            case CameraFocusState.InTheAir:
-                targetZoom = 8 + (ref_PlayerCore.transform.position.y * 0.85f);
+            case CameraFocusState.InTheAir:                
                 cameraOffset = new Vector3(4, 0, -5);
-                targetLookAtPoint = ref_PlayerCore.transform.position + cameraOffset;
+                if (playerPos) { targetZoom = 8 + (playerPos.position.y * 0.85f); targetLookAtPoint = playerPos.position + cameraOffset; }
                 break;
             case CameraFocusState.FightingMonster:
                 if (Manager_Platforms.Instance)
@@ -126,8 +145,8 @@ public class BehaviorCameraFollower : MonoBehaviour
                         float dist = Vector3.Distance(transform.position, Manager_Platforms.Instance.spawnedMonster.position);
                         targetZoom = dist;  // calculate by the distance between our player and the enemy monster
                         //print("dist: " + (int)dist);
-                        if (dist <= 15)
-                            targetLookAtPoint = (ref_PlayerCore.transform.position + Manager_Platforms.Instance.spawnedMonster.position) / 2 + new Vector3(0, 0, -5);
+                        if (dist <= 15 && playerPos)
+                            targetLookAtPoint = (playerPos.position + Manager_Platforms.Instance.spawnedMonster.position) / 2 + new Vector3(0, 0, -5);
                         stateChangeTimeStamp = Time.time; // makes sure we dont change the camera until the monster is gone
                     }
                 }
@@ -138,8 +157,8 @@ public class BehaviorCameraFollower : MonoBehaviour
                 break;
         }
 
-        var step = speedOfCameraTranslate * Time.deltaTime; // calculate distance to move
-        camMain.transform.position = Vector3.MoveTowards(transform.position, targetLookAtPoint, step);
+        var step = speedOfCameraTranslate * speedOfDollyMove * Time.deltaTime; // calculate distance to move
+        if(targetLookAtPoint!=null) camMain.transform.position = Vector3.MoveTowards(transform.position, targetLookAtPoint, step);
 
         if (targetZoom != camMain.orthographicSize)
         {
@@ -185,5 +204,12 @@ public class BehaviorCameraFollower : MonoBehaviour
 
         var step = speedOfCameraTranslate * Time.deltaTime; // calculate distance to move
         camMain.transform.position = Vector3.MoveTowards(transform.position, currentTarget.position, step);
+    }
+
+    public void DollyTargetMonster(Transform _monster)
+    {
+        print("Camera DollyTargetCalled");
+        targetMonster = _monster;
+        ChangeState(CameraFocusState.Dolly);
     }
 }

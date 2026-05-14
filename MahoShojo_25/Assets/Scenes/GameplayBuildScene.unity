@@ -2314,7 +2314,7 @@ MonoBehaviour:
   backgroundLayers:
   - layerNickname: Pipes
     layerParent: {fileID: 779900350}
-    layerSpeedMultiplier: {x: 1, y: -0.15}
+    layerSpeedMultiplier: {x: 1, y: 0.15}
   - layerNickname: Water
     layerParent: {fileID: 1886194161}
     layerSpeedMultiplier: {x: 1, y: -0.05}

@@ -1347,7 +1347,7 @@ MonoBehaviour:
   colliderSphere: {fileID: 0}
   runIndependantly: 1
   activatesOnWait: 1
-  stateWaitTime: 50
+  stateWaitTime: 12
   betweenWaitActionsTime: 3
   activatesOnDistance: 1
   distanceToActivate: 10

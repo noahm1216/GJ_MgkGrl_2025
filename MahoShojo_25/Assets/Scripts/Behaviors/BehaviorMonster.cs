@@ -7,7 +7,7 @@ public class BehaviorMonster : MonoBehaviour
 
     public enum MONSTERSTATE
     { //    Spawning, Looking, Prepare Attk, Charging, Waiting,    Beaten 
-      None,  Waiting, Hunting, TargetLocked, Attacking, Recovering, Captured
+        None, Waiting, Hunting, TargetLocked, Attacking, Recovering, Captured
     }
 
     public enum MONSTERPLUSHIE
@@ -124,7 +124,7 @@ public class BehaviorMonster : MonoBehaviour
         spawnPosition = transform.position;
         startRotation = transform.rotation;
         if (!colliderSphere) TryGetComponent(out colliderSphere);
-        if(colliderSphere) colliderSphere.enabled = false;
+        if (colliderSphere) colliderSphere.enabled = false;
         if (startScale == Vector3.zero)
             startScale = transform.localScale;
         transform.localScale = startScale;
@@ -135,7 +135,7 @@ public class BehaviorMonster : MonoBehaviour
 
     private void OnDisable()
     {
-        if (targetGraphic)  targetGraphic.gameObject.SetActive(true); 
+        if (targetGraphic) targetGraphic.gameObject.SetActive(true);
     }
 
 #if UNITY_EDITOR
@@ -172,6 +172,11 @@ public class BehaviorMonster : MonoBehaviour
         UpdateUserInterface();
         CheckOnHitAudio();
         onHit?.Invoke();
+    }
+
+    public void DisableMoonster()
+    {
+        if (targetGraphic) targetGraphic.gameObject.SetActive(false);
     }
 
     private void CheckOnHitAudio() // this is done to avoid audio glitches when we fire a LOT of attacks at our enemy
@@ -242,7 +247,7 @@ public class BehaviorMonster : MonoBehaviour
             }
         }
 
-        print($"MONSTERSTATE Change To: {_newState}\nFrom: {currentState}");
+        //print($"MONSTERSTATE Change To: {_newState}\nFrom: {currentState}");
         currentState = _newState;
     }
 
@@ -355,7 +360,7 @@ public class BehaviorMonster : MonoBehaviour
                         stepArc = 0; // ready the arc path to move again
                     }
 
-                    if (Time.time > currentStateTimeStamp + stateWaitTime || alreadySpawned) { alreadySpawned = true;  ChangeState(MONSTERSTATE.Hunting); }// change state
+                    if (Time.time > currentStateTimeStamp + stateWaitTime || alreadySpawned) { alreadySpawned = true; ChangeState(MONSTERSTATE.Hunting); }// change state
                 }
                 if (waitVarVector3Two != Vector3.zero)  // step across said path
                 {
@@ -417,7 +422,7 @@ public class BehaviorMonster : MonoBehaviour
                 {
                     if (targetGraphic)
                     {
-                        float totalTime = currentStateTimeStamp + stateHuntingTime;  
+                        float totalTime = currentStateTimeStamp + stateHuntingTime;
                         targetGraphic.position = Vector3.Lerp(transform.position, playerObj.position, Time.time / totalTime);
                     }
                 }
@@ -473,7 +478,10 @@ public class BehaviorMonster : MonoBehaviour
     private void StateTargetLocked()
     {
         //print("MONSTER TARGET LOCKED DEBUG");
-        transform.position += MoveWithBackground();      
+        transform.position += MoveWithBackground();
+        if (targetGraphic) targetGraphic.transform.position += MoveWithBackground();
+        huntingTargPos += MoveWithBackground();
+        waitVarVector3Two += MoveWithBackground();
 
         switch (monsterPlushy)
         {
@@ -507,6 +515,10 @@ public class BehaviorMonster : MonoBehaviour
     #region STATE: ATTACKING
     private void StateAttacking()
     {
+        if (targetGraphic) targetGraphic.transform.position += MoveWithBackground();
+        huntingTargPos += MoveWithBackground();
+        waitVarVector3Two += MoveWithBackground();
+
         //print("MONSTER ATTACKING DEBUG");
         switch (monsterPlushy)
         {
@@ -520,7 +532,7 @@ public class BehaviorMonster : MonoBehaviour
                         Vector3 controlPoint1 = (waitVarVector3One + new Vector3(waitVarVector3One.x * 1.5f, waitVarVector3One.y + 3f, forceZOffset)); // TODO: change X (on both) to be a between percent (x2-x1 / to keep consistent)
                         Vector3 controlPoint2 = (waitVarVector3Two + new Vector3(waitVarVector3Two.x * 0.5f, waitVarVector3Two.y + 1.5f, forceZOffset));
                         transform.position = CalculateBezierPoint(stepArc, waitVarVector3One, controlPoint1, controlPoint2, waitVarVector3Two);
-                        if (stepArc >= 1){ onAttackEndOne?.Invoke(); ChangeState(MONSTERSTATE.Recovering); }
+                        if (stepArc >= 1) { onAttackEndOne?.Invoke(); ChangeState(MONSTERSTATE.Recovering); }
                     }
                 }
                 //if (Time.time > currentStateTimeStamp + stateTargLockTime) ChangeState(MONSTERSTATE.Recovering); // change state

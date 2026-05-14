@@ -421,7 +421,7 @@ public class Manager_Platforms : MonoBehaviour
             inputXYTime += 1 * Time.deltaTime * speedAcceleration;
             if (inputXYTime > 1) { inputXYTime = 1; }
 
-            if (ref_BehaviorCameraFollower)
+            if (ref_BehaviorCameraFollower && CurrentSpeed() != 0)
                 ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.MovingForward, false);
         }      
         else // not pressing left or rights
@@ -861,7 +861,10 @@ public class Manager_Platforms : MonoBehaviour
                 spawnedMonsterBehavior = null;
             }
             else
-                spawnedMonster.gameObject.SetActive(false);
+            {
+                if (spawnedMonsterBehavior) spawnedMonsterBehavior.DisableMoonster();
+                else spawnedMonster.gameObject.SetActive(false);
+            }
 
             monstersSpawned--;
             timeMonsterSpawned = Time.time;
@@ -873,7 +876,7 @@ public class Manager_Platforms : MonoBehaviour
                 if(!_wasCaptured) Manager_GameState.Instance.SpawnChange(-1);
             }
 
-            ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.MovingForward, true);
+            if(CurrentSpeed() > 0) ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.MovingForward, true);
 
             // spawn pocki if we havent collected it yet
             if (!playerUnlockedPockiBox)

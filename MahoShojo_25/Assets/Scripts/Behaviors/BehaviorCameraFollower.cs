@@ -51,25 +51,24 @@ public class BehaviorCameraFollower : MonoBehaviour
     }
 
     public void StoreChangeState(CameraFocusState _newState, bool forceChange = false)
-    {    
-        if (forceChange)
-            ChangeState(_newState);
+    {
+        if (forceChange) ChangeState(_newState);
         else
         {
             if (_newState == storedStateToChange)
                 return; // if we stored this state already then dont continue
             if (_newState != CameraFocusState.InTheAir && ref_PlayerCore && !ref_PlayerCore.CanJump())
-                return; // dont change from jumping if we havent landed yet
-
-            stateChangeTimeStamp = Time.time;
-            storedStateToChange = _newState;
+                return; // dont change from jumping if we havent landed yet            
         }
+        storedStateToChange = _newState;
+        stateChangeTimeStamp = Time.time;
     }
 
     private void ChangeState(CameraFocusState _newState)
     {
+        //print($"CHANGE-CAM-STATE: {currentState} -> {_newState}");
         stateChangeTimeStamp = Time.time;
-        // CAN CHECK STATE DIFFERENCE if we'd like
+        // WE CAN CHECK STATE DIFFERENCE if we'd like
         currentState = _newState;
         storedStateToChange = _newState;
         //print($"state change: {_newState}");
@@ -208,8 +207,8 @@ public class BehaviorCameraFollower : MonoBehaviour
 
     public void DollyTargetMonster(Transform _monster)
     {
-        print("Camera DollyTargetCalled");
+        //print("Camera DollyTargetCalled");
         targetMonster = _monster;
-        ChangeState(CameraFocusState.Dolly);
+        StoreChangeState(CameraFocusState.Dolly, true);
     }
 }

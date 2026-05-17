@@ -903,7 +903,7 @@ PrefabInstance:
     - target: {fileID: 1925175116811627847, guid: 6c49397ca787bd346aa1e5d2e4c249e3,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5010496086973013159, guid: 6c49397ca787bd346aa1e5d2e4c249e3,
         type: 3}
@@ -1353,6 +1353,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PP_Final Cutscene
+      objectReference: {fileID: 0}
+    - target: {fileID: 6289455864497650529, guid: 2db079a1f78e47d49b25e3e8e5a3d1de,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

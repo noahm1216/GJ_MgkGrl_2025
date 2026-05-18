@@ -143,18 +143,17 @@ MonoBehaviour:
     messageType: 0
     timesPlayed: 0
     useSneakyBearIcon: 0
-    messageContent: "Oh, don\u2019t worry, it\u2019s just a slow Jelly. Try to dodge
-      it using your movement. "
+    messageContent: Here comes a slow Jelly. Don't let it charge at you!
   - lookUpName: Controls_Pokie
     messageType: 1
     timesPlayed: 0
     useSneakyBearIcon: 0
-    messageContent: Collect your Pokie and then Shoot! [Space Bar]
+    messageContent: Find and collect the Pokie box!
   - lookUpName: Story_4
     messageType: 0
     timesPlayed: 0
     useSneakyBearIcon: 0
-    messageContent: 'Shoot Jelly with Pokie, it will scare her away!  '
+    messageContent: Feed Jelly with Pokie [Press/Hold Spacebar] and capture her!
   - lookUpName: Story_5
     messageType: 0
     timesPlayed: 0

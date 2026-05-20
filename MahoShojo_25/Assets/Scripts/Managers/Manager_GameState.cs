@@ -120,7 +120,7 @@ public class Manager_GameState : MonoBehaviour
         //cheatcode
         if(Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Space))
         {
-            CaptureChange(6, 9999);
+            CaptureChange(6, -9999);
             Debug.Log("Cheated your way to winning... now you just have to fall off the map");
         }
 

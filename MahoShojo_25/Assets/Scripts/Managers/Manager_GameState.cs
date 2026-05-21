@@ -117,11 +117,22 @@ public class Manager_GameState : MonoBehaviour
 
     private void CheckForInputs()
     {
-        //cheatcode
-        if(Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Space))
+        //cheatcodes
+        if(Input.GetKey(KeyCode.LeftShift))
         {
-            CaptureChange(6, -9999);
-            Debug.Log("Cheated your way to winning... now you just have to fall off the map");
+            if (Input.GetKeyDown(KeyCode.Space)) // finish game and get final cutscene
+            { CaptureChange(6, -9999); Debug.Log("Cheated your way to winning... now you just have to fall off the map"); }
+
+            if (Input.GetKeyDown(KeyCode.Alpha0)) // change time scale 0
+            { Time.timeScale = 0; Debug.Log("Cheated your way to changing time scale (0)... the consequences are yours"); }
+            else if (Input.GetKeyDown(KeyCode.Alpha1)) // change time scale 1
+            { Time.timeScale = 1; Debug.Log("Cheated your way to changing time scale (1)... the consequences are yours"); }
+            else if (Input.GetKeyDown(KeyCode.Alpha2)) // change time scale 2
+            { Time.timeScale = 2; Debug.Log("Cheated your way to changing time scale (2)... the consequences are yours"); }
+            else if (Input.GetKeyDown(KeyCode.Alpha3)) // change time scale 3
+            { Time.timeScale = 3; Debug.Log("Cheated your way to changing time scale (3)... the consequences are yours"); }
+            else if (Input.GetKeyDown(KeyCode.Alpha4)) // change time scale 4
+            { Time.timeScale = 4; Debug.Log("Cheated your way to changing time scale (4)... the consequences are yours"); }
         }
 
         if(Input.GetKeyDown(key_Pause1) || Input.GetKeyDown(key_Pause2) || Input.GetButtonDown(axisPause)) // pause toggle

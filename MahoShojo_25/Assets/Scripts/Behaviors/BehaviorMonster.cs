@@ -85,13 +85,14 @@ public class BehaviorMonster : MonoBehaviour
     [Space]
     public float captureFlyAwayTime = 10;
     [Space]
-    public UnityEvent onHit, onHitAudio, onCapture, onRushAttacking;
+    public UnityEvent onHit, onHitAudio, onCapture, onTargetLocked, onRushAttacking;
    
     private float percentHP;
     private int currentCapturePointsLeft;
     private Vector3 startScale;
     private float audioPlayedTimeWait = 0.3f;
     private float[] audioPlayedTimeStamps = new float[6];
+    private bool playedInvokeEvent;
 
     private void OnEnable()
     {   // initialize
@@ -181,6 +182,7 @@ public class BehaviorMonster : MonoBehaviour
         startPos = Vector3.zero;
         didStoreAttack = false;
         gettingIntoPosition = true;
+        playedInvokeEvent = false;
     }
 
     private Vector3 MoveWithBackground()
@@ -297,6 +299,9 @@ public class BehaviorMonster : MonoBehaviour
 
         // place a target obj where the player is to show this creatures intentions
 
+        if(Time.time > (currentStateTimeStamp + targetLockedTime) * 0.5f && !playedInvokeEvent)
+        { playedInvokeEvent = true; onTargetLocked?.Invoke(); }
+
         if (Time.time > currentStateTimeStamp + targetLockedTime)
             ChangeState(MONSTERSTATE.Attacking); // attackings
     }
@@ -305,7 +310,10 @@ public class BehaviorMonster : MonoBehaviour
     private void StateAttacking()
     {
         if (!didStoreAttack)
-        { storedAttackPos = (playerObj.transform.position + positionalTargetOffset); didStoreAttack = true; collider.enabled = true; onRushAttacking.Invoke(); }
+        { storedAttackPos = (playerObj.transform.position + positionalTargetOffset); didStoreAttack = true; collider.enabled = true;  }
+
+        if (!playedInvokeEvent)
+        { playedInvokeEvent = true;  onRushAttacking?.Invoke(); }
 
         var step = attackSpeed * Time.deltaTime; // calculate distance to move
         transform.position = Vector3.MoveTowards(transform.position, storedAttackPos, step);

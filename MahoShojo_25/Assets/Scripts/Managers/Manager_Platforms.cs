@@ -358,6 +358,19 @@ public class Manager_Platforms : MonoBehaviour
             isDashing = false;
     }
 
+    /// <summary>
+    /// returns the percentage (0.0 - 1.0) completion of a roll || DOESNT WORK YET ... always returns 1 when called
+    /// </summary>
+    /// <returns></returns>
+    public float CheckDashingCompletion()
+    {
+        float percent = Time.time / dashStartTimeStamp + dashingLastingTime;
+        if (percent < 0) percent = 0;
+        if (percent > 1) percent = 1;
+        print($"Dash Percent = {percent}");
+        return percent;
+    }
+
     private void DashAction()
     {        
         isDashing = true;

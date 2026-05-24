@@ -141,6 +141,8 @@ public class BehaviorCameraFollower : MonoBehaviour
         var step = speedOfCameraTranslate * Time.deltaTime; // calculate distance to move
         camMain.transform.position = Vector3.MoveTowards(transform.position, targetLookAtPoint, step);
 
+        if (targetZoom > 15) targetZoom = 15; // A HARD LIMIT ON ZOOM OUT
+
         if (targetZoom != camMain.orthographicSize)
         {
             if (camMain.orthographicSize < targetZoom)

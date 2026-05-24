@@ -128,17 +128,17 @@ MonoBehaviour:
     messageType: 1
     timesPlayed: 0
     useSneakyBearIcon: 0
-    messageContent: Try jumping by pressing [W] or [Up Arrow]
+    messageContent: "Try jumping by pressing [W] or [\u2B06]"
   - lookUpName: Controls_Dash
     messageType: 1
     timesPlayed: 0
     useSneakyBearIcon: 0
-    messageContent: 'Try dashing forward by pressing [D] or [Right Arrow] '
+    messageContent: "Try dashing forward by pressing [D] or [\u27A1] "
   - lookUpName: Controls_Move
     messageType: 1
     timesPlayed: 0
     useSneakyBearIcon: 0
-    messageContent: 'Try retract backward by pressing [A] or [Left Arrow] '
+    messageContent: "Try retract backward by pressing [A] or [\u2B05] "
   - lookUpName: Story_3
     messageType: 0
     timesPlayed: 0
@@ -153,7 +153,8 @@ MonoBehaviour:
     messageType: 0
     timesPlayed: 0
     useSneakyBearIcon: 0
-    messageContent: Feed Jelly with Pokie [Press/Hold Spacebar] and capture her!
+    messageContent: Feed Jelly with Pokie [Right-Trigger] or [Spacebar] and capture
+      her!
   - lookUpName: Story_5
     messageType: 0
     timesPlayed: 0

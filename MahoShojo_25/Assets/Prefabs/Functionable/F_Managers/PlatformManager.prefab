@@ -69,13 +69,13 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  speedBase: 14
+  speedBaseTarget: 14
   speedLimiting: 1
   startPlayerSlowly: 1
   speedAcceleration: 0.33
   speedDeceleration: 2
-  speedChangeOnDirectionChange: 0.33
-  speedChangeWhileInAir: 0.66
+  speedChangeOnDirectionChange: 0.66
+  speedChangeWhileInAir: 0.85
   parentOfMapModelsToMove: {fileID: 1493583882141235265}
   platformsToSpawnOnStart: 3
   platformsToKeepOnScreen: 4

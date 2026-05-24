@@ -36,11 +36,11 @@ public class PlayerCore : MonoBehaviour
     public Rigidbody rb3D;
     // can add private variables to itterate jumping up as a translate if we dont have a rigidbody (but dont need to right now)
     [Range(0.00f, 1)]
-    public float quickJumpPercentOfMaxJump = 0.66f;
+    public float quickJumpPercentOfMaxJump = 0.66f; // the minimum the jump delivers (based on full design jump)
     [Range(0.00f, 1)]
-    public float inputTimeForQuickJumps = 0.25f;
+    public float inputTimeForQuickJumps = 0.25f; // if the player releases jump during this time, they perform a smaller jump
     [Range(0.1f, 10)]
-    public float speedToMaxJumpPower = 3;
+    public float speedToMaxJumpPower = 3; // jump multiplier based on speed
     [Range(0, 10)]
     public int numberOfJumps = 2;
     public LayerMask layersThatResetJumps;
@@ -54,8 +54,8 @@ public class PlayerCore : MonoBehaviour
     private float inputXYTime; // the time we press down any of the keys
     public int dir { get; private set; } = 1;
     private int timesJumpedSinceLastGround;
-    private float jumpLeftToAchieve;
-    private float lagInputTime;
+    private float jumpLeftToAchieve; // queue the jump amount to deliver over time
+    private float lagInputTime; // time player holds down the jump
 
     // slam down ability (optional if time)
 
@@ -218,8 +218,10 @@ public class PlayerCore : MonoBehaviour
             onRelease_MoveUp.Invoke(); // changed to pres down instead of press up
             if (CanJump() && !holdingJumpButton)
             {
-                if (Manager_Platforms.Instance && Manager_Platforms.Instance.isDashing)
-                    return;
+                //if (Manager_Platforms.Instance && Manager_Platforms.Instance.isDashing) /// people want to be able to animation cancel during fanimecon... so we took this out
+                    //return;
+
+                /// wanted to add a "check dash percent" so if we are dashing and only halfway through, the game will keep dashing... but it wasnt working for fanimecon and i only had 40 min to figure it out
 
                 if (inputXYTime <= inputTimeForQuickJumps) // jumpTime for tapping inputs
                     inputXYTime = quickJumpPercentOfMaxJump;
@@ -231,9 +233,8 @@ public class PlayerCore : MonoBehaviour
                 inputXYTime = 0;
                 timesJumpedSinceLastGround++;
                 if (ref_PlayerAnimations) // jump animation & // falling animation
-                { ref_PlayerAnimations.SetAnyTrigger("Jumped"); } // ref_PlayerAnimations.SetAnyBool("isFalling", true);
-                if (Manager_Platforms.Instance)
-                    Manager_Platforms.Instance.ChangePlayerInAir(true);
+                { ref_PlayerAnimations.SetAnyTrigger("Jumped"); } // ref_PlayerAnimations.SetAnyBool("isFalling", true);              
+                if (Manager_Platforms.Instance) Manager_Platforms.Instance.ChangePlayerInAir(true);
                 jumpLeftToAchieve = 0;// maximumJumpPower;
 
                 if (ref_BehaviorCameraFollower)

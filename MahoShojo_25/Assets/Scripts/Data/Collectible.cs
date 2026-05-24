@@ -45,7 +45,7 @@ public class Collectible : MonoBehaviour
             gameObject.SetActive(false);
     }
 
-    private void LateUpdate()
+    private void FixedUpdate()
     {
         if (tryMoveWithPlatforms && Manager_Platforms.Instance)
             transform.position += new Vector3(Manager_Platforms.Instance.CurrentSpeed(), 0, 0);

@@ -58,7 +58,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
   - platformNickname: Env_Platform_Buildings 0
-    spawnChance: 1
+    spawnChance: 0
     prefabToSpawn: {fileID: 4362509337005501213, guid: 0055199725c46ff43bce9c63e850f223,
       type: 3}
     onSpawnEvents:
@@ -71,7 +71,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
   - platformNickname: Env_Platform_Buildings 1
-    spawnChance: 0.75
+    spawnChance: 0
     prefabToSpawn: {fileID: 4362509337005501213, guid: 7523e360dc5997e44b680657b5d2f8eb,
       type: 3}
     onSpawnEvents:
@@ -84,7 +84,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
   - platformNickname: Env_Platform_Buildings 2
-    spawnChance: 0.75
+    spawnChance: 0
     prefabToSpawn: {fileID: 4362509337005501213, guid: a2993b9b4af89ba448f9d4c4cee278e6,
       type: 3}
     onSpawnEvents:
@@ -110,7 +110,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
   - platformNickname: Env_Platform_Buildings 4
-    spawnChance: 0.75
+    spawnChance: 0
     prefabToSpawn: {fileID: 4362509337005501213, guid: 0aec9cdf6351d1e40a2e4aefcd72974b,
       type: 3}
     onSpawnEvents:
@@ -123,7 +123,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
   - platformNickname: Env_Platform_Buildings 5
-    spawnChance: 0.75
+    spawnChance: 0
     prefabToSpawn: {fileID: 4362509337005501213, guid: f4a7c366596aeb34db05f0f8106732f6,
       type: 3}
     onSpawnEvents:

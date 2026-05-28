@@ -34,6 +34,9 @@ public class PlayerCore : MonoBehaviour
     [Range(0, 10)]
     public int numberOfJumps = 2;
     public LayerMask layersThatResetJumps;
+    [Range(0.1f, 1f)]
+    public float jumpReleaseVelocityMultiplier = 0.5f; // Suggested values: 0.3f = very sharp short hops || 0.5f = balanced platformer feel || 0.7f = subtle difference || 1f = effectively disabled
+    private bool isJumpHeld;
 
 
     [Range(0.00f, 10)]
@@ -136,7 +139,7 @@ public class PlayerCore : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (jumpLeftToAchieve < maximumJumpPower)
+        if (jumpLeftToAchieve < maximumJumpPower && isJumpHeld)
         {
             if (rb3D)
                 rb3D.AddForce(((Vector3.up * dir) * jumpLeftToAchieve * lagInputTime - rb3D.velocity), ForceMode.VelocityChange); // this produces standardized results || 20 jump power tested and works
@@ -157,46 +160,121 @@ public class PlayerCore : MonoBehaviour
 
     private void CheckForInputs()
     {
-        if (Input.GetKey(key_MoveUp) || Input.GetKey(key_MoveUp2))
+        bool jumpPressed = Input.GetKey(key_MoveUp) || Input.GetKey(key_MoveUp2);
+
+        bool jumpDown = Input.GetKeyDown(key_MoveUp) || Input.GetKeyDown(key_MoveUp2);
+
+        bool jumpReleased = Input.GetKeyUp(key_MoveUp) || Input.GetKeyUp(key_MoveUp2);
+
+        //if (Input.GetKey(key_MoveUp) || Input.GetKey(key_MoveUp2))
+        //{
+        //    inputXYTime += Time.deltaTime * speedToMaxJumpPower;
+        //    if (!jumpBasedOnKeyPressTime)
+        //        inputXYTime = 1;
+
+        //    if (inputXYTime > 1)
+        //        inputXYTime = 1;
+
+        //    onPress_MoveUp.Invoke();
+        //}
+
+        //if (Input.GetKeyDown(key_MoveUp) || Input.GetKeyDown(key_MoveUp2))
+        //{
+        //    onRelease_MoveUp.Invoke(); // changed to pres down instead of press up
+        //    if (CanJump())
+        //    {
+        //        if (Manager_Platforms.Instance && Manager_Platforms.Instance.isDashing)
+        //            return;
+
+        //        if (inputXYTime <= inputTimeForQuickJumps) // jumpTime for tapping inputs
+        //            inputXYTime = quickJumpPercentOfMaxJump;
+
+        //        dir = 1;
+        //        //if (rb3D)
+        //        //    rb3D.AddForce((Vector3.up * dir) * (maximumJumpPower * inputXYTime)); // we want to do an arc (and have it in fixed update)
+        //        lagInputTime = inputXYTime;
+        //        inputXYTime = 0;
+        //        timesJumpedSinceLastGround++;
+        //        if (ref_PlayerAnimations) // jump animation & // falling animation
+        //        { ref_PlayerAnimations.SetAnyTrigger("Jumped"); } // ref_PlayerAnimations.SetAnyBool("isFalling", true);
+        //        if (Manager_Platforms.Instance)
+        //            Manager_Platforms.Instance.ChangePlayerInAir(true);
+        //        jumpLeftToAchieve = 0;// maximumJumpPower;
+
+        //        if (ref_BehaviorCameraFollower)
+        //            ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.InTheAir, false);
+
+        //        onSuccess_MoveUp.Invoke();
+        //    }
+        //}
+        // Holding jump
+        if (jumpPressed)
         {
+            isJumpHeld = true;
+
             inputXYTime += Time.deltaTime * speedToMaxJumpPower;
+
             if (!jumpBasedOnKeyPressTime)
                 inputXYTime = 1;
 
-            if (inputXYTime > 1)
-                inputXYTime = 1;
+            inputXYTime = Mathf.Clamp01(inputXYTime);
 
             onPress_MoveUp.Invoke();
         }
 
-        if (Input.GetKeyDown(key_MoveUp) || Input.GetKeyDown(key_MoveUp2))
+        // Jump started
+        if (jumpDown)
         {
-            onRelease_MoveUp.Invoke(); // changed to pres down instead of press up
+            onRelease_MoveUp.Invoke();
+
             if (CanJump())
             {
-                if (Manager_Platforms.Instance && Manager_Platforms.Instance.isDashing)
+                if (Manager_Platforms.Instance &&
+                    Manager_Platforms.Instance.isDashing)
                     return;
 
-                if (inputXYTime <= inputTimeForQuickJumps) // jumpTime for tapping inputs
+                if (inputXYTime <= inputTimeForQuickJumps)
                     inputXYTime = quickJumpPercentOfMaxJump;
 
                 dir = 1;
-                //if (rb3D)
-                //    rb3D.AddForce((Vector3.up * dir) * (maximumJumpPower * inputXYTime)); // we want to do an arc (and have it in fixed update)
+
                 lagInputTime = inputXYTime;
+
                 inputXYTime = 0;
+
                 timesJumpedSinceLastGround++;
-                if (ref_PlayerAnimations) // jump animation & // falling animation
-                { ref_PlayerAnimations.SetAnyTrigger("Jumped"); } // ref_PlayerAnimations.SetAnyBool("isFalling", true);
+
+                if (ref_PlayerAnimations)
+                    ref_PlayerAnimations.SetAnyTrigger("Jumped");
+
                 if (Manager_Platforms.Instance)
                     Manager_Platforms.Instance.ChangePlayerInAir(true);
-                jumpLeftToAchieve = 0;// maximumJumpPower;
+
+                jumpLeftToAchieve = 0;
 
                 if (ref_BehaviorCameraFollower)
                     ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.InTheAir, false);
 
                 onSuccess_MoveUp.Invoke();
             }
+        }
+
+        // Jump released early
+        if (jumpReleased)
+        {
+            isJumpHeld = false;
+
+            // Only cut jump if still moving upward
+            if (rb3D && rb3D.velocity.y > 0)
+            {
+                rb3D.velocity = new Vector3(
+                    rb3D.velocity.x,
+                    rb3D.velocity.y * jumpReleaseVelocityMultiplier,
+                    rb3D.velocity.z);
+            }
+
+            //if (ref_BehaviorCameraFollower)
+                //ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.InTheAir, false);
         }
     }
 

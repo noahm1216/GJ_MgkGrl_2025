@@ -43,14 +43,16 @@ public class BehaviorObstacles : MonoBehaviour
         if (assignTagAtStart) transform.tag = "Obstacle";
     }// end of Start()
 
-    private void Update() // TODO: Make a list of objects that the platformManager.cs loops through and handles moving... || or || can do something with parenting to the maps but that's not ideal
-    {
-        if (tryMoveWithPlatforms && Manager_Platforms.Instance)
-            transform.position += new Vector3(Manager_Platforms.Instance.CurrentSpeed(), 0, 0);
-    }
+    //private void Update() // TODO: Make a list of objects that the platformManager.cs loops through and handles moving... || or || can do something with parenting to the maps but that's not ideal
+    //{
+        
+    //}
 
     private void FixedUpdate()
     {
+        if (tryMoveWithPlatforms && Manager_Platforms.Instance)
+            transform.position += new Vector3(Manager_Platforms.Instance.CurrentSpeed(), 0, 0);
+
         if (waitingToApplyPhysics)
         {
             switch (thisObsType)
@@ -66,7 +68,7 @@ public class BehaviorObstacles : MonoBehaviour
                     break;
             }
             waitingToApplyPhysics = false;
-        }
+        }       
     }
 
     public void Interacted(Transform _interactor, PlayerCore _refPlayerCore, signalType _sentSignal)

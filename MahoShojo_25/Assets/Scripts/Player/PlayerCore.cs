@@ -50,6 +50,9 @@ public class PlayerCore : MonoBehaviour
     private float jumpLeftToAchieve;
     private float lagInputTime;
 
+    // visuals for the jump effect
+    public GameObject jumpShoeVfx_R, jumpShoeVfx_L; // show the shoes when we have both our jumps
+
     // slam down ability (optional if time)
 
     [Space]
@@ -161,53 +164,9 @@ public class PlayerCore : MonoBehaviour
     private void CheckForInputs()
     {
         bool jumpPressed = Input.GetKey(key_MoveUp) || Input.GetKey(key_MoveUp2);
-
         bool jumpDown = Input.GetKeyDown(key_MoveUp) || Input.GetKeyDown(key_MoveUp2);
-
         bool jumpReleased = Input.GetKeyUp(key_MoveUp) || Input.GetKeyUp(key_MoveUp2);
 
-        //if (Input.GetKey(key_MoveUp) || Input.GetKey(key_MoveUp2))
-        //{
-        //    inputXYTime += Time.deltaTime * speedToMaxJumpPower;
-        //    if (!jumpBasedOnKeyPressTime)
-        //        inputXYTime = 1;
-
-        //    if (inputXYTime > 1)
-        //        inputXYTime = 1;
-
-        //    onPress_MoveUp.Invoke();
-        //}
-
-        //if (Input.GetKeyDown(key_MoveUp) || Input.GetKeyDown(key_MoveUp2))
-        //{
-        //    onRelease_MoveUp.Invoke(); // changed to pres down instead of press up
-        //    if (CanJump())
-        //    {
-        //        if (Manager_Platforms.Instance && Manager_Platforms.Instance.isDashing)
-        //            return;
-
-        //        if (inputXYTime <= inputTimeForQuickJumps) // jumpTime for tapping inputs
-        //            inputXYTime = quickJumpPercentOfMaxJump;
-
-        //        dir = 1;
-        //        //if (rb3D)
-        //        //    rb3D.AddForce((Vector3.up * dir) * (maximumJumpPower * inputXYTime)); // we want to do an arc (and have it in fixed update)
-        //        lagInputTime = inputXYTime;
-        //        inputXYTime = 0;
-        //        timesJumpedSinceLastGround++;
-        //        if (ref_PlayerAnimations) // jump animation & // falling animation
-        //        { ref_PlayerAnimations.SetAnyTrigger("Jumped"); } // ref_PlayerAnimations.SetAnyBool("isFalling", true);
-        //        if (Manager_Platforms.Instance)
-        //            Manager_Platforms.Instance.ChangePlayerInAir(true);
-        //        jumpLeftToAchieve = 0;// maximumJumpPower;
-
-        //        if (ref_BehaviorCameraFollower)
-        //            ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.InTheAir, false);
-
-        //        onSuccess_MoveUp.Invoke();
-        //    }
-        //}
-        // Holding jump
         if (jumpPressed)
         {
             isJumpHeld = true;
@@ -255,6 +214,7 @@ public class PlayerCore : MonoBehaviour
                 if (ref_BehaviorCameraFollower)
                     ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.InTheAir, false);
 
+                UpdateVfx_Jump(timesJumpedSinceLastGround);
                 onSuccess_MoveUp.Invoke();
             }
         }
@@ -276,6 +236,29 @@ public class PlayerCore : MonoBehaviour
             //if (ref_BehaviorCameraFollower)
                 //ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.InTheAir, false);
         }
+    }
+
+    private void UpdateVfx_Jump(int _timesJumped)
+    {
+        bool rightEnabled = false;
+        bool leftEnabled = false;
+        switch (_timesJumped)
+        {
+            case 0: // full jumps available
+                rightEnabled = true;
+                leftEnabled = true;
+                break;
+            case 1: // one jump used
+                leftEnabled = true;
+                break;
+            default:
+                // do nothing, all jumps are out
+                break;
+        }
+
+        if (jumpShoeVfx_R) jumpShoeVfx_R.SetActive(rightEnabled);
+        if (jumpShoeVfx_L) jumpShoeVfx_L.SetActive(leftEnabled);
+
     }
 
 
@@ -386,6 +369,7 @@ public class PlayerCore : MonoBehaviour
         if ((layersThatResetJumps.value & (1 << col.transform.gameObject.layer)) > 0) // collide with object within our specified layers
         {
             timesJumpedSinceLastGround = 0;
+            UpdateVfx_Jump(timesJumpedSinceLastGround); // update jump vfx
             if (ref_PlayerAnimations) // falling animation
                 ref_PlayerAnimations.SetAnyBool("isFalling", false);
             if (Manager_Platforms.Instance)

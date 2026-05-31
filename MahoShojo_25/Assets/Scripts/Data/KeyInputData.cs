@@ -23,9 +23,12 @@ public class KeyInputData : MonoBehaviour
         if (keycodeText)
         {
             //print($"updating keycode text {_newKeycode}");
-            print($"updating keycode text ...");
             //keycodeText.gameObject.SetActive(false);
-            keycodeText.text = $"{_newKeycode}";
+
+            //print($"updating keycode text ...");
+            //keycodeText.text = $"{_newKeycode}";
+
+
             //keycodeText.gameObject.SetActive(true);
             //keycodeText.ForceMeshUpdate();
         }

@@ -49,6 +49,7 @@ public class PlayerCore : MonoBehaviour
     private int timesJumpedSinceLastGround;
     private float jumpLeftToAchieve;
     private float lagInputTime;
+    private bool holdingJumpSinceJump; // this will allow us to track if the player retained their jump-hold press || or if they let go at some point
 
     // visuals for the jump effect
     public GameObject jumpShoeVfx_R, jumpShoeVfx_L; // show the shoes when we have both our jumps
@@ -150,8 +151,8 @@ public class PlayerCore : MonoBehaviour
             jumpLeftToAchieve += 1 * jumpAcceleration;
         }
 
-        if (rb3D.velocity.y < 0) // faling / moving down
-            rb3D.AddForce(Vector3.down * (1 * fallAcceleration));
+        if (!holdingJumpSinceJump && rb3D.velocity.y < 0 ) // faling / moving down is faster if we let go of the up key
+            rb3D.AddForce(Vector3.down * (1 + rb3D.velocity.y * fallAcceleration));
 
         if (Manager_GameState.Instance && Manager_GameState.Instance.currentState == Manager_GameState.GAMESTATE.Playing)
         { // check if we fell too far down
@@ -184,16 +185,17 @@ public class PlayerCore : MonoBehaviour
         // Jump started
         if (jumpDown)
         {
-            onRelease_MoveUp.Invoke();
+            onRelease_MoveUp.Invoke();            
 
             if (CanJump())
             {
-                if (Manager_Platforms.Instance &&
-                    Manager_Platforms.Instance.isDashing)
+                if (Manager_Platforms.Instance && Manager_Platforms.Instance.isDashing)
                     return;
 
                 if (inputXYTime <= inputTimeForQuickJumps)
                     inputXYTime = quickJumpPercentOfMaxJump;
+
+                holdingJumpSinceJump = false;
 
                 dir = 1;
 
@@ -223,6 +225,7 @@ public class PlayerCore : MonoBehaviour
         if (jumpReleased)
         {
             isJumpHeld = false;
+            holdingJumpSinceJump = true;
 
             // Only cut jump if still moving upward
             if (rb3D && rb3D.velocity.y > 0)

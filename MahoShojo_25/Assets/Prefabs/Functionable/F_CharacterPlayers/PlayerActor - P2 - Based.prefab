@@ -269,7 +269,7 @@ MonoBehaviour:
     m_Bits: 337
   jumpReleaseVelocityMultiplier: 0.5
   jumpAcceleration: 10
-  fallAcceleration: 8
+  fallAcceleration: 100
   jumpShoeVfx_R: {fileID: 738591805962050073}
   jumpShoeVfx_L: {fileID: 2120810200822967685}
   ref_BehaviorCameraFollower: {fileID: 0}

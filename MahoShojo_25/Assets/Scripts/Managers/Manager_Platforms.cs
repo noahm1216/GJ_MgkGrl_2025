@@ -372,8 +372,6 @@ public class Manager_Platforms : MonoBehaviour
 
     private void CheckDashing()
     {
-        if (!isDashing)
-            dashStartTimeStamp = Time.time;
         if (isDashing && Time.time > dashStartTimeStamp + dashingLastingTime)
             isDashing = false;
     }
@@ -381,6 +379,7 @@ public class Manager_Platforms : MonoBehaviour
     private void DashAction()
     {        
         isDashing = true;
+        dashStartTimeStamp = Time.time;
         onDashEvent.Invoke();
     }
     #endregion helpers
@@ -408,12 +407,16 @@ public class Manager_Platforms : MonoBehaviour
                 pressedMove = true;
 
                 if (dashRequiresDoubleTap && !isDashing) // if we must press it twice
+                {
                     if (lastKeyPressed == key_MovePlatformsLeft && Time.time < dashInputStamp + timeWindowForDashing) // TODO : Check for if dashing so we have to time it, and animation / VFX spot
                         DashAction();
                     else
                     { lastKeyPressed = key_MovePlatformsLeft; dashInputStamp = Time.time; } // reset
+                }
                 else if (!dashRequiresDoubleTap && !isDashing) // if we only have to press it once
                     DashAction();
+                else
+                { } // do nothing
             }
 
             if (dir > 0) // check and set directions to be Right (platforms going left)

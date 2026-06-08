@@ -31,8 +31,9 @@ public class Manager_Platforms : MonoBehaviour
     private KeyCode key_MovePlatformsRight2 = KeyCode.LeftArrow;
 
     // dash right/ left ability
-    [Space][Space]
-    [Header("Dash Rules\n______________")]    
+    [Space]
+    [Space]
+    [Header("Dash Rules\n______________")]
     [Tooltip("When true, dashing requires you to press forward twice within the blow variables")]
     public bool dashRequiresDoubleTap;
     [Tooltip("The amount of time allowed until our double-input of a direction acts as a dash (higher number means more tolerance for slow key-presses)")]
@@ -53,11 +54,12 @@ public class Manager_Platforms : MonoBehaviour
     private float dashStartTimeStamp;
 
 
-    [Space][Space]
+    [Space]
+    [Space]
     [Header("Platform Objects\n______________")]
     [Tooltip("The starting Variable for how our speed is calculated")]
     [Range(0.1f, 30)]
-    public float speedBase = 14f;   
+    public float speedBase = 14f;
     [Tooltip("Change how fast / slow we can go at top speed")]
     [Range(0.1f, 10.0f)] public float speedLimiting = 1f;
     [Tooltip("When true, the player will start at 0 speed and use 'Time Between Aceeleration' + 'Speed Acceleration' to ramp up speed")]
@@ -66,7 +68,7 @@ public class Manager_Platforms : MonoBehaviour
     [Range(0.1f, 10f)] public float timeBetweenAceeleration = 1.5f;
     [Tooltip("Change how fast / slow we ramp up to full speed")]
     [Range(0.1f, 6f)] public float speedAcceleration = 1;
-    
+
     [Tooltip("Change how fast / slow we ramp down when we let go of the controls")]
     [Range(0.1f, 6f)] public float speedDeceleration = 1;
     [Tooltip("When changing direction, what percent of speed should we cut? (0.5 means we cut half of our speed)")]
@@ -84,15 +86,16 @@ public class Manager_Platforms : MonoBehaviour
     public bool playerInAir { get; private set; }
     private float blockedTimeStamp;
     private float blockedTimeUntilControlsPopUp = 7;
-   
 
-    [Space][Space]
-    [Header("Platform Objects\n______________")]   
+
+    [Space]
+    [Space]
+    [Header("Platform Objects\n______________")]
     [Tooltip("a transform of the object holding all of our children")]
     private Transform parentOfMapModelsToMove;
 
     [Range(1, 10)] public int platformsToSpawnOnStart = 3;
-    [Range(1,20)] public int platformsToKeepOnScreen = 5;
+    [Range(1, 20)] public int platformsToKeepOnScreen = 5;
 
     [Tooltip("A list of platforms we can spawn during runtime. Stats within each platform should allow for some customization")]
     public List<CustomPlatformData> listOfSpawnablePlatforms = new List<CustomPlatformData>();
@@ -101,7 +104,8 @@ public class Manager_Platforms : MonoBehaviour
     public bool stopSpawningPlatforms { get; private set; }
 
 
-    [Space][Space]
+    [Space]
+    [Space]
     [Header("Monster Objects\n______________")]
     [Tooltip("The prefabs of the monsters we want to spawn in the order we want to spawn them")]
     public Transform[] monstersToSpawnInOrder;
@@ -122,7 +126,8 @@ public class Manager_Platforms : MonoBehaviour
     private int monstersCaptured; // the number of monsters we've captured in a level
 
 
-    [Space][Space]
+    [Space]
+    [Space]
     [Header("Pocki Objects\n______________")]
     public Transform pockiBoxObjPrefab;
     public bool playerUnlockedPockiBox;
@@ -135,7 +140,8 @@ public class Manager_Platforms : MonoBehaviour
     private float pockiBoxSpawnStamp;
 
 
-    [Space][Space]
+    [Space]
+    [Space]
     [Header("Camera\n______________")]
     public BehaviorCameraFollower ref_BehaviorCameraFollower;
 
@@ -156,7 +162,7 @@ public class Manager_Platforms : MonoBehaviour
     }
 
     private void Awake()
-    {        
+    {
         if (Instance != null && Instance != this) // If there is an instance, and it's not me, delete myself.
             Destroy(this);
         else
@@ -189,16 +195,18 @@ public class Manager_Platforms : MonoBehaviour
         if (FoundErrors())
             return;
 
-        if(Manager_GameState.Instance) // if we have the game manager then we want things to look a specific way
+        if (Manager_GameState.Instance) // if we have the game manager then we want things to look a specific way
             if (Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing)
                 return;
 
         CheckForInputs();
-        CheckDashing();   
+        CheckDashing();
     }
 
     private void FixedUpdate() //TODO: refactor function calling: we dont need to check all of these functions every frame, it can be more as-needed
     {
+        //Debug.Log($"FixedUpdate Running. State={Manager_GameState.Instance?.currentState}");
+
         if (FoundErrors())
             return;
 
@@ -216,7 +224,7 @@ public class Manager_Platforms : MonoBehaviour
         MoveMaps();
         CheckMonsterSpawner();
         RunMonsterBehavior();
-        
+
         StartSpeedIsRampedUp();
         CheckForObstacles();
         CheckWinCondition();
@@ -236,7 +244,7 @@ public class Manager_Platforms : MonoBehaviour
     private void CheckTimeStamps()
     {
         if (!isBlocked)
-            blockedTimeStamp = Time.time;    
+            blockedTimeStamp = Time.time;
     }
 
     private void CheckWinCondition()
@@ -244,7 +252,7 @@ public class Manager_Platforms : MonoBehaviour
         if (CurrentLoadedLevel == null) { print("Manager Platforms: No Current Level Loaded"); return; }
 
         if (Manager_GameState.Instance && Manager_GameState.Instance.currentState == Manager_GameState.GAMESTATE.Playing)
-        { 
+        {
             if (Manager_GameState.Instance.CheckMetConditions // check win condition
                 (
                   Manager_GameState.Instance.dataSinceLevelStarted,
@@ -256,25 +264,25 @@ public class Manager_Platforms : MonoBehaviour
             }
         }
     }
-    
+
 
     public void UpdateCurrentLoadedLevel(PlatformScriptableObject _newLevelToUpdate)
     {
         //print("Manager Platform: Updating Current Loaded Level Attempt");
 
         CurrentLoadedLevel = _newLevelToUpdate; // assign the references   
-        
+
         if (_newLevelToUpdate != null) // update the platforms and data we use
         {   // level data
             listOfSpawnablePlatforms = CurrentLoadedLevel.listOfSpawnablePlatforms;
             RemoveAllPlatforms();
-            SpawnPlatformsOnDelay(0);            
+            SpawnPlatformsOnDelay(0);
             // monsters
             monstersToSpawnInOrder = new Transform[CurrentLoadedLevel.monstersToSpawn.Length];
             for (int i = 0; i < CurrentLoadedLevel.monstersToSpawn.Length; i++)
                 monstersToSpawnInOrder[i] = CurrentLoadedLevel.monstersToSpawn[i].monsterBosses;
             monstersCaptured = 0;
-        }       
+        }
 
         if (_newLevelToUpdate) { ResetLevelMessageData(); print($"Manager Platform: UpdatedLevel to: {_newLevelToUpdate.levelName}"); } // log it
         else print("Manager Platform: Unable To Load Null level");
@@ -287,7 +295,7 @@ public class Manager_Platforms : MonoBehaviour
 
     public void ResetToBeginning()
     {
-        for(int i = 0; i < spawnedPlatformsInPlay.Count; i++)
+        for (int i = 0; i < spawnedPlatformsInPlay.Count; i++)
         {
             if (spawnedPlatformsInPlay[i] == null)
                 spawnedPlatformsInPlay.RemoveAt(i);
@@ -314,14 +322,14 @@ public class Manager_Platforms : MonoBehaviour
         }
         if (Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing) // make sure that if we are not playing, it doesnt change our spawn timers
         {
-           
+
         }
     }
 
     public void ResetMonsterTimers()
     {
         lastCaptureTimeStamp = Time.deltaTime;
-        timeMonsterSpawned = Time.time;        
+        timeMonsterSpawned = Time.time;
         readyToSpawn = true;
     }
 
@@ -336,29 +344,65 @@ public class Manager_Platforms : MonoBehaviour
     public void ChangePlayerInAir(bool _inAir)
     {
         playerInAir = _inAir;
+        if (PlayerReference && PlayerReference.ref_PlayerAnimations) PlayerReference.ref_PlayerAnimations.SetAnyBool("isFalling", playerInAir && isDashing);
     }
 
     public float CurrentSpeed() // calculatedSpeed
     {
-        if (isBlocked)            return 0;
-        if (Manager_GameState.Instance && Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing) return 0;
-        if (BehaviorCameraFollower.Instance && BehaviorCameraFollower.Instance.currentState == BehaviorCameraFollower.CameraFocusState.Dolly) return 0;
+        bool playerRefAnim = PlayerReference && PlayerReference.ref_PlayerAnimations;
+
+        if (isBlocked)
+        {
+
+            if (playerRefAnim)
+            {
+                PlayerReference.ref_PlayerAnimations.UpdateAnimationSpeed(0.01f);
+                PlayerReference.ref_PlayerAnimations.SetAnyBool("isMoving", false);
+            }
+
+            return 0;
+        }
+
+        if (Manager_GameState.Instance &&
+            Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing)
+            return 0;
+
+        if (BehaviorCameraFollower.Instance &&
+            BehaviorCameraFollower.Instance.currentState == BehaviorCameraFollower.CameraFocusState.Dolly)
+            return 0;
 
         float speed = ((speedBase * dir * inputXYTime * Time.deltaTime) * speedLimiting) * startSpeedAccel;
+
         speed = Mathf.Round(speed * 100f) / 100f; // rounding 2 Decimals for other reliable calculations
+
         if (playerInAir && !isDashing)
             speed *= speedChangeWhileInAir;
+
         if (isDashing)
             speed *= (dashingSpeedMultiplier * Time.deltaTime);
-        return speed; // if we dont round we dont need to create a new variable
+
+        if (playerRefAnim)
+        {
+            PlayerReference.ref_PlayerAnimations.UpdateAnimationSpeed(speed);
+
+            PlayerReference.ref_PlayerAnimations.SetAnyBool(
+                "isRunningBackwards",
+                speed > 0);
+
+            PlayerReference.ref_PlayerAnimations.SetAnyBool(
+                "isMoving",
+                Mathf.Abs(speed) > 0.01f);
+        }
+
+        return speed;
     }
 
     public bool StartSpeedIsRampedUp() // lets us know if we are at full speed and makes adjustments if needed
-    {      
-        if(Time.time > startSpeedAccelStamp + startSpeedAceelWaitTime && startSpeedAccel < 2)
+    {
+        if (Time.time > startSpeedAccelStamp + startSpeedAceelWaitTime && startSpeedAccel < 2)
         {
             if (startSpeedAceelWaitTime < 20)
-                startSpeedAceelWaitTime+= 1 * timeBetweenAceeleration;
+                startSpeedAceelWaitTime += 1 * timeBetweenAceeleration;
             startSpeedAccelStamp = Time.time;
             startSpeedAccel += 6f * Time.deltaTime;
             return false;
@@ -367,17 +411,18 @@ public class Manager_Platforms : MonoBehaviour
         if (startSpeedAccel >= 1)
         { print("DONE SPEEDING UP"); startSpeedAccel = 1; return true; }
         else
-            return false;              
+            return false;
     }
 
     private void CheckDashing()
     {
         if (isDashing && Time.time > dashStartTimeStamp + dashingLastingTime)
             isDashing = false;
+        if (PlayerReference && PlayerReference.ref_PlayerAnimations) PlayerReference.ref_PlayerAnimations.SetAnyBool("isDashing", isDashing);
     }
 
     private void DashAction()
-    {        
+    {
         isDashing = true;
         dashStartTimeStamp = Time.time;
         onDashEvent.Invoke();
@@ -400,7 +445,7 @@ public class Manager_Platforms : MonoBehaviour
             if (ref_BehaviorCameraFollower)
                 ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.MovingBackwards, false);
         }
-        else if (Input.GetKey(key_MovePlatformsLeft) || Input.GetKey(key_MovePlatformsLeft2) || automaicallyMoveRight ) // going right
+        else if (Input.GetKey(key_MovePlatformsLeft) || Input.GetKey(key_MovePlatformsLeft2) || automaicallyMoveRight) // going right
         {
             if (Input.GetKeyDown(key_MovePlatformsLeft) || Input.GetKey(key_MovePlatformsLeft2)) // pressed forward to dash
             {
@@ -426,7 +471,7 @@ public class Manager_Platforms : MonoBehaviour
 
             if (ref_BehaviorCameraFollower && CurrentSpeed() != 0)
                 ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.MovingForward, false);
-        }      
+        }
         else // not pressing left or rights
         {
             inputXYTime -= 1 * Time.deltaTime;
@@ -494,7 +539,7 @@ public class Manager_Platforms : MonoBehaviour
     }
 
     public void SpawnPlatformsOnDelay(float _delay)
-    {        
+    {
         StartCoroutine(SpawnPlatformsOnDelayEnum(_delay));
     }
 
@@ -592,7 +637,7 @@ public class Manager_Platforms : MonoBehaviour
         {
             if (spawnedPlatformsInPlay[_removeId] != null)
             {
-                if(_delete) Destroy(spawnedPlatformsInPlay[_removeId].gameObject, 1); // destroy on delay to ensure we time the removal well
+                if (_delete) Destroy(spawnedPlatformsInPlay[_removeId].gameObject, 1); // destroy on delay to ensure we time the removal well
                 spawnedPlatformsInPlay[_removeId].ShowHideArt(false);
             }
             spawnedPlatformsInPlay.RemoveAt(_removeId);
@@ -630,7 +675,7 @@ public class Manager_Platforms : MonoBehaviour
         for (int cpd = 0; cpd < listOfSpawnablePlatforms.Count; cpd++)
             if (listOfSpawnablePlatforms[cpd].spawnChance >= diceRoller)
                 listPlatformsInRange.Add(listOfSpawnablePlatforms[cpd]);
-               
+
 
         if (listPlatformsInRange.Count > 0) // pick a random one from the options allowed
             return listPlatformsInRange[Random.Range(0, listPlatformsInRange.Count)];
@@ -689,7 +734,7 @@ public class Manager_Platforms : MonoBehaviour
     public void CheckMonsterSpawner()
     {
         //if (isBlocked)
-               //lastCaptureTimeStamp += Time.deltaTime; // delays the monster spawning if we are standing still
+        //lastCaptureTimeStamp += Time.deltaTime; // delays the monster spawning if we are standing still
 
         if (monstersCaptured < monstersToSpawnInOrder.Length) // if we havent finished the list of monsters to spawn in this level
         {
@@ -712,7 +757,7 @@ public class Manager_Platforms : MonoBehaviour
         }
         // if we have a monster, it's enabled, enough time has passed, and it hasnt been captured
         if (spawnedMonster != null && spawnedMonster.gameObject.activeSelf == true &&
-            Time.time > timeMonsterSpawned + waitTimeUntilDespawnDynamic && 
+            Time.time > timeMonsterSpawned + waitTimeUntilDespawnDynamic &&
             spawnedMonsterBehavior.currentState != BehaviorMonster.MONSTERSTATE.Captured)
             DespawnMonster(false); // despawn the monster
     }
@@ -725,7 +770,7 @@ public class Manager_Platforms : MonoBehaviour
             monsterSignaledCapture = false;
             print("Turn Off Monster Stuff In-game");
             spawnedMonster.gameObject.SetActive(false);
-            ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.MovingForward, true);            
+            ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.MovingForward, true);
         }
     }
 
@@ -735,7 +780,7 @@ public class Manager_Platforms : MonoBehaviour
         {
             print("Captured Monster!!");
             ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.MovingForward, true);
-            spawnedMonster.gameObject.SetActive(false);            
+            spawnedMonster.gameObject.SetActive(false);
             Destroy(spawnedMonster, 2);
             spawnedMonsterBehavior = null;
             spawnedMonster = null;
@@ -779,7 +824,7 @@ public class Manager_Platforms : MonoBehaviour
     //{
     //    //if (Manager_GameState.Instance && Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing)
     //    //{ print($"no spawning monsters during { Manager_GameState.Instance.currentState} mode");  return; }
-       
+
 
     //    if (Time.time > timeMonsterSpawned + waitTimeUntilDespawnDynamic && spawnedMonster != null)
     //        DespawnMonster();
@@ -846,7 +891,7 @@ public class Manager_Platforms : MonoBehaviour
     public void RunMonsterBehavior()
     {
         if (spawnedMonsterBehavior && spawnedMonster && spawnedMonster.gameObject.activeSelf == true)
-         spawnedMonsterBehavior.RunMonsterBehavior(false); 
+            spawnedMonsterBehavior.RunMonsterBehavior(false);
     }
 
     public void DespawnMonster(bool _wasCaptured)
@@ -854,7 +899,7 @@ public class Manager_Platforms : MonoBehaviour
         //print("Checking if we need to despawn monster");
 
         // if we have spawned at least 1 monster and its active now and we havent captured it yet
-        if (monstersSpawned > 0) 
+        if (monstersSpawned > 0)
         {
             if (_wasCaptured)
             {
@@ -876,10 +921,10 @@ public class Manager_Platforms : MonoBehaviour
             {
                 Manager_GameState.Instance.objectsSpawnedDuringRuntime.Remove(spawnedMonster);
                 Manager_GameState.Instance.ResetDataSinceMonsterSpawn();
-                if(!_wasCaptured) Manager_GameState.Instance.SpawnChange(-1);
+                if (!_wasCaptured) Manager_GameState.Instance.SpawnChange(-1);
             }
 
-            if(CurrentSpeed() > 0) ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.MovingForward, true);
+            if (CurrentSpeed() > 0) ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.MovingForward, true);
 
             // spawn pocki if we havent collected it yet
             if (!playerUnlockedPockiBox)
@@ -929,16 +974,16 @@ public class Manager_Platforms : MonoBehaviour
                 Manager_GameState.Instance.dataSinceLevelStarted, CurrentLoadedLevel.listOfTextToShow[i].requiredConditions))
             {
                 print($"We Met A Condition For: {CurrentLoadedLevel.listOfTextToShow[i].messageNickname}");
-                if (CurrentLoadedLevel.listOfTextToShow[i].hasPlayed && !CurrentLoadedLevel.listOfTextToShow[i].messageCanRepeat)  continue; // non repeatables already played, skip here
+                if (CurrentLoadedLevel.listOfTextToShow[i].hasPlayed && !CurrentLoadedLevel.listOfTextToShow[i].messageCanRepeat) continue; // non repeatables already played, skip here
 
                 if (!string.IsNullOrEmpty(CurrentLoadedLevel.listOfTextToShow[i].requiredTextBefore)) // if there is a text we want to show first, we check it here
                     for (int j = 0; j < CurrentLoadedLevel.listOfTextToShow.Count; j++) // loop the text again & if our match hasn't been played
                         if (CurrentLoadedLevel.listOfTextToShow[j].messageNickname == CurrentLoadedLevel.listOfTextToShow[i].requiredTextBefore && !CurrentLoadedLevel.listOfTextToShow[j].hasPlayed)
-                         continue; // skip
+                            continue; // skip
 
                 Manager_TutorialUI.Instance.QueueMessageToShow(CurrentLoadedLevel.listOfTextToShow[i]);
                 CurrentLoadedLevel.listOfTextToShow[i].hasPlayed = true;
-                print($"Queued Message: {CurrentLoadedLevel.listOfTextToShow[i].messageNickname}");
+                //print($"Queued Message: {CurrentLoadedLevel.listOfTextToShow[i].messageNickname}");
                 break;
             }
         }
@@ -958,7 +1003,7 @@ public class CustomPlatformData
     public string platformNickname;
 
     [Tooltip("The chance our platform can spawn. 1 (100%) means there is ALWAYS a chance it will spawn")]
-    [Range(0, 1)]    public float spawnChance; // 100% means it will always have a chance to spawn
+    [Range(0, 1)] public float spawnChance; // 100% means it will always have a chance to spawn
     [Tooltip("The Model we will spawn when this is selected")]
     public Transform prefabToSpawn;
 

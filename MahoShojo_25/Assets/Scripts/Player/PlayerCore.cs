@@ -174,6 +174,8 @@ public class PlayerCore : MonoBehaviour
     [Range(0.00f, 100)]
     public float fallAcceleration = 15f;
 
+
+
     public bool CanJump()
     {
         return timesJumpedSinceLastGround < numberOfJumps;
@@ -289,8 +291,8 @@ public class PlayerCore : MonoBehaviour
 
     private void ApplyJumpPhysics()
     {
-        if (jumpLeftToAchieve < maximumJumpPower &&
-            isJumpHeld)
+       
+        if (jumpLeftToAchieve < maximumJumpPower && isJumpHeld)
         {
             if (rb3D != null)
             {
@@ -307,13 +309,9 @@ public class PlayerCore : MonoBehaviour
             jumpLeftToAchieve += jumpAcceleration;
         }
 
-        if (!holdingJumpSinceJump &&
-            rb3D != null &&
-            rb3D.velocity.y < 0)
-        {
-            rb3D.AddForce(
-                Vector3.down *
-                (1 + rb3D.velocity.y * fallAcceleration));
+        if (!holdingJumpSinceJump && rb3D != null && rb3D.velocity.y < 0)
+        {           
+            rb3D.AddForce(Vector3.down * (1 + rb3D.velocity.y * fallAcceleration));
         }
     }
 
@@ -844,6 +842,8 @@ public class PlayerCore : MonoBehaviour
 
         if (_platformManager)
             _platformManager.PopulatePlayerCoreRef(this);
+
+        ReleaseJump();
     }
 
     private void Update()

@@ -392,7 +392,7 @@ public class PlayerCore : MonoBehaviour
         if (!CanJump())
             return;
 
-        if (_platforms && _platforms.isDashing) return;
+        //if (_platforms && _platforms.isDashing) return;
 
         if (inputXYTime <= inputTimeForQuickJumps)
         {

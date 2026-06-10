@@ -72,6 +72,8 @@ public class PlayerCore : MonoBehaviour
     [Range(1f, 10f)]
     public float gravityMultiplier = 2.5f;
 
+
+
     [Header("Fall Tuning\n______________")]
 
     [Tooltip("While holding jump during a fall, this slows how quickly the player falls. Lower values feel floatier")]
@@ -85,6 +87,28 @@ public class PlayerCore : MonoBehaviour
     [Tooltip("Additional downward force applied while fast-falling after releasing jump")]
     [Range(0f, 50f)]
     public float releasedJumpFallAcceleration = 18f;
+
+
+    [Header("Corner Correction\n______________")]
+
+    [Tooltip("When true the player can be softly boosted over nearby platform corners")]
+    public bool enableCornerCorrection = true;
+
+    [Tooltip("How close the player must be to the top of a platform to receive corner correction")]
+    [Range(0.01f, 1f)]
+    public float cornerCorrectionHeight = 0.35f;
+
+    [Tooltip("How far sideways the player can be from the platform edge to receive correction")]
+    [Range(0.01f, 1f)]
+    public float cornerCorrectionHorizontalRange = 0.4f;
+
+    [Tooltip("How strongly we move the player upward during corner correction")]
+    [Range(0.01f, 2f)]
+    public float cornerCorrectionBoostStrength = 0.15f;
+
+    [Tooltip("Prevents corner correction from activating repeatedly too quickly")]
+    public float cornerCorrectionCooldown = 0.15f;
+
 
     private bool isJumpHeld;
 
@@ -102,6 +126,8 @@ public class PlayerCore : MonoBehaviour
 
     // Prevents repeated release logic.
     private bool jumpReleasedThisFrame;
+
+    private float lastCornerCorrectionTime;
 
     #endregion
 
@@ -366,8 +392,7 @@ public class PlayerCore : MonoBehaviour
         if (!CanJump())
             return;
 
-        if (_platforms && _platforms.isDashing)
-            return;
+        if (_platforms && _platforms.isDashing) return;
 
         if (inputXYTime <= inputTimeForQuickJumps)
         {
@@ -389,14 +414,12 @@ public class PlayerCore : MonoBehaviour
 
         if (ref_PlayerAnimations)
         {
-            ref_PlayerAnimations.SetAnyTrigger(
-                "Jumped");
+            ref_PlayerAnimations.SetAnyTrigger("Jumped");
+            ref_PlayerAnimations.SetAnyBool("isFalling", true);
         }
 
-        if (_platforms)
-        {
-            _platforms.ChangePlayerInAir(true);
-        }
+        if (_platforms) _platforms.ChangePlayerInAir(true);
+
 
         jumpLeftToAchieve = 0;
 
@@ -410,8 +433,7 @@ public class PlayerCore : MonoBehaviour
                     false);
         }
 
-        UpdateVfx_Jump(
-            timesJumpedSinceLastGround);
+        UpdateVfx_Jump(timesJumpedSinceLastGround);
 
         onSuccess_MoveUp?.Invoke();
     }
@@ -513,23 +535,42 @@ public class PlayerCore : MonoBehaviour
                     * Time.fixedDeltaTime;
             }
         }
-
         // SHORT HOP CONTROL
-
-        else if (
-            rb3D.velocity.y > 0
-            &&
-            !isJumpHeld)
+        else if (rb3D.velocity.y > 0 && !isJumpHeld)
         {
-            rb3D.velocity +=
-                Vector3.up
-                * gravity
-                * (fallAcceleration - 1);
+            rb3D.velocity += Vector3.up * gravity * (fallAcceleration - 1);
         }
-
-
     }
 
+    private bool TryCornerCorrection(Collision col)
+    {
+        if (!enableCornerCorrection) return false;
+        if (Time.time < lastCornerCorrectionTime + cornerCorrectionCooldown) return false;
+        if (!rb3D) return false;
+        if (timesJumpedSinceLastGround <= 0) return false;  // Only while airborne.
+        if (rb3D.velocity.y > 2f) return false; // Prevent climbing exploits.
+
+        ContactPoint contact = col.contacts[0];
+
+        if (Mathf.Abs(contact.normal.x) < 0.5f) return false;  // Side collision only.
+
+        Bounds bounds = col.collider.bounds;
+        float topY = bounds.max.y;
+        float playerY = transform.position.y;
+        float distanceToTop = topY - playerY;
+
+
+        if (distanceToTop < 0) return false; // Too far below top.
+        if (distanceToTop > cornerCorrectionHeight) return false;
+
+        Vector3 targetPosition = transform.position;  // Small upward correction.
+        targetPosition.y += cornerCorrectionBoostStrength;
+        targetPosition.x += Mathf.Sign(rb3D.velocity.x) * 0.05f;  // Optional: tiny horizontal nudge.
+        transform.position = Vector3.Lerp(transform.position, targetPosition, 0.9f);
+        lastCornerCorrectionTime = Time.time;
+
+        return true;
+    }
 
     #endregion
 
@@ -904,45 +945,40 @@ public class PlayerCore : MonoBehaviour
 
     #region COLLISIONS
 
-    private void OnCollisionEnter(
-        Collision col)
+    private void OnCollisionEnter(Collision col)
     {
-        if (
-            (layersThatResetJumps.value
-            &
-            (1 << col.transform.gameObject.layer))
-            > 0)
+        bool landedOnTop = col.contacts[0].normal.y > 0.5f;
+
+        if ((layersThatResetJumps.value & (1 << col.transform.gameObject.layer)) > 0)
         {
-            timesJumpedSinceLastGround = 0;
-
-            UpdateVfx_Jump(
-                timesJumpedSinceLastGround);
-
-            if (ref_PlayerAnimations)
+            if (landedOnTop)
             {
-                ref_PlayerAnimations
-                    .SetAnyBool(
-                        "isFalling",
-                        false);
-            }
+                timesJumpedSinceLastGround = 0;
 
-            if (_platforms)
-            {
-                _platforms
-                    .ChangePlayerInAir(false);
+                UpdateVfx_Jump(
+                    timesJumpedSinceLastGround);
+
+                if (ref_PlayerAnimations)
+                    ref_PlayerAnimations.SetAnyBool("isFalling", false);
+
+                if (_platforms)
+                {
+                    _platforms
+                        .ChangePlayerInAir(false);
+                }
             }
         }
 
-        if (col.transform.CompareTag(
-            "Obstacle"))
+        TryCornerCorrection(col);
+
+        if (col.transform.CompareTag(            "Obstacle"))
         {
             HandleObstacleInteraction(
                 col.transform);
         }
     }
 
-    private void OnTriggerEnter(
-        Collider trig)
+    private void OnTriggerEnter(        Collider trig)
     {
         if (trig.CompareTag("Monster"))
         {

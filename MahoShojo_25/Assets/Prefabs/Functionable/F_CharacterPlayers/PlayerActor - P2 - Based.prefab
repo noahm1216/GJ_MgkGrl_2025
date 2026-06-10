@@ -269,7 +269,11 @@ MonoBehaviour:
     m_Bits: 337
   jumpReleaseVelocityMultiplier: 0.5
   jumpAcceleration: 10
-  fallAcceleration: 100
+  fallAcceleration: 3
+  gravityMultiplier: 1.25
+  heldJumpFallGravityMultiplier: 0.65
+  releasedJumpFallGravityMultiplier: 4
+  releasedJumpFallAcceleration: 20
   jumpShoeVfx_R: {fileID: 738591805962050073}
   jumpShoeVfx_L: {fileID: 2120810200822967685}
   ref_BehaviorCameraFollower: {fileID: 0}
@@ -426,6 +430,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  blockCheckInterval: 0.05
 --- !u!54 &7064522762146662973
 Rigidbody:
   m_ObjectHideFlags: 0

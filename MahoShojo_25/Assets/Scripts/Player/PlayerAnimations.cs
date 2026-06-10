@@ -15,7 +15,7 @@ public class PlayerAnimations : MonoBehaviour
 
     public void SetAnyBool(string _name, bool _canMove)
     {
-        Debug.Log($"SetBool: {_name} = {_canMove}");
+        //Debug.Log($"SetBool: {_name} = {_canMove}");
 
         for (int i = 0; i < animPlayer.Length; i++)
             if (animPlayer[i] != null && animPlayer[i].gameObject.activeSelf == true)

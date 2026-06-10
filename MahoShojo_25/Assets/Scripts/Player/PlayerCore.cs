@@ -1,69 +1,11 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-/// <summary>
-/// PlayerCore
-///
-/// REFACTOR GOALS:
-/// - Reduce Update overhead
-/// - Reduce repeated singleton lookups
-/// - Prepare for modular controllers
-/// - Maintain compatibility with existing systems
-///
-/// FUTURE SPLIT TARGETS:
-/// - PlayerInputController
-/// - PlayerJumpController
-/// - PlayerCollisionController
-/// - PlayerVisualController
-/// - PlayerSpawnController
-/// - PlayerBlockerDetector
-/// </summary>
+
 public class PlayerCore : MonoBehaviour
 {
-    #region EVENTS
-
-    // EVENT-DRIVEN REFACTOR NOTES
-    // ------------------------------------------------------
-    // Replace direct manager manipulation later with events.
-    //
-    // EXAMPLE:
-    // OLD:
-    // Manager_Platforms.Instance.ChangePlayerInAir(true);
-    //
-    // NEW:
-    // OnAirStateChanged?.Invoke(true);
-
-    public event System.Action OnJumpStarted;
-    public event System.Action OnJumpReleased;
-    public event System.Action OnPlayerLanded;
-    public event System.Action<bool> OnAirStateChanged;
-    public event System.Action<int> OnJumpCountChanged;
-    public event System.Action<Transform> OnObstacleHit;
-
-    #endregion
-
-
-    #region REFERENCES
-
-    [Header("References\n______________")]
-
-    public Rigidbody rb3D;
-
-    public RaycastCheck ref_RaycastCheck;
-
-    public PlayerAnimations ref_PlayerAnimations;
-
-    public BehaviorCameraFollower ref_BehaviorCameraFollower;
-
-    // Cached references
-    private Manager_Platforms _platformManager;
-    private Manager_GameState _gameState;
-    private Transform _cachedTransform;
-
-    #endregion
-
-
     #region INPUT_KEYS
 
     [Header("Input Keys\n______________")]
@@ -74,152 +16,368 @@ public class PlayerCore : MonoBehaviour
     [Tooltip("Move our character down")]
     public KeyCode key_MoveDown = KeyCode.S;
 
+    [Tooltip("When true this makes sure our character's always in the 2.5D position we expect them to be")]
+    public bool lockYPositionAtZero = true;
+
     private KeyCode key_MoveUp2 = KeyCode.UpArrow;
 
     #endregion
 
+    #region JUMP_ABILITY
 
-    #region INPUT_RUNTIME
-
-    /// <summary>
-    /// FUTURE SCRIPT:
-    /// PlayerInputController
-    /// </summary>
-
-    private bool _jumpHeld;
-    private bool _jumpPressed;
-    private bool _jumpReleased;
-
-    private void ReadInputs()
-    {
-        _jumpHeld =
-            Input.GetKey(key_MoveUp) ||
-            Input.GetKey(key_MoveUp2);
-
-        _jumpPressed =
-            Input.GetKeyDown(key_MoveUp) ||
-            Input.GetKeyDown(key_MoveUp2);
-
-        _jumpReleased =
-            Input.GetKeyUp(key_MoveUp) ||
-            Input.GetKeyUp(key_MoveUp2);
-    }
-
-    #endregion
-
-
-    #region PLAYER_STATE
-
-    [Header("Player State\n______________")]
-
-    [Tooltip("When true this makes sure our character's always in the 2.5D position we expect them to be")]
-    public bool lockYPositionAtZero = true;
-
-    public int dir
-    {
-        get;
-        private set;
-    } = 1;
-
-    private int timesJumpedSinceLastGround;
-
-    private bool isJumpHeld;
-
-    private bool holdingJumpSinceJump;
-
-    private float inputXYTime;
-
-    private float lagInputTime;
-
-    private float jumpLeftToAchieve;
-
-    private bool triggeredWin;
-
-    #endregion
-
-
-    #region PLAYER_JUMP_CONTROLLER
-
-    /// <summary>
-    /// FUTURE SCRIPT:
-    /// PlayerJumpController
-    /// </summary>
-
+    [Space]
     [Header("Jump Ability\n______________")]
 
+    [Tooltip("When true the strength of our jump is based on how long the player holds the jump key")]
     public bool jumpBasedOnKeyPressTime;
 
+    [Tooltip("The maximum jump force our character can achieve")]
     public float maximumJumpPower = 20;
 
+    [Tooltip("The Rigidbody we use for all movement and jump physics")]
+    public Rigidbody rb3D;
+
+    [Tooltip("If the player taps jump quickly, this percent of the maximum jump power is used instead")]
     [Range(0.00f, 1)]
     public float quickJumpPercentOfMaxJump = 0.66f;
 
+    [Tooltip("How long the player can press jump before it is no longer considered a quick jump")]
     [Range(0.00f, 1)]
     public float inputTimeForQuickJumps = 0.25f;
 
+    [Tooltip("How quickly our jump reaches its maximum jump power")]
     [Range(0.1f, 10)]
     public float speedToMaxJumpPower = 3;
 
+    [Tooltip("The number of jumps our character can perform before touching the ground again")]
     [Range(0, 10)]
     public int numberOfJumps = 2;
 
+    [Tooltip("Any layers that reset our jumps when touched")]
     public LayerMask layersThatResetJumps;
 
+    [Tooltip("When the player releases jump while rising, this reduces the current upward velocity")]
     [Range(0.1f, 1f)]
     public float jumpReleaseVelocityMultiplier = 0.5f;
 
+    [Tooltip("How quickly additional jump force is added during a jump")]
     [Range(0.00f, 10)]
     public float jumpAcceleration = 9f;
 
+    [Tooltip("How aggressively we shorten upward movement when the player releases jump early")]
     [Range(0.00f, 100)]
     public float fallAcceleration = 15f;
 
+    [Tooltip("Extra gravity applied while falling to make the game feel less floaty overall")]
+    [Range(1f, 10f)]
+    public float gravityMultiplier = 2.5f;
+
+    [Header("Fall Tuning\n______________")]
+
+    [Tooltip("While holding jump during a fall, this slows how quickly the player falls. Lower values feel floatier")]
+    [Range(0.1f, 3f)]
+    public float heldJumpFallGravityMultiplier = 0.75f;
+
+    [Tooltip("While NOT holding jump during a fall, this increases gravity for faster more precise falling")]
+    [Range(1f, 10f)]
+    public float releasedJumpFallGravityMultiplier = 3.5f;
+
+    [Tooltip("Additional downward force applied while fast-falling after releasing jump")]
+    [Range(0f, 50f)]
+    public float releasedJumpFallAcceleration = 18f;
+
+    private bool isJumpHeld;
+
+    private float inputXYTime;
+
+    public int dir    {        get;        private set;    } = 1;
+
+    private int timesJumpedSinceLastGround;
+
+    private float jumpLeftToAchieve;
+
+    private float lagInputTime;
+
+    private bool holdingJumpSinceJump;
+
+    // Prevents repeated release logic.
+    private bool jumpReleasedThisFrame;
+
+    #endregion
+
+    #region VISUALS
+
+    [Space]
+    [Header("Visuals\n______________")]
+
+    [Tooltip("The visual effect shown on the player's right shoe during jumps")]
+    public GameObject jumpShoeVfx_R;
+
+    [Tooltip("The visual effect shown on the player's left shoe during jumps")]
+    public GameObject jumpShoeVfx_L;
+
+    #endregion
+
+    #region CAMERA
+
+    [Space]
+    [Header("Camera\n______________")]
+
+    [Tooltip("Reference to the camera behavior controller used to react to player movement states")]
+    public BehaviorCameraFollower ref_BehaviorCameraFollower;
+
+    #endregion
+
+    #region PLATFORMS
+
+    [Space]
+    [Header("Platforms\n______________")]
+
+    [Tooltip("Used for raycasts that help position the player onto platforms")]
+    public RaycastCheck ref_RaycastCheck;
+
+    #endregion
+
+    #region ANIMATIONS
+
+    [Space]
+    [Header("Animations\n______________")]
+
+    [Tooltip("Reference to the animation controller for our player")]
+    public PlayerAnimations ref_PlayerAnimations;
+
+    [Tooltip("The currently active player model index")]
+    public int activeModel = 0;
+
+    [Tooltip("A list of all player models that can be activated")]
+    public Transform[] modelsToPickFrom;
+
+    private int activeModelReference;
+
+    #endregion
+
+    #region EVENTS_UP
+
+    [Space]
+    [Header("Input Keys Events UP\n______________")]
+
+    [Tooltip("Called every frame while the jump key is being held")]
+    public UnityEvent onPress_MoveUp;
+
+    [Tooltip("Called when the player releases the jump key")]
+    public UnityEvent onRelease_MoveUp;
+
+    [Tooltip("Called after a jump is successfully performed")]
+    public UnityEvent onSuccess_MoveUp;
+
+    #endregion
+
+    #region EVENTS_DOWN
+
+    [Space]
+    [Header("Input Keys Events DOWN\n______________")]
+
+    [Tooltip("Called every frame while the down key is being held")]
+    public UnityEvent onPress_MoveDown;
+
+    [Tooltip("Called when the player releases the down key")]
+    public UnityEvent onRelease_MoveDown;
+
+    [Tooltip("Called after a successful down input action")]
+    public UnityEvent onSuccess_MoveDown;
+
+    #endregion
+
+    #region REACTION_EVENTS
+
+    [Space]
+    [Header("Reaction Events\n______________")]
+
+    [Tooltip("Called when the player takes damage but survives")]
+    public UnityEvent onHit;
+
+    [Tooltip("Called when the player dies")]
+    public UnityEvent onDeath;
+
+    [Tooltip("Called when the player changes models or transforms")]
+    public UnityEvent onModelChange;
+
+    [Tooltip("Called when the player collects a Pocki Box")]
+    public UnityEvent onPockiBoxCollect;
+
+    [Tooltip("Called when the player collects a Pocki Stick")]
+    public UnityEvent onPockiStickCollect;
+
+    #endregion
+
+    #region CACHED_REFERENCES
+
+    private Manager_Platforms _platforms;
+
+    private Manager_GameState _gameState;
+
+    private Manager_TutorialUI _tutorialUI;
+
+    private Transform _cachedTransform;
+
+    #endregion
+
+    #region OPTIMIZATION_TIMERS
+
+    // Reduces expensive raycasts.
+    private float nextBlockCheckTime;
+
+    [Header("Optimization\n______________")]
+
+    [Tooltip("How often we check for nearby blockers using raycasts. Lower values are more responsive but more expensive")]
+    [SerializeField]
+    private float blockCheckInterval = 0.05f;
+
+    #endregion
 
 
-    public bool CanJump()
+
+    #region UNITY_LIFECYCLE
+
+    private void Start()
     {
-        return timesJumpedSinceLastGround < numberOfJumps;
+        _cachedTransform = transform;
+
+        _platforms = Manager_Platforms.Instance;
+
+        _gameState = Manager_GameState.Instance;
+
+        _tutorialUI = Manager_TutorialUI.Instance;
+
+        if (_platforms)
+            _platforms.PopulatePlayerCoreRef(this);
+
+        if (!ref_BehaviorCameraFollower && Camera.main)
+            Camera.main.TryGetComponent(
+                out ref_BehaviorCameraFollower);
+
+        jumpLeftToAchieve = maximumJumpPower;
+
+        // IMPORTANT:
+        // Helps prevent floaty startup states.
+        ReleaseJump();
     }
 
-    private void HandleJumpInput()
+    private void Update()
     {
-        if (_jumpHeld)
+        HandleModelChanges();
+
+        if (_gameState)
         {
-            isJumpHeld = true;
+            ReactToGameManager();
 
-            inputXYTime +=
-                Time.deltaTime *
-                speedToMaxJumpPower;
-
-            if (!jumpBasedOnKeyPressTime)
-                inputXYTime = 1;
-
-            inputXYTime = Mathf.Clamp01(inputXYTime);
+            if (_gameState.currentState
+                != Manager_GameState.GAMESTATE.Playing)
+            {
+                return;
+            }
         }
 
-        if (_jumpPressed)
-        { StartJump(); }
+        if (lockYPositionAtZero)
+        {
+            Vector3 pos = _cachedTransform.position;
 
-        if (_jumpReleased)
-        { ReleaseJump();  }
+            if (pos.z != 0)
+            {
+                pos.z = 0;
+                _cachedTransform.position = pos;
+            }
+        }
+
+        CheckForInputs();
+
+        HandleBlockChecks();
+    }
+
+    private void FixedUpdate()
+    {
+        HandleJumpPhysics();
+
+        HandleFallPhysics();
+
+        HandleOutOfBounds();
+
+        HandleXCorrection();
+    }
+
+    #endregion
+
+
+    #region INPUT
+
+    private void CheckForInputs()
+    {
+        bool jumpPressed =
+            Input.GetKey(key_MoveUp)
+            || Input.GetKey(key_MoveUp2);
+
+        bool jumpDown =
+            Input.GetKeyDown(key_MoveUp)
+            || Input.GetKeyDown(key_MoveUp2);
+
+        bool jumpReleased =
+            Input.GetKeyUp(key_MoveUp)
+            || Input.GetKeyUp(key_MoveUp2);
+
+        if (jumpPressed)
+        {
+            HandleJumpHeld();
+        }
+
+        if (jumpDown)
+        {
+            StartJump();
+        }
+
+        if (jumpReleased)
+        {
+            ReleaseJump();
+        }
+    }
+
+    private void HandleJumpHeld()
+    {
+        isJumpHeld = true;
+
+        inputXYTime +=
+            Time.deltaTime
+            * speedToMaxJumpPower;
+
+        if (!jumpBasedOnKeyPressTime)
+        {
+            inputXYTime = 1;
+        }
+
+        inputXYTime =
+            Mathf.Clamp01(inputXYTime);
+
+        onPress_MoveUp?.Invoke();
     }
 
     private void StartJump()
     {
-
-        onPress_MoveUp.Invoke();
+        onRelease_MoveUp?.Invoke();
 
         if (!CanJump())
             return;
 
-        if (_platformManager != null &&
-            _platformManager.isDashing)
+        if (_platforms && _platforms.isDashing)
             return;
 
         if (inputXYTime <= inputTimeForQuickJumps)
-            inputXYTime = quickJumpPercentOfMaxJump;
+        {
+            inputXYTime =
+                quickJumpPercentOfMaxJump;
+        }
 
         holdingJumpSinceJump = false;
+
+        jumpReleasedThisFrame = false;
 
         dir = 1;
 
@@ -229,253 +387,156 @@ public class PlayerCore : MonoBehaviour
 
         timesJumpedSinceLastGround++;
 
-        jumpLeftToAchieve = 0;
-
-        // ------------------------------------------------------
-        // EVENT REFACTOR NOTES
-        // ------------------------------------------------------
-
-        onSuccess_MoveUp?.Invoke();
-        OnJumpStarted?.Invoke();
-
-        // Replace:
-        // Manager_Platforms.Instance.ChangePlayerInAir(true);
-
-        OnAirStateChanged?.Invoke(true);
-
-        // Replace:
-        // ref_BehaviorCameraFollower.StoreChangeState(
-        // BehaviorCameraFollower.CameraFocusState.InTheAir,
-        // false);
-
-        OnJumpCountChanged?.Invoke(
-            timesJumpedSinceLastGround);
-
         if (ref_PlayerAnimations)
-            ref_PlayerAnimations.SetAnyTrigger("Jumped");
+        {
+            ref_PlayerAnimations.SetAnyTrigger(
+                "Jumped");
+        }
+
+        if (_platforms)
+        {
+            _platforms.ChangePlayerInAir(true);
+        }
+
+        jumpLeftToAchieve = 0;
 
         if (ref_BehaviorCameraFollower)
         {
-            ref_BehaviorCameraFollower.StoreChangeState(
-                BehaviorCameraFollower.CameraFocusState.InTheAir,
-                false);
+            ref_BehaviorCameraFollower
+                .StoreChangeState(
+                    BehaviorCameraFollower
+                    .CameraFocusState
+                    .InTheAir,
+                    false);
         }
 
-        if (_platformManager)
-            _platformManager.ChangePlayerInAir(true);
+        UpdateVfx_Jump(
+            timesJumpedSinceLastGround);
 
-        UpdateVfx_Jump(timesJumpedSinceLastGround);
-
-        onSuccess_MoveUp.Invoke();
+        onSuccess_MoveUp?.Invoke();
     }
 
     private void ReleaseJump()
     {
+        if (jumpReleasedThisFrame)
+            return;
+
+        jumpReleasedThisFrame = true;
+
         isJumpHeld = false;
 
         holdingJumpSinceJump = true;
 
-        onRelease_MoveUp.Invoke();
-        OnJumpReleased?.Invoke();
-
-        if (rb3D != null &&
-            rb3D.velocity.y > 0)
+        if (rb3D && rb3D.velocity.y > 0)
         {
-            rb3D.velocity = new Vector3(
-                rb3D.velocity.x,
-                rb3D.velocity.y *
-                jumpReleaseVelocityMultiplier,
-                rb3D.velocity.z);
+            rb3D.velocity =
+                new Vector3(
+                    rb3D.velocity.x,
+                    rb3D.velocity.y
+                    * jumpReleaseVelocityMultiplier,
+                    rb3D.velocity.z);
         }
     }
 
-    private void ApplyJumpPhysics()
+    #endregion
+
+
+    #region JUMP_PHYSICS
+
+    public bool CanJump()
     {
-       
-        if (jumpLeftToAchieve < maximumJumpPower && isJumpHeld)
+        return timesJumpedSinceLastGround
+            < numberOfJumps;
+    }
+
+    private void HandleJumpPhysics()
+    {
+        if (!rb3D)
+            return;
+
+        if (jumpLeftToAchieve >= maximumJumpPower)
+            return;
+
+        if (!isJumpHeld)
+            return;
+
+        rb3D.AddForce(
+            (
+                (Vector3.up * dir)
+                * jumpLeftToAchieve
+                * lagInputTime
+                - rb3D.velocity
+            ),
+            ForceMode.VelocityChange);
+
+        jumpLeftToAchieve +=
+            jumpAcceleration;
+    }
+
+    private void HandleFallPhysics()
+    {
+        if (!rb3D)
+            return;
+
+
+        float gravity =
+            Physics.gravity.y
+            * Time.fixedDeltaTime;
+
+        // FALLING
+
+        if (rb3D.velocity.y < 0)
         {
-            if (rb3D != null)
+            // FLOATY FALL
+            // Holding jump slows descent.
+            if (isJumpHeld)
             {
-                rb3D.AddForce(
-                    (
-                        (Vector3.up * dir)
-                        * jumpLeftToAchieve
-                        * lagInputTime
-                        - rb3D.velocity
-                    ),
-                    ForceMode.VelocityChange);
+                rb3D.velocity +=
+                    Vector3.up
+                    * gravity
+                    * (heldJumpFallGravityMultiplier - 1);
             }
 
-            jumpLeftToAchieve += jumpAcceleration;
+            // FAST FALL
+            // Letting go increases gravity heavily.
+            else
+            {
+                rb3D.velocity +=
+                    Vector3.up
+                    * gravity
+                    * (releasedJumpFallGravityMultiplier - 1);
+
+                // Extra acceleration for sharper control.
+                rb3D.velocity +=
+                    Vector3.down
+                    * releasedJumpFallAcceleration
+                    * Time.fixedDeltaTime;
+            }
         }
 
-        if (!holdingJumpSinceJump && rb3D != null && rb3D.velocity.y < 0)
-        {           
-            rb3D.AddForce(Vector3.down * (1 + rb3D.velocity.y * fallAcceleration));
-        }
-    }
+        // SHORT HOP CONTROL
 
-    #endregion
-
-
-    #region PLAYER_BLOCKER_DETECTOR
-
-    /// <summary>
-    /// FUTURE SCRIPT:
-    /// PlayerBlockerDetector
-    /// 
-    /// PERFORMANCE IMPROVEMENTS:
-    /// - Delayed raycast checks
-    /// - Cached transform
-    /// - Reduced singleton lookups
-    /// 
-    /// FUTURE:
-    /// Replace 3 raycasts with BoxCast
-    /// </summary>
-
-    [Header("Blocker Detection\n______________")]
-
-    [SerializeField]
-    private float blockerCheckInterval = 0.05f;
-
-    private float nextBlockerCheckTime;
-
-    private void HandleBlockerChecks()
-    {
-        if (_platformManager == null)
-            return;
-
-        if (Time.time < nextBlockerCheckTime)
-            return;
-
-        nextBlockerCheckTime =
-            Time.time + blockerCheckInterval;
-
-        CheckIfBlocked();
-    }
-
-    private void CheckIfBlocked()
-    {
-        Vector3 direction = _cachedTransform.right;
-
-        if (_platformManager.dir < 0)
-            direction = -direction;
-
-        bool blocked =
-            CheckBlockerRaycasts(
-                direction,
-                _platformManager.dir,
-                new Vector3(0, 0.25f, 0),
-                0.15f)
-
-            ||
-
-            CheckBlockerRaycasts(
-                direction,
-                _platformManager.dir,
-                new Vector3(0, 0.65f, 0),
-                0.375f)
-
-            ||
-
-            CheckBlockerRaycasts(
-                direction,
-                _platformManager.dir,
-                new Vector3(0, 1f, 0),
-                0.5f);
-
-        _platformManager.ChangeIsBlocked(
-            blocked,
-            blocked ? RaycastHitObj() : null);
-    }
-
-    private Transform RaycastHitObj()
-    {
-        int moveDir = _platformManager.dir;
-
-        Vector3 direction = _cachedTransform.right;
-
-        if (moveDir < 0)
-            direction = -direction;
-
-        float dist = 0.51f;
-
-        Vector3 offset =
-            new Vector3(0, 0.65f, 0);
-
-        RaycastHit hit;
-
-        Debug.DrawLine(
-            _cachedTransform.position + offset,
-            _cachedTransform.position + offset +
-            (new Vector3(dist * -moveDir, 0, 0)),
-            Color.red);
-
-        if (Physics.Raycast(
-            _cachedTransform.position + offset,
-            _cachedTransform.TransformDirection(direction),
-            out hit,
-            dist,
-            layersThatResetJumps))
+        else if (
+            rb3D.velocity.y > 0
+            &&
+            !isJumpHeld)
         {
-            return hit.transform;
+            rb3D.velocity +=
+                Vector3.up
+                * gravity
+                * (fallAcceleration - 1);
         }
 
-        return null;
+
     }
 
-    private bool CheckBlockerRaycasts(
-        Vector3 direction,
-        int moveDir,
-        Vector3 offset,
-        float dist)
-    {
-        if (moveDir < 0)
-            direction = -direction;
-
-        RaycastHit hit;
-
-        Debug.DrawLine(
-            _cachedTransform.position + offset,
-            _cachedTransform.position + offset +
-            (new Vector3(dist * -moveDir, 0, 0)),
-            Color.red);
-
-        return Physics.Raycast(
-            _cachedTransform.position + offset,
-            _cachedTransform.TransformDirection(direction),
-            out hit,
-            dist,
-            layersThatResetJumps);
-    }
 
     #endregion
 
 
-    #region PLAYER_VISUAL_CONTROLLER
+    #region MODEL_HANDLING
 
-
-
-    /// <summary>
-    /// FUTURE SCRIPT:
-    /// PlayerVisualController
-    /// </summary>
-
-    [Header("Visuals\n______________")]
-
-    public GameObject jumpShoeVfx_R;
-
-    public GameObject jumpShoeVfx_L;
-
-    [Space]
-
-    public int activeModel = 0;
-
-    public Transform[] modelsToPickFrom;
-
-    private int activeModelReference;
-
-    private void HandleModelUpdates()
+    private void HandleModelChanges()
     {
         if (activeModelReference == activeModel)
             return;
@@ -494,24 +555,168 @@ public class PlayerCore : MonoBehaviour
             i < modelsToPickFrom.Length;
             i++)
         {
-            bool enable =
-                i == activeModel;
+            bool active = i == activeModel;
 
             modelsToPickFrom[i]
                 .GetChild(0)
                 .gameObject
-                .SetActive(enable);
+                .SetActive(active);
         }
 
         activeModelReference = activeModel;
     }
 
-    private void UpdateVfx_Jump(int jumpsUsed)
+    #endregion
+
+
+    #region BLOCK_CHECKS
+
+    private void HandleBlockChecks()
+    {
+        // PERFORMANCE:
+        // Only raycast periodically.
+
+        if (Time.time < nextBlockCheckTime)
+            return;
+
+        nextBlockCheckTime =
+            Time.time + blockCheckInterval;
+
+        // PERFORMANCE:
+        // Skip while airborne.
+
+        if (timesJumpedSinceLastGround > 0)
+            return;
+
+        CheckIfBlocked();
+    }
+
+    private void CheckIfBlocked()
+    {
+        if (!_platforms)
+            return;
+
+        Vector3 raycastDirection =
+            transform.right;
+
+        if (_platforms.dir < 0)
+            raycastDirection =
+                -transform.right;
+
+        if (rb3D &&
+            Mathf.Abs(rb3D.velocity.x) > 0.1f)
+        {
+            _platforms.ChangeIsBlocked(
+                true,
+                null);
+        }
+
+        bool blocked =
+            CheckBlockerRaycasts(
+                transform.right,
+                _platforms.dir,
+                new Vector3(0, 0.25f, 0),
+                0.15f)
+
+            ||
+
+            CheckBlockerRaycasts(
+                transform.right,
+                _platforms.dir,
+                new Vector3(0, 0.65f, 0),
+                0.375f)
+
+            ||
+
+            CheckBlockerRaycasts(
+                transform.right,
+                _platforms.dir,
+                new Vector3(0, 1f, 0),
+                0.5f);
+
+        if (blocked)
+        {
+            _platforms.ChangeIsBlocked(
+                true,
+                RaycastHitObj());
+        }
+        else
+        {
+            _platforms.ChangeIsBlocked(
+                false,
+                null);
+        }
+    }
+
+    #endregion
+
+
+    #region PLAYER_CORRECTIONS
+
+    private void HandleOutOfBounds()
+    {
+        if (!_gameState)
+            return;
+
+        if (_gameState.currentState
+            != Manager_GameState.GAMESTATE.Playing)
+        {
+            return;
+        }
+
+        if (_cachedTransform.position.y < -20)
+        {
+            _gameState.GameOver();
+        }
+    }
+
+    private void HandleXCorrection()
+    {
+        if (_cachedTransform.position.x > 1
+            || _cachedTransform.position.x < -1)
+        {
+            AdjustPlayerToZeroX();
+        }
+    }
+
+    private void AdjustPlayerToZeroX()
+    {
+        Vector3 pos =
+            _cachedTransform.position;
+
+        if (pos.x > 1)
+        {
+            pos -= new Vector3(
+                Time.deltaTime
+                * Mathf.Abs(pos.x),
+                0,
+                0);
+        }
+
+        if (pos.x < -1)
+        {
+            pos += new Vector3(
+                Time.deltaTime
+                * Mathf.Abs(pos.x),
+                0,
+                0);
+        }
+
+        _cachedTransform.position = pos;
+    }
+
+    #endregion
+
+
+    #region VFX
+
+    private void UpdateVfx_Jump(
+        int _timesJumped)
     {
         bool rightEnabled = false;
         bool leftEnabled = false;
 
-        switch (jumpsUsed)
+        switch (_timesJumped)
         {
             case 0:
                 rightEnabled = true;
@@ -524,73 +729,29 @@ public class PlayerCore : MonoBehaviour
         }
 
         if (jumpShoeVfx_R)
-            jumpShoeVfx_R.SetActive(rightEnabled);
+            jumpShoeVfx_R.SetActive(
+                rightEnabled);
 
         if (jumpShoeVfx_L)
-            jumpShoeVfx_L.SetActive(leftEnabled);
+            jumpShoeVfx_L.SetActive(
+                leftEnabled);
     }
 
     #endregion
 
 
-    #region PLAYER_POSITION_CONSTRAINTS
+    #region EXISTING_BEHAVIOR
 
-    /// <summary>
-    /// FUTURE SCRIPT:
-    /// PlayerPositionController
-    /// </summary>
-
-    private void HandlePositionConstraints()
+    private void ReactToGameManager()
     {
-        if (lockYPositionAtZero)
-        {
-            Vector3 pos =
-                _cachedTransform.position;
 
-            pos.y = 0;
-
-            _cachedTransform.position = pos;
-        }
-
-        if (_cachedTransform.position.x > 1 ||
-            _cachedTransform.position.x < -1)
-        {
-            AdjustPlayerToZeroX();
-        }
     }
 
-    private void AdjustPlayerToZeroX()
+    public void ChangeModel_TransformMaho()
     {
-        Vector3 pos = _cachedTransform.position;
-
-        if (pos.x > 1)
-        {
-            pos -= new Vector3(
-                Time.deltaTime * Mathf.Abs(pos.x),
-                0,
-                0);
-        }
-
-        if (pos.x < -1)
-        {
-            pos += new Vector3(
-                Time.deltaTime * Mathf.Abs(pos.x),
-                0,
-                0);
-        }
-
-        _cachedTransform.position = pos;
+        StartCoroutine(
+            AnimateModelChange());
     }
-
-    #endregion
-
-
-    #region PLAYER_SPAWNING
-
-    /// <summary>
-    /// FUTURE SCRIPT:
-    /// PlayerSpawnController
-    /// </summary>
 
     public void SpawnPlayerOnPlatforms()
     {
@@ -602,11 +763,12 @@ public class PlayerCore : MonoBehaviour
                 new RaycastHit();
 
             while (
-                hit.collider == null &&
-                attempts < 100)
+                hit.collider == null
+                || attempts < 100)
             {
                 hit =
-                    ref_RaycastCheck.RaycastWorking(
+                    ref_RaycastCheck
+                    .RaycastWorking(
                         new Vector3(
                             0,
                             2 + (attempts * 0.75f),
@@ -619,66 +781,183 @@ public class PlayerCore : MonoBehaviour
 
             if (hit.collider)
             {
-                _cachedTransform.position =
+                transform.position =
                     new Vector3(
-                        _cachedTransform.position.x,
+                        transform.position.x,
                         hit.collider.bounds.max.y,
-                        _cachedTransform.position.z);
+                        transform.position.z);
 
                 return;
             }
         }
 
-        Debug.LogWarning(
-            "Missing RaycastCheck reference or unable to place player.");
+        print( "Missing ref_RaycastToCheck |or| Unable to place character on a platform as designed");
 
-        _cachedTransform.position =
+        transform.position =
             new Vector3(0, 2, 0);
+    }
+
+    private IEnumerator AnimateModelChange()
+    {
+        yield return
+            new WaitForSeconds(0.15f);
+
+        SpawnPlayerOnPlatforms();
+
+        if (ref_PlayerAnimations)
+        {
+            ref_PlayerAnimations
+                .SetAnyTrigger(
+                    "Transform");
+        }
+
+        yield return
+            new WaitForSeconds(0.5f);
+
+        onModelChange?.Invoke();
+
+        yield return
+            new WaitForSeconds(0.5f);
+
+        activeModel = 0;
     }
 
     #endregion
 
 
-    #region PLAYER_COLLISION_CONTROLLER
+    #region RAYCASTS
 
-    /// <summary>
-    /// FUTURE SCRIPT:
-    /// PlayerCollisionController
-    /// </summary>
-
-    private void OnCollisionEnter(Collision col)
+    private Transform RaycastHitObj()
     {
-        if ((layersThatResetJumps.value &
-            (1 << col.transform.gameObject.layer)) > 0)
+        int _dir = _platforms.dir;
+
+        Vector3 _raycastDirection =
+            transform.right;
+
+        if (_dir < 0)
+            _raycastDirection =
+                -_raycastDirection;
+
+        float _dist = 0.51f;
+
+        Vector3 _offset =
+            new Vector3(0, 0.65f, 0);
+
+        RaycastHit hit;
+
+        Debug.DrawLine(
+            transform.position + _offset,
+            transform.position + _offset
+            + (new Vector3(
+                _dist * -_dir,
+                0,
+                0)),
+            Color.red);
+
+        if (
+            Physics.Raycast(
+                transform.position + _offset,
+                transform.TransformDirection(
+                    _raycastDirection),
+                out hit,
+                _dist,
+                layersThatResetJumps))
+        {
+            return hit.transform;
+        }
+
+        return null;
+    }
+
+    private bool CheckBlockerRaycasts(
+        Vector3 _raycastDirection,
+        int _dir,
+        Vector3 _offset,
+        float _dist)
+    {
+        if (_dir < 0)
+            _raycastDirection =
+                -_raycastDirection;
+
+        RaycastHit hit;
+
+        Debug.DrawLine(
+            transform.position + _offset,
+            transform.position + _offset
+            + (new Vector3(
+                _dist * -_dir,
+                0,
+                0)),
+            Color.red);
+
+        return Physics.Raycast(
+            transform.position + _offset,
+            transform.TransformDirection(
+                _raycastDirection),
+            out hit,
+            _dist,
+            layersThatResetJumps);
+    }
+
+    #endregion
+
+
+    #region COLLISIONS
+
+    private void OnCollisionEnter(
+        Collision col)
+    {
+        if (
+            (layersThatResetJumps.value
+            &
+            (1 << col.transform.gameObject.layer))
+            > 0)
         {
             timesJumpedSinceLastGround = 0;
 
-            UpdateVfx_Jump(0);
-
-            OnPlayerLanded?.Invoke();
-
-            OnAirStateChanged?.Invoke(false);
-
-            if (_platformManager)
-                _platformManager.ChangePlayerInAir(false);
+            UpdateVfx_Jump(
+                timesJumpedSinceLastGround);
 
             if (ref_PlayerAnimations)
-                ref_PlayerAnimations.SetAnyBool(
-                    "isFalling",
-                    false);
+            {
+                ref_PlayerAnimations
+                    .SetAnyBool(
+                        "isFalling",
+                        false);
+            }
+
+            if (_platforms)
+            {
+                _platforms
+                    .ChangePlayerInAir(false);
+            }
         }
 
-        if (col.transform.CompareTag("Obstacle"))
+        if (col.transform.CompareTag(
+            "Obstacle"))
         {
-            HandleObstacleInteraction(col.transform);
+            HandleObstacleInteraction(
+                col.transform);
         }
     }
 
-    private void OnTriggerEnter(Collider trig)
+    private void OnTriggerEnter(
+        Collider trig)
     {
         if (trig.CompareTag("Monster"))
         {
-            HandleMonster(trig);
+            if (_gameState)
+            {
+                if (_gameState
+                    .ChangeHitPoints(-1))
+                {
+                    onDeath?.Invoke();
+                }
+                else
+                {
+                    onHit?.Invoke();
+                }
+            }
         }
 
         if (trig.CompareTag("PockiBox"))
@@ -693,226 +972,138 @@ public class PlayerCore : MonoBehaviour
 
         if (trig.CompareTag("Obstacle"))
         {
-            HandleObstacleInteraction(trig.transform);
+            HandleObstacleInteraction(
+                trig.transform);
         }
     }
 
-    private void HandleObstacleInteraction(
-        Transform obstacleTransform)
+    private void OnTriggerStay(
+        Collider trig)
     {
-        BehaviorObstacles obstacle = null;
-
-        obstacleTransform.TryGetComponent(
-            out obstacle);
-
-        if (!obstacle)
+        if (
+            trig.CompareTag("Obstacle")
+            &&
+            _platforms
+            &&
+            _platforms.isDashing)
         {
-            Debug.LogWarning(
+            BehaviorObstacles ref_BehObs =
+                null;
+
+            trig.TryGetComponent(
+                out ref_BehObs);
+
+            if (ref_BehObs)
+            {
+                ref_BehObs.Interacted(
+                    transform,
+                    this,
+                    BehaviorObstacles
+                    .signalType
+                    .Dash);
+            }
+        }
+    }
+
+    #endregion
+
+
+    #region INTERACTIONS
+
+    private void HandleObstacleInteraction(
+        Transform obstacle)
+    {
+        BehaviorObstacles ref_BehObs =
+            null;
+
+        obstacle.TryGetComponent(
+            out ref_BehObs);
+
+        if (!ref_BehObs)
+        {
+            print(
                 "Unable To Handle Interaction with this Obstacle");
 
             return;
         }
 
-        OnObstacleHit?.Invoke(obstacleTransform);
-
-        if (_platformManager &&
-            _platformManager.isDashing)
+        if (_platforms &&
+            _platforms.isDashing)
         {
-            obstacle.Interacted(
+            ref_BehObs.Interacted(
                 transform,
                 this,
-                BehaviorObstacles.signalType.Dash);
+                BehaviorObstacles
+                .signalType
+                .Dash);
         }
         else
         {
-            obstacle.Interacted(
+            ref_BehObs.Interacted(
                 transform,
                 this,
-                BehaviorObstacles.signalType.Bump);
+                BehaviorObstacles
+                .signalType
+                .Bump);
         }
     }
 
-
-    private void HandleMonster(Collider trig)
+    private void HandlePockiBox(
+        Collider trig)
     {
-        // anything for colliding with monsters here (like jumping on the mushrooms)
-        if (_gameState != null)
+        if (_platforms)
         {
-            if (_gameState.ChangeHitPoints(-1))
-                onDeath.Invoke();
-            else
-                onHit.Invoke();
-        }
-    }
-
-    private void HandlePockiBox(Collider trig)
-    {
-        if (_platformManager)
-        {
-            if (!_platformManager.playerUnlockedPockiBox)
+            if (!_platforms.playerUnlockedPockiBox)
             {
-                _platformManager.playerUnlockedPockiBox = true;
+                _platforms
+                    .playerUnlockedPockiBox = true;
 
-                if (Manager_TutorialUI.Instance)
-                    Manager_TutorialUI.Instance.DisplayPockiCollection(true);
+                if (_tutorialUI)
+                {
+                    _tutorialUI
+                        .DisplayPockiCollection(
+                            true);
+                }
             }
         }
 
-        Collectible collectible;
+        Collectible collectible =
+            trig.GetComponent<Collectible>();
 
-        if (trig.TryGetComponent(out collectible))
+        if (collectible)
+        {
             collectible.Interacted();
-
-        onPockiBoxCollect.Invoke();
-    }
-
-    private void HandlePockiStick(Collider trig)
-    {
-        if (_platformManager)
-        {
-            _platformManager.pockiBoxSticks++;
-
-            if (Manager_TutorialUI.Instance)
-                Manager_TutorialUI.Instance.DisplayPockiCollection(true);
         }
 
-        Collectible collectible;
+        onPockiBoxCollect?.Invoke();
+    }
 
-        if (trig.TryGetComponent(out collectible))
+    private void HandlePockiStick(
+        Collider trig)
+    {
+        if (_platforms)
+        {
+            _platforms.pockiBoxSticks += 1;
+
+            if (_tutorialUI)
+            {
+                _tutorialUI
+                    .DisplayPockiCollection(
+                        true);
+            }
+        }
+
+        Collectible collectible =
+            trig.GetComponent<Collectible>();
+
+        if (collectible)
+        {
             collectible.Interacted();
-
-        onPockiStickCollect.Invoke();
-    }
-
-    #endregion
-
-
-    #region UNITY_EVENTS
-
-    [Space]
-    [Header("Input Keys Events UP\n______________")]
-
-    public UnityEvent onPress_MoveUp;
-    public UnityEvent onRelease_MoveUp;
-    public UnityEvent onSuccess_MoveUp;
-
-    [Space]
-    [Header("Input Keys Events DOWN\n______________")]
-
-    public UnityEvent onPress_MoveDown;
-    public UnityEvent onRelease_MoveDown;
-    public UnityEvent onSuccess_MoveDown;
-
-    [Space]
-    [Header("Reaction Events\n______________")]
-
-    public UnityEvent onHit;
-    public UnityEvent onDeath;
-    public UnityEvent onModelChange;
-    public UnityEvent onPockiBoxCollect;
-    public UnityEvent onPockiStickCollect;
-
-    #endregion
-
-
-    #region UNITY_LIFECYCLE
-
-    private void Awake()
-    {
-        _cachedTransform = transform;
-
-        _platformManager =
-            Manager_Platforms.Instance;
-
-        _gameState =
-            Manager_GameState.Instance;
-
-        if (!ref_BehaviorCameraFollower &&
-            Camera.main)
-        {
-            Camera.main.TryGetComponent(
-                out ref_BehaviorCameraFollower);
-        }
-    }
-
-    private void Start()
-    {
-        jumpLeftToAchieve =
-            maximumJumpPower;
-
-        if (_platformManager)
-            _platformManager.PopulatePlayerCoreRef(this);
-
-        ReleaseJump();
-    }
-
-    private void Update()
-    {
-        HandleModelUpdates();
-
-        if (_gameState != null)
-        {
-            if (_gameState.currentState !=
-                Manager_GameState.GAMESTATE.Playing)
-            {
-                return;
-            }
         }
 
-        ReadInputs();
-
-        HandleJumpInput();
-
-        HandlePositionConstraints();
-
-        HandleBlockerChecks();
+        onPockiStickCollect?.Invoke();
     }
 
-    private void FixedUpdate()
-    {
-        ApplyJumpPhysics();
-
-        if (_gameState != null &&
-            _gameState.currentState ==
-            Manager_GameState.GAMESTATE.Playing)
-        {
-            if (_cachedTransform.position.y < -20)
-            {
-                _gameState.GameOver();
-            }
-        }
-    }
-
-    #endregion
-
-
-    #region MODEL_TRANSFORMATION
-
-    public void ChangeModel_TransformMaho()
-    {
-        StartCoroutine(
-            AnimateModelChange());
-    }
-
-    private IEnumerator AnimateModelChange()
-    {
-        yield return new WaitForSeconds(0.15f);
-
-        SpawnPlayerOnPlatforms();
-
-        if (ref_PlayerAnimations)
-            ref_PlayerAnimations
-                .SetAnyTrigger("Transform");
-
-        yield return new WaitForSeconds(0.5f);
-
-        onModelChange.Invoke();
-
-        yield return new WaitForSeconds(0.5f);
-
-        activeModel = 0;
-    }
-
-    #endregion
+#endregion
 
 }

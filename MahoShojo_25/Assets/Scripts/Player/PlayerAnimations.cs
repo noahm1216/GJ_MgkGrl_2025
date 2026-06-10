@@ -99,7 +99,7 @@ public class PlayerAnimations : MonoBehaviour
         if (updateAnimSpeed)
             for (int i = 0; i < animPlayer.Length; i++)
                 if (animPlayer[i] != null && animPlayer[i].gameObject.activeSelf == true)
-                    animPlayer[i].speed = 0.5f + Mathf.Abs(_curSpd * 8.0f);
+                    animPlayer[i].speed = 1 + Mathf.Abs(_curSpd);//0.5f + Mathf.Abs(_curSpd * 4.0f);
     }
 
     private void ReactToGameManager()

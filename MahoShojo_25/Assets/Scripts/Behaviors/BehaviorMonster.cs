@@ -139,11 +139,16 @@ public class BehaviorMonster : MonoBehaviour
     }
 
 #if UNITY_EDITOR
-    private void LateUpdate() // we'll run this from manager_platforms in the build
+    private void Update() // we'll run this from manager_platforms in the build
     {
         if (runIndependantly) RunMonsterBehavior(true);
     }
 #endif //unity_editor
+
+    public void SendStartPosition(Vector3 _pos)
+    {
+        spawnPosition = _pos;
+    }
 
     public void RunMonsterBehavior(bool _runSelf)
     {
@@ -350,7 +355,7 @@ public class BehaviorMonster : MonoBehaviour
             case MONSTERPLUSHIE.Jello:
                 if (Time.time > betweenWaitActionsStamp + betweenWaitActionsTime)
                 {
-                    waitVarVector3Two = ReturnRaycastPosition(spawnPosition.x + Random.Range(-5, 8), groundLayers); // locate and set target area on the ground
+                    waitVarVector3Two = ReturnRaycastPosition(spawnPosition.x + Random.Range(-1, 8), groundLayers); // locate and set target area on the ground
                     waitVarVector3Two.y += 0.05f;
 
                     if (waitVarVector3Two != Vector3.zero)

@@ -860,8 +860,9 @@ public class Manager_Platforms : MonoBehaviour
         if (!spawnedMonster)
         {
             spawnedMonster = Instantiate(monstersToSpawnInOrder[_idToSpawn]);
-            spawnedMonster.transform.position = distanceOkayToSpawnFromPlayer[_idToSpawn];
+            spawnedMonster.position = distanceOkayToSpawnFromPlayer[_idToSpawn];
             spawnedMonster.TryGetComponent(out spawnedMonsterBehavior);
+            if (spawnedMonsterBehavior) spawnedMonsterBehavior.SendStartPosition(spawnedMonster.position);
 
             print($"Manager Platform: Spawning Monster #{_idToSpawn}");
             if (Manager_GameState.Instance) // communicating with Game Manager

@@ -2569,10 +2569,10 @@ MonoBehaviour:
     layerSpeedMultiplier: {x: 1, y: 0.15}
   - layerNickname: Water
     layerParent: {fileID: 1886194161}
-    layerSpeedMultiplier: {x: 1, y: -0.05}
+    layerSpeedMultiplier: {x: 0.5, y: -0.05}
   - layerNickname: Flat City
     layerParent: {fileID: 354048472}
-    layerSpeedMultiplier: {x: 1, y: -0.01}
+    layerSpeedMultiplier: {x: 0.1, y: -0.01}
 --- !u!1 &1156802100
 GameObject:
   m_ObjectHideFlags: 0
@@ -5342,6 +5342,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7987907303451686124, guid: 2233f553fe2318642aa3a791cd349c69,
+        type: 3}
+      propertyPath: releasedJumpFallGravityMultiplier
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8035174950803866403, guid: 2233f553fe2318642aa3a791cd349c69,
         type: 3}

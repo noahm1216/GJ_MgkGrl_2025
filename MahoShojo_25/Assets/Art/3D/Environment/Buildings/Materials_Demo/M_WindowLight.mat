@@ -55,8 +55,8 @@ Material:
     - _Tile: 0.06
     - _blend: 0
     m_Colors:
-    - _Color: {r: 1, g: 0.80241597, b: 0, a: 0}
-    - _HDRColor: {r: 7.081586, g: 5.275194, b: 2.97293, a: 0}
+    - _Color: {r: 1, g: 0.8039216, b: 0, a: 1}
+    - _HDRColor: {r: 18.908949, g: 10.657772, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &6411499880764363912
 MonoBehaviour:

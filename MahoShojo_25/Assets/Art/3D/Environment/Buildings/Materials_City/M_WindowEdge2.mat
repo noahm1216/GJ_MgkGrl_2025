@@ -55,7 +55,7 @@ Material:
     - _Tile: 0.06
     - _blend: 0
     m_Colors:
-    - _Color: {r: 0.25224516, g: 0.011213961, b: 0.33962262, a: 0}
+    - _Color: {r: 0.21383627, g: 0, b: 0.3207547, a: 0}
     - _HDRColor: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &6411499880764363912

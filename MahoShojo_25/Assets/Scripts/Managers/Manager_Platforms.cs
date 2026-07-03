@@ -367,9 +367,8 @@ public class Manager_Platforms : MonoBehaviour
             Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing)
             return 0;
 
-        if (BehaviorCameraFollower.Instance &&
-            BehaviorCameraFollower.Instance.currentState == BehaviorCameraFollower.CameraFocusState.Dolly)
-            return 0;
+        //if (BehaviorCameraFollower.Instance && BehaviorCameraFollower.Instance.currentState == BehaviorCameraFollower.CameraFocusState.Dolly)
+        //    return 0;
 
         float speed = ((speedBase * dir * inputXYTime * Time.deltaTime) * speedLimiting) * startSpeedAccel;
 
@@ -442,8 +441,7 @@ public class Manager_Platforms : MonoBehaviour
             inputXYTime += 1 * Time.deltaTime * speedAcceleration;
             if (inputXYTime > 1) { inputXYTime = 1; }
 
-            if (ref_BehaviorCameraFollower)
-                ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.MovingBackwards, false);
+            //if (ref_BehaviorCameraFollower) ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.MovingBackwards, false);
         }
         else if (Input.GetKey(key_MovePlatformsLeft) || Input.GetKey(key_MovePlatformsLeft2) || automaicallyMoveRight) // going right
         {
@@ -469,8 +467,7 @@ public class Manager_Platforms : MonoBehaviour
             inputXYTime += 1 * Time.deltaTime * speedAcceleration;
             if (inputXYTime > 1) { inputXYTime = 1; }
 
-            if (ref_BehaviorCameraFollower && CurrentSpeed() != 0)
-                ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.MovingForward, false);
+            //if (ref_BehaviorCameraFollower && CurrentSpeed() != 0)  ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.MovingForward, false);
         }
         else // not pressing left or rights
         {
@@ -770,7 +767,7 @@ public class Manager_Platforms : MonoBehaviour
             monsterSignaledCapture = false;
             print("Turn Off Monster Stuff In-game");
             spawnedMonster.gameObject.SetActive(false);
-            ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.MovingForward, true);
+            //ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.MovingForward, true);
         }
     }
 
@@ -779,7 +776,7 @@ public class Manager_Platforms : MonoBehaviour
         if (spawnedMonster)
         {
             print("Captured Monster!!");
-            ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.MovingForward, true);
+            //ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.MovingForward, true);
             spawnedMonster.gameObject.SetActive(false);
             Destroy(spawnedMonster, 2);
             spawnedMonsterBehavior = null;
@@ -925,7 +922,7 @@ public class Manager_Platforms : MonoBehaviour
                 if (!_wasCaptured) Manager_GameState.Instance.SpawnChange(-1);
             }
 
-            if (CurrentSpeed() > 0) ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.MovingForward, true);
+            //if (CurrentSpeed() > 0) ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.MovingForward, true);
 
             // spawn pocki if we havent collected it yet
             if (!playerUnlockedPockiBox)

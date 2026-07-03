@@ -7,36 +7,25 @@ public class BehaviorCameraFollower : MonoBehaviour
     // the camera should be parented to the player object and the camer will just move around to help
     public static BehaviorCameraFollower Instance { get; private set; }
 
-    public enum CameraFocusState {None, Idle, MovingForward, MovingBackwards, InTheAir, FightingMonster, Dolly }
-    public CameraFocusState currentState;
-    public float stateChangeTime = 3;
-
     public PlayerCore ref_PlayerCore;
     [SerializeField] private Transform playerObj, poiObj, midPointVisualizer; // the player and the target position we'll find the middle ground for
     private Vector3 camMidPos, camEndPos;
-    [SerializeField] [Range(0,1)] private float camPoiWeight = 0.5f;
     public Camera camMain;
-
-    public bool useLegacyBehavior;
-    public Transform camObj_Min, camObj_MedRight, camObj_MedLeft, camObj_Max;
-
-    public float speedOfCameraTranslate = 2;
-    public float speedOfCameraZoom = 1.25f;
-    private float speedOfDollyMove = 1;
+    public Transform starrySkyObj; // for visuals on background
 
 
-    private Transform currentTarget;
-    private float currentPlatformSpeed, platformSpeedMax;
-    private float speedForZoomMed, speedForZoomMax;
+    [Header("Look Ahead")]
+    [SerializeField] [Range(0, 1)] private float camPoiWeight = 0.5f;
+    [SerializeField] private float cameraFollowSpeed = 6f;
 
-    private float targetZoom;
-    private Vector3 targetLookAtPoint;
-    private float stateChangeTimeStamp;
-    private CameraFocusState storedStateToChange;
+    [Header("Viewport Safe Zone")]
+    [SerializeField] private bool useViewportLimiter = true;
 
-    public Transform starrySkyObj;
-
-    private Transform targetMonster;
+    // percentages of the screen
+    [SerializeField] private float leftLimit = 0.35f;
+    [SerializeField] private float rightLimit = 0.65f;
+    [SerializeField] private float bottomLimit = 0.35f;
+    [SerializeField] private float topLimit = 0.65f;
 
     private void Awake()
     {
@@ -52,202 +41,71 @@ public class BehaviorCameraFollower : MonoBehaviour
         if (ref_PlayerCore && !playerObj) playerObj = ref_PlayerCore.transform;
         if (!poiObj) poiObj = new GameObject("Point Of Interest Object").transform;
 
-        currentState = CameraFocusState.Idle;
-    }
-
-    public void StoreChangeState(CameraFocusState _newState, bool forceChange = false)
-    {
-        if (forceChange) ChangeState(_newState);
-        else
-        {
-            if (_newState == storedStateToChange)
-                return; // if we stored this state already then dont continue
-            if (_newState != CameraFocusState.InTheAir && ref_PlayerCore && !ref_PlayerCore.CanJump())
-                return; // dont change from jumping if we havent landed yet            
-        }
-        storedStateToChange = _newState;
-        stateChangeTimeStamp = Time.time;
-    }
-
-    private void ChangeState(CameraFocusState _newState)
-    {
-        //print($"CHANGE-CAM-STATE: {currentState} -> {_newState}");
-        stateChangeTimeStamp = Time.time;
-        // WE CAN CHECK STATE DIFFERENCE if we'd like
-        currentState = _newState;
-        storedStateToChange = _newState;
-        //print($"state change: {_newState}");
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (storedStateToChange != currentState && Time.time > stateChangeTimeStamp + stateChangeTime)
-            ChangeState(storedStateToChange);
-
         if (starrySkyObj && camMain)
-            starrySkyObj.localScale = new Vector3(camMain.orthographicSize*0.2f, camMain.orthographicSize * 0.2f, camMain.orthographicSize * 0.2f);
+            starrySkyObj.localScale = new Vector3(camMain.orthographicSize * 0.2f, camMain.orthographicSize * 0.2f, camMain.orthographicSize * 0.2f);
 
-
-        if (camMain)
-        {
-            if (useLegacyBehavior)
-                ImprovedGameJamMotion();// LegacyGameJamMotion();
-            else
-                LookAheadBehavior(); // the camera should follow 2 points ( the player and a point of interest) then grab the middle * weighted preference
-        }      
-    }
-
-    public void MovePointOfInterest(Vector3 _targetPos, int _multiplier) // might want to add WeightTarget for the lerp
-    {
-        // take a position and move the poiObj to that position with the multiplier added
+        if (camMain) LookAheadBehavior(); // the camera should follow 2 points ( the player and a point of interest) then grab the middle * weighted preference
     }
 
     private void LookAheadBehavior()
-    {        
-        if(!playerObj) { Debug.Log("No Available Player To Reference"); return; }
-        if (transform.parent == playerObj) transform.SetParent(playerObj.parent); // unlink the camera from the player's position/movement
+    {
+        if (!playerObj) { Debug.LogWarning("No Player Assigned"); return; }
 
-        Vector3 viewport = camMain.WorldToViewportPoint(playerObj.position); // view coordinates (0,0) = bottom left & (1,1) = top right
+        if (transform.parent == playerObj) transform.SetParent(playerObj.parent);
 
-
+        // Calculate desired camera position
         if (poiObj) camEndPos = poiObj.position;
-        else
+        else camEndPos = playerObj.position;
+
+        Vector3 desiredPos = Vector3.Lerp(playerObj.position, camEndPos, camPoiWeight);
+        desiredPos.z =camMain.transform.position.z;
+        if (midPointVisualizer) midPointVisualizer.position = desiredPos;
+
+        // Smooth follow
+       camMain.transform.position = Vector3.Lerp(transform.position, desiredPos, cameraFollowSpeed * Time.deltaTime);
+
+        // Keeps player inside viewport safe zone
+        if (useViewportLimiter) ApplyViewportLimiter();
+    }
+
+    private void ApplyViewportLimiter()
+    {
+        Vector3 viewport = camMain.WorldToViewportPoint(playerObj.position);
+
+        Vector3 correction = Vector3.zero;
+
+        float worldHeight = camMain.orthographicSize * 2f;
+        float worldWidth = worldHeight * camMain.aspect;
+
+        // Horizontal
+        if (viewport.x < leftLimit)
         {
-            camEndPos = playerObj.position + new Vector3(0, 0, 500); //x = forw/backw ... y = up/down ...  z = left/right
+            float percent = leftLimit - viewport.x;
+            correction.x -= percent * worldWidth;
         }
-        camMidPos = Vector3.Lerp(playerObj.position, camEndPos, camPoiWeight);
-        if (midPointVisualizer) midPointVisualizer.position = camMidPos;
-        camMidPos.z = camMain.transform.position.z;
-        if (PosWithinRange(playerObj.position, camMidPos, new Vector2(7.33f, 2.5f)))
-            camMain.transform.localPosition = camMidPos;
-    }
-
-    private bool PosWithinRange(Vector3 posA, Vector3 posB, Vector2 limits)
-    {
-        if (Mathf.Abs(posA.x) - Mathf.Abs(posB.x) > limits.x) return false;
-        if (Mathf.Abs(posA.y) - Mathf.Abs(posB.y) > limits.y) return false;
-
-        return true;
-    }
-
-
-    private void ImprovedGameJamMotion()
-    {
-        // create a position offset we'll track. 
-        // have the camera lerp to that offset
-        // if we have an enemy
-        // then make the offset to be inbetween us and our enemy (and zoom out)
-        // if we are running backwards long enough, then we can also offset in the opposite direction
-
-        // X sets the Z (but is still left and right) || Y sets the Y (up and down) || Z sets the X (which is depth)
-        Vector3 cameraOffset = new Vector3(0, 0, 0);  // Z, Y, X global space (i mention this because locally it feels different/off in inspector)
-        if (speedOfDollyMove > 1) speedOfDollyMove *= 0.75f; // only one condition changes this to be higher gradually decrese the dolly otherwise
-        else speedOfDollyMove = 1; // shouldnt be lower than 1
-
-        switch (currentState)
+        else if (viewport.x > rightLimit)
         {
-            case CameraFocusState.Dolly:
-                speedOfDollyMove = 4; 
-                targetZoom = 5.75f;
-                cameraOffset = new Vector3(2, 1f, -10); // TODO: Move this back a little (was (2,1,-5) )
-                if (targetMonster != null) targetLookAtPoint = targetMonster.position + cameraOffset;
-                else ChangeState(CameraFocusState.Idle);
-                break;
-            case CameraFocusState.Idle:
-                speedOfDollyMove = 2;
-                targetZoom = 2.75f;
-                cameraOffset = new Vector3(2, 1f, -10); // TODO: Move this back a little (was (2,1,-5) )
-                if (playerObj) targetLookAtPoint = playerObj.position + cameraOffset;
-                break;
-            case CameraFocusState.MovingForward:                
-                cameraOffset = new Vector3(8, 3, -5);
-                if (playerObj) { targetZoom = 6 + (Mathf.Abs(playerObj.transform.position.y) * 0.55f); targetLookAtPoint = playerObj.position + cameraOffset; }
-                break;
-            case CameraFocusState.MovingBackwards:
-                cameraOffset = new Vector3(-5, 3, -5);
-                if (playerObj)
-                { targetZoom = 6 + (Mathf.Abs(playerObj.position.y) * 0.55f); targetLookAtPoint = playerObj.position + cameraOffset; }
-                break;
-            case CameraFocusState.InTheAir:                
-                cameraOffset = new Vector3(4, 0, -5);
-                if (playerObj) { targetZoom = 8 + (playerObj.position.y * 0.85f); targetLookAtPoint = playerObj.position + cameraOffset; }
-                break;
-            case CameraFocusState.FightingMonster:
-                if (Manager_Platforms.Instance)
-                {
-                    if (Manager_Platforms.Instance.spawnedMonster == null)
-                        stateChangeTimeStamp = Time.time - stateChangeTime;
-                    else
-                    {
-                        float dist = Vector3.Distance(transform.position, Manager_Platforms.Instance.spawnedMonster.position);
-                        targetZoom = dist;  // calculate by the distance between our player and the enemy monster
-                        //print("dist: " + (int)dist);
-                        if (dist <= 15 && playerObj)
-                            targetLookAtPoint = (playerObj.position + Manager_Platforms.Instance.spawnedMonster.position) / 2 + new Vector3(0, 0, -5);
-                        stateChangeTimeStamp = Time.time; // makes sure we dont change the camera until the monster is gone
-                    }
-                }
-                break;
-            default:
-                Debug.Log($"Camera Has No Behavior For: {currentState}");
-                ChangeState(CameraFocusState.Idle);
-                break;
+            float percent = viewport.x - rightLimit;
+            correction.x += percent * worldWidth;
         }
 
-        var step = speedOfCameraTranslate * speedOfDollyMove * Time.deltaTime; // calculate distance to move
-        if(targetLookAtPoint!=null) camMain.transform.position = Vector3.MoveTowards(transform.position, targetLookAtPoint, step);
-
-        if (targetZoom != camMain.orthographicSize)
+        // Vertical
+        if (viewport.y < bottomLimit)
         {
-            if (camMain.orthographicSize < targetZoom)
-            {
-                camMain.orthographicSize += Time.deltaTime * speedOfCameraZoom;
-                if (camMain.orthographicSize >= targetZoom)
-                    camMain.orthographicSize = targetZoom;
-            }
-            else
-            {
-                camMain.orthographicSize -= Time.deltaTime * speedOfCameraZoom;
-                if (camMain.orthographicSize <= targetZoom)
-                    camMain.orthographicSize = targetZoom;
-            }
+            float percent = bottomLimit - viewport.y;
+            correction.y -= percent * worldHeight;
+        }
+        else if (viewport.y > topLimit)
+        {
+            float percent = viewport.y - topLimit;
+            correction.y += percent * worldHeight;
         }
 
-        if (Manager_Platforms.Instance && Manager_Platforms.Instance.isBlocked)
-            StoreChangeState(CameraFocusState.Idle, false);
-    }
-
-    private void LegacyGameJamMotion()
-    {
-        // set up the paremters for the camera
-        currentPlatformSpeed = Mathf.Abs(Manager_Platforms.Instance.CurrentSpeed());
-        speedForZoomMax = Mathf.Abs(Manager_Platforms.Instance.speedBase * Manager_Platforms.Instance.speedLimiting);
-        speedForZoomMed = platformSpeedMax * 0.5f;
-
-        // follow those camera paremters
-        if (currentPlatformSpeed <= speedForZoomMed)
-            currentTarget = camObj_Min;
-        else
-        if (currentPlatformSpeed > speedForZoomMed && currentPlatformSpeed < speedForZoomMax)
-        {
-            if (ref_PlayerCore && ref_PlayerCore.dir > 0) // if platforms are going right or left
-                currentTarget = camObj_MedRight;
-            else
-                currentTarget = camObj_MedLeft;
-        }
-        else
-        if (currentPlatformSpeed >= speedForZoomMax)
-            currentTarget = camObj_Max;
-
-        var step = speedOfCameraTranslate * Time.deltaTime; // calculate distance to move
-        camMain.transform.position = Vector3.MoveTowards(transform.position, currentTarget.position, step);
-    }
-
-    public void DollyTargetMonster(Transform _monster)
-    {
-        //print("Camera DollyTargetCalled");
-        targetMonster = _monster;
-        StoreChangeState(CameraFocusState.Dolly, true);
-    }
+       camMain.transform.position += correction;
+    }    
 }

@@ -424,15 +424,8 @@ public class PlayerCore : MonoBehaviour
 
         jumpLeftToAchieve = 0;
 
-        if (ref_BehaviorCameraFollower)
-        {
-            ref_BehaviorCameraFollower
-                .StoreChangeState(
-                    BehaviorCameraFollower
-                    .CameraFocusState
-                    .InTheAir,
-                    false);
-        }
+        //if (ref_BehaviorCameraFollower) ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.InTheAir, false);
+
 
         UpdateVfx_Jump(timesJumpedSinceLastGround);
 

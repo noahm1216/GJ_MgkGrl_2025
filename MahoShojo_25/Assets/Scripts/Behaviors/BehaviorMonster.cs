@@ -228,10 +228,10 @@ public class BehaviorMonster : MonoBehaviour
             switch (_newState) // setting variables and calling functions on new switch events
             {
                 case MONSTERSTATE.Waiting:
-                    if (BehaviorCameraFollower.Instance) BehaviorCameraFollower.Instance.DollyTargetMonster(transform);
+                    //if (BehaviorCameraFollower.Instance) BehaviorCameraFollower.Instance.DollyTargetMonster(transform);
                     break;
                 case MONSTERSTATE.Hunting:
-                    if (BehaviorCameraFollower.Instance && BehaviorCameraFollower.Instance.currentState == BehaviorCameraFollower.CameraFocusState.Dolly) { print("HUNTING TIME"); BehaviorCameraFollower.Instance.DollyTargetMonster(null); }
+                    //if (BehaviorCameraFollower.Instance && BehaviorCameraFollower.Instance.currentState == BehaviorCameraFollower.CameraFocusState.Dolly) { print("HUNTING TIME"); BehaviorCameraFollower.Instance.DollyTargetMonster(null); }
                     if (targetGraphic) { targetGraphic.SetParent(null); targetGraphic.position = transform.position; targetGraphic.gameObject.SetActive(true); }
                     break;
                 case MONSTERSTATE.TargetLocked:

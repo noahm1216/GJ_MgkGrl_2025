@@ -4694,6 +4694,21 @@ PrefabInstance:
       objectReference: {fileID: 1250978156}
     - target: {fileID: 3614442563443108937, guid: 2233f553fe2318642aa3a791cd349c69,
         type: 3}
+      propertyPath: leftLimit
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3614442563443108937, guid: 2233f553fe2318642aa3a791cd349c69,
+        type: 3}
+      propertyPath: rightLimit
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 3614442563443108937, guid: 2233f553fe2318642aa3a791cd349c69,
+        type: 3}
+      propertyPath: camPoiWeight
+      value: 0.33
+      objectReference: {fileID: 0}
+    - target: {fileID: 3614442563443108937, guid: 2233f553fe2318642aa3a791cd349c69,
+        type: 3}
       propertyPath: midPointVisualizer
       value: 
       objectReference: {fileID: 348343603}

@@ -292,6 +292,7 @@ public class PlayerCore : MonoBehaviour
     private void Update()
     {
         HandleModelChanges();
+        OutOfBoundsCheck();
 
         if (_gameState)
         {
@@ -690,6 +691,18 @@ public class PlayerCore : MonoBehaviour
     }
 
     #endregion
+
+
+    #region FALL_CHECK
+    private void OutOfBoundsCheck()
+    {
+        if (transform.position.y < -25)
+        {
+            if (rb3D) rb3D.velocity = Vector3.zero;
+            transform.position = new Vector3(0, 20, 0);            
+        }
+    }
+    #endregion //TODO: check using triggers instead of every frame... not performant to check every frame
 
 
     #region PLAYER_CORRECTIONS

@@ -12,7 +12,9 @@ public class BehaviorCameraFollower : MonoBehaviour
     public float stateChangeTime = 3;
 
     public PlayerCore ref_PlayerCore;
-    public Transform playerPos;
+    [SerializeField] private Transform playerObj, poiObj, midPointVisualizer; // the player and the target position we'll find the middle ground for
+    private Vector3 camMidPos, camEndPos;
+    [SerializeField] [Range(0,1)] private float camPoiWeight = 0.5f;
     public Camera camMain;
 
     public bool useLegacyBehavior;
@@ -46,7 +48,10 @@ public class BehaviorCameraFollower : MonoBehaviour
     void Start()
     {
         if (!camMain)  camMain = Camera.main;
-        if (ref_PlayerCore && !playerPos) playerPos = ref_PlayerCore.transform;
+        if (!ref_PlayerCore) transform.parent.TryGetComponent<PlayerCore>(out PlayerCore playerCore);
+        if (ref_PlayerCore && !playerObj) playerObj = ref_PlayerCore.transform;
+        if (!poiObj) poiObj = new GameObject("Point Of Interest Object").transform;
+
         currentState = CameraFocusState.Idle;
     }
 
@@ -87,11 +92,45 @@ public class BehaviorCameraFollower : MonoBehaviour
         if (camMain)
         {
             if (useLegacyBehavior)
-                LegacyGameJamMotion();
+                ImprovedGameJamMotion();// LegacyGameJamMotion();
             else
-                ImprovedGameJamMotion();
+                LookAheadBehavior(); // the camera should follow 2 points ( the player and a point of interest) then grab the middle * weighted preference
         }      
     }
+
+    public void MovePointOfInterest(Vector3 _targetPos, int _multiplier) // might want to add WeightTarget for the lerp
+    {
+        // take a position and move the poiObj to that position with the multiplier added
+    }
+
+    private void LookAheadBehavior()
+    {        
+        if(!playerObj) { Debug.Log("No Available Player To Reference"); return; }
+        if (transform.parent == playerObj) transform.SetParent(playerObj.parent); // unlink the camera from the player's position/movement
+
+        Vector3 viewport = camMain.WorldToViewportPoint(playerObj.position); // view coordinates (0,0) = bottom left & (1,1) = top right
+
+
+        if (poiObj) camEndPos = poiObj.position;
+        else
+        {
+            camEndPos = playerObj.position + new Vector3(0, 0, 500); //x = forw/backw ... y = up/down ...  z = left/right
+        }
+        camMidPos = Vector3.Lerp(playerObj.position, camEndPos, camPoiWeight);
+        if (midPointVisualizer) midPointVisualizer.position = camMidPos;
+        camMidPos.z = camMain.transform.position.z;
+        if (PosWithinRange(playerObj.position, camMidPos, new Vector2(7.33f, 2.5f)))
+            camMain.transform.localPosition = camMidPos;
+    }
+
+    private bool PosWithinRange(Vector3 posA, Vector3 posB, Vector2 limits)
+    {
+        if (Mathf.Abs(posA.x) - Mathf.Abs(posB.x) > limits.x) return false;
+        if (Mathf.Abs(posA.y) - Mathf.Abs(posB.y) > limits.y) return false;
+
+        return true;
+    }
+
 
     private void ImprovedGameJamMotion()
     {
@@ -119,20 +158,20 @@ public class BehaviorCameraFollower : MonoBehaviour
                 speedOfDollyMove = 2;
                 targetZoom = 2.75f;
                 cameraOffset = new Vector3(2, 1f, -10); // TODO: Move this back a little (was (2,1,-5) )
-                if (playerPos) targetLookAtPoint = playerPos.position + cameraOffset;
+                if (playerObj) targetLookAtPoint = playerObj.position + cameraOffset;
                 break;
             case CameraFocusState.MovingForward:                
                 cameraOffset = new Vector3(8, 3, -5);
-                if (playerPos) { targetZoom = 6 + (Mathf.Abs(playerPos.transform.position.y) * 0.55f); targetLookAtPoint = playerPos.position + cameraOffset; }
+                if (playerObj) { targetZoom = 6 + (Mathf.Abs(playerObj.transform.position.y) * 0.55f); targetLookAtPoint = playerObj.position + cameraOffset; }
                 break;
             case CameraFocusState.MovingBackwards:
                 cameraOffset = new Vector3(-5, 3, -5);
-                if (playerPos)
-                { targetZoom = 6 + (Mathf.Abs(playerPos.position.y) * 0.55f); targetLookAtPoint = playerPos.position + cameraOffset; }
+                if (playerObj)
+                { targetZoom = 6 + (Mathf.Abs(playerObj.position.y) * 0.55f); targetLookAtPoint = playerObj.position + cameraOffset; }
                 break;
             case CameraFocusState.InTheAir:                
                 cameraOffset = new Vector3(4, 0, -5);
-                if (playerPos) { targetZoom = 8 + (playerPos.position.y * 0.85f); targetLookAtPoint = playerPos.position + cameraOffset; }
+                if (playerObj) { targetZoom = 8 + (playerObj.position.y * 0.85f); targetLookAtPoint = playerObj.position + cameraOffset; }
                 break;
             case CameraFocusState.FightingMonster:
                 if (Manager_Platforms.Instance)
@@ -144,8 +183,8 @@ public class BehaviorCameraFollower : MonoBehaviour
                         float dist = Vector3.Distance(transform.position, Manager_Platforms.Instance.spawnedMonster.position);
                         targetZoom = dist;  // calculate by the distance between our player and the enemy monster
                         //print("dist: " + (int)dist);
-                        if (dist <= 15 && playerPos)
-                            targetLookAtPoint = (playerPos.position + Manager_Platforms.Instance.spawnedMonster.position) / 2 + new Vector3(0, 0, -5);
+                        if (dist <= 15 && playerObj)
+                            targetLookAtPoint = (playerObj.position + Manager_Platforms.Instance.spawnedMonster.position) / 2 + new Vector3(0, 0, -5);
                         stateChangeTimeStamp = Time.time; // makes sure we dont change the camera until the monster is gone
                     }
                 }

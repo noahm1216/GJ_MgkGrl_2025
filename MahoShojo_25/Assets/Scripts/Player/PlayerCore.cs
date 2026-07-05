@@ -6,6 +6,10 @@ using UnityEngine.Events;
 
 public class PlayerCore : MonoBehaviour
 {
+    /// <summary>
+    /// Player Core has been refactored from its original structure for performance and so that splitting it later as needed may be managable.
+    /// This has temporarily made the script longer than needed.
+    /// </summary>
     #region INPUT_KEYS
 
     [Header("Input Keys\n______________")]

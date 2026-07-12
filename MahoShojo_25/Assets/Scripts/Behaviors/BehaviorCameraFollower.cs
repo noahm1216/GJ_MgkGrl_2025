@@ -6,17 +6,20 @@ public class BehaviorCameraFollower : MonoBehaviour
 {
     // the camera should be parented to the player object and the camer will just move around to help
     public static BehaviorCameraFollower Instance { get; private set; }
+    public PlayerCore ref_PlayerCore;    
 
-    public PlayerCore ref_PlayerCore;
-    [SerializeField] private Transform playerObj, poiObj, midPointVisualizer; // the player and the target position we'll find the middle ground for
-    private Vector3 camMidPos, camEndPos;
     public Camera camMain;
     public Transform starrySkyObj; // for visuals on background
+
+    [SerializeField] private Transform playerObj, poiObj, midPointVisualizer; // the player and the target position we'll find the middle ground for
+    private Vector3 camMidPos, camEndPos;
+    private Vector3 camVelocity;
+    private bool camIsEnumorating;
 
 
     [Header("Look Ahead")]
     [SerializeField] [Range(0, 1)] private float camPoiWeight = 0.5f;
-    [SerializeField] private float cameraFollowSpeed = 6f;
+    [SerializeField] private float cameraSmoothSpeed = 0.2f;//6f;
 
     [Header("Viewport Safe Zone")]
     [SerializeField] private bool useViewportLimiter = true;
@@ -26,6 +29,8 @@ public class BehaviorCameraFollower : MonoBehaviour
     [SerializeField] private float rightLimit = 0.65f;
     [SerializeField] private float bottomLimit = 0.35f;
     [SerializeField] private float topLimit = 0.65f;
+    [Space]
+    [SerializeField] private float verticalMinLimit = 0.35f;
 
     private void Awake()
     {
@@ -52,6 +57,8 @@ public class BehaviorCameraFollower : MonoBehaviour
         if (camMain) LookAheadBehavior(); // the camera should follow 2 points ( the player and a point of interest) then grab the middle * weighted preference
     }
 
+    #region CAMERA MAIN BEHAVIOR
+
     private void LookAheadBehavior()
     {
         if (!playerObj) { Debug.LogWarning("No Player Assigned"); return; }
@@ -63,11 +70,16 @@ public class BehaviorCameraFollower : MonoBehaviour
         else camEndPos = playerObj.position;
 
         Vector3 desiredPos = Vector3.Lerp(playerObj.position, camEndPos, camPoiWeight);
-        desiredPos.z =camMain.transform.position.z;
+        desiredPos.z = camMain.transform.position.z;
         if (midPointVisualizer) midPointVisualizer.position = desiredPos;
 
+        // figure vertical sectioning
+        float yDif = Mathf.Abs(desiredPos.y - camMain.transform.position.y);
+        if (yDif < verticalMinLimit) desiredPos.y = camMain.transform.position.y;
+        else desiredPos.y -= Mathf.Sign(yDif) * verticalMinLimit;
+
         // Smooth follow
-       camMain.transform.position = Vector3.Lerp(transform.position, desiredPos, cameraFollowSpeed * Time.deltaTime);
+        camMain.transform.position = Vector3.SmoothDamp(camMain.transform.position, desiredPos, ref camVelocity, cameraSmoothSpeed); // camMain.transform.position = Vector3.Lerp(transform.position, desiredPos, cameraSmoothSpeed * Time.deltaTime);
 
         // Keeps player inside viewport safe zone
         if (useViewportLimiter) ApplyViewportLimiter();
@@ -107,5 +119,52 @@ public class BehaviorCameraFollower : MonoBehaviour
         }
 
        camMain.transform.position += correction;
-    }    
+    }
+
+    #endregion cam main behavior
+
+
+    #region PUBLIC CALLERS
+    /// Can call these functions to set different scenarios
+    /// 
+    /// Final version could have preset functions to call like "EnemyMonster" which might focus on a target
+    /// or
+    /// "Boss Battle" which locks the camera in a single spot on the screen
+
+    /// <summary>
+    /// <para> Set the camera free from forcefully following the player </para>
+    /// </summary>
+    public void LimitCamera(bool _followLimits)
+    {
+        // set follow to false for free camera
+        useViewportLimiter = _followLimits;
+    }
+
+    /// <summary>
+    /// <para> Set the camera target to a position instantly </para>
+    /// </summary>
+    public void MoveCamTargetInstant(Vector3 _targetPos, float _weight = -1, float _orthoZoom = -1)
+    {
+        if (_weight != -1) camPoiWeight = _weight;
+        if (_targetPos != Vector3.zero) camMain.transform.position = _targetPos;
+        if (_orthoZoom != -1) camMain.orthographicSize = _orthoZoom;
+    }
+
+
+    /// <summary>
+    /// <para> Set the camera target to a position over a period of time </para>
+    /// </summary>
+    public IEnumerator MoveCamTargetSmooth(float _seconds, Vector3 _targetPos, float _weight = -1, float _orthoZoom = -1)
+    {
+        if (!camIsEnumorating)
+        {
+            camIsEnumorating = true;
+            // calculate time to move to position 
+            // calculate time to move to weight
+            yield return new WaitForSeconds(0);
+            camIsEnumorating = false;
+        }
+    }
+
+    #endregion public callers
 }

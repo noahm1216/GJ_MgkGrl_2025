@@ -11,7 +11,7 @@ public class BehaviorCameraFollower : MonoBehaviour
     public Camera camMain;
     public Transform starrySkyObj; // for visuals on background
 
-    [SerializeField] private Transform playerObj, poiObj, midPointVisualizer; // the player and the target position we'll find the middle ground for
+    private Transform playerObj, poiObj, midPointVisualizer; // the player and the target position we'll find the middle ground for
     private Vector3 camMidPos, camEndPos;
     private Vector3 camVelocity;
     private bool camIsEnumorating;
@@ -45,7 +45,7 @@ public class BehaviorCameraFollower : MonoBehaviour
         if (!ref_PlayerCore) transform.parent.TryGetComponent<PlayerCore>(out PlayerCore playerCore);
         if (ref_PlayerCore && !playerObj) playerObj = ref_PlayerCore.transform;
         if (!poiObj) poiObj = new GameObject("Point Of Interest Object").transform;
-
+        if (!midPointVisualizer) midPointVisualizer = new GameObject("Point Of Interest Mid-Point Object").transform;
     }
 
     // Update is called once per frame
@@ -55,6 +55,9 @@ public class BehaviorCameraFollower : MonoBehaviour
             starrySkyObj.localScale = new Vector3(camMain.orthographicSize * 0.2f, camMain.orthographicSize * 0.2f, camMain.orthographicSize * 0.2f);
 
         if (camMain) LookAheadBehavior(); // the camera should follow 2 points ( the player and a point of interest) then grab the middle * weighted preference
+
+        if (Input.GetKeyDown(KeyCode.Alpha1)) { print("Move Camera To Spot Instantly"); MoveCamTargetInstant(new Vector3(10, 4, 0), 0.33f, 5f); } // TODO: Delete this when done testing
+        if (Input.GetKeyDown(KeyCode.Alpha2)) { print("Move Camera To Spot OverTime"); StartCoroutine(MoveCamTargetSmooth(20, new Vector3(20, 20, 0), 1.1f, 10f)); }  // TODO: Delete this when done testing
     }
 
     #region CAMERA MAIN BEHAVIOR
@@ -145,23 +148,42 @@ public class BehaviorCameraFollower : MonoBehaviour
     /// </summary>
     public void MoveCamTargetInstant(Vector3 _targetPos, float _weight = -1, float _orthoZoom = -1)
     {
-        if (_weight != -1) camPoiWeight = _weight;
-        if (_targetPos != Vector3.zero) camMain.transform.position = _targetPos;
-        if (_orthoZoom != -1) camMain.orthographicSize = _orthoZoom;
+        if (camIsEnumorating) return;
+        if (_weight != -1) { _weight = Mathf.Clamp(_weight, 0, 1); camPoiWeight = _weight; }
+        if (_targetPos != Vector3.zero) poiObj.position = _targetPos;
+        if (_orthoZoom != -1) { _orthoZoom = Mathf.Clamp(_orthoZoom, 1.5f, 15f); camMain.orthographicSize = _orthoZoom; }
     }
 
 
     /// <summary>
     /// <para> Set the camera target to a position over a period of time </para>
     /// </summary>
-    public IEnumerator MoveCamTargetSmooth(float _seconds, Vector3 _targetPos, float _weight = -1, float _orthoZoom = -1)
+    public IEnumerator MoveCamTargetSmooth(float _seconds, Vector3 _targetPos, float _targetWeight = -1, float _targetZoom = -1)
     {
         if (!camIsEnumorating)
         {
             camIsEnumorating = true;
-            // calculate time to move to position 
-            // calculate time to move to weight
-            yield return new WaitForSeconds(0);
+
+            if (_targetWeight != -1) _targetWeight = Mathf.Clamp(_targetWeight, 0, 1);
+            if (_targetZoom != -1) _targetZoom = Mathf.Clamp(_targetZoom, 1.5f, 15f);           
+
+            // store start positions
+            Vector3 startPos = poiObj.position;
+            float startWeight = camPoiWeight;
+            float startZoom = camMain.orthographicSize;
+
+            float timer = 0f;
+
+            while (timer < _seconds)
+            {
+                timer += Time.deltaTime;
+                float t = Mathf.Clamp01(timer / _seconds);
+
+                if (_targetWeight != -1) camPoiWeight = Mathf.Lerp(startWeight, _targetWeight, t);
+                if (_targetPos != Vector3.zero) poiObj.position = Vector3.Lerp(startPos, _targetPos, t);
+                if (_targetZoom != -1) camMain.orthographicSize = Mathf.Lerp(startZoom, _targetZoom, t);
+                yield return null; //yield return new WaitForEndOfFrame(); //yield return new WaitForSeconds(0.15f);
+            }
             camIsEnumorating = false;
         }
     }

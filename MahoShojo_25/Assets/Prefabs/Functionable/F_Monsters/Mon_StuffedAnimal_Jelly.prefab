@@ -1296,7 +1296,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3351900402880586524}
-  - component: {fileID: 1047716903862729591}
+  - component: {fileID: 3175780326794333957}
   - component: {fileID: 8512860568730172181}
   - component: {fileID: -2070265790150067155}
   m_Layer: 0
@@ -1325,7 +1325,7 @@ Transform:
   - {fileID: 1160409268786729044}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1047716903862729591
+--- !u!114 &3175780326794333957
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1334,38 +1334,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 4520020619407203597}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3e6fe19a533cca4e92b576e5ad23516, type: 3}
+  m_Script: {fileID: 11500000, guid: 4a5a8371cfeea2a49b2201dc0ec93205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monsterPlushy: 1
   currentState: 0
   timeUntilDespawn: 20
   groundLayers:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 0
   playerObj: {fileID: 0}
   colliderSphere: {fileID: 0}
   runIndependantly: 1
-  activatesOnWait: 1
   stateWaitTime: 12
   betweenWaitActionsTime: 3
-  activatesOnDistance: 1
-  distanceToActivate: 10
   onWaitEndOne:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: -2070265790150067155}
-        m_TargetAssemblyTypeName: SpawnObject, Assembly-CSharp
-        m_MethodName: SpawnOrPoolObj
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   stateHuntingTime: 1
   getIntoPositionSpeed: 6
   accetpablePlayerOffsetX: {x: -4, y: 9}
@@ -1381,9 +1365,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   targetGraphic: {fileID: 7966960069733400037}
-  attackSpeed: 12
-  targetTolerance: 0.5
-  positionalTargetOffset: {x: 0, y: 0, z: 0}
   onAttackEndOne:
     m_PersistentCalls:
       m_Calls:
@@ -1416,41 +1397,16 @@ MonoBehaviour:
   stateCaptureFlyTime: 10
   onHit:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5040173038441749729}
-        m_TargetAssemblyTypeName: UnityEngine.ParticleSystem, UnityEngine
-        m_MethodName: Play
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 7272479848716022796}
-        m_TargetAssemblyTypeName: ScaleChange, Assembly-CSharp
-        m_MethodName: ChangeScale
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   onHitAudio:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 260615668945668774, guid: 53b0f5c7dc6df2642b54790b87b6cf9a,
-          type: 3}
+      - m_Target: {fileID: 2458486759685406276}
         m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
         m_MethodName: PlayOneShot
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 8300000, guid: 5078b41e06e861940ab8afc6e5455ec1,
+          m_ObjectArgument: {fileID: 8300000, guid: 6fe73b618177a7c45800ec660930170a,
             type: 3}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
           m_IntArgument: 0
@@ -1460,55 +1416,17 @@ MonoBehaviour:
         m_CallState: 2
   onCapture:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6536944252305280048}
-        m_TargetAssemblyTypeName: UnityEngine.ParticleSystem, UnityEngine
-        m_MethodName: Play
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 6460386264609630879}
-        m_TargetAssemblyTypeName: UnityEngine.ParticleSystem, UnityEngine
-        m_MethodName: Play
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 2458486759685406276}
-        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
-        m_MethodName: PlayOneShot
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 8300000, guid: f136d5a98625f3c4685705adfbf2643c,
-            type: 3}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  onRushAttacking:
+      m_Calls: []
+  eJellyLand:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2458486759685406276}
-        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
-        m_MethodName: PlayOneShot
-        m_Mode: 2
+      - m_Target: {fileID: -2070265790150067155}
+        m_TargetAssemblyTypeName: SpawnObject, Assembly-CSharp
+        m_MethodName: SpawnOrPoolObj
+        m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 8300000, guid: a17a1a5800a43b146ae1de1b6444a873,
-            type: 3}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -2418,24 +2336,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 72da1f8c50c8ec54581eb1b770096ee6, type: 3}
---- !u!198 &5040173038441749729 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 4796409168167237275, guid: 72da1f8c50c8ec54581eb1b770096ee6,
-    type: 3}
-  m_PrefabInstance: {fileID: 532003191233620602}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &6460386264609630879 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 6829120601773572325, guid: 72da1f8c50c8ec54581eb1b770096ee6,
-    type: 3}
-  m_PrefabInstance: {fileID: 532003191233620602}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &6536944252305280048 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 6761567962138322506, guid: 72da1f8c50c8ec54581eb1b770096ee6,
-    type: 3}
-  m_PrefabInstance: {fileID: 532003191233620602}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6820391719827249811 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6468550289502449897, guid: 72da1f8c50c8ec54581eb1b770096ee6,

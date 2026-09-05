@@ -908,7 +908,7 @@ public class Manager_Platforms : MonoBehaviour
             }
             else
             {
-                if (spawnedMonsterBehavior) spawnedMonsterBehavior.DisableMoonster();
+                if (spawnedMonsterBehavior) spawnedMonsterBehavior.DisableMonster();
                 else spawnedMonster.gameObject.SetActive(false);
             }
 

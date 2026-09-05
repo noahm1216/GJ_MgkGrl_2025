@@ -3,13 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-
+/// <summary>
+/// Player Core has been refactored from its original structure for performance and so that splitting it later as needed may be managable.
+/// This has temporarily made the script longer than needed.
+/// </summary>
 public class PlayerCore : MonoBehaviour
 {
-    /// <summary>
-    /// Player Core has been refactored from its original structure for performance and so that splitting it later as needed may be managable.
-    /// This has temporarily made the script longer than needed.
-    /// </summary>
+    public static PlayerCore Instance { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this) Destroy(this); // If there is an instance, and it's not me, delete myself.
+        else Instance = this;
+    }
+
+
     #region INPUT_KEYS
 
     [Header("Input Keys\n______________")]

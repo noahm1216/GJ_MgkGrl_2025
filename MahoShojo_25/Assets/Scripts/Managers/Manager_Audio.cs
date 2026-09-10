@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Audio;
+using System.Collections.Generic;
 
 public class Manager_Audio : MonoBehaviour
 {
@@ -15,6 +13,8 @@ public class Manager_Audio : MonoBehaviour
 
     public AudioClip[] clipMusic_GameplayList;
 
+    public float[] pitchRanges = { 1, 1.26f, 1.5f, 2, 2.52f, 3 };
+
     private void Awake()
     {
         if (Instance != null && Instance != this) // If there is an instance, and it's not me, delete myself.
@@ -23,9 +23,26 @@ public class Manager_Audio : MonoBehaviour
             Instance = this;
     }
 
+    public void PlaySfxFromListRandom(AudioClip[] _clipsList)
+    {
+        if (_clipsList == null || _clipsList.Length == 0 || aSourceSFX == null) return;
+
+    }
+
+    public void PlayOneShotPitched(AudioClip _clip, AudioSource _aSource, float _pitch = 1)
+    {
+        if (!_clip || !_aSource) return;       
+        
+        //_pitch = Mathf.Clamp(_pitch, pitchRanges[0], pitchRanges[pitchRanges.Length-1]); // clamp the pitch within the range
+        _aSource.pitch = _pitch;
+        _aSource.PlayOneShot(_clip);
+    }
+
     public void PickRandomGameplaySong()
     {
-        if(clipMusic_GameplayList.Length > 0)
+        if (!aSourceMusic) return;
+
+        if(clipMusic_GameplayList.Length > 1)
         {
             int ranId = Random.Range(0, clipMusic_GameplayList.Length);            
             if (clipMusic_GameplayList[ranId] && aSourceMusic.clip != clipMusic_GameplayList[ranId])
@@ -35,6 +52,19 @@ public class Manager_Audio : MonoBehaviour
             }
             else
                 PickRandomGameplaySong();
+        }
+        else
+        {
+            if (clipMusic_GameplayList.Length == 1)
+            {
+                aSourceMusic.clip = clipMusic_GameplayList[0];
+                aSourceMusic.Play();
+            }
+            else
+            {
+                Debug.LogError($"MISSING MUSIC TO PLAY: on {transform.name}");
+                aSourceMusic.Stop();
+            }
         }
     }
 

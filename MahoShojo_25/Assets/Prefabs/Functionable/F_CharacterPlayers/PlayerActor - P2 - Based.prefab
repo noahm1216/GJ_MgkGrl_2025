@@ -278,6 +278,10 @@ MonoBehaviour:
   cornerCorrectionHorizontalRange: 0.4
   cornerCorrectionBoostStrength: 0.15
   cornerCorrectionCooldown: 0.15
+  aClipsJump:
+  - {fileID: 8300000, guid: 5110bf7c12e1337478ec3461b8b35a0e, type: 3}
+  - {fileID: 8300000, guid: b7d5d1fc0c8738948b465f63ac0e1307, type: 3}
+  - {fileID: 8300000, guid: 348de8b70a90ac14a8c6f1c9835c7617, type: 3}
   jumpShoeVfx_R: {fileID: 738591805962050073}
   jumpShoeVfx_L: {fileID: 2120810200822967685}
   ref_BehaviorCameraFollower: {fileID: 0}

@@ -4480,36 +4480,6 @@ PrefabInstance:
       propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3614442563443108937, guid: 2233f553fe2318642aa3a791cd349c69,
-        type: 3}
-      propertyPath: poiObj
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3614442563443108937, guid: 2233f553fe2318642aa3a791cd349c69,
-        type: 3}
-      propertyPath: leftLimit
-      value: 0.15
-      objectReference: {fileID: 0}
-    - target: {fileID: 3614442563443108937, guid: 2233f553fe2318642aa3a791cd349c69,
-        type: 3}
-      propertyPath: rightLimit
-      value: 0.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 3614442563443108937, guid: 2233f553fe2318642aa3a791cd349c69,
-        type: 3}
-      propertyPath: camPoiWeight
-      value: 0.33
-      objectReference: {fileID: 0}
-    - target: {fileID: 3614442563443108937, guid: 2233f553fe2318642aa3a791cd349c69,
-        type: 3}
-      propertyPath: verticalMinLimit
-      value: 1.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 3614442563443108937, guid: 2233f553fe2318642aa3a791cd349c69,
-        type: 3}
-      propertyPath: midPointVisualizer
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 3972835378403750449, guid: 2233f553fe2318642aa3a791cd349c69,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -4760,11 +4730,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: All_In_One_Playables
       objectReference: {fileID: 0}
-    - target: {fileID: 6534351324399042877, guid: 2233f553fe2318642aa3a791cd349c69,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6669524687816603271, guid: 2233f553fe2318642aa3a791cd349c69,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -4854,16 +4819,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7587288029254745464, guid: 2233f553fe2318642aa3a791cd349c69,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7987907303451686124, guid: 2233f553fe2318642aa3a791cd349c69,
-        type: 3}
-      propertyPath: releasedJumpFallGravityMultiplier
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8035174950803866403, guid: 2233f553fe2318642aa3a791cd349c69,
         type: 3}

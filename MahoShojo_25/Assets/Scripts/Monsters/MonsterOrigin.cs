@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -21,7 +19,7 @@ public abstract class MonsterOrigin : MonoBehaviour
     protected bool runMonsterActive;
     protected Vector3 storedSpawnPos;
     // events to listen to
-    public UnityEvent eOnSpawned, eOnHit, eOnCapture, eOnDespawned; // we may do an injection since all 
+    public UnityEvent eOnSpawned, eOnHit, eOnCaptured, eOnDespawned; // we may do an injection since all 
 
 
     public void BeginIntroduction() // called to begin the monster's behavior
@@ -121,7 +119,7 @@ public abstract class MonsterOrigin : MonoBehaviour
         IsCaptured = true;
         runMonsterActive = false;
         MonsterCaptured();
-        eOnCapture?.Invoke();
+        eOnCaptured?.Invoke();
     }
 
     protected virtual void MonsterCaptured()

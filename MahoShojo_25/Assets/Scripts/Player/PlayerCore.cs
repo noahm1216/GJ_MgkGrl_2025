@@ -126,7 +126,7 @@ public class PlayerCore : MonoBehaviour
 
     private float inputXYTime;
 
-    public int dir    {        get;        private set;    } = 1;
+    public int dir { get; private set; } = 1;
 
     private int timesJumpedSinceLastGround;
 
@@ -140,6 +140,26 @@ public class PlayerCore : MonoBehaviour
     private bool jumpReleasedThisFrame;
 
     private float lastCornerCorrectionTime;
+
+    #endregion
+
+    #region AUDIO
+
+    [Space]
+    [Header("Audio Clips\n__________")]
+
+    [Tooltip("Jump clips are the different jump sounds Maho will make. The sounds we have are pithed nicely for height. We can pitch them based on her height")]
+    public AudioClip[] aClipsJump;   
+    private int lastJumpSound = 0;
+    private float lastJumpSoundTime;
+    private float jumpSoundTimeWait = 0.05f;
+
+    // TODO: charge & release weapon
+
+    // TODO: maho roll / dodge
+
+    // TODO: monster feed (do this on the MonsterOrigins.cs)
+
 
     #endregion
 
@@ -258,6 +278,8 @@ public class PlayerCore : MonoBehaviour
 
     private Transform _cachedTransform;
 
+    private Manager_Audio _audioManager;
+
     #endregion
 
     #region OPTIMIZATION_TIMERS
@@ -286,6 +308,8 @@ public class PlayerCore : MonoBehaviour
         _gameState = Manager_GameState.Instance;
 
         _tutorialUI = Manager_TutorialUI.Instance;
+
+        _audioManager = Manager_Audio.Instance;
 
         if (_platforms)
             _platforms.PopulatePlayerCoreRef(this);
@@ -499,6 +523,12 @@ public class PlayerCore : MonoBehaviour
 
         jumpLeftToAchieve +=
             jumpAcceleration;
+
+        if (Time.time > lastJumpSoundTime + jumpSoundTimeWait)
+        {
+            PlayAudioJump();
+            lastJumpSoundTime = Time.time;
+        }
     }
 
     private void HandleFallPhysics()
@@ -579,6 +609,29 @@ public class PlayerCore : MonoBehaviour
     }
 
     #endregion
+
+
+    #region AUDIO_HANDLING
+    public void PlayAudioJump()
+    {
+        if (!_audioManager || aClipsJump == null) return;
+        // Shangyi's 3 audio pitches are SOOO nice, so instead of pitching them in code and trying to get it to sound as harmonious, ...
+        // I want to just play them at appropriate contexts based on height and number of jumps
+        if (timesJumpedSinceLastGround == 0)
+        {
+            if (transform.position.y < 4) lastJumpSound = 0;
+            else lastJumpSound = 1;
+        }
+        if (lastJumpSound > aClipsJump.Length - 1) lastJumpSound = 0;        
+
+        // if we are on the base jump (which we will hear a lot) we can play with the pitch a little
+        int pitchChangeId = 0;
+        if (lastJumpSound == 0) pitchChangeId = Random.Range(0, 3);
+        _audioManager.PlayOneShotPitched(aClipsJump[lastJumpSound], _audioManager.aSourceSFX, _audioManager.pitchRanges[pitchChangeId]);
+        lastJumpSound++;
+    }
+
+    #endregion audio_handling
 
 
     #region MODEL_HANDLING

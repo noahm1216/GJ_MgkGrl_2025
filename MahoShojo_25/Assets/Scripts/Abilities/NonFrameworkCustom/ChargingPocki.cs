@@ -7,6 +7,8 @@ using System;
 
 public class ChargingPocki : MonoBehaviour // TODO: Add a reference to player animations that accounts for holding this button ... then set the bool until we release it
 {
+    private PlayerCore _PlayerCore;
+
     public KeyCode keyToCharge;
     // -C
     public bool showPockiWhileCharging;
@@ -39,7 +41,7 @@ public class ChargingPocki : MonoBehaviour // TODO: Add a reference to player an
     // Start is called before the first frame update
     void Start()
     {
-
+        if (!_PlayerCore && PlayerCore.Instance) _PlayerCore = PlayerCore.Instance;
         if (pockiBoxObj)
             pockiBoxObj.gameObject.SetActive(false);
         if (!pockiPrefabArtOnly)
@@ -49,7 +51,6 @@ public class ChargingPocki : MonoBehaviour // TODO: Add a reference to player an
     // Update is called once per frame
     void Update()
     {
-
         if (keyToCharge == KeyCode.None)
         { Debug.Log("WARNING: Unable to run charge code due to no key specified"); return; }
 
@@ -74,7 +75,7 @@ public class ChargingPocki : MonoBehaviour // TODO: Add a reference to player an
             if (Time.time > timeStampPressedKey + requiredChargeTime / chargeTimeMultiplier)  // finished charging ability            
                 onReleaseSuccessEvent.Invoke();
             else
-                onReleaseFailEvent.Invoke();
+                onReleaseFailEvent.Invoke();            
 
             if (pockiBoxObj && followPlayer)
                 pockiBoxObj.SetParent(null);
@@ -84,6 +85,8 @@ public class ChargingPocki : MonoBehaviour // TODO: Add a reference to player an
 
             if (showPockiWhileCharging)
             {  ShowPockiArtObjs(Vector3.zero, -1); } // spawn and disable pocki art when 
+
+            if (_PlayerCore) _PlayerCore.PlayAudioRelease(); // play audio
         }
 
         if (Input.GetKeyDown(keyToCharge)) // Pressing key (start charging)
@@ -96,6 +99,8 @@ public class ChargingPocki : MonoBehaviour // TODO: Add a reference to player an
             if (pockiBoxObj && followPlayer)
             { pockiBoxObj.position = transform.position + pockiBoxOffset; pockiBoxObj.SetParent(transform); }
             onChargeStartEvent.Invoke();
+
+            if (_PlayerCore) _PlayerCore.PlayAudioCharge(); // play audio
         }
 
         if (Input.GetKey(keyToCharge)) // Holding key (sustain charging)

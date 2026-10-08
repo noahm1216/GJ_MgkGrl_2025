@@ -155,8 +155,17 @@ public class PlayerCore : MonoBehaviour
     private float jumpSoundTimeWait = 0.05f;
 
     // TODO: charge & release weapon
+    [Space]
+    [Tooltip("the different ability charge sounds Maho's equipment will make. The sounds we have are pithed lightly with randomness")]
+    public AudioClip[] aClipsCharge;
+    [Tooltip("the different ability release sounds Maho's equipment will make. The sounds we have are pithed lightly with randomness")]
+    public AudioClip[] aClipsRelease;
+    private int pitchToUse; // store the pitch so we can match it on charge and release
 
     // TODO: maho roll / dodge
+    [Space]
+    [Tooltip("the different roll/dodge sounds Maho's will make. The sounds we have are pithed lightly with randomness")]
+    public AudioClip[] aClipsRoll;
 
     // TODO: monster feed (do this on the MonsterOrigins.cs)
 
@@ -270,15 +279,15 @@ public class PlayerCore : MonoBehaviour
 
     #region CACHED_REFERENCES
 
-    private Manager_Platforms _platforms;
+    public Manager_Platforms _platforms { get; private set; }
 
-    private Manager_GameState _gameState;
+    public Manager_GameState _gameState { get; private set; }
 
-    private Manager_TutorialUI _tutorialUI;
+    public Manager_TutorialUI _tutorialUI { get; private set; }
 
-    private Transform _cachedTransform;
+    public Transform _cachedTransform { get; private set; }
 
-    private Manager_Audio _audioManager;
+    public Manager_Audio _audioManager { get; private set; }
 
     #endregion
 
@@ -629,6 +638,19 @@ public class PlayerCore : MonoBehaviour
         if (lastJumpSound == 0) pitchChangeId = Random.Range(0, 3);
         _audioManager.PlayOneShotPitched(aClipsJump[lastJumpSound], _audioManager.aSourceSFX, _audioManager.pitchRanges[pitchChangeId]);
         lastJumpSound++;
+    }
+
+
+    public void PlayAudioCharge()
+    {
+        if (!_audioManager || aClipsCharge == null) return;
+        print("PLAY AUDIO");
+    }
+
+    public void PlayAudioRelease()
+    {
+        if (!_audioManager || aClipsRelease == null) return;
+        print("PLAY AUDIO");
     }
 
     #endregion audio_handling

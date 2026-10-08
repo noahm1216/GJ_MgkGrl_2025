@@ -219,6 +219,7 @@ public class Manager_GameState : MonoBehaviour
         dataSinceLevelStarted.distanceTravel += _amountChange;
     }
 
+    // every script that needs to compare should use this if possible
     public bool CheckMetConditions(CustomConditionVariables _chkConASource, CustomConditionVariables _chkConBCompare)
     { // this checks the requirements of the monster data and returns how many are NOT zero and > variable
 
@@ -284,7 +285,7 @@ public class Manager_GameState : MonoBehaviour
         timeOfCurrentGameRun = 0; // Reset Timer
         distanceOfCurrentGameRun = 0; // Reset distance traveled
         ChangeState(GAMESTATE.Playing);
-        if (Manager_Platforms.Instance) Manager_Platforms.Instance.ResetMonsterTimers();
+        if (Manager_Platforms.Instance) print("OLD - SIGNAL MONSTER RESET()");// Manager_Platforms.Instance.ResetMonsterTimers();
     }
 
     public void RestartGameButton()

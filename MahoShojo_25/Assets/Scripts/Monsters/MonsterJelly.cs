@@ -143,7 +143,7 @@ public class MonsterJelly : BehaviorMonster
     {
         //print("MONSTER CAPTURED DEBUG");
         if (Manager_Platforms.Instance)
-            Manager_Platforms.Instance.monsterSignaledCapture = true;
+            print("OLD - SIGNAL MONSTER CAPTURED");//Manager_Platforms.Instance.monsterSignaledCapture = true;
 
         if (targetGraphic) { targetGraphic.SetParent(transform); targetGraphic.gameObject.SetActive(false); }
 

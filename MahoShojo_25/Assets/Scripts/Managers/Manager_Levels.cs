@@ -100,7 +100,9 @@ public class Manager_Levels : MonoBehaviour
                 if (Manager_GameState.Instance)
                     Manager_GameState.Instance.UpdateRecentLevel(i);
                 if (Manager_Platforms.Instance)
-                    Manager_Platforms.Instance.UpdateCurrentLoadedLevel(levelsList[i]);               
+                    Manager_Platforms.Instance.UpdateCurrentLoadedLevel(levelsList[i]);
+                //if (Manager_Monsters.Instance)
+                    //Manager_Monsters.Instance.UpdateMonstersInLevel()
             }
         }
     }

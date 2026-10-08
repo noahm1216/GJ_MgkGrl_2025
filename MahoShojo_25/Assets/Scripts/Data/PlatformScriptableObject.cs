@@ -92,8 +92,7 @@ public class CustomConditionVariables
 [System.Serializable]
 public class CustomMonsterSpawner
 {
-    public string monsterNickname;
-    public Transform monsterBosses;
+    public MonsterOrigin monsterBoss;
     public float timeUntilDespawn = 30;
     public CustomConditionVariables requiredConditions;
 

@@ -104,26 +104,26 @@ public class Manager_Platforms : MonoBehaviour
     public bool stopSpawningPlatforms { get; private set; }
 
 
-    [Space]
-    [Space]
-    [Header("Monster Objects\n______________")]
-    [Tooltip("The prefabs of the monsters we want to spawn in the order we want to spawn them")]
-    public Transform[] monstersToSpawnInOrder;
-    [Tooltip("The acceptable distance of those monsters")]
-    public Vector3[] distanceOkayToSpawnFromPlayer;
-    public float waitTimeAfterCapture = 10;
+    //[Space]
+    //[Space]
+    //[Header("Monster Objects\n______________")]
+    //[Tooltip("The prefabs of the monsters we want to spawn in the order we want to spawn them")]
+    //public Transform[] monstersToSpawnInOrder;
+    //[Tooltip("The acceptable distance of those monsters")]
+    //public Vector3[] distanceOkayToSpawnFromPlayer;
+    //public float waitTimeAfterCapture = 10;
 
-    public bool readyToSpawn { get; private set; } // decidor when we can spawn
-    public bool monsterIsInPlay { get; private set; } // so we dont over spawn
-    public int monstersSpawned;//{ get; private set; } // tracking how manywe've spawned
-    public Transform spawnedMonster { get; private set; } // the monster we want to track
-    private BehaviorMonster spawnedMonsterBehavior;
-    [HideInInspector] public bool monsterSignaledCapture; // the monster can signal its capture so it does not despawn by accident while being captured
-    //private List<Transform> allSpawnedMonsters = new List<Transform>(); // to pool the monsters, but this should come in later versions
-    private float lastCaptureTimeStamp;
-    private float timeMonsterSpawned;
-    private float waitTimeUntilDespawnDynamic;
-    private int monstersCaptured; // the number of monsters we've captured in a level
+    //public bool readyToSpawn { get; private set; } // decidor when we can spawn
+    //public bool monsterIsInPlay { get; private set; } // so we dont over spawn
+    //public int monstersSpawned;//{ get; private set; } // tracking how manywe've spawned
+    //public Transform spawnedMonster { get; private set; } // the monster we want to track
+    //private BehaviorMonster spawnedMonsterBehavior;
+    //[HideInInspector] public bool monsterSignaledCapture; // the monster can signal its capture so it does not despawn by accident while being captured
+    ////private List<Transform> allSpawnedMonsters = new List<Transform>(); // to pool the monsters, but this should come in later versions
+    //private float lastCaptureTimeStamp;
+    //private float timeMonsterSpawned;
+    //private float waitTimeUntilDespawnDynamic;
+    //private int monstersCaptured; // the number of monsters we've captured in a level
 
 
     [Space]
@@ -175,7 +175,7 @@ public class Manager_Platforms : MonoBehaviour
             return;
 
         SpawnStartingPlatforms();
-        lastCaptureTimeStamp = Time.time + (waitTimeAfterCapture * 1.2f); // the first monster shouldnt spawn right away, but the normal pacing is good for most
+        //lastCaptureTimeStamp = Time.time + (waitTimeAfterCapture * 1.2f); // the first monster shouldnt spawn right away, but the normal pacing is good for most
         //ChangeMonsterVariables(true, false, false);
 
         if (startPlayerSlowly)
@@ -222,8 +222,8 @@ public class Manager_Platforms : MonoBehaviour
         CheckLevelMessages();
         CheckTimeStamps();
         MoveMaps();
-        CheckMonsterSpawner();
-        RunMonsterBehavior();
+        //CheckMonsterSpawner();
+        //RunMonsterBehavior();
 
         StartSpeedIsRampedUp();
         CheckForObstacles();
@@ -278,10 +278,10 @@ public class Manager_Platforms : MonoBehaviour
             RemoveAllPlatforms();
             SpawnPlatformsOnDelay(0);
             // monsters
-            monstersToSpawnInOrder = new Transform[CurrentLoadedLevel.monstersToSpawn.Length];
-            for (int i = 0; i < CurrentLoadedLevel.monstersToSpawn.Length; i++)
-                monstersToSpawnInOrder[i] = CurrentLoadedLevel.monstersToSpawn[i].monsterBosses;
-            monstersCaptured = 0;
+            //monstersToSpawnInOrder = new Transform[CurrentLoadedLevel.monstersToSpawn.Length];
+            //for (int i = 0; i < CurrentLoadedLevel.monstersToSpawn.Length; i++)
+            //    monstersToSpawnInOrder[i] = CurrentLoadedLevel.monstersToSpawn[i].monsterBosses;
+            //monstersCaptured = 0;
         }
 
         if (_newLevelToUpdate) { ResetLevelMessageData(); print($"Manager Platform: UpdatedLevel to: {_newLevelToUpdate.levelName}"); } // log it
@@ -303,10 +303,10 @@ public class Manager_Platforms : MonoBehaviour
                 spawnedPlatformsInPlay[i].ResetToStart();
         }
 
-        lastCaptureTimeStamp = Time.time;
+        //lastCaptureTimeStamp = Time.time;
         ChangeSpawningPlatforms(true);
-        readyToSpawn = true;
-        ResetMonsterTimers();
+        //readyToSpawn = true;
+        //ResetMonsterTimers();
     }
 
     private void ReactToGameManager()
@@ -318,7 +318,7 @@ public class Manager_Platforms : MonoBehaviour
         {
             startSpeedAccelStamp = Time.time;
             timePressedJumpOrMove = Time.time;
-            ResetMonsterTimers();
+            //ResetMonsterTimers();
         }
         if (Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing) // make sure that if we are not playing, it doesnt change our spawn timers
         {
@@ -326,12 +326,12 @@ public class Manager_Platforms : MonoBehaviour
         }
     }
 
-    public void ResetMonsterTimers()
-    {
-        lastCaptureTimeStamp = Time.deltaTime;
-        timeMonsterSpawned = Time.time;
-        readyToSpawn = true;
-    }
+    //public void ResetMonsterTimers()
+    //{
+    //    lastCaptureTimeStamp = Time.deltaTime;
+    //    timeMonsterSpawned = Time.time;
+    //    readyToSpawn = true;
+    //}
 
 
     public void ChangeIsBlocked(bool _isBlocked, Transform _blockerObj)
@@ -728,62 +728,64 @@ public class Manager_Platforms : MonoBehaviour
     ///  
     /// </summary>
 
-    public void CheckMonsterSpawner()
-    {
-        //if (isBlocked)
-        //lastCaptureTimeStamp += Time.deltaTime; // delays the monster spawning if we are standing still
+    /// MONSTERS WILL BE MANAGED BY THEIR OWN MANAGER
+    //public void CheckMonsterSpawner()
+    //{
+    //    //if (isBlocked)
+    //    //lastCaptureTimeStamp += Time.deltaTime; // delays the monster spawning if we are standing still
 
-        if (monstersCaptured < monstersToSpawnInOrder.Length) // if we havent finished the list of monsters to spawn in this level
-        {
-            if (monstersCaptured == monstersSpawned) // if we have captured all the monster who have spawned...
-            {
-                print("Checking if Ready To Spawn A Monster!");
-                if (Manager_GameState.Instance)
-                { // check the requirements it has || returns true if enough conditions are met
-                    if (Manager_GameState.Instance.CheckMetConditions
-                        (
-                        Manager_GameState.Instance.dataSinceMonsterSpawn,
-                        CurrentLoadedLevel.monstersToSpawn[monstersCaptured].requiredConditions)) // check we achieved enough conditiond for next monster
-                    {
-                        print("READY to spawn a monster!");
-                        SpawnMonster(monstersSpawned);
-                    }
-                    else { print("Monster Spawn Conditions Not Yet Met"); }
-                }
-            }
-        }
-        // if we have a monster, it's enabled, enough time has passed, and it hasnt been captured
-        if (spawnedMonster != null && spawnedMonster.gameObject.activeSelf == true &&
-            Time.time > timeMonsterSpawned + waitTimeUntilDespawnDynamic &&
-            spawnedMonsterBehavior.currentState != BehaviorMonster.MONSTERSTATE.Captured)
-            DespawnMonster(false); // despawn the monster
-    }
+    //    if (monstersCaptured < monstersToSpawnInOrder.Length) // if we havent finished the list of monsters to spawn in this level
+    //    {
+    //        if (monstersCaptured == monstersSpawned) // if we have captured all the monster who have spawned...
+    //        {
+    //            print("Checking if Ready To Spawn A Monster!");
+    //            if (Manager_GameState.Instance)
+    //            { // check the requirements it has || returns true if enough conditions are met
+    //                if (Manager_GameState.Instance.CheckMetConditions
+    //                    (
+    //                    Manager_GameState.Instance.dataSinceMonsterSpawn,
+    //                    CurrentLoadedLevel.monstersToSpawn[monstersCaptured].requiredConditions)) // check we achieved enough conditiond for next monster
+    //                {
+    //                    print("READY to spawn a monster!");
+    //                    SpawnMonster(monstersSpawned);
+    //                }
+    //                else { print("Monster Spawn Conditions Not Yet Met"); }
+    //            }
+    //        }
+    //    }
+    //    // if we have a monster, it's enabled, enough time has passed, and it hasnt been captured
+    //    if (spawnedMonster != null && spawnedMonster.gameObject.activeSelf == true &&
+    //        Time.time > timeMonsterSpawned + waitTimeUntilDespawnDynamic &&
+    //        spawnedMonsterBehavior.currentState != BehaviorMonster.MONSTERSTATE.Captured)
+    //        DespawnMonster(false); // despawn the monster
+    //}
 
-    public void RemoveMonsterInPlay()
-    {
-        if (spawnedMonster)
-        {
-            monstersSpawned--;
-            monsterSignaledCapture = false;
-            print("Turn Off Monster Stuff In-game");
-            spawnedMonster.gameObject.SetActive(false);
-            //ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.MovingForward, true);
-        }
-    }
+    //public void RemoveMonsterInPlay()
+    //{
+    //    if (spawnedMonster)
+    //    {
+    //        monstersSpawned--;
+    //        monsterSignaledCapture = false;
+    //        print("Turn Off Monster Stuff In-game");
+    //        spawnedMonster.gameObject.SetActive(false);
+    //        //ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.MovingForward, true);
+    //    }
+    //}
 
-    public void CaptureMonsterInPlay()
-    {
-        if (spawnedMonster)
-        {
-            print("Captured Monster!!");
-            //ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.MovingForward, true);
-            spawnedMonster.gameObject.SetActive(false);
-            Destroy(spawnedMonster, 2);
-            spawnedMonsterBehavior = null;
-            spawnedMonster = null;
-            monsterSignaledCapture = false;
-        }
-    }
+    //public void CaptureMonsterInPlay()
+    //{
+    //    if (spawnedMonster)
+    //    {
+    //        print("Captured Monster!!");
+    //        //ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.MovingForward, true);
+    //        spawnedMonster.gameObject.SetActive(false);
+    //        Destroy(spawnedMonster, 2);
+    //        spawnedMonsterBehavior = null;
+    //        spawnedMonster = null;
+    //        monsterSignaledCapture = false;
+    //    }
+    //}
+    //-------------------------------------
 
     // TODO: REMOVE
     //public void ChangeMonsterVariables(bool _readyToSpawn, bool _monsterInPlay, bool _successfulCapture)
@@ -842,93 +844,93 @@ public class Manager_Platforms : MonoBehaviour
     //    }
     //}
 
-    public void SpawnMonster(int _idToSpawn)
-    {
-        // BEGIN with a return that stops if we already spawned all the monsters 
-        if (_idToSpawn > CurrentLoadedLevel.monstersToSpawn.Length)
-        {
-            if (CurrentLoadedLevel.spawnMonstersEndlessly == false) { print("We have spawned all possible monsters"); return; }
-            else _idToSpawn = 0;
-        }
+    //public void SpawnMonster(int _idToSpawn)
+    //{
+    //    // BEGIN with a return that stops if we already spawned all the monsters 
+    //    if (_idToSpawn > CurrentLoadedLevel.monstersToSpawn.Length)
+    //    {
+    //        if (CurrentLoadedLevel.spawnMonstersEndlessly == false) { print("We have spawned all possible monsters"); return; }
+    //        else _idToSpawn = 0;
+    //    }
 
-        //monstersSpawned++;
+    //    //monstersSpawned++;
 
-        // spawn monster locally
-        if (!spawnedMonster)
-        {
-            spawnedMonster = Instantiate(monstersToSpawnInOrder[_idToSpawn]);
-            spawnedMonster.position = distanceOkayToSpawnFromPlayer[_idToSpawn];
-            spawnedMonster.TryGetComponent(out spawnedMonsterBehavior);
-            if (spawnedMonsterBehavior) spawnedMonsterBehavior.SendStartPosition(spawnedMonster.position);
+    //    // spawn monster locally
+    //    if (!spawnedMonster)
+    //    {
+    //        spawnedMonster = Instantiate(monstersToSpawnInOrder[_idToSpawn]);
+    //        spawnedMonster.position = distanceOkayToSpawnFromPlayer[_idToSpawn];
+    //        spawnedMonster.TryGetComponent(out spawnedMonsterBehavior);
+    //        if (spawnedMonsterBehavior) spawnedMonsterBehavior.SendStartPosition(spawnedMonster.position);
 
-            print($"Manager Platform: Spawning Monster #{_idToSpawn}");
-            if (Manager_GameState.Instance) // communicating with Game Manager
-            {
-                //spawnedMonster = Instantiate(monstersToSpawnInOrder[Manager_GameState.Instance.capturedCreatues_Unique]);
-                //spawnedMonster.transform.position = distanceOkayToSpawnFromPlayer[Manager_GameState.Instance.capturedCreatues_Unique];
-                //spawnedMonster.TryGetComponent(out spawnedMonsterBehavior);
-                Manager_GameState.Instance.objectsSpawnedDuringRuntime.Add(spawnedMonster);
-            }
-        }
-        else
-            spawnedMonster.gameObject.SetActive(true);
+    //        print($"Manager Platform: Spawning Monster #{_idToSpawn}");
+    //        if (Manager_GameState.Instance) // communicating with Game Manager
+    //        {
+    //            //spawnedMonster = Instantiate(monstersToSpawnInOrder[Manager_GameState.Instance.capturedCreatues_Unique]);
+    //            //spawnedMonster.transform.position = distanceOkayToSpawnFromPlayer[Manager_GameState.Instance.capturedCreatues_Unique];
+    //            //spawnedMonster.TryGetComponent(out spawnedMonsterBehavior);
+    //            Manager_GameState.Instance.objectsSpawnedDuringRuntime.Add(spawnedMonster);
+    //        }
+    //    }
+    //    else
+    //        spawnedMonster.gameObject.SetActive(true);
 
-        waitTimeUntilDespawnDynamic = CurrentLoadedLevel.monstersToSpawn[_idToSpawn].timeUntilDespawn;
-        timeMonsterSpawned = Time.time;
-        //ChangeMonsterVariables(false, true, false);
-        monstersSpawned++;
+    //    waitTimeUntilDespawnDynamic = CurrentLoadedLevel.monstersToSpawn[_idToSpawn].timeUntilDespawn;
+    //    timeMonsterSpawned = Time.time;
+    //    //ChangeMonsterVariables(false, true, false);
+    //    monstersSpawned++;
 
-        //if (ref_BehaviorCameraFollower)
-        //    ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.FightingMonster, true);
+    //    //if (ref_BehaviorCameraFollower)
+    //    //    ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.FightingMonster, true);
 
-        if (Manager_GameState.Instance) Manager_GameState.Instance.SpawnChange(1);
-        //print("SPAWNED MONSTER");
-    }
+    //    if (Manager_GameState.Instance) Manager_GameState.Instance.SpawnChange(1);
+    //    //print("SPAWNED MONSTER");
+    //}
 
 
-    public void RunMonsterBehavior()
-    {
-        if (spawnedMonsterBehavior && spawnedMonster && spawnedMonster.gameObject.activeSelf == true)
-            spawnedMonsterBehavior.RunMonsterBehavior(false);
-    }
+    //public void RunMonsterBehavior()
+    //{
+    //    if (spawnedMonsterBehavior && spawnedMonster && spawnedMonster.gameObject.activeSelf == true)
+    //        spawnedMonsterBehavior.RunMonsterBehavior(false);
+    //}
 
-    public void DespawnMonster(bool _wasCaptured)
-    {
-        //print("Checking if we need to despawn monster");
+    //public void DespawnMonster(bool _wasCaptured)
+    //{
+    //    //print("Checking if we need to despawn monster");
 
-        // if we have spawned at least 1 monster and its active now and we havent captured it yet
-        if (monstersSpawned > 0)
-        {
-            if (_wasCaptured)
-            {
-                //print("Despawning MONSTER");       
-                Destroy(spawnedMonster.gameObject, 1);
-                spawnedMonster = null;
-                spawnedMonsterBehavior = null;
-            }
-            else
-            {
-                if (spawnedMonsterBehavior) spawnedMonsterBehavior.DisableMonster();
-                else spawnedMonster.gameObject.SetActive(false);
-            }
+    //    // if we have spawned at least 1 monster and its active now and we havent captured it yet
+    //    if (monstersSpawned > 0)
+    //    {
+    //        if (_wasCaptured)
+    //        {
+    //            //print("Despawning MONSTER");       
+    //            Destroy(spawnedMonster.gameObject, 1);
+    //            spawnedMonster = null;
+    //            spawnedMonsterBehavior = null;
+    //        }
+    //        else
+    //        {
+    //            if (spawnedMonsterBehavior) spawnedMonsterBehavior.DisableMonster();
+    //            else spawnedMonster.gameObject.SetActive(false);
+    //        }
 
-            monstersSpawned--;
-            timeMonsterSpawned = Time.time;
-            //ChangeMonsterVariables(true, false, false);
-            if (Manager_GameState.Instance)
-            {
-                Manager_GameState.Instance.objectsSpawnedDuringRuntime.Remove(spawnedMonster);
-                Manager_GameState.Instance.ResetDataSinceMonsterSpawn();
-                if (!_wasCaptured) Manager_GameState.Instance.SpawnChange(-1);
-            }
+    //        monstersSpawned--;
+    //        timeMonsterSpawned = Time.time;
+    //        //ChangeMonsterVariables(true, false, false);
+    //        if (Manager_GameState.Instance)
+    //        {
+    //            Manager_GameState.Instance.objectsSpawnedDuringRuntime.Remove(spawnedMonster);
+    //            Manager_GameState.Instance.ResetDataSinceMonsterSpawn();
+    //            if (!_wasCaptured) Manager_GameState.Instance.SpawnChange(-1);
+    //        }
 
-            //if (CurrentSpeed() > 0) ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.MovingForward, true);
+    //        //if (CurrentSpeed() > 0) ref_BehaviorCameraFollower.StoreChangeState(BehaviorCameraFollower.CameraFocusState.MovingForward, true);
 
-            // spawn pocki if we havent collected it yet
-            if (!playerUnlockedPockiBox)
-                SpawnOrMovePockiBox();
-        }
-    }
+    //        // spawn pocki if we havent collected it yet
+    //        if (!playerUnlockedPockiBox)
+    //            SpawnOrMovePockiBox();
+    //    }
+    //}
     #endregion MONSTERS
 
     #region MESSAGES/TUTORIALS

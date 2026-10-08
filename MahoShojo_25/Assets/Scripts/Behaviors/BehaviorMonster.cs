@@ -72,7 +72,7 @@ public abstract class BehaviorMonster : MonoBehaviour
     public UnityEvent onRecoverEndOne;
 
 
-    // RECOVERING
+    // CAPTURING
     [Header("Capturing Variables\n______________")]
     public int pointsUntilCaptured = 10;
     public int pointsForCapturing = 100;
@@ -405,7 +405,7 @@ public abstract class BehaviorMonster : MonoBehaviour
     protected virtual void StateCaptured()
     {
         //print("MONSTER CAPTURED DEBUG");
-        if (Manager_Platforms.Instance) Manager_Platforms.Instance.monsterSignaledCapture = true;
+        if (Manager_Platforms.Instance) print("OLD - SIGNAL MONSTER CAPTURED");// Manager_Platforms.Instance.monsterSignaledCapture = true;
 
 
         if (transform.localScale.x > sizeToShrinkTo)

@@ -184,7 +184,11 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 6570762608210001141}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3741932630250135491, guid: 7291566379655b7488a1f0bef785ecaf,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -2864395910528261987}
   m_SourcePrefab: {fileID: 100100000, guid: 7291566379655b7488a1f0bef785ecaf, type: 3}
 --- !u!4 &2967045290414590932 stripped
 Transform:
@@ -192,3 +196,76 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 9088923352771269683}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &5605948289740409840 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3741932630250135491, guid: 7291566379655b7488a1f0bef785ecaf,
+    type: 3}
+  m_PrefabInstance: {fileID: 9088923352771269683}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-2864395910528261987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5605948289740409840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7e6180d9482a6b43a88c40b2bbdb34c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nickname: Jelly
+  healthMax: 0
+  pointsRewarded: 0
+  eOnSpawned:
+    m_PersistentCalls:
+      m_Calls: []
+  eOnHit:
+    m_PersistentCalls:
+      m_Calls: []
+  eOnCaptured:
+    m_PersistentCalls:
+      m_Calls: []
+  eOnDespawned:
+    m_PersistentCalls:
+      m_Calls: []
+  pointsForCapturing: 100
+  uiHolderOfHeartPoints: {fileID: 0}
+  sizeToShrinkTo: 0.15
+  sizePercentChangeEveryFrame: 0.999
+  capturedMoveSpeed: 1
+  spinWhileCaptured: 0
+  spinSpeedDir: {x: 0, y: 90, z: 0}
+  flyTowardsPlayer: 0
+  distanceToCollect: 0.5
+  stateCaptureFlyTime: 10
+  timeUntilDespawn: 30
+  currentState: 1
+  groundLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  colliderSphere: {fileID: 0}
+  stateWaitTime: 10
+  betweenWaitActionsTime: 3
+  stateHuntingTime: 10
+  getIntoPositionSpeed: 15
+  accetpablePlayerOffsetX: {x: -4, y: 9}
+  accetpablePlayerOffsetY: {x: -2, y: 4}
+  forceZOffset: 0
+  onHuntEndOne:
+    m_PersistentCalls:
+      m_Calls: []
+  stateTargLockTime: 10
+  shakeSpeed: 1
+  shakeAmount: 0.05
+  onTargetEndOne:
+    m_PersistentCalls:
+      m_Calls: []
+  targetGraphic: {fileID: 0}
+  onAttackEndOne:
+    m_PersistentCalls:
+      m_Calls: []
+  stateRecoverTime: 10
+  onRecoverEndOne:
+    m_PersistentCalls:
+      m_Calls: []

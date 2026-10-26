@@ -51,9 +51,9 @@ public abstract class MonsterOrigin : MonoBehaviour
     {
         // the level maneger + platform manager --> spawn the creature --> stop the running & call this
         UpdateInjectListeners(true); // add this monsters events to other scripts
-        if (PlayerCore.Instance) _PlayerCore = PlayerCore.Instance;
-        if (BehaviorCameraFollower.Instance) _BehaviorCameraFollower = BehaviorCameraFollower.Instance; // cam ref
-        if (Manager_Platforms.Instance) _Manager_Platforms = Manager_Platforms.Instance;
+        _PlayerCore = PlayerCore.Instance;
+        _BehaviorCameraFollower = BehaviorCameraFollower.Instance; // cam ref
+        _Manager_Platforms = Manager_Platforms.Instance;
         storedSpawnPos = transform.position;
         runMonsterActive = false;
         healthCurrent = healthMax;

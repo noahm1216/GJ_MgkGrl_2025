@@ -22,6 +22,9 @@ public class Manager_Levels : MonoBehaviour
     /// 
 
     public static Manager_Levels Instance { get; private set; }
+    private Manager_GameState _ManagerGameState;
+    private Manager_Platforms _ManagerPlatforms;
+    private Manager_Monsters _ManagerMonsters;
 
     public PlatformScriptableObject[] levelsList;
     public LevelSelectData[] levelUis;
@@ -32,6 +35,13 @@ public class Manager_Levels : MonoBehaviour
             Destroy(this);
         else
             Instance = this;
+    }
+
+    private void Start()
+    {
+        _ManagerMonsters = Manager_Monsters.Instance;
+        _ManagerPlatforms = Manager_Platforms.Instance;
+        _ManagerGameState = Manager_GameState.Instance;
     }
 
 
@@ -97,12 +107,12 @@ public class Manager_Levels : MonoBehaviour
             {
                 if(levelsList[i] == null) { Debug.LogError("Level Manager: Missing Level data Level"); return; }
                 print($"Found Level To Load: {levelsList[i].levelName}");
-                if (Manager_GameState.Instance)
-                    Manager_GameState.Instance.UpdateRecentLevel(i);
-                if (Manager_Platforms.Instance)
-                    Manager_Platforms.Instance.UpdateCurrentLoadedLevel(levelsList[i]);
-                //if (Manager_Monsters.Instance)
-                    //Manager_Monsters.Instance.UpdateMonstersInLevel()
+                if (_ManagerGameState)
+                    _ManagerGameState.UpdateRecentLevel(i);
+                if (_ManagerPlatforms)
+                    _ManagerPlatforms.UpdateCurrentLoadedLevel(levelsList[i]);
+                if (_ManagerMonsters)
+                    _ManagerMonsters.UpdateMonstersInLevel(levelsList[i].monstersToSpawn);
             }
         }
     }

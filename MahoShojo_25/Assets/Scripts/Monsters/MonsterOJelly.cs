@@ -274,6 +274,7 @@ public class MonsterOJelly : MonsterOrigin
         }
 
         //if(playedIntroduction) ChangeState(JELLYSTATES.Hunting); // if the monster already spawned, then we dont need to wait anymore
+        CompleteIntroduction();
 
     }
     #endregion state: waiting

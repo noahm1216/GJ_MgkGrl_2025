@@ -13,6 +13,7 @@ public class Manager_Platforms : MonoBehaviour
     public PlatformScriptableObject CurrentLoadedLevel { get; private set; } = null;
     public PlayerCore PlayerReference { get; private set; } = null;
     public BehaviorBackground BackgroundReference { get; private set; } = null;
+    private Manager_GameState _ManagerGameState;
 
     [Header("Input Keys\n______________")]
     [Tooltip("This keycode will move the maps to the Left (as if we are going right)")]
@@ -186,6 +187,8 @@ public class Manager_Platforms : MonoBehaviour
         if (!ref_BehaviorCameraFollower && Camera.main)
             Camera.main.TryGetComponent(out ref_BehaviorCameraFollower);
 
+        _ManagerGameState = Manager_GameState.Instance;
+
         //waitTimeUntilDespawnDynamic = waitTimeUntilDespawn;
     }
 
@@ -251,16 +254,15 @@ public class Manager_Platforms : MonoBehaviour
     {
         if (CurrentLoadedLevel == null) { print("Manager Platforms: No Current Level Loaded"); return; }
 
-        if (Manager_GameState.Instance && Manager_GameState.Instance.currentState == Manager_GameState.GAMESTATE.Playing)
+        if (_ManagerGameState && _ManagerGameState.currentState == Manager_GameState.GAMESTATE.Playing)
         {
-            if (Manager_GameState.Instance.CheckMetConditions // check win condition
-                (
-                  Manager_GameState.Instance.dataSinceLevelStarted,
+            if (_ManagerGameState.CheckMetConditions // check win condition
+                (_ManagerGameState.dataSinceLevelStarted,
                   CurrentLoadedLevel.levelWinConditions)) // Compare if we met enough win conditions in the level
             {
                 print("Triggering Win Condition Naturally");
-                if (Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Won)
-                    Manager_GameState.Instance.WonTheGame();
+                if (_ManagerGameState.currentState != Manager_GameState.GAMESTATE.Won)
+                    _ManagerGameState.WonTheGame();
             }
         }
     }
@@ -314,13 +316,13 @@ public class Manager_Platforms : MonoBehaviour
         // can put code for animations or other objects to enable / disable
         // also code for checking if we are done or finished with the game
 
-        if (Manager_GameState.Instance.currentState == Manager_GameState.GAMESTATE.Menu)
+        if (_ManagerGameState.currentState == Manager_GameState.GAMESTATE.Menu)
         {
             startSpeedAccelStamp = Time.time;
             timePressedJumpOrMove = Time.time;
             //ResetMonsterTimers();
         }
-        if (Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing) // make sure that if we are not playing, it doesnt change our spawn timers
+        if (_ManagerGameState.currentState != Manager_GameState.GAMESTATE.Playing) // make sure that if we are not playing, it doesnt change our spawn timers
         {
 
         }
@@ -363,8 +365,7 @@ public class Manager_Platforms : MonoBehaviour
             return 0;
         }
 
-        if (Manager_GameState.Instance &&
-            Manager_GameState.Instance.currentState != Manager_GameState.GAMESTATE.Playing)
+        if (_ManagerGameState && _ManagerGameState.currentState != Manager_GameState.GAMESTATE.Playing)
             return 0;
 
         //if (BehaviorCameraFollower.Instance && BehaviorCameraFollower.Instance.currentState == BehaviorCameraFollower.CameraFocusState.Dolly)

@@ -29,8 +29,7 @@ MonoBehaviour:
     hitPointsChange: 0
   spawnMonstersEndlessly: 0
   monstersToSpawn:
-  - monsterNickname: Jelly
-    monsterBosses: {fileID: 3351900402880586524, guid: ac7cd4dfe2212024482a9ed3d40bcd8f,
+  - monsterBoss: {fileID: -2864395910528261987, guid: 0067bd20160d82d45bd9258bc1974685,
       type: 3}
     timeUntilDespawn: 30
     requiredConditions:
